@@ -21,19 +21,19 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-pl
 # Create minimal .env for wayfinder build (entrypoint overwrites it at runtime)
 RUN cat > .env << 'EOF'
 APP_NAME=Cartxis
-APP_ENV=production
+APP_ENV=local
 APP_DEBUG=false
 APP_URL=http://localhost
 APP_KEY=base64:placeholder
-DB_CONNECTION=mysql
+DB_CONNECTION=null
 DB_HOST=localhost
 DB_PORT=4000
 DB_DATABASE=sys
 DB_USERNAME=root
 DB_PASSWORD=
-SESSION_DRIVER=database
+SESSION_DRIVER=file
 QUEUE_CONNECTION=sync
-CACHE_STORE=database
+CACHE_STORE=file
 MAIL_MAILER=log
 MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt
 EOF
