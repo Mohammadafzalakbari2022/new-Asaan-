@@ -17,6 +17,9 @@ COPY . .
 # PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs --no-scripts
 
+# Create .env for wayfinder build (entrypoint overwrites it at runtime)
+COPY .env.example .env
+
 # Node dependencies + build frontend (PHP available for @laravel/vite-plugin-wayfinder)
 RUN npm ci && npm run build
 
