@@ -39,7 +39,7 @@ MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt
 EOF
 
 # Generate valid APP_KEY for wayfinder during build
-RUN php artisan key:generate
+RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/app/public && php artisan key:generate
 
 # Node dependencies + build frontend (PHP available for @laravel/vite-plugin-wayfinder)
 RUN npm ci && npm run build
