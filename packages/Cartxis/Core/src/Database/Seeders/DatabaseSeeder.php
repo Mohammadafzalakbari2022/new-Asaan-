@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cartxis\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Cartxis\Admin\Database\Seeders\AdminUserSeeder;
 use Cartxis\Admin\Database\Seeders\AdminMenuSeeder;
 use Cartxis\Shop\Database\Seeders\ThemeSeeder;
@@ -81,5 +82,17 @@ class DatabaseSeeder extends Seeder
             // Blog Package Seeders
             BlogSeeder::class,
         ]);
+
+        // Mark setup as complete so the storefront is served instead of
+        // redirecting to /setup (matches DemoDataService::markSetupComplete).
+        DB::table('settings')->updateOrInsert(
+            ['key' => 'setup_completed'],
+            [
+                'key' => 'setup_completed',
+                'value' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
     }
 }
