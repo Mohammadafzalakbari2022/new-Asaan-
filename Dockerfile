@@ -1,26 +1,38 @@
+# ---- Stage 1: Composer dependencies ----
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+COPY . .
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# ---- Stage 2: Frontend build (Node.js) ----
+FROM node:22-slim AS frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# ---- Stage 3: Runtime (PHP + Nginx + Supervisor) ----
 FROM php:8.3-fpm
 
-# System deps + PHP extensions + nginx + supervisor + Node.js + Composer
+# System deps + PHP extensions + nginx + supervisor + openssl + ca-certificates
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx supervisor curl git unzip openssl libpng-dev libjpeg-dev libfreetype6-dev \
-    libzip-dev zlib1g-dev libonig-dev libicu-dev libpq-dev ca-certificates \
-    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y --no-install-recommends nodejs \
+    libzip-dev zlib1g-dev libonig-dev libicu-dev ca-certificates \
     && docker-php-ext-install pdo_mysql mbstring xml bcmath zip gd intl exif opcache \
     && docker-php-ext-enable opcache \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
 
-# Copy all source
+# Copy vendor + source from composer stage
+COPY --from=vendor /app/vendor ./vendor
 COPY . .
 
-# PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Node dependencies + build frontend
-RUN npm ci && npm run build
+# Copy built frontend assets from frontend stage
+COPY --from=frontend /app/public/build ./public/build
 
 # Permissions + storage dirs
 RUN mkdir -p storage/framework/{cache,sessions,views} storage/app/public \
