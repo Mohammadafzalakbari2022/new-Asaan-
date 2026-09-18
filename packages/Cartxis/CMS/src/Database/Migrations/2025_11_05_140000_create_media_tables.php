@@ -68,8 +68,9 @@ return new class extends Migration
             $table->index(['disk', 'path']);
         });
         
-        // Add fulltext index only for MySQL (not supported in SQLite used for testing)
-        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+        // Add fulltext index only for MySQL/MariaDB (not supported in SQLite or TiDB)
+        $isTiDB = str_contains(Schema::getConnection()->selectOne('select version() as v')?->v ?? '', 'TiDB');
+        if (Schema::getConnection()->getDriverName() !== 'sqlite' && !$isTiDB) {
             Schema::table('media_files', function (Blueprint $table) {
                 $table->fullText(['filename', 'original_filename', 'alt_text', 'title', 'description'], 'media_files_fulltext');
             });

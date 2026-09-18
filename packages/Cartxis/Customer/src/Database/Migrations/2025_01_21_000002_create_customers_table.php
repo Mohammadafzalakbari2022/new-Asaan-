@@ -65,8 +65,9 @@ return new class extends Migration
             $table->unique(['email', 'is_guest'], 'customers_email_is_guest_unique');
         });
         
-        // Add fulltext index only for MySQL (not supported in SQLite used for testing)
-        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+        // Add fulltext index only for MySQL/MariaDB (not supported in SQLite or TiDB)
+        $isTiDB = str_contains(Schema::getConnection()->selectOne('select version() as v')?->v ?? '', 'TiDB');
+        if (Schema::getConnection()->getDriverName() !== 'sqlite' && !$isTiDB) {
             Schema::table('customers', function (Blueprint $table) {
                 $table->fullText(['first_name', 'last_name', 'email']);
             });
