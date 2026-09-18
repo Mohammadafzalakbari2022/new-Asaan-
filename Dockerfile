@@ -2,7 +2,7 @@ FROM php:8.3-fpm
 
 # System deps + PHP extensions + nginx + supervisor + Node.js + Composer
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    nginx supervisor curl git unzip libpng-dev libjpeg-dev libfreetype6-dev \
+    nginx supervisor curl git unzip openssl libpng-dev libjpeg-dev libfreetype6-dev \
     libzip-dev zlib1g-dev libonig-dev libicu-dev libpq-dev ca-certificates \
     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
