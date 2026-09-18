@@ -1,10 +1,8 @@
 # ---- Stage 1: Composer dependencies ----
 FROM composer:2 AS vendor
 WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --ignore-platform-reqs
 COPY . .
-RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs --no-scripts
 
 # ---- Stage 2: Frontend build (Node.js) ----
 FROM node:22-slim AS frontend
