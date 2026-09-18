@@ -18,7 +18,8 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs --no-scripts
 
 # Create minimal .env for wayfinder build (entrypoint overwrites it at runtime)
-RUN echo "APP_NAME=Cartxis
+RUN cat > .env << 'EOF'
+APP_NAME=Cartxis
 APP_ENV=production
 APP_DEBUG=false
 APP_URL=http://localhost
@@ -33,7 +34,8 @@ SESSION_DRIVER=database
 QUEUE_CONNECTION=sync
 CACHE_STORE=database
 MAIL_MAILER=log
-MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt" > .env
+MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt
+EOF
 
 # Node dependencies + build frontend (PHP available for @laravel/vite-plugin-wayfinder)
 RUN npm ci && npm run build
