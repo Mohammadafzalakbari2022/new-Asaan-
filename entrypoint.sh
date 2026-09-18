@@ -57,7 +57,7 @@ php artisan migrate --force --no-interaction
 
 # Seed database with admin credentials
 if [ -n "$CARTXIS_ADMIN_EMAIL" ]; then
-    php artisan db:seed --class=Cartxis\Core\Database\Seeders\DatabaseSeeder --force --no-interaction
+    php artisan db:seed --class='Cartxis\Core\Database\Seeders\DatabaseSeeder' --force --no-interaction
 fi
 
 # Storage link
