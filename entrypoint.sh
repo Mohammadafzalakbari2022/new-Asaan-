@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 cd /var/www/html
+MYSQL_ATTR_SSL_CA="${MYSQL_ATTR_SSL_CA-/etc/ssl/certs/ca-certificates.crt}"
 
 # Ensure .env exists
 [ -f .env ] || cp .env.example .env
@@ -27,13 +28,13 @@ cd /var/www/html
     echo "DB_DATABASE=${DB_DATABASE:-cartxis}"
     echo "DB_USERNAME=${DB_USERNAME:-root}"
     echo "DB_PASSWORD=${DB_PASSWORD:-}"
-    echo "SESSION_DRIVER=database"
+    echo "SESSION_DRIVER=${SESSION_DRIVER:-database}"
     echo "SESSION_LIFETIME=120"
     echo "SESSION_ENCRYPT=false"
     echo "BROADCAST_CONNECTION=log"
     echo "FILESYSTEM_DISK=local"
     echo "QUEUE_CONNECTION=sync"
-    echo "CACHE_STORE=database"
+    echo "CACHE_STORE=${CACHE_STORE:-database}"
     echo "REDIS_CLIENT=phpredis"
     echo "REDIS_HOST=127.0.0.1"
     echo "REDIS_PASSWORD=null"
@@ -43,7 +44,7 @@ cd /var/www/html
     echo "MAIL_FROM_NAME=${APP_NAME:-Cartxis}"
     echo "CARTXIS_THEME_DIRECTORY_URL=${CARTXIS_THEME_DIRECTORY_URL:-https://cartxis.com/api}"
     echo "CARTXIS_THEME_API_KEY=${CARTXIS_THEME_API_KEY:-}"
-    echo "MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt"
+    echo "MYSQL_ATTR_SSL_CA=${MYSQL_ATTR_SSL_CA}"
 } > .env
 
 # Generate app key if empty
@@ -65,12 +66,15 @@ php artisan optimize:clear
 # gets a fast response. Retry a few times, but never block boot on it.
 if [ -n "$DB_HOST" ]; then
     attempts=0
+    SSL_FRAG=""
+    if [ -n "$MYSQL_ATTR_SSL_CA" ]; then
+        SSL_FRAG=', PDO::MYSQL_ATTR_SSL_CA => "'"$MYSQL_ATTR_SSL_CA"'"'
+    fi
     while [ $attempts -lt 6 ]; do
         attempts=$((attempts + 1))
         if timeout 25 php -r '
             $p = new PDO("mysql:host='"$DB_HOST"';port='"${DB_PORT:-4000}"';dbname='"$DB_DATABASE"'", "'"$DB_USERNAME"'", "'"$DB_PASSWORD"'", [
-                PDO::MYSQL_ATTR_SSL_CA => "/etc/ssl/certs/ca-certificates.crt",
-                PDO::ATTR_TIMEOUT => 10,
+                PDO::ATTR_TIMEOUT => 10,'"$SSL_FRAG"'
             ]);
             $p->query("SELECT 1");
             echo "DB-WARM OK\n";
@@ -97,14 +101,17 @@ mkdir -p /run/php
 sed -i "s|^listen = 9000|listen = /run/php/php-fpm.sock|" "$FPM_POOL"
 sed -i "s|^listen = 127.0.0.1:9000|listen = /run/php/php-fpm.sock|" "$FPM_POOL"
 sed -i "s|^listen = /run/php/php-fpm.sock|&\nlisten.owner = www-data\nlisten.group = www-data\nlisten.mode = 0660|" "$FPM_POOL"
-sed -i "s|^pm.max_children = 5|pm.max_children = 10|" "$FPM_POOL"
+sed -i "s|^pm.max_children = 5|pm.max_children = ${FPM_MAX_CHILDREN:-10}|" "$FPM_POOL"
 {
     echo ""
     echo "listen = /run/php/php-fpm.sock"
     echo "listen.owner = www-data"
     echo "listen.group = www-data"
     echo "listen.mode = 0660"
-    echo "pm.max_children = 10"
+    echo "pm.max_children = ${FPM_MAX_CHILDREN:-10}"
+    if [ "${FPM_MAX_CHILDREN:-10}" -lt 3 ]; then
+        echo "pm.max_spare_servers = ${FPM_MAX_CHILDREN}"
+    fi
 } >> "$FPM_POOL"
 
 # Bind nginx to the platform-provided PORT (default 80) so the image is portable across
@@ -127,6 +134,7 @@ server {
     location ~ \.php$ {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param HTTP_HOST $http_host;
         fastcgi_pass unix:/run/php/php-fpm.sock;
         fastcgi_index index.php;
         fastcgi_read_timeout 120s;
