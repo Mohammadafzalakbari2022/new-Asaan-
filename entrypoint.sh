@@ -58,6 +58,32 @@ php artisan storage:link 2>/dev/null || true
 # Clear caches
 php artisan optimize:clear
 
+# Warm up the TiDB serverless cluster BEFORE starting nginx.
+# TiDB Cloud Serverless sleeps when idle; the first connection can take 60-120s to wake.
+# Render's port scan gives each HTTP probe only a few seconds, so a cold cluster made
+# every deploy look like "no open HTTP ports". Wake it now so the first scan probe
+# gets a fast response. Retry a few times, but never block boot on it.
+if [ -n "$DB_HOST" ]; then
+    attempts=0
+    while [ $attempts -lt 6 ]; do
+        attempts=$((attempts + 1))
+        if timeout 25 php -r '
+            $p = new PDO("mysql:host='"$DB_HOST"';port='"${DB_PORT:-4000}"';dbname='"$DB_DATABASE"'", "'"$DB_USERNAME"'", "'"$DB_PASSWORD"'", [
+                PDO::MYSQL_ATTR_SSL_CA => "/etc/ssl/certs/ca-certificates.crt",
+                PDO::ATTR_TIMEOUT => 10,
+            ]);
+            $p->query("SELECT 1");
+            echo "DB-WARM OK\n";
+        ' 2>/dev/null; then
+            echo "[entrypoint] Database is warm (attempt $attempts)"
+            break
+        else
+            echo "[entrypoint] Database not ready yet (attempt $attempts), retrying..."
+            sleep 10
+        fi
+    done
+fi
+
 # Remove nginx package default vhost (listens on 80 returning 444) to avoid port confusion
 rm -f /etc/nginx/conf.d/default.conf
 
