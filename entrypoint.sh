@@ -70,7 +70,7 @@ php artisan optimize:clear
 rm -f /etc/nginx/conf.d/default.conf
 
 # Bind nginx to Render's PORT (default 10000) so the port scan reliably detects it
-PORT=${PORT:-80}
+PORT=${PORT:-10000}
 sed -i "s|listen 80;|listen $PORT;|" /etc/nginx/sites-available/default
 
 # Start php-fpm and nginx
