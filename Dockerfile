@@ -57,5 +57,5 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 80 10000
+EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]

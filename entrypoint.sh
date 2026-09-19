@@ -81,29 +81,14 @@ sed -i "s|^pm.max_children = 5|pm.max_children = 10|" "$FPM_POOL"
     echo "pm.max_children = 10"
 } >> "$FPM_POOL"
 
-# Bind nginx to Render's PORT (default 10000) so the port scan reliably detects it.
+# Bind nginx to a NON-reserved port (80). Render reserves port 10000 for public-HTTP
+# ingress and rejects any container process that tries to listen on it.
 # The stock Debian vhost uses `listen 80 default_server;` (not `listen 80;`), so a plain
-# sed is fragile - write our own vhost deterministically. Also keep port 80 as a fallback.
-PORT=${PORT:-10000}
-cat > /etc/nginx/sites-available/default <<EOF
+# sed is fragile - write our own vhost deterministically instead.
+cat > /etc/nginx/sites-available/default <<'EOF'
 server {
-EOF
-if [ "$PORT" = "80" ]; then
-    cat >> /etc/nginx/sites-available/default <<'EOF'
     listen 80 default_server;
     listen [::]:80 default_server;
-    listen 10000;
-    listen [::]:10000;
-EOF
-else
-    cat >> /etc/nginx/sites-available/default <<EOF
-    listen ${PORT} default_server;
-    listen [::]:${PORT} default_server;
-    listen 80;
-    listen [::]:80;
-EOF
-fi
-cat >> /etc/nginx/sites-available/default <<'EOF'
     server_name _;
     root /var/www/html/public;
     index index.php;
