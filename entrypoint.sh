@@ -55,8 +55,8 @@ fi
 # Run migrations
 php artisan migrate --force --no-interaction
 
-# Seed database with admin credentials
-if [ -n "$CARTXIS_ADMIN_EMAIL" ]; then
+# Seed database with admin credentials (only when setup has not been completed yet)
+if [ -n "$CARTXIS_ADMIN_EMAIL" ] && php /var/www/html/scripts/needs_seed.php >/dev/null 2>&1; then
     php artisan db:seed --class='Cartxis\Core\Database\Seeders\DatabaseSeeder' --force --no-interaction
 fi
 
