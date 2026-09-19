@@ -66,5 +66,12 @@ php artisan storage:link 2>/dev/null || true
 # Clear caches
 php artisan optimize:clear
 
+# Remove nginx package default vhost (listens on 80 returning 444) to avoid port confusion
+rm -f /etc/nginx/conf.d/default.conf
+
+# Bind nginx to Render's PORT (default 10000) so the port scan reliably detects it
+PORT=${PORT:-80}
+sed -i "s|listen 80;|listen $PORT;|" /etc/nginx/sites-available/default
+
 # Start php-fpm and nginx
 exec supervisord -c /etc/supervisor/conf.d/supervisord.conf
