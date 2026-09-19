@@ -107,14 +107,14 @@ sed -i "s|^pm.max_children = 5|pm.max_children = 10|" "$FPM_POOL"
     echo "pm.max_children = 10"
 } >> "$FPM_POOL"
 
-# Bind nginx to a NON-reserved port (80). Render reserves port 10000 for public-HTTP
-# ingress and rejects any container process that tries to listen on it.
-# The stock Debian vhost uses `listen 80 default_server;` (not `listen 80;`), so a plain
-# sed is fragile - write our own vhost deterministically instead.
+# Bind nginx to the platform-provided PORT (default 80) so the image is portable across
+# hosts: Koyeb/Railway default 80, Hugging Face Spaces requires 7860, etc.
+# A plain sed over the stock Debian vhost is fragile (`listen 80 default_server;`, not
+# `listen 80;`), so write our own vhost and substitute the port via a placeholder
+# (an unquoted heredoc would let bash eat nginx's own $uri/$document_root variables).
 cat > /etc/nginx/sites-available/default <<'EOF'
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+    listen __PORT__ default_server;
     server_name _;
     root /var/www/html/public;
     index index.php;
@@ -133,6 +133,8 @@ server {
     }
 }
 EOF
+
+sed -i "s|__PORT__|${PORT:-80}|g" /etc/nginx/sites-available/default
 
 # Start php-fpm and nginx
 exec supervisord -c /etc/supervisor/conf.d/supervisord.conf
