@@ -72,6 +72,14 @@ sed -i "s|^listen = 9000|listen = /run/php/php-fpm.sock|" "$FPM_POOL"
 sed -i "s|^listen = 127.0.0.1:9000|listen = /run/php/php-fpm.sock|" "$FPM_POOL"
 sed -i "s|^listen = /run/php/php-fpm.sock|&\nlisten.owner = www-data\nlisten.group = www-data\nlisten.mode = 0660|" "$FPM_POOL"
 sed -i "s|^pm.max_children = 5|pm.max_children = 10|" "$FPM_POOL"
+{
+    echo ""
+    echo "listen = /run/php/php-fpm.sock"
+    echo "listen.owner = www-data"
+    echo "listen.group = www-data"
+    echo "listen.mode = 0660"
+    echo "pm.max_children = 10"
+} >> "$FPM_POOL"
 
 # Bind nginx to Render's PORT (default 10000) so the port scan reliably detects it.
 # The stock Debian vhost uses `listen 80 default_server;` (not `listen 80;`), so a plain
@@ -79,22 +87,35 @@ sed -i "s|^pm.max_children = 5|pm.max_children = 10|" "$FPM_POOL"
 PORT=${PORT:-10000}
 cat > /etc/nginx/sites-available/default <<EOF
 server {
-    listen 80;
-    listen [::]:80;
+EOF
+if [ "$PORT" = "80" ]; then
+    cat >> /etc/nginx/sites-available/default <<'EOF'
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    listen 10000;
+    listen [::]:10000;
+EOF
+else
+    cat >> /etc/nginx/sites-available/default <<EOF
     listen ${PORT} default_server;
     listen [::]:${PORT} default_server;
+    listen 80;
+    listen [::]:80;
+EOF
+fi
+cat >> /etc/nginx/sites-available/default <<'EOF'
     server_name _;
     root /var/www/html/public;
     index index.php;
     charset utf-8;
 
     location / {
-        try_files \$uri \$uri/ /index.php?\$query_string;
+        try_files $uri $uri/ /index.php?$query_string;
     }
 
     location ~ \.php$ {
         include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_pass unix:/run/php/php-fpm.sock;
         fastcgi_index index.php;
         fastcgi_read_timeout 120s;
