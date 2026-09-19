@@ -61,9 +61,40 @@ php artisan optimize:clear
 # Remove nginx package default vhost (listens on 80 returning 444) to avoid port confusion
 rm -f /etc/nginx/conf.d/default.conf
 
-# Bind nginx to Render's PORT (default 10000) so the port scan reliably detects it
+# Bind php-fpm to a unix socket (not TCP 9000, which Render's port scan misdetects as an HTTP port)
+sed -i "s|^listen = 9000|listen = /run/php/php-fpm.sock|" /etc/php/8.3/fpm/pool.d/www.conf
+sed -i "s|^listen = 127.0.0.1:9000|listen = /run/php/php-fpm.sock|" /etc/php/8.3/fpm/pool.d/www.conf
+sed -i "/^listen.owner/a listen.owner = www-data\nlisten.group = www-data\nlisten.mode = 0660" /etc/php/8.3/fpm/pool.d/www.conf
+sed -i "s|^pm.max_children = 5|pm.max_children = 10|" /etc/php/8.3/fpm/pool.d/www.conf
+
+# Bind nginx to Render's PORT (default 10000) so the port scan reliably detects it.
+# The stock Debian vhost uses `listen 80 default_server;` (not `listen 80;`), so a plain
+# sed is fragile - write our own vhost deterministically. Also keep port 80 as a fallback.
 PORT=${PORT:-10000}
-sed -i "s|listen 80;|listen $PORT;|" /etc/nginx/sites-available/default
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80;
+    listen [::]:80;
+    listen ${PORT} default_server;
+    listen [::]:${PORT} default_server;
+    server_name _;
+    root /var/www/html/public;
+    index index.php;
+    charset utf-8;
+
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_read_timeout 120s;
+    }
+}
+EOF
 
 # Start php-fpm and nginx
 exec supervisord -c /etc/supervisor/conf.d/supervisord.conf
