@@ -62,10 +62,16 @@ php artisan optimize:clear
 rm -f /etc/nginx/conf.d/default.conf
 
 # Bind php-fpm to a unix socket (not TCP 9000, which Render's port scan misdetects as an HTTP port)
-sed -i "s|^listen = 9000|listen = /run/php/php-fpm.sock|" /etc/php/8.3/fpm/pool.d/www.conf
-sed -i "s|^listen = 127.0.0.1:9000|listen = /run/php/php-fpm.sock|" /etc/php/8.3/fpm/pool.d/www.conf
-sed -i "/^listen.owner/a listen.owner = www-data\nlisten.group = www-data\nlisten.mode = 0660" /etc/php/8.3/fpm/pool.d/www.conf
-sed -i "s|^pm.max_children = 5|pm.max_children = 10|" /etc/php/8.3/fpm/pool.d/www.conf
+if [ -f /usr/local/etc/php-fpm.d/www.conf ]; then
+    FPM_POOL=/usr/local/etc/php-fpm.d/www.conf
+else
+    FPM_POOL=/etc/php/8.3/fpm/pool.d/www.conf
+fi
+mkdir -p /run/php
+sed -i "s|^listen = 9000|listen = /run/php/php-fpm.sock|" "$FPM_POOL"
+sed -i "s|^listen = 127.0.0.1:9000|listen = /run/php/php-fpm.sock|" "$FPM_POOL"
+sed -i "s|^listen = /run/php/php-fpm.sock|&\nlisten.owner = www-data\nlisten.group = www-data\nlisten.mode = 0660|" "$FPM_POOL"
+sed -i "s|^pm.max_children = 5|pm.max_children = 10|" "$FPM_POOL"
 
 # Bind nginx to Render's PORT (default 10000) so the port scan reliably detects it.
 # The stock Debian vhost uses `listen 80 default_server;` (not `listen 80;`), so a plain
