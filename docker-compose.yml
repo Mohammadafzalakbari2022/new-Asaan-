@@ -22,7 +22,9 @@ services:
       start_period: 30s
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.local
     image: asaan_online_store_app:latest
     container_name: asaan_online_store_app
     restart: unless-stopped

@@ -8,7 +8,7 @@ services:
     healthCheckPath: /
     envVars:
       - key: APP_NAME
-        value: Cartxis
+        value: Akbari Development Group
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
@@ -26,8 +26,6 @@ services:
       - key: DB_USERNAME
         sync: false
       - key: DB_PASSWORD
-        sync: false
-      - key: MYSQL_ATTR_SSL_CA
         sync: false
       - key: CARTXIS_ADMIN_NAME
         sync: false

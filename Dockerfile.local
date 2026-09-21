@@ -1,0 +1,6 @@
+# Local build that reuses the already-built app image (no package downloads).
+# Only the boot script is layered on top; the PHP/NPM/Composer layers are inherited.
+FROM asaan_online_store_app:latest
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
