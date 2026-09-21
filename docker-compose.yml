@@ -1,0 +1,40 @@
+name: asaan_online_store
+
+services:
+  db:
+    image: mysql:8.4
+    container_name: asaan_online_store_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: asaan_store
+      MYSQL_USER: asaan_store
+      MYSQL_PASSWORD: asaan_store_secret
+      MYSQL_ROOT_PASSWORD: asaan_root_secret
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - asaan_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pasaan_root_secret"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  app:
+    build: .
+    image: asaan_online_store_app:latest
+    container_name: asaan_online_store_app
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./storage/app/public:/var/www/html/storage/app/public
+
+volumes:
+  asaan_db_data:
