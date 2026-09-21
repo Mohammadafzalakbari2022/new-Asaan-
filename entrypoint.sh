@@ -73,9 +73,9 @@ if [ -n "$DB_HOST" ]; then
     while [ $attempts -lt 6 ]; do
         attempts=$((attempts + 1))
         if timeout 25 php -r '
-            $p = new PDO("mysql:host='"$DB_HOST"';port='"${DB_PORT:-4000}"';dbname='"$DB_DATABASE"'", "'"$DB_USERNAME"'", "'"$DB_PASSWORD"'", [
-                PDO::ATTR_TIMEOUT => 10,'"$SSL_FRAG"'
-            ]);
+            $dsn = "mysql:host='"$DB_HOST"';port='"${DB_PORT:-4000}"';dbname='"$DB_DATABASE"'";
+            $opts = [PDO::ATTR_TIMEOUT => 10'"$SSL_FRAG"'];
+            $p = new PDO($dsn, "'"$DB_USERNAME"'", "'"$DB_PASSWORD"'", $opts);
             $p->query("SELECT 1");
             echo "DB-WARM OK\n";
         ' 2>/dev/null; then

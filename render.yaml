@@ -18,13 +18,13 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        sync: false
+        value: gateway01.eu-central-1.prod.aws.tidbcloud.com
       - key: DB_PORT
-        value: "3306"
+        value: "4000"
       - key: DB_DATABASE
-        sync: false
+        value: asanstore
       - key: DB_USERNAME
-        sync: false
+        value: 3PnCTdSq3aUhxdU.root
       - key: DB_PASSWORD
         sync: false
       - key: CARTXIS_ADMIN_NAME
