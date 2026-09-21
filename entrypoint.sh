@@ -94,6 +94,48 @@ PHPEOF
     ) &
 fi
 
+# One-time provisioning for PostgreSQL databases (pgsql driver). Runs in the
+# background so nginx/php-fpm boot instantly and Render's port scan passes even on
+# a genuinely fresh render.PostgreSQL. It only provisions when the database has no
+# migrations table yet (i.e. completely new), so a plain redeploy never re-runs it.
+if [ "${DB_CONNECTION:-mysql}" = "pgsql" ] && [ "${RUN_MIGRATE:-0}" = "1" ]; then
+    (
+        CHECK_PHP=$(cat <<'PHPEOF'
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT') !== false && getenv('DB_PORT') !== '' ? getenv('DB_PORT') : '5432';
+$db = getenv('DB_DATABASE');
+$u = getenv('DB_USERNAME');
+$p = getenv('DB_PASSWORD');
+$ssl = getenv('DB_SSLMODE') ?: 'require';
+$dsn = "pgsql:host={$host};port={$port};dbname={$db};sslmode={$ssl}";
+$o = [PDO::ATTR_TIMEOUT => 30];
+try {
+    $pdo = new PDO($dsn, $u, $p, $o);
+    $n = (int)$pdo->query("select count(*) from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid = c.relnamespace where c.relname = 'migrations' and n.nspname = current_schema()")->fetchColumn();
+} catch (PDOException $e) {
+    echo "CHECK-FAIL: " . $e->getMessage() . "\n";
+    $n = -1;
+}
+echo "CHECK-RESULT:$n\n";
+PHPEOF
+        )
+        RES=$(timeout 30 php -r "$CHECK_PHP" 2>&1)
+        echo "[entrypoint] PostgreSQL setup check: $RES"
+        if printf '%s' "$RES" | grep -q 'CHECK-RESULT:0'; then
+            echo "[entrypoint] Empty PostgreSQL detected - running migrate + seed once..."
+            if timeout 900 php artisan migrate --force --seed 2>&1; then
+                echo "[entrypoint] Database provisioning complete"
+            else
+                echo "[entrypoint] Database provisioning failed - retrying once after 30s..."
+                sleep 30
+                php artisan migrate --force --seed 2>&1
+            fi
+        else
+            echo "[entrypoint] Database already provisioned (or check errored) - skipping setup"
+        fi
+    ) &
+fi
+
 # Remove nginx package default vhost (listens on 80 returning 444) to avoid port confusion
 rm -f /etc/nginx/conf.d/default.conf
 
