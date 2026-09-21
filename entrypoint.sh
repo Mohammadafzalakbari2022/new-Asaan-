@@ -56,8 +56,15 @@ fi
 # Storage link
 php artisan storage:link 2>/dev/null || true
 
-# Clear caches
-php artisan optimize:clear
+# Clear compiled/view/config/route caches. Deliberately avoids `cache:clear`:
+# that one goes through the database-backed cache store and does `delete from
+# "cache"`, which fails on a fresh Render PostgreSQL before provisioning has run
+# (no migrations table yet) and would abort the entrypoint via `set -e`.
+php artisan clear-compiled 2>/dev/null || true
+php artisan config:clear
+php artisan route:clear
+php artisan event:clear
+php artisan view:clear
 
 # Warm up the TiDB serverless cluster IN THE BACKGROUND so nginx and php-fpm boot
 # instantly and Render's port scan + health check pass even while the cluster is
