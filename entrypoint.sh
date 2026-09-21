@@ -22,7 +22,7 @@ MYSQL_ATTR_SSL_CA="${MYSQL_ATTR_SSL_CA-/etc/ssl/certs/ca-certificates.crt}"
     echo "LOG_CHANNEL=stack"
     echo "LOG_STACK=single"
     echo "LOG_LEVEL=error"
-    echo "DB_CONNECTION=mysql"
+    echo "DB_CONNECTION=${DB_CONNECTION:-mysql}"
     echo "DB_HOST=${DB_HOST:-127.0.0.1}"
     echo "DB_PORT=${DB_PORT:-3306}"
     echo "DB_DATABASE=${DB_DATABASE:-cartxis}"
@@ -59,15 +59,15 @@ php artisan storage:link 2>/dev/null || true
 # Clear caches
 php artisan optimize:clear
 
-# Warm up the TiDB serverless cluster BEFORE starting nginx.
-# TiDB Cloud Serverless sleeps when idle; the first connection can take 60-120s to wake.
-# Render's port scan gives each HTTP probe only a few seconds, so a cold cluster made
-# every deploy look like "no open HTTP ports". Wake it now so the first scan probe
-# gets a fast response. Retry a few times, but never block boot on it.
-if [ -n "$DB_HOST" ]; then
-    attempts=0
-    WARM_PHP=$(cat <<'PHPEOF'
-<?php
+# Warm up the TiDB serverless cluster IN THE BACKGROUND so nginx and php-fpm boot
+# instantly and Render's port scan + health check pass even while the cluster is
+# still waking from sleep (a cold TiDB can take 60-120s; Render gives the container
+# only ~90s to answer). Real page requests may see brief flashes of DB errors while
+# it wakes, then everything is normal.
+if [ "${DB_CONNECTION:-mysql}" = "mysql" ] && [ -n "$DB_HOST" ]; then
+    (
+        attempts=0
+        WARM_PHP=$(cat <<'PHPEOF'
 $host = getenv('DB_HOST');
 $port = getenv('DB_PORT') !== false && getenv('DB_PORT') !== '' ? getenv('DB_PORT') : '4000';
 $db = getenv('DB_DATABASE');
@@ -80,17 +80,18 @@ $pdo = new PDO("mysql:host={$host};port={$port};dbname={$db}", $u, $p, $opts);
 $pdo->query('SELECT 1');
 echo "DB-WARM OK\n";
 PHPEOF
-)
-    while [ $attempts -lt 6 ]; do
-        attempts=$((attempts + 1))
-        if timeout 25 php -r "$WARM_PHP" 2>/dev/null; then
-            echo "[entrypoint] Database is warm (attempt $attempts)"
-            break
-        else
-            echo "[entrypoint] Database not ready yet (attempt $attempts), retrying..."
-            sleep 10
-        fi
-    done
+        )
+        while [ $attempts -lt 6 ]; do
+            attempts=$((attempts + 1))
+            if timeout 25 php -r "$WARM_PHP" 2>/dev/null; then
+                echo "[entrypoint] Database is warm (attempt $attempts)"
+                break
+            else
+                echo "[entrypoint] Database not ready yet (attempt $attempts), retrying..."
+                sleep 10
+            fi
+        done
+    ) &
 fi
 
 # Remove nginx package default vhost (listens on 80 returning 444) to avoid port confusion

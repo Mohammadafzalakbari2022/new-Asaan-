@@ -3,11 +3,11 @@ FROM php:8.3-fpm
 # System deps + PHP extensions + nginx + supervisor + Node.js + openssl + ca-certificates
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx supervisor curl git unzip openssl libpng-dev libjpeg-dev libfreetype6-dev \
-    libzip-dev zlib1g-dev libonig-dev libicu-dev libxml2-dev ca-certificates \
+    libzip-dev zlib1g-dev libonig-dev libicu-dev libxml2-dev ca-certificates libpq-dev \
     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && docker-php-ext-install pdo_mysql mbstring xml bcmath zip gd intl exif opcache \
+    && docker-php-ext-install pdo_mysql pgsql pdo_pgsql mbstring xml bcmath zip gd intl exif opcache \
     && docker-php-ext-enable opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
