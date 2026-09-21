@@ -32,6 +32,7 @@ Agents.md
 .env
 .env.backup
 .env.production
+.env.docker
 .phpactor.json
 .phpunit.result.cache
 Homestead.json

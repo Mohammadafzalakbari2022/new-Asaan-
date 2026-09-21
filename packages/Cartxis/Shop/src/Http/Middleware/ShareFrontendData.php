@@ -44,7 +44,7 @@ class ShareFrontendData
             'siteConfig' => [
                 'name' => $this->settingService->get('site_name') ?? config('app.name'),
                 'url' => config('app.url'),
-                'description' => $this->settingService->get('site_tagline') ?? 'Cartxis E-commerce Platform',
+                'description' => $this->settingService->get('site_tagline') ?? 'Akubari Development Group E-commerce Platform',
                 'logo' => $this->settingService->get('site_logo') ?? null,
                 'favicon' => $this->settingService->get('site_favicon') ?? null,
             ],

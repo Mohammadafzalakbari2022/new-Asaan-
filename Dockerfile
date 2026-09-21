@@ -15,8 +15,14 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs --no-scripts
+# PHP dependencies (cache mount + retries keep installs reliable on slow/flaky networks)
+ENV COMPOSER_PROCESS_TIMEOUT=1800
+RUN --mount=type=cache,target=/root/.cache/composer \
+    for i in 1 2 3 4 5; do \
+        composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs --no-scripts \
+        && break || sleep 10; \
+    done; \
+    test -f vendor/autoload.php
 
 # Create minimal .env for wayfinder build (entrypoint overwrites it at runtime)
 RUN cat > .env << 'EOF'
@@ -39,10 +45,15 @@ MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt
 EOF
 
 # Generate valid APP_KEY for wayfinder during build
-RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/app/public && php artisan key:generate
+RUN rm -f bootstrap/cache/*.php && mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/app/public && php artisan key:generate
 
-# Node dependencies + build frontend (PHP available for @laravel/vite-plugin-wayfinder)
-RUN npm ci && npm run build
+# Node dependencies (cache mount + retries) + build frontend (PHP available for @laravel/vite-plugin-wayfinder)
+RUN --mount=type=cache,target=/root/.npm \
+    for i in 1 2 3 4 5; do \
+        npm ci --no-audit --no-fund \
+        && break || sleep 10; \
+    done; \
+    npm run build
 
 # Permissions + storage dirs
 RUN mkdir -p storage/framework/{cache,sessions,views} storage/app/public \

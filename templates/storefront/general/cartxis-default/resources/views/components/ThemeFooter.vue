@@ -18,7 +18,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     theme: null,
     siteConfig: () => ({
-        name: 'Cartxis',
+        name: 'Akbari Development Group',
         url: '/',
         description: 'E-commerce Platform',
     }),
@@ -106,7 +106,7 @@ const footerSections = computed(() => {
                 <div class="text-center text-sm">
                     <p>&copy; {{ currentYear }} {{ siteConfig.name }}. All rights reserved.</p>
                     <p v-if="showPlatformBranding" class="mt-1 text-slate-500">
-                        Powered by <span class="text-slate-400 font-medium">Cartxis</span>
+                        Powered by <span class="text-slate-400 font-medium">Akbari Development Group</span>
                     </p>
                 </div>
             </div>

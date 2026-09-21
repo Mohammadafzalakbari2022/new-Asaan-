@@ -8,7 +8,7 @@ MYSQL_ATTR_SSL_CA="${MYSQL_ATTR_SSL_CA-/etc/ssl/certs/ca-certificates.crt}"
 
 # Write .env from OS environment variables (provided by Render)
 {
-    echo "APP_NAME=${APP_NAME:-Cartxis}"
+    echo "APP_NAME=\"${APP_NAME:-Akbari Development Group}\""
     echo "APP_ENV=production"
     echo "APP_DEBUG=false"
     echo "APP_URL=${APP_URL:-http://localhost}"
@@ -41,7 +41,7 @@ MYSQL_ATTR_SSL_CA="${MYSQL_ATTR_SSL_CA-/etc/ssl/certs/ca-certificates.crt}"
     echo "REDIS_PORT=6379"
     echo "MAIL_MAILER=log"
     echo "MAIL_FROM_ADDRESS=hello@example.com"
-    echo "MAIL_FROM_NAME=${APP_NAME:-Cartxis}"
+    echo "MAIL_FROM_NAME=\"${APP_NAME:-Cartxis}\""
     echo "CARTXIS_THEME_DIRECTORY_URL=${CARTXIS_THEME_DIRECTORY_URL:-https://cartxis.com/api}"
     echo "CARTXIS_THEME_API_KEY=${CARTXIS_THEME_API_KEY:-}"
     echo "MYSQL_ATTR_SSL_CA=${MYSQL_ATTR_SSL_CA}"

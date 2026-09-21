@@ -24,8 +24,8 @@ const startSetup = () => {
                 <div class="flex items-center justify-center mb-4">
                     <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center">
                         <img
-                            src="/logos/logo_icon.png"
-                            alt="Cartxis logo"
+                            src="/logos/akbari-devlopment-group.jpeg"
+                            alt="Akbari Development Group logo"
                             class="w-12 h-12 object-contain"
                         />
                     </div>

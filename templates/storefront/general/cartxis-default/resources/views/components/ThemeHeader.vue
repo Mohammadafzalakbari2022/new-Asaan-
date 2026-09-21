@@ -32,7 +32,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     theme: null,
     siteConfig: () => ({
-        name: 'Cartxis',
+        name: 'Akbari Development Group',
         url: '/',
         description: 'E-commerce Platform'
     }),
