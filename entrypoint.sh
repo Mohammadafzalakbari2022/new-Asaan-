@@ -144,6 +144,30 @@ PHPEOF
     ) &
 fi
 
+# Keep the free-tier Render PostgreSQL awake: it pauses after ~15 min without a
+# connection, and a paused DB makes every page 500 while the container waits for it
+# to come back. Ping it every 120s so it never sleeps while this container runs.
+if [ "${DB_CONNECTION:-mysql}" = "pgsql" ]; then
+    (
+        KEEPALIVE_PHP=$(cat <<'PHPEOF'
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT') !== false && getenv('DB_PORT') !== '' ? getenv('DB_PORT') : '5432';
+$db = getenv('DB_DATABASE');
+$u = getenv('DB_USERNAME');
+$p = getenv('DB_PASSWORD');
+$ssl = getenv('DB_SSLMODE') ?: 'require';
+$dsn = "pgsql:host={$host};port={$port};dbname={$db};sslmode={$ssl}";
+try { $pdo = new PDO($dsn, $u, $p, [PDO::ATTR_TIMEOUT => 20]); $pdo->query('SELECT 1'); }
+catch (Exception $e) { fwrite(STDERR, "keepalive: " . $e->getMessage() . "\n"); }
+PHPEOF
+        )
+        while true; do
+            sleep 120
+            timeout 30 php -r "$KEEPALIVE_PHP" >/dev/null 2>&1 || echo "[entrypoint] DB keepalive ping failed"
+        done
+    ) &
+fi
+
 # Remove nginx package default vhost (listens on 80 returning 444) to avoid port confusion
 rm -f /etc/nginx/conf.d/default.conf
 
