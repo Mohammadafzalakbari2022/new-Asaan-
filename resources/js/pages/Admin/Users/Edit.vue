@@ -125,6 +125,7 @@ const changePassword = () => {
               >
                 <option value="customer">Customer</option>
                 <option value="admin">Admin</option>
+                <option value="delivery">Delivery Person</option>
               </select>
               <p v-if="profileForm.errors.role" class="mt-1 text-sm text-red-600">
                 {{ profileForm.errors.role }}

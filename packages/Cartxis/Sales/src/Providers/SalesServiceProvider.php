@@ -26,6 +26,7 @@ class SalesServiceProvider extends ServiceProvider
         
         // Load routes
         $this->loadRoutesFrom(__DIR__.'/../Routes/admin.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/delivery.php');
         
         // Load views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'sales');

@@ -5,20 +5,36 @@ import admin from '@/routes/admin'
 
 const props = defineProps<{
     adminLogo: string
+    tab?: string
 }>()
 
-const form = useForm({
+const activeTab = ref<string>(props.tab === 'delivery' ? 'delivery' : 'admin')
+
+const adminForm = useForm({
   email: '',
   password: '',
   remember: false,
 })
 
+const deliveryForm = useForm({
+  email: '',
+  password: '',
+})
+
+const form = computed(() => (activeTab.value === 'delivery' ? deliveryForm : adminForm))
+
 const showPassword = ref(false)
 const currentYear = computed(() => new Date().getFullYear())
 
 const submit = () => {
-  form.post(admin.login.store.url(), {
-    onFinish: () => form.reset('password'),
+  if (activeTab.value === 'delivery') {
+    deliveryForm.post('/delivery/login', {
+      onFinish: () => deliveryForm.reset('password'),
+    })
+    return
+  }
+  adminForm.post(admin.login.store.url(), {
+    onFinish: () => adminForm.reset('password'),
   })
 }
 </script>
@@ -149,10 +165,49 @@ const submit = () => {
             <img :src="props.adminLogo" alt="Akbari Development Group" class="h-10 w-auto object-contain dark:brightness-0 dark:invert" />
           </div>
 
+          <!-- Tab Switcher -->
+          <div class="mb-8">
+            <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-gray-100 dark:bg-white/[0.06] border border-gray-200/80 dark:border-white/[0.08]">
+              <button
+                type="button"
+                @click="activeTab = 'admin'"
+                class="flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all"
+                :class="activeTab === 'admin'
+                  ? 'bg-white text-gray-900 shadow-sm dark:bg-white/10 dark:text-white'
+                  : 'text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200'"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Admin
+              </button>
+              <button
+                type="button"
+                @click="activeTab = 'delivery'"
+                class="flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all"
+                :class="activeTab === 'delivery'
+                  ? 'bg-white text-gray-900 shadow-sm dark:bg-white/10 dark:text-white'
+                  : 'text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200'"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h11v13H3zM14 13h6l-2 5h-4zM6.5 17a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm7 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+                </svg>
+                Delivery Person
+              </button>
+            </div>
+          </div>
+
           <!-- Header -->
           <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Welcome back</h2>
-            <p class="text-sm text-gray-500 dark:text-slate-400">Sign in to your admin account to continue</p>
+            <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+              {{ activeTab === 'delivery' ? 'Delivery portal' : 'Welcome back' }}
+            </h2>
+            <p v-if="activeTab === 'delivery'" class="text-sm text-gray-500 dark:text-slate-400">
+              Sign in to view your assigned packages and start delivering
+            </p>
+            <p v-else class="text-sm text-gray-500 dark:text-slate-400">
+              Sign in to your admin account to continue
+            </p>
           </div>
 
           <form @submit.prevent="submit" class="space-y-5">
@@ -236,7 +291,7 @@ const submit = () => {
             </div>
 
             <!-- Remember Me -->
-            <div class="flex items-center justify-between">
+            <div v-if="activeTab === 'admin'" class="flex items-center justify-between">
               <label class="flex items-center gap-2.5 cursor-pointer group">
                 <div class="relative">
                   <input
@@ -277,7 +332,7 @@ const submit = () => {
               <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/15 dark:via-white/10 to-transparent"></div>
               
               <span v-if="!form.processing" class="relative flex items-center justify-center gap-2">
-                <span>Sign In</span>
+                <span>{{ activeTab === 'delivery' ? 'Start Delivering' : 'Sign In' }}</span>
                 <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>

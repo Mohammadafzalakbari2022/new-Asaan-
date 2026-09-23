@@ -112,7 +112,9 @@ class HandleInertiaRequests extends Middleware
             'csrf_token' => csrf_token(),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->is('delivery') || $request->is('delivery/*')
+                    ? $request->user('delivery')
+                    : $request->user(),
             ],
             'adminNotifications' => function () use ($request, $adminNotificationService) {
                 if ((!$request->is('admin/*') && !$request->is('admin')) || !$request->user('admin')) {
