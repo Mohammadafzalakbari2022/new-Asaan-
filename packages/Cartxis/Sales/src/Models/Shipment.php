@@ -94,6 +94,28 @@ class Shipment extends Model
     }
 
     /**
+     * Get the delivery runs created for this shipment.
+     */
+    public function deliveries(): HasMany
+    {
+        return $this->hasMany(Delivery::class);
+    }
+
+    /**
+     * Get the active delivery run for this shipment (if one is in progress).
+     */
+    public function activeDelivery()
+    {
+        return $this->hasOne(Delivery::class)
+            ->whereIn('status', [
+                Delivery::STATUS_ASSIGNED,
+                Delivery::STATUS_OUT_FOR_DELIVERY,
+                Delivery::STATUS_ARRIVING,
+            ])
+            ->latestOfMany();
+    }
+
+    /**
      * Get the order items through shipment items.
      */
     public function items()

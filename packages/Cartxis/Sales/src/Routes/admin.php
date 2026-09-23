@@ -6,6 +6,8 @@ use Cartxis\Sales\Http\Controllers\Admin\InvoiceController;
 use Cartxis\Sales\Http\Controllers\Admin\ShipmentController;
 use Cartxis\Sales\Http\Controllers\Admin\CreditMemoController;
 use Cartxis\Sales\Http\Controllers\Admin\TransactionController;
+use Cartxis\Sales\Http\Controllers\Admin\DeliveryController;
+use Cartxis\Sales\Http\Controllers\Admin\DeliveryStaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,6 +131,42 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin/sales')->name('admin.sal
         // Delivery integration
         Route::post('/{id}/delivery/create', [ShipmentController::class, 'createInDelivery'])->name('delivery.create');
         Route::post('/{id}/delivery/sync', [ShipmentController::class, 'syncDeliveryTracking'])->name('delivery.sync');
+    });
+
+    // Deliveries (in-house)
+    Route::prefix('deliveries')->name('deliveries.')->group(function () {
+        // List deliveries
+        Route::get('/', [DeliveryController::class, 'index'])->name('index');
+
+        // Assign a shipment to a driver
+        Route::post('/', [DeliveryController::class, 'store'])->name('store');
+
+        // View delivery details
+        Route::get('/{id}', [DeliveryController::class, 'show'])->name('show');
+
+        // Reassign / reschedule
+        Route::put('/{id}', [DeliveryController::class, 'update'])->name('update');
+
+        // Cancel delivery
+        Route::post('/{id}/cancel', [DeliveryController::class, 'cancel'])->name('cancel');
+    });
+
+    // Delivery staff management
+    Route::prefix('delivery-staff')->name('delivery-staff.')->group(function () {
+        // List delivery staff
+        Route::get('/', [DeliveryStaffController::class, 'index'])->name('index');
+
+        // Create delivery staff
+        Route::post('/', [DeliveryStaffController::class, 'store'])->name('store');
+
+        // Update delivery staff
+        Route::put('/{user}', [DeliveryStaffController::class, 'update'])->name('update');
+
+        // Reset delivery staff password
+        Route::post('/{user}/reset-password', [DeliveryStaffController::class, 'resetPassword'])->name('reset-password');
+
+        // Delete delivery staff
+        Route::delete('/{user}', [DeliveryStaffController::class, 'destroy'])->name('destroy');
     });
 
     // Credit Memos

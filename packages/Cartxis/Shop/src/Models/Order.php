@@ -206,6 +206,14 @@ class Order extends Model
     }
 
     /**
+     * Get delivery runs created for this order.
+     */
+    public function deliveries(): HasMany
+    {
+        return $this->hasMany(\Cartxis\Sales\Models\Delivery::class);
+    }
+
+    /**
      * Check if order is paid.
      *
      * @return bool

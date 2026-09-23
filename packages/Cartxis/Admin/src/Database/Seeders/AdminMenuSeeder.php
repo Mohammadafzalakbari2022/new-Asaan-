@@ -274,6 +274,26 @@ class AdminMenuSeeder extends Seeder
                 'location' => 'admin',
                 'active' => true,
             ],
+            [
+                'key' => 'sales-deliveries',
+                'title' => 'Deliveries',
+                'icon' => 'map-pin',
+                'route' => 'admin.sales.deliveries.index',
+                'parent_id' => $salesId,
+                'order' => 6,
+                'location' => 'admin',
+                'active' => true,
+            ],
+            [
+                'key' => 'sales-delivery-staff',
+                'title' => 'Delivery Staff',
+                'icon' => 'users',
+                'route' => 'admin.sales.delivery-staff.index',
+                'parent_id' => $salesId,
+                'order' => 7,
+                'location' => 'admin',
+                'active' => true,
+            ],
 
             // Marketing Children
             [

@@ -38,6 +38,8 @@ class Address extends Model
         'phone',
         'email',
         'is_default',
+        'latitude',
+        'longitude',
     ];
 
     /**
@@ -47,6 +49,8 @@ class Address extends Model
      */
     protected $casts = [
         'is_default' => 'boolean',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

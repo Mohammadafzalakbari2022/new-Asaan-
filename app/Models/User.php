@@ -69,6 +69,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the delivery runs assigned to this user (as a driver).
+     */
+    public function assignedDeliveries()
+    {
+        return $this->hasMany(\Cartxis\Sales\Models\Delivery::class, 'assigned_to');
+    }
+
+    /**
      * Get the customer record for the user.
      */
     public function customer()
