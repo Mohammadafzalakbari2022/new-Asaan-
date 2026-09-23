@@ -42,11 +42,11 @@ class ShareFrontendData
         // Core frontend data (shared across ALL themes)
         $sharedData = [
             'siteConfig' => [
-                'name' => $this->settingService->get('site_name') ?? config('app.name'),
+                'name' => $this->settingService->get('site_name') ?? config('branding.name', 'Akbari Development Group'),
                 'url' => config('app.url'),
-                'description' => $this->settingService->get('site_tagline') ?? 'Akubari Development Group E-commerce Platform',
-                'logo' => $this->settingService->get('site_logo') ?? null,
-                'favicon' => $this->settingService->get('site_favicon') ?? null,
+                'description' => $this->settingService->get('site_tagline') ?? config('branding.description'),
+                'logo' => $this->settingService->get('site_logo') ?? config('branding.logo'),
+                'favicon' => $this->settingService->get('site_favicon') ?? config('branding.favicon'),
             ],
             
             // Share categories for header navigation

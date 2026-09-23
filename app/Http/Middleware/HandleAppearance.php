@@ -44,7 +44,7 @@ class HandleAppearance
         $storedFavicon = $this->settingService->get('site_favicon');
         $faviconUrl = $storedFavicon
             ? Storage::disk('public')->url($storedFavicon)
-            : '/logos/favicon.png';
+            : config('branding.favicon_asset', '/logos/asaan-favicon.png');
 
         View::share('favicon', $faviconUrl);
 

@@ -32,6 +32,12 @@ const showPassword = ref(false);
             <div class="w-full max-w-md">
                 <!-- Header -->
                 <div class="text-center mb-8">
+                    <img
+                        v-if="siteConfig.logo"
+                        :src="`/storage/${siteConfig.logo}`"
+                        :alt="siteConfig.name"
+                        class="h-16 w-auto mx-auto mb-4 object-contain"
+                    />
                     <h1 class="text-3xl font-bold text-gray-900 mb-2">
                         Welcome Back
                     </h1>

@@ -57,6 +57,12 @@ fi
 # Storage link
 php artisan storage:link 2>/dev/null || true
 
+# Seed fallback brand assets (Akbari Development Group + Asaan logos) from
+# public/logos into the storage mirror. The Docker image excludes storage/* at
+# build time, but branding settings and fallbacks resolve under /storage/.
+mkdir -p storage/app/public/logos
+cp -f public/logos/* storage/app/public/logos/ 2>/dev/null || true
+
 # Clear compiled/view/config/route caches. Deliberately avoids `cache:clear`:
 # that one goes through the database-backed cache store and does `delete from
 # "cache"`, which fails on a fresh Render PostgreSQL before provisioning has run

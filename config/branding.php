@@ -50,7 +50,7 @@ return [
 
     // Default favicon served directly by the appearance middleware (public
     // asset, outside /storage/, for the blade <link rel="icon"> tag).
-    'favicon_asset' => '/logos/akbari-favicon.png',
+    'favicon_asset' => '/logos/asaan-favicon.png',
 
     // Default Open Graph / social share image (storage-relative).
     'og_image' => 'logos/akbari-devlopment-group.jpeg',
