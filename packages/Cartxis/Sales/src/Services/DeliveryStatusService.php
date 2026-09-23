@@ -156,7 +156,7 @@ class DeliveryStatusService
                 ]);
 
                 $order = $delivery->order;
-                (new OrderService())->updateStatus($order, Order::STATUS_COMPLETED, 'Package delivered', false);
+                (app(OrderService::class))->updateStatus($order, Order::STATUS_COMPLETED, 'Package delivered', false);
             } elseif ($to === Delivery::STATUS_OUT_FOR_DELIVERY) {
                 $delivery->shipment->update(['status' => Shipment::STATUS_OUT_FOR_DELIVERY]);
             } elseif ($to === Delivery::STATUS_UNDELIVERED) {
@@ -174,6 +174,33 @@ class DeliveryStatusService
             $delivery->update($payload);
 
             $this->logEvent($delivery, $from, $to, $note);
+
+            return $delivery->fresh();
+        });
+    }
+
+    /**
+     * Record a live driver location, throttled to keep the table calm.
+     *
+     * Accepts an update at most once every 15 seconds per delivery; earlier
+     * pings are dropped silently (the caller keeps polling the same endpoint).
+     */
+    public function updateLocation(Delivery $delivery, float $latitude, float $longitude, ?float $accuracy = null): Delivery
+    {
+        $last = $delivery->last_location_at;
+
+        if ($last !== null && $last->diffInSeconds(now()) < 15) {
+            return $delivery;
+        }
+
+        return DB::transaction(function () use ($delivery, $latitude, $longitude) {
+            $delivery->update([
+                'last_latitude' => $latitude,
+                'last_longitude' => $longitude,
+                'last_location_at' => now(),
+            ]);
+
+            $this->logEvent($delivery, $delivery->status, $delivery->status, 'Live location updated');
 
             return $delivery->fresh();
         });

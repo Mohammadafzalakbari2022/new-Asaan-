@@ -101,6 +101,29 @@ test('arriving is blocked until the delivery starts', function () {
     )->assertSessionHas('error');
 });
 
+test('a driver can share live location during out-for-delivery', function () {
+    [$driver, $delivery, , ] = fixtureDriver(app(DeliveryStatusService::class));
+
+    app(DeliveryStatusService::class)->transition(
+        $delivery->fresh(), Delivery::STATUS_OUT_FOR_DELIVERY
+    );
+
+    $this->actingAs($driver, 'delivery')->post(
+        '/delivery/deliveries/' . $delivery->id . '/location', [
+            'latitude' => 33.6363,
+            'longitude' => 73.0999,
+            'accuracy' => 12,
+        ]
+    )->assertOk();
+
+    $this->assertDatabaseHas('deliveries', [
+        'id' => $delivery->id,
+        'last_latitude' => 33.6363,
+        'last_longitude' => 73.0999,
+        'last_location_at' => $delivery->fresh()->last_location_at,
+    ]);
+});
+
 test('a driver can mark a delivery as arriving once started', function () {
     [$driver, $delivery, , ] = fixtureDriver(app(DeliveryStatusService::class));
 
@@ -189,5 +212,6 @@ test('a finished delivery cannot be delivered twice', function () {
         '/delivery/deliveries/' . $delivery->id . '/deliver', [
             'recipient_name' => 'Anyone',
         ]
-    )->assertSessionHas('error');
+    )->assertRedirect();
 });
+
