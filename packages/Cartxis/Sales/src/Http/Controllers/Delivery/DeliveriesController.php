@@ -98,6 +98,8 @@ class DeliveriesController extends Controller
                     'full_name' => $delivery->order->shippingAddress->full_name,
                     'full_address' => $delivery->order->shippingAddress->full_address,
                     'phone' => $delivery->order->shippingAddress->phone,
+                    'latitude' => $delivery->order->shippingAddress->latitude !== null ? (float) $delivery->order->shippingAddress->latitude : null,
+                    'longitude' => $delivery->order->shippingAddress->longitude !== null ? (float) $delivery->order->shippingAddress->longitude : null,
                 ] : null,
                 'events' => $delivery->events()->orderBy('created_at', 'desc')->get()->map(function ($e) {
                     return [

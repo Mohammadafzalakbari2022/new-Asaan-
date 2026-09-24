@@ -141,6 +141,9 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin/sales')->name('admin.sal
         // Assign a shipment to a driver
         Route::post('/', [DeliveryController::class, 'store'])->name('store');
 
+        // Live delivery board (map of active runs + drivers)
+        Route::get('/board', [DeliveryController::class, 'board'])->name('board');
+
         // View delivery details
         Route::get('/{id}', [DeliveryController::class, 'show'])->name('show');
 

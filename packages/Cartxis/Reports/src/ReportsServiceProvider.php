@@ -22,6 +22,7 @@ class ReportsServiceProvider extends ServiceProvider
         $this->app->singleton(\Cartxis\Reports\Services\ProductReportService::class);
         $this->app->singleton(\Cartxis\Reports\Services\CustomerReportService::class);
         $this->app->singleton(\Cartxis\Reports\Services\ReportCacheService::class);
+        $this->app->singleton(\Cartxis\Reports\Services\DeliveryReportService::class);
     }
 
     /**

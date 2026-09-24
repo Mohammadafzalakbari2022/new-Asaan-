@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Cartxis\Reports\Http\Controllers\SalesReportController;
 use Cartxis\Reports\Http\Controllers\ProductReportController;
 use Cartxis\Reports\Http\Controllers\CustomerReportController;
+use Cartxis\Reports\Http\Controllers\DeliveryReportController;
 
 Route::middleware(['web', 'auth:admin'])
     ->prefix('admin/reports')
@@ -23,4 +24,8 @@ Route::middleware(['web', 'auth:admin'])
         // Customer Reports
         Route::get('/customers', [CustomerReportController::class, 'index'])->name('customers');
         Route::post('/customers/export', [CustomerReportController::class, 'export'])->name('customers.export');
+
+        // Delivery Report
+        Route::get('/delivery', [DeliveryReportController::class, 'index'])->name('delivery');
+        Route::get('/delivery/export', [DeliveryReportController::class, 'export'])->name('delivery.export');
     });

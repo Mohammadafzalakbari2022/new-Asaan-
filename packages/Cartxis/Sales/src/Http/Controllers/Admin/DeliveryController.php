@@ -127,6 +127,57 @@ class DeliveryController extends Controller
     }
 
     /**
+     * Live delivery board: all active runs with driver positions and drop-off points.
+     */
+    public function board(): Response
+    {
+        $active = Delivery::with(['shipment', 'order.shippingAddress', 'assignedTo'])
+            ->whereIn('status', [
+                Delivery::STATUS_ASSIGNED,
+                Delivery::STATUS_OUT_FOR_DELIVERY,
+                Delivery::STATUS_ARRIVING,
+            ])
+            ->latest()
+            ->get();
+
+        $activeDeliveries = $active->map(function (Delivery $delivery) {
+            $address = $delivery->order?->shippingAddress;
+
+            return [
+                'id' => $delivery->id,
+                'status' => $delivery->status,
+                'status_badge' => $delivery->status_badge,
+                'priority' => $delivery->priority,
+                'shipment_number' => $delivery->shipment?->shipment_number,
+                'order_number' => $delivery->order?->order_number,
+                'customer_phone' => $delivery->customer_phone,
+                'scheduled_date' => $delivery->scheduled_date?->toDateTimeString(),
+                'cod_amount' => $delivery->cod_amount !== null ? (float) $delivery->cod_amount : null,
+                'destination' => $address ? [
+                    'lat' => $address->latitude !== null ? (float) $address->latitude : null,
+                    'lng' => $address->longitude !== null ? (float) $address->longitude : null,
+                    'label' => $address->full_address,
+                ] : null,
+                'driver' => $delivery->assignedTo ? [
+                    'id' => $delivery->assignedTo->id,
+                    'name' => $delivery->assignedTo->name,
+                    'phone' => $delivery->assignedTo->phone,
+                ] : null,
+                'driver_location' => $delivery->last_latitude !== null && $delivery->last_longitude !== null ? [
+                    'lat' => (float) $delivery->last_latitude,
+                    'lng' => (float) $delivery->last_longitude,
+                    'live_at' => $delivery->last_location_at?->toDateTimeString(),
+                    'live' => $delivery->last_location_at !== null && $delivery->last_location_at->diffInMinutes(now()) <= 20,
+                ] : null,
+            ];
+        });
+
+        return Inertia::render('Admin/Sales/Deliveries/Board', [
+            'activeDeliveries' => $activeDeliveries,
+        ]);
+    }
+
+    /**
      * Delivery detail with events.
      */
     public function show(int $id): Response
