@@ -49,3 +49,9 @@ services:
         value: log
       - key: APP_KEY
         sync: false
+      # entrypoint.sh only runs migrations when DB_CONNECTION is pgsql AND
+      # RUN_MIGRATE=1. Without this flag the referral and services tables are
+      # never created and those pages fail on a missing-table error. Safe to
+      # leave on: a boot with nothing pending is a no-op.
+      - key: RUN_MIGRATE
+        value: "1"
