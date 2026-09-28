@@ -1,0 +1,22 @@
+{
+    "name": "cartxis/service",
+    "description": "Bookable services catalogue and job tracking for Cartxis E-commerce platform",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Cartxis\\Service\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cartxis\\Service\\ServiceServiceProvider"
+            ]
+        }
+    }
+}
