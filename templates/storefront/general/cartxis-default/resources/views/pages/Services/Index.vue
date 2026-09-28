@@ -3,10 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
 import ServiceCard from '../../components/ServiceCard.vue';
-import { useI18nStore } from '@/Stores/i18n';
 
-const i18n = useI18nStore();
-const t = i18n.t;
 
 interface Service {
     id: number;
@@ -78,7 +75,7 @@ watch([search, category, sort], () => {
 const heading = computed(() => {
     const active = props.categories.find((c) => c.slug === category.value);
 
-    return active ? active.name : t('Services');
+    return active ? active.name : 'Services';
 });
 </script>
 
@@ -89,7 +86,7 @@ const heading = computed(() => {
         <div class="bg-gray-50 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <nav class="flex items-center space-x-2 text-sm text-gray-500">
-                    <Link href="/" class="hover:text-gray-700">{{ t('Home') }}</Link>
+                    <Link href="/" class="hover:text-gray-700">{{ 'Home' }}</Link>
                     <span>/</span>
                     <span class="text-gray-700">{{ heading }}</span>
                 </nav>
@@ -105,7 +102,7 @@ const heading = computed(() => {
             </div>
 
             <div v-if="featured.length" class="mt-10">
-                <h2 class="text-lg font-semibold text-gray-900">{{ t('Popular') }}</h2>
+                <h2 class="text-lg font-semibold text-gray-900">{{ 'Popular' }}</h2>
                 <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     <ServiceCard v-for="service in featured" :key="service.id" :service="service" />
                 </div>
@@ -116,19 +113,19 @@ const heading = computed(() => {
                     <form class="space-y-5" @submit.prevent>
                         <div>
                             <label for="service-search" class="block text-sm font-medium text-gray-700">
-                                {{ t('Search') }}
+                                {{ 'Search' }}
                             </label>
                             <input
                                 id="service-search"
                                 v-model="search"
                                 type="search"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
-                                :placeholder="t('Search services')"
+                                placeholder="Search services"
                             />
                         </div>
 
                         <div v-if="categories.length">
-                            <p class="text-sm font-medium text-gray-700">{{ t('Categories') }}</p>
+                            <p class="text-sm font-medium text-gray-700">{{ 'Categories' }}</p>
                             <ul class="mt-2 space-y-1">
                                 <li>
                                     <button
@@ -137,7 +134,7 @@ const heading = computed(() => {
                                         :class="category === '' ? 'font-semibold text-gray-900' : 'text-gray-600'"
                                         @click="category = ''"
                                     >
-                                        {{ t('All') }}
+                                        {{ 'All' }}
                                     </button>
                                 </li>
                                 <li v-for="item in categories" :key="item.id">
@@ -163,14 +160,14 @@ const heading = computed(() => {
                         </p>
 
                         <div>
-                            <label for="service-sort" class="sr-only">{{ t('Sort') }}</label>
+                            <label for="service-sort" class="sr-only">{{ 'Sort' }}</label>
                             <select
                                 id="service-sort"
                                 v-model="sort"
                                 class="rounded-md border-gray-300 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
                             >
-                                <option value="">{{ t('Sort') }}</option>
-                                <option value="price">{{ t('Price: low to high') }}</option>
+                                <option value="">{{ 'Sort' }}</option>
+                                <option value="price">{{ 'Price: low to high' }}</option>
                             </select>
                         </div>
                     </div>
@@ -183,9 +180,9 @@ const heading = computed(() => {
                     </div>
 
                     <div v-else class="mt-5 rounded-lg border border-dashed border-gray-300 p-10 text-center">
-                        <p class="text-gray-600">{{ t('No services found.') }}</p>
+                        <p class="text-gray-600">{{ 'No services found.' }}</p>
                         <button type="button" class="mt-3 text-sm text-gray-900 underline" @click="search = ''; category = ''">
-                            {{ t('Clear filters') }}
+                            {{ 'Clear filters' }}
                         </button>
                     </div>
 

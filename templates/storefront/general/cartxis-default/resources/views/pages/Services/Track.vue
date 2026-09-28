@@ -3,11 +3,8 @@ import { computed, nextTick, ref, watch } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
-import { useI18nStore } from '@/Stores/i18n';
 
 const { formatPrice } = useCurrency();
-const i18n = useI18nStore();
-const t = i18n.t;
 const page = usePage();
 
 interface Service {
@@ -134,13 +131,13 @@ watch(
 </script>
 
 <template>
-    <Head :title="t('Check on a job')" />
+    <Head title="Check on a job" />
 
     <ThemeLayout>
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <h1 class="text-2xl font-bold text-gray-900">{{ t('Check on a job') }}</h1>
+            <h1 class="text-2xl font-bold text-gray-900">{{ 'Check on a job' }}</h1>
             <p class="mt-2 text-gray-600">
-                {{ t('Enter the reference from your confirmation and the phone number you booked with.') }}
+                {{ 'Enter the reference from your confirmation and the phone number you booked with.' }}
             </p>
 
             <form class="mt-6 space-y-5 rounded-xl border border-gray-200 p-6" novalidate @submit.prevent="search">
@@ -153,7 +150,7 @@ watch(
 
                 <div>
                     <label for="track-reference" class="block text-sm font-medium text-gray-700">
-                        {{ t('Reference') }} <span class="text-red-600">*</span>
+                        {{ 'Reference' }} <span class="text-red-600">*</span>
                     </label>
                     <input
                         id="track-reference"
@@ -169,7 +166,7 @@ watch(
 
                 <div>
                     <label for="track-phone" class="block text-sm font-medium text-gray-700">
-                        {{ t('Phone number') }} <span class="text-red-600">*</span>
+                        {{ 'Phone number' }} <span class="text-red-600">*</span>
                     </label>
                     <input
                         id="track-phone"
@@ -188,7 +185,7 @@ watch(
                     class="rounded-md bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-gray-700 disabled:opacity-60"
                     :disabled="posting"
                 >
-                    {{ posting ? t('Looking...') : t('Find my job') }}
+                    {{ posting ? 'Looking...' : 'Find my job' }}
                 </button>
             </form>
 
@@ -204,29 +201,29 @@ watch(
 
                 <dl class="mt-4 space-y-3 text-sm">
                     <div class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ t('Date') }}</dt>
+                        <dt class="text-gray-600">{{ 'Date' }}</dt>
                         <dd class="font-medium text-gray-900">{{ booking.scheduled_date }}</dd>
                     </div>
                     <div class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ t('Time') }}</dt>
+                        <dt class="text-gray-600">{{ 'Time' }}</dt>
                         <dd class="font-medium text-gray-900">{{ booking.scheduled_slot }}</dd>
                     </div>
                     <div v-if="booking.worker" class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ t('Your worker') }}</dt>
+                        <dt class="text-gray-600">{{ 'Your worker' }}</dt>
                         <dd class="font-medium text-gray-900">{{ booking.worker.name }}</dd>
                     </div>
                     <div class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ t('Price') }}</dt>
+                        <dt class="text-gray-600">{{ 'Price' }}</dt>
                         <dd class="font-semibold text-gray-900">{{ formatPrice(price) }}</dd>
                     </div>
                     <div v-if="collected !== null" class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ t('Paid') }}</dt>
+                        <dt class="text-gray-600">{{ 'Paid' }}</dt>
                         <dd class="font-semibold text-gray-900">{{ formatPrice(collected) }}</dd>
                     </div>
                 </dl>
 
                 <div v-if="booking.events?.length" class="mt-6">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ t('History') }}</h3>
+                    <h3 class="text-sm font-semibold text-gray-900">{{ 'History' }}</h3>
                     <ol class="mt-3 space-y-3">
                         <li v-for="event in booking.events" :key="event.id" class="text-sm">
                             <span class="font-medium text-gray-900">
@@ -239,7 +236,7 @@ watch(
                 </div>
 
                 <p class="mt-6 text-sm text-gray-500">
-                    {{ t('Need to change something?') }}
+                    {{ 'Need to change something?' }}
                     <a
                         v-if="settings?.contact_phone"
                         :href="`tel:${settings.contact_phone}`"
@@ -251,7 +248,7 @@ watch(
             </div>
 
             <p class="mt-8 text-sm text-gray-500">
-                <Link href="/services" class="underline">{{ t('Back to services') }}</Link>
+                <Link href="/services" class="underline">{{ 'Back to services' }}</Link>
             </p>
         </div>
     </ThemeLayout>

@@ -4,11 +4,8 @@ import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
 import ServiceCard from '../../components/ServiceCard.vue';
 import { useCurrency } from '@/composables/useCurrency';
-import { useI18nStore } from '@/Stores/i18n';
 
 const { formatPrice } = useCurrency();
-const i18n = useI18nStore();
-const t = i18n.t;
 const page = usePage();
 
 interface TimeSlot {
@@ -141,9 +138,9 @@ const submit = () => {
         <div class="bg-gray-50 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <nav class="flex items-center space-x-2 text-sm text-gray-500">
-                    <Link href="/" class="hover:text-gray-700">{{ t('Home') }}</Link>
+                    <Link href="/" class="hover:text-gray-700">{{ 'Home' }}</Link>
                     <span>/</span>
-                    <Link href="/services" class="hover:text-gray-700">{{ t('Services') }}</Link>
+                    <Link href="/services" class="hover:text-gray-700">{{ 'Services' }}</Link>
                     <span>/</span>
                     <span class="text-gray-700">{{ service.name }}</span>
                 </nav>
@@ -179,7 +176,7 @@ const submit = () => {
                             <span class="text-base font-normal text-gray-500">{{ unit }}</span>
                         </span>
                         <span v-if="service.duration_display">
-                            {{ t('Takes about') }} {{ service.duration_display }}
+                            {{ 'Takes about' }} {{ service.duration_display }}
                         </span>
                         <span v-if="service.service_area">{{ service.service_area }}</span>
                     </div>
@@ -191,7 +188,7 @@ const submit = () => {
                     />
 
                     <div v-if="included.length" class="mt-8">
-                        <h2 class="text-base font-semibold text-gray-900">{{ t('What is included') }}</h2>
+                        <h2 class="text-base font-semibold text-gray-900">{{ 'What is included' }}</h2>
                         <ul class="mt-3 space-y-2">
                             <li v-for="item in included" :key="item" class="flex gap-2 text-sm text-gray-700">
                                 <svg class="mt-0.5 h-4 w-4 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -203,7 +200,7 @@ const submit = () => {
                     </div>
 
                     <div v-if="excluded.length" class="mt-6">
-                        <h2 class="text-base font-semibold text-gray-900">{{ t('Not included') }}</h2>
+                        <h2 class="text-base font-semibold text-gray-900">{{ 'Not included' }}</h2>
                         <ul class="mt-3 space-y-2">
                             <li v-for="item in excluded" :key="item" class="flex gap-2 text-sm text-gray-600">
                                 <svg class="mt-0.5 h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -217,10 +214,10 @@ const submit = () => {
 
                 <div>
                     <div class="rounded-xl border border-gray-200 p-6">
-                        <h2 class="text-lg font-semibold text-gray-900">{{ t('Book this service') }}</h2>
+                        <h2 class="text-lg font-semibold text-gray-900">{{ 'Book this service' }}</h2>
 
                         <p v-if="!booking.enabled" class="mt-3 rounded-md bg-amber-50 p-3 text-sm text-amber-900">
-                            {{ t('Online booking is not available for this service right now.') }}
+                            {{ 'Online booking is not available for this service right now.' }}
                             <a
                                 v-if="settings.contact_phone"
                                 :href="`tel:${settings.contact_phone}`"
@@ -240,7 +237,7 @@ const submit = () => {
 
                             <div>
                                 <label for="customer_name" class="block text-sm font-medium text-gray-700">
-                                    {{ t('Your name') }} <span class="text-red-600">*</span>
+                                    {{ 'Your name' }} <span class="text-red-600">*</span>
                                 </label>
                                 <input
                                     id="customer_name-field"
@@ -258,7 +255,7 @@ const submit = () => {
 
                             <div>
                                 <label for="customer_phone" class="block text-sm font-medium text-gray-700">
-                                    {{ t('Phone number') }} <span class="text-red-600">*</span>
+                                    {{ 'Phone number' }} <span class="text-red-600">*</span>
                                 </label>
                                 <input
                                     id="customer_phone-field"
@@ -276,7 +273,7 @@ const submit = () => {
 
                             <div>
                                 <label for="customer_email" class="block text-sm font-medium text-gray-700">
-                                    {{ t('Email') }}
+                                    {{ 'Email' }}
                                 </label>
                                 <input
                                     id="customer_email-field"
@@ -294,7 +291,7 @@ const submit = () => {
 
                             <div>
                                 <label for="address" class="block text-sm font-medium text-gray-700">
-                                    {{ t('Address') }} <span class="text-red-600">*</span>
+                                    {{ 'Address' }} <span class="text-red-600">*</span>
                                 </label>
                                 <textarea
                                     id="address-field"
@@ -312,7 +309,7 @@ const submit = () => {
 
                             <div>
                                 <label for="city" class="block text-sm font-medium text-gray-700">
-                                    {{ t('City') }}
+                                    {{ 'City' }}
                                 </label>
                                 <input
                                     id="city-field"
@@ -330,7 +327,7 @@ const submit = () => {
                             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                                 <div>
                                     <label for="scheduled_date" class="block text-sm font-medium text-gray-700">
-                                        {{ t('Date') }} <span class="text-red-600">*</span>
+                                        {{ 'Date' }} <span class="text-red-600">*</span>
                                     </label>
                                     <input
                                         id="scheduled_date-field"
@@ -349,7 +346,7 @@ const submit = () => {
 
                                 <div>
                                     <label for="scheduled_slot" class="block text-sm font-medium text-gray-700">
-                                        {{ t('Time') }} <span class="text-red-600">*</span>
+                                        {{ 'Time' }} <span class="text-red-600">*</span>
                                     </label>
                                     <select
                                         id="scheduled_slot-field"
@@ -370,7 +367,7 @@ const submit = () => {
 
                             <div>
                                 <label for="notes" class="block text-sm font-medium text-gray-700">
-                                    {{ t('Notes for the worker') }}
+                                    {{ 'Notes for the worker' }}
                                 </label>
                                 <textarea
                                     id="notes-field"
@@ -390,11 +387,11 @@ const submit = () => {
                                 class="w-full rounded-md bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-60"
                                 :disabled="form.processing"
                             >
-                                {{ form.processing ? t('Sending...') : t('Book now') }}
+                                {{ form.processing ? 'Sending...' : 'Book now' }}
                             </button>
 
                             <p class="text-center text-xs text-gray-500">
-                                {{ t('You pay after the work is done. No card needed.') }}
+                                {{ 'You pay after the work is done. No card needed.' }}
                             </p>
                         </form>
                     </div>
@@ -402,7 +399,7 @@ const submit = () => {
             </div>
 
             <div v-if="related.length" class="mt-16">
-                <h2 class="text-lg font-semibold text-gray-900">{{ t('You may also need') }}</h2>
+                <h2 class="text-lg font-semibold text-gray-900">{{ 'You may also need' }}</h2>
                 <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     <ServiceCard v-for="item in related" :key="item.id" :service="item" />
                 </div>
