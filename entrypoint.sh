@@ -110,8 +110,10 @@ fi
 
 # One-time provisioning for PostgreSQL databases (pgsql driver). Runs in the
 # background so nginx/php-fpm boot instantly and Render's port scan passes even on
-# a genuinely fresh render.PostgreSQL. It only provisions when the database has no
-# migrations table yet (i.e. completely new), so a plain redeploy never re-runs it.
+# a genuinely fresh render.PostgreSQL. A brand-new database (no migrations table)
+# gets a full migrate + seed; any subsequent boot just applies pending migrations,
+# so new columns/tables such as the Pashto/English locales reach production on
+# their own during a normal redeploy.
 if [ "${DB_CONNECTION:-mysql}" = "pgsql" ] && [ "${RUN_MIGRATE:-0}" = "1" ]; then
     (
         CHECK_PHP=$(cat <<'PHPEOF'
@@ -145,7 +147,14 @@ PHPEOF
                 php artisan migrate --force --seed 2>&1
             fi
         else
-            echo "[entrypoint] Database already provisioned (or check errored) - skipping setup"
+            echo "[entrypoint] Database already provisioned - applying pending migrations only..."
+            if timeout 900 php artisan migrate --force 2>&1; then
+                echo "[entrypoint] Pending migrations applied"
+            else
+                echo "[entrypoint] Migration step failed - retrying once after 30s..."
+                sleep 30
+                php artisan migrate --force 2>&1 || true
+            fi
         fi
     ) &
 fi

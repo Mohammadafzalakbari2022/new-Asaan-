@@ -90,9 +90,14 @@ class ProductController extends Controller
                 $query->where('status', 'enabled');
             }])
             ->where('status', true)
-            ->having('products_count', '>', 0)
             ->orderBy('name')
             ->get()
+            ->filter(function ($brand) {
+                // Filtering here rather than with ->having(): there is no GROUP BY
+                // on this query, and PostgreSQL rejects a HAVING clause that refers
+                // to a select-list alias when the query is not a grouped one.
+                return $brand->products_count > 0;
+            })
             ->map(function ($brand) {
                 return [
                     'id' => $brand->id,
@@ -100,7 +105,8 @@ class ProductController extends Controller
                     'slug' => $brand->slug,
                     'products_count' => $brand->products_count,
                 ];
-            });
+            })
+            ->values();
         
         return Inertia::render($this->themeResolver->resolve('Products/Index'), [
             'products' => $products,
