@@ -10,7 +10,7 @@ MYSQL_ATTR_SSL_CA="${MYSQL_ATTR_SSL_CA-/etc/ssl/certs/ca-certificates.crt}"
 {
     echo "APP_NAME=\"${APP_NAME:-Akbari Development Group}\""
     echo "APP_ENV=production"
-    echo "APP_DEBUG=false"
+    echo "APP_DEBUG=${APP_DEBUG:-false}"
     echo "APP_URL=${APP_URL:-http://localhost}"
     echo "ASSET_URL=${ASSET_URL:-}"
     echo "APP_VERSION=${APP_VERSION:-1.0.14}"
