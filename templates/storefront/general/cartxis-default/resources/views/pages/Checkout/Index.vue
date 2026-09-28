@@ -76,9 +76,17 @@ interface CheckoutConfig {
   enable_order_notes: boolean;
 }
 
+interface ReferralCredit {
+  available: number;
+  max_usable: number;
+  can_use: boolean;
+  rules_url: string;
+}
+
 interface Props {
   cartItems: CartItem[];
   cartSummary: CartSummary;
+  referralCredit?: ReferralCredit;
   checkoutConfig: CheckoutConfig;
   userAddresses: Address[];
   paymentMethods: PaymentMethod[];
@@ -99,6 +107,20 @@ const selectedPaymentMethod = ref(props.paymentMethods.find(m => m.is_default)?.
 const billingSameAsShipping = ref(true);
 const termsAccepted = ref(false);
 const newsletterSignup = ref(false);
+
+// Opt-in, never on by default. Spending credit is the customer's choice, and
+// credit may be deliberately saved for a bigger basket later.
+const useReferralCredit = ref(false);
+
+// The server applies the credit and recalculates the total. This is only the
+// number shown while the customer is deciding.
+const creditToApply = computed(() =>
+  useReferralCredit.value ? (props.referralCredit?.max_usable ?? 0) : 0
+);
+
+const displayTotal = computed(() =>
+  Math.max(0, props.cartSummary.total - creditToApply.value)
+);
 
 // Field-specific errors
 const fieldErrors = ref<Record<string, string>>({});
@@ -396,6 +418,7 @@ const submitOrder = () => {
     terms_accepted: termsAccepted.value,
     newsletter_signup: newsletterSignup.value,
     order_notes: orderNotes.value,
+    use_referral_credit: useReferralCredit.value,
   };
 
   // Add account password if creating account
@@ -923,6 +946,37 @@ const submitOrder = () => {
               </div>
             </div>
 
+            <!-- Referral credit -->
+            <div
+              v-if="referralCredit?.can_use"
+              class="mb-4 rounded-lg border p-4 transition-colors"
+              :class="useReferralCredit
+                ? 'bg-green-50 border-green-200'
+                : 'bg-gray-50 border-gray-200 hover:border-green-300'"
+            >
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input
+                  v-model="useReferralCredit"
+                  type="checkbox"
+                  class="mt-0.5 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                />
+                <span class="flex-1">
+                  <span class="block text-sm font-semibold text-gray-900">Use my referral credit</span>
+                  <span class="block text-xs text-gray-600 mt-0.5">
+                    You have {{ formatPrice(referralCredit.available) }}. This order can use up to
+                    {{ formatPrice(referralCredit.max_usable) }}, so delivery is still paid in full.
+                  </span>
+                  <a
+                    v-if="referralCredit.rules_url"
+                    :href="referralCredit.rules_url"
+                    class="inline-block mt-1 text-xs text-blue-600 hover:underline"
+                  >
+                    How referral credit works
+                  </a>
+                </span>
+              </label>
+            </div>
+
             <div class="border-t pt-4 space-y-2">
               <div class="flex justify-between text-sm">
                 <span>Subtotal</span>
@@ -944,9 +998,14 @@ const submitOrder = () => {
                 <span>- {{ formatPrice(cartSummary.discount) }}</span>
               </div>
               
+              <div v-if="creditToApply > 0" class="flex justify-between text-sm text-green-600">
+                <span>Referral credit</span>
+                <span>- {{ formatPrice(creditToApply) }}</span>
+              </div>
+
               <div class="border-t pt-2 flex justify-between text-lg font-bold">
                 <span>Total</span>
-                <span>{{ formatPrice(cartSummary.total) }}</span>
+                <span>{{ formatPrice(displayTotal) }}</span>
               </div>
             </div>
 

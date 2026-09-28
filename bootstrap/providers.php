@@ -24,5 +24,6 @@ return [
     Cartxis\System\Providers\SystemServiceProvider::class,
     Cartxis\Reports\ReportsServiceProvider::class,
     Cartxis\Marketing\MarketingServiceProvider::class,
+    Cartxis\Referral\ReferralServiceProvider::class,
     Cartxis\API\Providers\APIServiceProvider::class,
 ];

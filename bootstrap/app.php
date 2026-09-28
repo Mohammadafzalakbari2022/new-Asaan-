@@ -35,6 +35,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->web(append: [
+            \Cartxis\Referral\Http\Middleware\CaptureReferralCode::class,
+            \Cartxis\Referral\Http\Middleware\ShareReferralData::class,
             FrontendMaintenanceMode::class,
             HandleAppearance::class,
             HandleInertiaRequests::class,

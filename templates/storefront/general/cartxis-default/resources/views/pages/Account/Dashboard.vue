@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Gift } from 'lucide-vue-next';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
 
 interface OrderItem {
@@ -18,6 +20,7 @@ interface Props {
 const props = defineProps<Props>();
 const page = usePage();
 const user = (page.props.auth as any)?.user;
+const referralEnabled = computed(() => page.props.referralEnabled === true);
 
 const getStatusColor = (status: string) => {
   const colors: Record<string, string> = {
@@ -41,15 +44,15 @@ const formatPrice = (price: number) => {
 
 <template>
   <ThemeLayout>
-    <Head title="My Account Dashboard" />
+    <Head :title="$t('My Account Dashboard')" />
 
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-7xl mx-auto">
         <!-- Welcome Header -->
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 class="text-3xl font-bold mb-2">Welcome back, {{ user?.name || 'Customer' }}!</h1>
-            <p class="text-gray-600">Manage your orders, profile, and account settings</p>
+            <h1 class="text-3xl font-bold mb-2">{{ $t('Welcome back, {name}!', { name: user?.name || $t('Customer') }) }}</h1>
+            <p class="text-gray-600">{{ $t('Manage your orders, profile, and account settings') }}</p>
           </div>
           <Link
             href="/logout"
@@ -57,7 +60,7 @@ const formatPrice = (price: number) => {
             as="button"
             class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
           >
-            Logout
+            {{ $t('Logout') }}
           </Link>
         </div>
 
@@ -67,7 +70,7 @@ const formatPrice = (price: number) => {
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">Total Orders</p>
+                <p class="text-sm text-gray-600 mb-1">{{ $t('Total Orders') }}</p>
                 <p class="text-2xl font-bold">{{ recentOrders.length }}</p>
               </div>
               <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -82,7 +85,7 @@ const formatPrice = (price: number) => {
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">Pending</p>
+                <p class="text-sm text-gray-600 mb-1">{{ $t('Pending') }}</p>
                 <p class="text-2xl font-bold">
                   {{ recentOrders.filter(o => o.status === 'pending' || o.status === 'processing').length }}
                 </p>
@@ -99,7 +102,7 @@ const formatPrice = (price: number) => {
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">Delivered</p>
+                <p class="text-sm text-gray-600 mb-1">{{ $t('Delivered') }}</p>
                 <p class="text-2xl font-bold">
                   {{ recentOrders.filter(o => o.status === 'delivered').length }}
                 </p>
@@ -116,8 +119,8 @@ const formatPrice = (price: number) => {
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">Account</p>
-                <p class="text-sm font-semibold text-green-600">Active</p>
+                <p class="text-sm text-gray-600 mb-1">{{ $t('Account') }}</p>
+                <p class="text-sm font-semibold text-green-600">{{ $t('Active') }}</p>
               </div>
               <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,12 +138,12 @@ const formatPrice = (price: number) => {
             <div class="bg-white rounded-lg shadow-sm border border-gray-200">
               <div class="p-6 border-b border-gray-200">
                 <div class="flex items-center justify-between">
-                  <h2 class="text-xl font-semibold">Recent Orders</h2>
+                  <h2 class="text-xl font-semibold">{{ $t('Recent Orders') }}</h2>
                   <Link
                     href="/account/orders"
                     class="text-sm text-blue-600 hover:text-blue-700 font-medium"
                   >
-                    View All
+                    {{ $t('View All') }}
                   </Link>
                 </div>
               </div>
@@ -153,28 +156,28 @@ const formatPrice = (price: number) => {
                 >
                   <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-3">
-                      <span class="font-semibold">Order #{{ order.order_number }}</span>
+                      <span class="font-semibold">{{ $t('Order #{number}', { number: order.order_number }) }}</span>
                       <span
                         :class="[
                           'px-2 py-1 rounded-full text-xs font-medium',
                           getStatusColor(order.status)
                         ]"
                       >
-                        {{ order.status.charAt(0).toUpperCase() + order.status.slice(1) }}
+                        {{ $t(order.status.charAt(0).toUpperCase() + order.status.slice(1)) }}
                       </span>
                     </div>
                     <span class="text-sm text-gray-600">{{ order.created_at }}</span>
                   </div>
                   <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-600">
-                      {{ order.items_count }} {{ order.items_count === 1 ? 'item' : 'items' }} • {{ formatPrice(order.total) }}
+                        {{ $t(order.items_count === 1 ? '{count} item' : '{count} items', { count: order.items_count }) }} • {{ formatPrice(order.total) }}
                     </div>
                     <div class="flex gap-2">
                       <Link
                         :href="`/account/orders/${order.id}`"
                         class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                       >
-                        View Details
+                        {{ $t('View Details') }}
                       </Link>
                     </div>
                   </div>
@@ -187,13 +190,13 @@ const formatPrice = (price: number) => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                 </div>
-                <h3 class="text-lg font-semibold mb-2">No orders yet</h3>
-                <p class="text-gray-600 mb-4">Start shopping to see your orders here</p>
+                <h3 class="text-lg font-semibold mb-2">{{ $t('No orders yet') }}</h3>
+                <p class="text-gray-600 mb-4">{{ $t('Start shopping to see your orders here') }}</p>
                 <Link
                   href="/"
                   class="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Start Shopping
+                  {{ $t('Start Shopping') }}
                 </Link>
               </div>
             </div>
@@ -203,7 +206,7 @@ const formatPrice = (price: number) => {
           <div class="space-y-6">
             <!-- Account Quick Actions -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+              <h3 class="text-lg font-semibold mb-4">{{ $t('Quick Actions') }}</h3>
               <div class="space-y-3">
                 <Link
                   href="/account/orders"
@@ -215,8 +218,8 @@ const formatPrice = (price: number) => {
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <div class="font-medium">My Orders</div>
-                    <div class="text-xs text-gray-600">Track & manage orders</div>
+                    <div class="font-medium">{{ $t('My Orders') }}</div>
+                    <div class="text-xs text-gray-600">{{ $t('Track & manage orders') }}</div>
                   </div>
                 </Link>
 
@@ -230,8 +233,8 @@ const formatPrice = (price: number) => {
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <div class="font-medium">Continue Shopping</div>
-                    <div class="text-xs text-gray-600">Browse products</div>
+                    <div class="font-medium">{{ $t('Continue Shopping') }}</div>
+                    <div class="text-xs text-gray-600">{{ $t('Browse Products') }}</div>
                   </div>
                 </Link>
               </div>
@@ -239,14 +242,14 @@ const formatPrice = (price: number) => {
 
             <!-- Account Info Card -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 class="text-lg font-semibold mb-4">Account Information</h3>
+              <h3 class="text-lg font-semibold mb-4">{{ $t('Account Information') }}</h3>
               <div class="space-y-3 text-sm">
                 <div>
-                  <p class="text-gray-600">Name</p>
+                  <p class="text-gray-600">{{ $t('Name') }}</p>
                   <p class="font-medium">{{ user?.name || 'N/A' }}</p>
                 </div>
                 <div>
-                  <p class="text-gray-600">Email</p>
+                  <p class="text-gray-600">{{ $t('Email') }}</p>
                   <p class="font-medium">{{ user?.email || 'N/A' }}</p>
                 </div>
                 <div class="pt-3 border-t border-gray-200">
@@ -254,23 +257,43 @@ const formatPrice = (price: number) => {
                     href="/account/profile"
                     class="text-blue-600 hover:text-blue-700 font-medium text-sm"
                   >
-                    Edit Profile →
+                    {{ $t('Edit Profile →') }}
                   </Link>
                 </div>
               </div>
             </div>
 
+            <!-- Referral Programme -->
+            <div
+              v-if="referralEnabled"
+              class="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+            >
+              <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">
+                <Gift class="w-5 h-5 text-green-600" />
+                {{ $t('Refer & Earn') }}
+              </h3>
+              <p class="text-sm text-gray-600 mb-4">
+                {{ $t('Invite a friend and earn store credit when they shop with us.') }}
+              </p>
+              <Link
+                href="/account/referrals"
+                class="inline-block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+              >
+                {{ $t('Get my referral link') }}
+              </Link>
+            </div>
+
             <!-- Help & Support -->
             <div class="bg-blue-50 rounded-lg border border-blue-200 p-6">
-              <h3 class="text-lg font-semibold mb-2 text-blue-900">Need Help?</h3>
+              <h3 class="text-lg font-semibold mb-2 text-blue-900">{{ $t('Need Help?') }}</h3>
               <p class="text-sm text-blue-800 mb-4">
-                Our support team is here to assist you with any questions.
+                {{ $t('Our support team is here to assist you with any questions.') }}
               </p>
               <a
                 href="/contact"
                 class="inline-block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
               >
-                Contact Support
+                {{ $t('Contact Support') }}
               </a>
             </div>
           </div>

@@ -11,6 +11,9 @@ use Cartxis\Core\Services\SettingService;
 use Cartxis\Cart\Models\Cart;
 use Cartxis\Shop\Models\Order;
 use Cartxis\Customer\Models\Customer;
+use Cartxis\Referral\Services\ReferralCreditService;
+use Cartxis\Referral\Support\Money;
+use Cartxis\Referral\Services\ReferralSettings;
 
 class ProfileController extends Controller
 {
@@ -143,6 +146,20 @@ class ProfileController extends Controller
         $user = auth()->user();
         $userId = $user->id;
 
+        // Checked before anything at all is destroyed. Referral credit belongs to
+        // this person, so deleting the account would quietly destroy money the
+        // shop owes them. Locked credit counts: it is still theirs, just not
+        // spendable yet.
+        $referralSettings = app(ReferralSettings::class);
+
+        if ($referralSettings->blocksAccountDeletion()) {
+            $balances = app(ReferralCreditService::class)->balancesFor($user);
+
+            if ($balances['available'] > 0 || $balances['locked'] > 0) {
+                return back()->with('error', $this->referralBalanceMessage($balances));
+            }
+        }
+
         // 1. Anonymize orders — keep for accounting/legal records but remove PII
         //    Note: customer_id is auto-nullified by FK nullOnDelete when customer is deleted
         Order::where('user_id', $userId)->update([
@@ -174,5 +191,32 @@ class ProfileController extends Controller
         $user->delete();
 
         return redirect('/')->with('success', 'Your account has been permanently deleted.');
+    }
+
+    /**
+     * Why the account cannot be deleted yet, in the customer's own money.
+     */
+    protected function referralBalanceMessage(array $balances): string
+    {
+        // Money::inSentence() reads the store's real currency and its real
+        // decimal places. It used to be config('currency.symbol', 'AFN'), which
+        // had no config file behind it, so this message claimed AFN on a shop
+        // priced in any other currency.
+        $available = Money::inSentence((float) $balances['available']);
+        $locked = Money::inSentence((float) $balances['locked']);
+
+        if ($balances['locked'] > 0 && $balances['available'] <= 0) {
+            return "You still have {$locked} of referral credit waiting to unlock. "
+                . 'Please use it or contact support before deleting your account.';
+        }
+
+        if ($balances['locked'] > 0) {
+            return "You still have {$available} of referral credit to spend and "
+                . "{$locked} still waiting to unlock. "
+                . 'Please use it or contact support before deleting your account.';
+        }
+
+        return "You still have {$available} of referral credit to spend. "
+            . 'Please use it or contact support before deleting your account.';
     }
 }

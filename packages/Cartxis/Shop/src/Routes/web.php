@@ -87,7 +87,30 @@ Route::group([
         Route::put('/profile', [Cartxis\Shop\Http\Controllers\Account\ProfileController::class, 'update'])->name('profile.update');
         Route::put('/password', [Cartxis\Shop\Http\Controllers\Account\ProfileController::class, 'updatePassword'])->name('password.update');
         Route::delete('/profile', [Cartxis\Shop\Http\Controllers\Account\ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        /*
+        |----------------------------------------------------------------------
+        | Referral Programme
+        |----------------------------------------------------------------------
+        |
+        | Required from inside this group so the referral page inherits the same
+        | prefix, auth middleware and theme layout as the rest of the account.
+        |
+        */
+        require base_path('packages/Cartxis/Referral/src/Routes/shop.php');
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Referral Invitation Landing (public)
+    |--------------------------------------------------------------------------
+    |
+    | Someone who has followed a shared link but has no account yet. It explains
+    | the offer before they are asked to sign up, and it works without a theme
+    | layout because it is a single page.
+    */
+    Route::get('/referral/{code?}', [Cartxis\Referral\Http\Controllers\ReferralDashboardController::class, 'landing'])
+        ->name('shop.referral.landing');
 
     /*
     |--------------------------------------------------------------------------

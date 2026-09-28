@@ -47,7 +47,8 @@ class CheckoutController extends Controller
         PaymentGatewayManager $gatewayManager,
         InvoiceService $invoiceService,
         TransactionService $transactionService,
-        LayoutService $layoutService
+        LayoutService $layoutService,
+        protected \Cartxis\Referral\Services\ReferralCheckoutService $referralCheckout,
     ) {
         $this->taxCalculator = $taxCalculator;
         $this->shippingCalculator = $shippingCalculator;
@@ -129,6 +130,15 @@ class CheckoutController extends Controller
         $couponData = Session::get('cart_coupon');
         $discountAmount = $couponData['discount_amount'] ?? 0;
         $grandTotal = $subtotal + $taxResult['total'] + $shippingCost - $discountAmount;
+
+        // Referral credit is shown as an option, never applied on its own. The
+        // customer has to tick it, otherwise an account with a balance would
+        // silently get a discount they never asked for.
+        $referralAvailable = $this->referralCheckout->availableFor(Auth::user());
+        $referralMaxUsable = $this->referralCheckout->applicableAmount(
+            Auth::user(),
+            max(0, (float) $subtotal + (float) $taxResult['total'] - (float) $discountAmount)
+        );
 
         // Get payment methods
         $paymentMethods = PaymentMethod::where('is_active', true)
@@ -216,6 +226,14 @@ class CheckoutController extends Controller
                     'cost' => round($shippingCost, 2),
                 ],
                 'total' => round(max(0, $grandTotal), 2),
+            ],
+            'referralCredit' => [
+                // Zero means the box is not shown at all, so signed-out shoppers
+                // and customers with no credit never see a dead control.
+                'available' => round($referralAvailable, 2),
+                'max_usable' => round($referralMaxUsable, 2),
+                'can_use' => $referralMaxUsable > 0,
+                'rules_url' => route('shop.account.referrals.index'),
             ],
             'checkoutConfig' => $checkoutConfig,
             'userAddresses' => $userAddresses,
@@ -332,6 +350,18 @@ class CheckoutController extends Controller
         }
 
         $order = $result['data']['order'];
+
+        // Referral credit is taken here, after the order row exists but before
+        // payment is attempted, so the same credit cannot be spent on two orders
+        // placed at once. It is also capped to the goods value, so delivery is
+        // never paid for with credit.
+        if ($request->boolean('use_referral_credit')) {
+            $this->referralCheckout->reserve(
+                Auth::user(),
+                (float) $this->referralCheckout->availableFor(Auth::user()),
+                $order
+            );
+        }
 
         // Handle payment via gateway manager
         $paymentMethod = $validated['payment_method'];

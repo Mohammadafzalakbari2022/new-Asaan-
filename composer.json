@@ -78,6 +78,7 @@
             "Cartxis\\System\\": "packages/Cartxis/System/src/",
             "Cartxis\\Reports\\": "packages/Cartxis/Reports/src/",
             "Cartxis\\Marketing\\": "packages/Cartxis/Marketing/src/",
+            "Cartxis\\Referral\\": "packages/Cartxis/Referral/src/",
             "Cartxis\\Service\\": "packages/Cartxis/Service/src/",
             "Cartxis\\API\\": "packages/Cartxis/API/",
             "Cartxis\\Setup\\": "packages/Cartxis/Setup/src/",

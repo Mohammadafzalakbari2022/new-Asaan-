@@ -39,6 +39,7 @@ class Order extends Model
         'tax',
         'shipping_cost',
         'discount',
+        'credit_applied',
         'total',
         'payment_method',
         'payment_data',
@@ -63,6 +64,7 @@ class Order extends Model
         'tax' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
         'discount' => 'decimal:2',
+        'credit_applied' => 'decimal:2',
         'total' => 'decimal:2',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -86,6 +88,18 @@ class Order extends Model
     const PAYMENT_PAID = 'paid';
     const PAYMENT_FAILED = 'failed';
     const PAYMENT_REFUNDED = 'refunded';
+
+    /**
+     * Money that actually reached the store, in cash.
+     *
+     * 'total' is already written net of both coupons and referral credit, so the
+     * referral threshold must count this and not subtract credit_applied again.
+     * The pre-credit value of the goods is total + credit_applied.
+     */
+    public function getQualifyingSpendAttribute(): float
+    {
+        return (float) $this->total;
+    }
 
     /**
      * Get all available order statuses.
