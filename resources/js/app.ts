@@ -8,6 +8,7 @@ import { createApp, h } from 'vue';
 import { createPinia } from 'pinia';
 import { initializeTheme } from './composables/useAppearance';
 import { resolveTemplatePage } from './lib/resolveTemplatePage';
+import { translate } from './lib/text';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 const pinia = createPinia();
@@ -46,10 +47,16 @@ createInertiaApp({
         )
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(pinia)
-            .mount(el);
+            .use(pinia);
+
+        // Make the text helper available in every template as $t(...). Without
+        // this, any template that calls $t throws while rendering, because there
+        // is no global property of that name for the template to resolve.
+        app.config.globalProperties.$t = translate;
+
+        app.mount(el);
     },
     progress: {
         color: '#4B5563',
