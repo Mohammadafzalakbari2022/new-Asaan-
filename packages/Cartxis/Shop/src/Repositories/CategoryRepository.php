@@ -41,7 +41,7 @@ class CategoryRepository extends ShopRepository implements CategoryRepositoryInt
     {
         return $this->model
             ->where('slug', $slug)
-            ->where('status', 1)
+            ->where('status', 'enabled')
             ->first();
     }
 
@@ -55,7 +55,7 @@ class CategoryRepository extends ShopRepository implements CategoryRepositoryInt
     {
         return $this->model
             ->with(['products' => function ($query) {
-                $query->where('status', 1);
+                $query->where('status', 'enabled');
             }])
             ->find($id);
     }
@@ -70,7 +70,7 @@ class CategoryRepository extends ShopRepository implements CategoryRepositoryInt
     {
         return $this->model
             ->where('parent_id', $parentId)
-            ->where('status', 1)
+            ->where('status', 'enabled')
             ->orderBy('sort_order')
             ->get();
     }
@@ -83,7 +83,7 @@ class CategoryRepository extends ShopRepository implements CategoryRepositoryInt
     public function getActiveCategories()
     {
         return $this->model
-            ->where('status', 1)
+            ->where('status', 'enabled')
             ->orderBy('sort_order')
             ->get();
     }

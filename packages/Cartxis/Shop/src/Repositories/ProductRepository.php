@@ -26,7 +26,7 @@ class ProductRepository extends ShopRepository implements ProductRepositoryInter
     public function getFeaturedProducts($limit = 12)
     {
         return $this->model
-            ->where('featured', 1)
+            ->where('featured', true)
             ->where('status', 'enabled')
             ->where('quantity', '>', 0)
             ->with(['images', 'mainImage', 'categories'])

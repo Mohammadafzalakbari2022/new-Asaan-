@@ -89,7 +89,7 @@ class ProductController extends Controller
         $brands = Brand::withCount(['products' => function($query) {
                 $query->where('status', 'enabled');
             }])
-            ->where('status', 1)
+            ->where('status', true)
             ->having('products_count', '>', 0)
             ->orderBy('name')
             ->get()
