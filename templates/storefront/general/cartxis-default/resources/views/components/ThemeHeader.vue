@@ -314,7 +314,7 @@ onUnmounted(() => {
                                 :href="getMenuUrl(item)" 
                                 class="text-gray-700 hover:text-gray-900 transition-colors"
                             >
-                                {{ item.title }}
+                                {{ $t(item.title) }}
                             </Link>
 
                             <!-- Menu Item with Dropdown -->
@@ -323,7 +323,7 @@ onUnmounted(() => {
                                 @click="toggleDropdown(item.id)"
                                 class="text-gray-700 hover:text-gray-900 transition-colors flex items-center space-x-1"
                             >
-                                <span>{{ item.title }}</span>
+                                <span>{{ $t(item.title) }}</span>
                                 <svg 
                                     class="w-4 h-4 transition-transform"
                                     :class="{ 'rotate-180': activeDropdown === item.id }"
@@ -361,7 +361,7 @@ onUnmounted(() => {
                                             :href="getMenuUrl(child)"
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                         >
-                                            {{ child.title }}
+                                            {{ $t(child.title) }}
                                         </Link>
                                     </template>
                                 </div>
@@ -729,10 +729,10 @@ onUnmounted(() => {
                                         class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium"
                                         @click="closeMobileMenu"
                                     >
-                                        {{ item.title }}
+                                        {{ $t(item.title) }}
                                     </Link>
                                     <div v-else class="py-1">
-                                        <p class="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{{ item.title }}</p>
+                                        <p class="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{{ $t(item.title) }}</p>
                                         <Link
                                             v-for="child in item.children"
                                             :key="child.id"
@@ -740,7 +740,7 @@ onUnmounted(() => {
                                             class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50"
                                             @click="closeMobileMenu"
                                         >
-                                            {{ child.title }}
+                                            {{ $t(child.title) }}
                                         </Link>
                                     </div>
                                 </template>

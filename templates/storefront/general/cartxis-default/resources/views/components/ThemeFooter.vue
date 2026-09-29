@@ -60,11 +60,11 @@ const footerSections = computed(() => {
 
                 <template v-if="!loading && footerSections.length > 0">
                     <div v-for="section in footerSections" :key="section.id">
-                        <h4 class="font-semibold text-white mb-4">{{ section.title }}</h4>
+                        <h4 class="font-semibold text-white mb-4">{{ $t(section.title) }}</h4>
                         <ul class="space-y-2 text-sm">
                             <li v-for="child in section.children" :key="child.id">
                                 <Link :href="getMenuUrl(child)" class="hover:text-white transition-colors">
-                                    {{ child.title }}
+                                    {{ $t(child.title) }}
                                 </Link>
                             </li>
                         </ul>
