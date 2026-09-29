@@ -31,7 +31,18 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->trustProxies(headers: Request::HEADER_X_FORWARDED_PROTO);
+        // We sit behind Render (and Cloudflare in front of that), so the browser only
+        // ever talks https. Without this, Laravel ignores the X-Forwarded-Proto header
+        // the proxy sends, believes the request arrived over plain http, and every
+        // route() it generates comes out as http:// -- which the browser then refuses
+        // to submit to from an https page ("Mixed Content ... has been blocked").
+        // Laravel only auto-trusts Forge and Vapor hosts, so .onrender.com has to be
+        // trusted explicitly. Set TRUSTED_PROXIES='*' to trust any proxy, or list
+        // proxy IPs to narrow it down.
+        $middleware->trustProxies(
+            at: env('TRUSTED_PROXIES', '*'),
+            headers: Request::HEADER_X_FORWARDED_PROTO,
+        );
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->web(append: [
