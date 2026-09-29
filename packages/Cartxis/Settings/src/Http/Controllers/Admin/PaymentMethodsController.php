@@ -4,6 +4,7 @@ namespace Cartxis\Settings\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 use Cartxis\Core\Models\PaymentMethod;
@@ -53,7 +54,33 @@ class PaymentMethodsController extends Controller
 
         return Inertia::render("Admin/Settings/PaymentMethods/Configure{$this->getComponentName($method->code)}", [
             'method' => $method,
+            'gatewayMeta' => $this->getGatewayMeta($method->code),
         ]);
+    }
+
+    /**
+     * Extra setup information a specific gateway's screen needs.
+     *
+     * HesabPay needs the owner to copy its webhook URL into the HesabPay
+     * dashboard, so the page shows the exact URL. Guarded on the route
+     * existing, because the extension may be switched off.
+     */
+    private function getGatewayMeta(string $code): ?array
+    {
+        if ($code !== 'hesabpay') {
+            return null;
+        }
+
+        if (!Route::has('hesabpay.webhook')) {
+            return null;
+        }
+
+        return [
+            'webhookUrl' => route('hesabpay.webhook'),
+            'sandboxUrl' => 'https://developers-sandbox.hesab.com/',
+            'productionUrl' => 'https://developers.hesab.com/',
+            'docsUrl' => 'https://docs.hesab.com/',
+        ];
     }
 
     /**
@@ -119,6 +146,7 @@ class PaymentMethodsController extends Controller
             'bank_transfer' => 'BankTransfer',
             'stripe' => 'Stripe',
             'razorpay' => 'Razorpay',
+            'hesabpay' => 'HesabPay',
             'paypal' => 'PayPal',
             'payumoney' => 'PayUMoney',
             'phonepe' => 'PhonePe',

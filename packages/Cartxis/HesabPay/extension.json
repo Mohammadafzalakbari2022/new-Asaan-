@@ -1,0 +1,11 @@
+{
+  "code": "cartxis-hesabpay",
+  "name": "HesabPay Payment Gateway",
+  "description": "Accept HesabPay wallet, AFN, AfPay and international card payments",
+  "version": "1.0.0",
+  "author": "Cartxis Team",
+  "type": "extension",
+  "category": "payment-gateway",
+  "provider": "Cartxis\\HesabPay\\Providers\\HesabPayServiceProvider",
+  "require": {}
+}

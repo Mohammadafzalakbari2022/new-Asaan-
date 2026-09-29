@@ -1,0 +1,14 @@
+{
+  "name": "cartxis/hesabpay",
+  "description": "HesabPay payment gateway integration for Cartxis",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Cartxis\\HesabPay\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.3"
+  }
+}

@@ -740,6 +740,41 @@ class CheckoutController extends Controller
             }
         }
 
+        // HesabPay: hosted checkout. The app opens the returned URL in a system
+        // browser. Like the web storefront, the return trip proves nothing, so
+        // the order stays pending until the signed webhook confirms it.
+        if ($order->payment_method === 'hesabpay') {
+            try {
+                $gateway = app(PaymentGatewayManager::class)->get('hesabpay');
+                if (!$gateway) {
+                    throw new \Exception('HesabPay gateway not registered. Please contact support.');
+                }
+                if (!$gateway->isConfigured()) {
+                    throw new \Exception('HesabPay is not configured. Please add your API key in the admin panel under Settings -> Payment Methods -> HesabPay.');
+                }
+
+                $hesabpayResult = $gateway->processPayment($order);
+
+                if ($hesabpayResult instanceof \Illuminate\Http\RedirectResponse) {
+                    $responseData['checkout_url'] = $hesabpayResult->getTargetUrl();
+                    $responseData['payment_flow'] = 'redirect';
+                } else {
+                    throw new \Exception($hesabpayResult['message'] ?? 'Failed to start the HesabPay payment');
+                }
+            } catch (\Exception $e) {
+                \Log::error('HesabPay processPayment failed in placeOrder', [
+                    'order_id' => $order->id,
+                    'error'    => $e->getMessage(),
+                ]);
+                return ApiResponse::error(
+                    'HesabPay payment could not be started: ' . $e->getMessage(),
+                    ['order_id' => $order->id, 'order_number' => $order->order_number],
+                    502,
+                    'HESABPAY_INIT_FAILED'
+                );
+            }
+        }
+
         return ApiResponse::success($responseData, 'Order placed successfully', 201);
     }
 

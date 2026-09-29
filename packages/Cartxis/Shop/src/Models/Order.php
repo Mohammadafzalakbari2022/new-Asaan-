@@ -60,6 +60,9 @@ class Order extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        // Gateways stash their session and transaction identifiers here, so this
+        // has to decode to an array rather than a raw JSON string.
+        'payment_data' => 'array',
         'subtotal' => 'decimal:2',
         'tax' => 'decimal:2',
         'shipping_cost' => 'decimal:2',

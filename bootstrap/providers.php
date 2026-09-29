@@ -13,6 +13,7 @@ return [
     Cartxis\Settings\Providers\SettingsServiceProvider::class,
     Cartxis\Stripe\Providers\StripeServiceProvider::class,
     Cartxis\Razorpay\Providers\RazorpayServiceProvider::class,
+    Cartxis\HesabPay\Providers\HesabPayServiceProvider::class,
     Cartxis\PhonePe\Providers\PhonePeServiceProvider::class,
     Cartxis\Sales\Providers\SalesServiceProvider::class,
     Cartxis\Customer\Providers\CustomerServiceProvider::class,

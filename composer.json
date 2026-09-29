@@ -68,6 +68,7 @@
             "Cartxis\\Settings\\Database\\Seeders\\": "packages/Cartxis/Settings/src/Database/Seeders/",
             "Cartxis\\Stripe\\": "packages/Cartxis/Stripe/src/",
             "Cartxis\\Razorpay\\": "packages/Cartxis/Razorpay/src/",
+            "Cartxis\\HesabPay\\": "packages/Cartxis/HesabPay/src/",
             "Cartxis\\PayPal\\": "packages/Cartxis/PayPal/src/",
             "Cartxis\\PayUMoney\\": "packages/Cartxis/PayUMoney/src/",
             "Cartxis\\PhonePe\\": "packages/Cartxis/PhonePe/src/",
