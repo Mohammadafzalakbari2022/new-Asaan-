@@ -28,8 +28,16 @@ class HandleAppearance
                 $theme = \Cartxis\Core\Models\Theme::active();
                 $config = $theme?->getConfig() ?? [];
 
-                // Native-homepage themes ship light-only CSS; system/admin dark mode breaks them.
-                if (! empty($config['native_homepage'])) {
+                // The storefront themes shipped in this build are light-only:
+                // every surface is a hard-coded bg-white / bg-slate-50 with
+                // gray-700 text, and none use dark: variants. If the visitor's
+                // system is in dark mode (or the admin appearance cookie says
+                // "dark"), the app's dark palette turns body text white, which
+                // is invisible on those light surfaces — the whole storefront
+                // ends up white-on-white. Only a theme that explicitly opts in
+                // via "dark_mode": true in its theme.json and ships its own
+                // dark styles keeps the user's light/dark preference.
+                if (empty($config['dark_mode'])) {
                     $appearance = 'light';
                     $forceLightStorefront = true;
                 }

@@ -55,3 +55,23 @@ it('renders Pashto strings through the translator', function () {
 
     app()->setLocale('en');
 });
+
+it('restores the visitor\'s saved language cookie on the next request', function () {
+    // The language switcher POSTs to /locale/{locale}; the controller stores
+    // the pick in a cookie and redirects back.
+    $post = $this->post('/locale/ps');
+    $post->assertStatus(302);
+
+    $cookie = collect($post->headers->getCookies())
+        ->first(fn ($c) => $c->getName() === 'locale');
+    expect($cookie)->not->toBeNull();
+
+    // Wipe the in-process locale so only the SetLocaleFromCookie middleware can
+    // bring the next request back to Pashto instead of the fa default.
+    app()->setLocale('fa');
+
+    $html = $this->withCookie('locale', 'ps')->get('/');
+    $html->assertOk();
+
+    expect($html->getContent())->toContain('<html lang="ps"');
+});

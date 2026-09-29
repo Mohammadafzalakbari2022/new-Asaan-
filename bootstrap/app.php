@@ -1,8 +1,9 @@
-<?php
+﻿<?php
 
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\FrontendMaintenanceMode;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\SetLocaleFromCookie;
 use Cartxis\Admin\Http\Middleware\PreventAdminFrontendAccess;
 use Cartxis\Admin\Http\Middleware\PreventUserAdminAccess;
 use Cartxis\Sales\Http\Middleware\EnsureDeliveryRole;
@@ -46,6 +47,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->web(append: [
+            SetLocaleFromCookie::class,
             \Cartxis\Referral\Http\Middleware\CaptureReferralCode::class,
             \Cartxis\Referral\Http\Middleware\ShareReferralData::class,
             FrontendMaintenanceMode::class,

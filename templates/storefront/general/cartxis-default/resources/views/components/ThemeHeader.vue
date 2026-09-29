@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useCurrency } from '@/composables/useCurrency';
 import { useThemeSettings } from '@/composables/useThemeSettings';
 import { useI18nStore } from '@/Stores/i18n';
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 
 const i18n = useI18nStore();
 const t = i18n.t;
@@ -549,7 +550,8 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Language Switcher -->
-                    
+                    <LanguageSwitcher />
+
 
                     <!-- Cart Icon (Reusable) -->
                     <CartIcon />
@@ -764,6 +766,9 @@ onUnmounted(() => {
                         </nav>
 
                         <div class="p-4 border-t border-slate-200 space-y-2">
+                            <div class="flex justify-start">
+                                <LanguageSwitcher />
+                            </div>
                             <template v-if="!user">
                                 <Link
                                     href="/login"
