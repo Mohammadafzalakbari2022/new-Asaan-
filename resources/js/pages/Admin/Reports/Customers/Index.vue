@@ -274,7 +274,7 @@ const getSegmentColor = (segment: string) => {
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                                {{ $t('                                {{ $t('End Date') }}') }}
+                                {{ $t('End Date') }}
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
