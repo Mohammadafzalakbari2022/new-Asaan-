@@ -241,7 +241,7 @@ const activateTemplate = () => {
                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
               >
                 <Power class="w-4 h-4" />
-                {{ activating ? $t('Activating…') : $t('Activate Theme') }}
+                {{ activating ? $t('Activating…') : $t('Activate theme') }}
               </button>
               <Link
                 v-if="template.is_active"

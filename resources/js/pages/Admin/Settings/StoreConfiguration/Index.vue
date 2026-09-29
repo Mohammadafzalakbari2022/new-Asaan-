@@ -194,7 +194,7 @@ watch(() => form.store_email, (newEmail) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           <!-- Tabs Navigation -->
           <div class="border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800">
-            <nav class="flex space-x-8 px-6 overflow-x-auto" aria-label="Tabs">
+            <nav class="flex space-x-8 px-6 overflow-x-auto" :aria-label="$t('Tabs')">
               <button
                 type="button"
                 @click="activeTab = 'details'"
@@ -369,7 +369,7 @@ watch(() => form.store_email, (newEmail) => {
                   v-model="form.store_description"
                   rows="4"
                   class="block w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-200"
-                  placeholder="{{ $t('Brief description of your business for SEO purposes...') }}"
+                  :placeholder="$t('Brief description of your business for SEO purposes...')"
                 ></textarea>
                 <p v-if="form.errors.store_description" class="mt-1 text-sm text-red-600">{{ form.errors.store_description }}</p>
               </div>
@@ -946,7 +946,7 @@ watch(() => form.store_email, (newEmail) => {
                     </label>
                     <TiptapEditor
                       v-model="form.policy_privacy"
-                      placeholder="{{ $t('Enter your privacy policy content...') }}"
+                      :placeholder="$t('Enter your privacy policy content...')"
                     />
                     <p v-if="form.errors.policy_privacy" class="mt-1 text-sm text-red-600">{{ form.errors.policy_privacy }}</p>
                   </div>
@@ -957,7 +957,7 @@ watch(() => form.store_email, (newEmail) => {
                     </label>
                     <TiptapEditor
                       v-model="form.policy_terms"
-                      placeholder="{{ $t('Enter your terms and conditions...') }}"
+                      :placeholder="$t('Enter your terms and conditions...')"
                     />
                     <p v-if="form.errors.policy_terms" class="mt-1 text-sm text-red-600">{{ form.errors.policy_terms }}</p>
                   </div>
@@ -968,7 +968,7 @@ watch(() => form.store_email, (newEmail) => {
                     </label>
                     <TiptapEditor
                       v-model="form.policy_return"
-                      placeholder="{{ $t('Enter your return and refund policy...') }}"
+                      :placeholder="$t('Enter your return and refund policy...')"
                     />
                     <p v-if="form.errors.policy_return" class="mt-1 text-sm text-red-600">{{ form.errors.policy_return }}</p>
                   </div>
@@ -979,7 +979,7 @@ watch(() => form.store_email, (newEmail) => {
                     </label>
                     <TiptapEditor
                       v-model="form.policy_shipping"
-                      placeholder="{{ $t('Enter your shipping terms and conditions...') }}"
+                      :placeholder="$t('Enter your shipping terms and conditions...')"
                     />
                     <p v-if="form.errors.policy_shipping" class="mt-1 text-sm text-red-600">{{ form.errors.policy_shipping }}</p>
                   </div>

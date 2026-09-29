@@ -56,30 +56,30 @@ const save = () => {
 </script>
 
 <template>
-  <AdminLayout title="Payment Methods - Stripe">
-    <Head title="Configure Stripe" />
+  <AdminLayout :title="$t('Payment Methods - Stripe')">
+    <Head :title="$t('Configure Stripe')" />
 
     <div class="p-6">
       <!-- Page Header -->
       <div class="mb-6">
         <div class="flex items-center gap-3 mb-2">
-          <a href="/admin/settings/payment-methods" class="text-blue-600 hover:text-blue-700 font-medium">← Payment Methods</a>
+          <a href="/admin/settings/payment-methods" class="text-blue-600 hover:text-blue-700 font-medium">{{ $t('← Payment Methods') }}</a>
         </div>
-        <h1 class="text-2xl font-bold text-gray-900">Stripe Configuration</h1>
-        <p class="mt-1 text-sm text-gray-500">Configure Stripe payment gateway settings</p>
+        <h1 class="text-2xl font-bold text-gray-900">{{ $t('Stripe Configuration') }}</h1>
+        <p class="mt-1 text-sm text-gray-500">{{ $t('Configure Stripe payment gateway settings') }}</p>
       </div>
 
       <!-- Configuration Form -->
       <form @submit.prevent="save" class="bg-white rounded-lg shadow-sm border border-gray-200">
         <!-- Basic Information Section -->
         <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Basic Information</h2>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Basic Information') }}</h2>
 
           <div class="space-y-4">
             <!-- Name -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">
-                Method Name <span class="text-red-500">*</span>
+                {{ $t('Method Name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.name"
@@ -92,23 +92,23 @@ const save = () => {
 
             <!-- Description -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Description') }}</label>
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Describe this payment method..."
+                :placeholder="$t('Describe this payment method...')"
               ></textarea>
             </div>
 
             <!-- Instructions -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Customer Instructions</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Customer Instructions') }}</label>
               <textarea
                 v-model="form.instructions"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Instructions shown to customers at checkout..."
+                :placeholder="$t('Instructions shown to customers at checkout...')"
               ></textarea>
             </div>
           </div>
@@ -116,11 +116,11 @@ const save = () => {
 
         <!-- Stripe API Keys Section -->
         <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Stripe API Keys</h2>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Stripe API Keys') }}</h2>
 
           <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900">
-              <strong>Get your keys:</strong> Log in to your Stripe Dashboard → Settings → API Keys
+              <strong>{{ $t('Get your keys:') }}</strong> {{ $t('Log in to your') }} Stripe Dashboard {{ $t('→ Settings → API Keys') }}
             </p>
           </div>
 
@@ -128,7 +128,7 @@ const save = () => {
             <!-- Public Key -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">
-                Publishable Key <span class="text-red-500">*</span>
+                {{ $t('Publishable Key') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.configuration.public_key"
@@ -137,14 +137,14 @@ const save = () => {
                 placeholder="pk_live_..."
               />
               <p v-if="errors['configuration.public_key']" class="mt-1 text-sm text-red-600">{{ errors['configuration.public_key'] }}</p>
-              <p class="mt-1 text-xs text-gray-500">Starts with <code class="bg-gray-100 px-1 rounded">pk_</code></p>
+              <p class="mt-1 text-xs text-gray-500">{{ $t('Starts with') }} <code class="bg-gray-100 px-1 rounded">pk_</code></p>
             </div>
           </div>
         </div>
 
         <!-- Payment Features Section -->
         <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Payment Features</h2>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Payment Features') }}</h2>
 
           <div class="space-y-4">
             <!-- Enable 3D Secure -->
@@ -156,8 +156,8 @@ const save = () => {
                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label for="enable_3d_secure" class="ml-3 flex flex-col">
-                <span class="block text-sm font-medium text-gray-700">Enable 3D Secure</span>
-                <span class="text-xs text-gray-500">Adds an extra layer of security to card payments</span>
+                <span class="block text-sm font-medium text-gray-700">{{ $t('Enable 3D Secure') }}</span>
+                <span class="text-xs text-gray-500">{{ $t('Adds an extra layer of security to card payments') }}</span>
               </label>
             </div>
 
@@ -170,8 +170,8 @@ const save = () => {
                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label for="save_payment_method" class="ml-3 flex flex-col">
-                <span class="block text-sm font-medium text-gray-700">Save Payment Methods</span>
-                <span class="text-xs text-gray-500">Allow customers to save payment methods for future purchases</span>
+                <span class="block text-sm font-medium text-gray-700">{{ $t('Save Payment Methods') }}</span>
+                <span class="text-xs text-gray-500">{{ $t('Allow customers to save payment methods for future purchases') }}</span>
               </label>
             </div>
           </div>
@@ -179,7 +179,7 @@ const save = () => {
 
         <!-- Supported Payment Methods Section -->
         <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Supported Payment Methods</h2>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Supported Payment Methods') }}</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Card -->
@@ -190,7 +190,7 @@ const save = () => {
                 id="card"
                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
-              <label for="card" class="ml-3 block text-sm font-medium text-gray-700">Credit/Debit Card</label>
+              <label for="card" class="ml-3 block text-sm font-medium text-gray-700">{{ $t('Credit/Debit Card') }}</label>
             </div>
 
             <!-- Apple Pay -->
@@ -297,14 +297,14 @@ const save = () => {
         <!-- Submit Button -->
         <div class="p-6 bg-gray-50 border-t border-gray-200 flex justify-between">
           <a href="/admin/settings/payment-methods" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50">
-            Cancel
+            {{ $t('Cancel') }}
           </a>
           <button
             type="submit"
             :disabled="form.processing"
             class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition"
           >
-            {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+            {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
           </button>
         </div>
       </form>

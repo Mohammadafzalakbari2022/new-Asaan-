@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 import { 
     Calendar, 
     Filter, 
@@ -104,6 +105,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const { t } = useI18nStore();
+
 // Filters
 const startDate = ref(props.filters.start_date);
 const endDate = ref(props.filters.end_date);
@@ -142,7 +145,8 @@ const barChartOptions = {
         },
         tooltip: {
             callbacks: {
-                label: (context: any) => `Sold: ${context.parsed.y} units`
+                label: (context: any) =>
+                    t('Sold: {count} units', { count: context.parsed.y }),
             }
         }
     },
@@ -174,7 +178,10 @@ const doughnutChartOptions = {
                     const { formatPrice } = useCurrency();
                     const label = context.label || '';
                     const value = context.parsed || 0;
-                    return `${label}: ${formatPrice(value)}`;
+                    return t('{label}: {value}', {
+                        label,
+                        value: formatPrice(value),
+                    });
                 }
             }
         }
@@ -219,26 +226,26 @@ const formatNumber = (num: number): string => {
 </script>
 
 <template>
-    <Head title="Product Reports" />
-    <AdminLayout title="Product Reports">
+    <Head :title="$t('Product Reports')" />
+    <AdminLayout :title="$t('Product Reports')">
         <div class="space-y-6">
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Product Reports</h1>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $t('Product Reports') }}</h1>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        Track product performance, inventory, and sales trends
+                        {{ $t('Track product performance, inventory, and sales trends') }}
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
                     <button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm">
                         <Download :size="16" />
-                        Export Report
+                        {{ $t('Export Report') }}
                     </button>
                     <button 
                         @click="router.reload()"
                         class="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
-                        title="Refresh"
+                        :title="$t('Refresh')"
                     >
                         <RefreshCw :size="18" />
                     </button>
@@ -250,7 +257,7 @@ const formatNumber = (num: number): string => {
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- Start Date -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Start Date</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Start Date') }}</label>
                         <div class="relative">
                             <Calendar :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                             <input
@@ -263,7 +270,7 @@ const formatNumber = (num: number): string => {
 
                     <!-- End Date -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">End Date</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('End Date') }}</label>
                         <div class="relative">
                             <Calendar :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                             <input
@@ -276,7 +283,7 @@ const formatNumber = (num: number): string => {
 
                     <!-- Low Stock Threshold -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Low Stock Limit</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Low Stock Limit') }}</label>
                         <div class="relative">
                             <AlertTriangle :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                             <input
@@ -294,14 +301,14 @@ const formatNumber = (num: number): string => {
                             @click="applyFilters"
                             class="flex-1 px-4 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/20 transition-all shadow-sm shadow-blue-600/20"
                         >
-                            Apply Filters
+                            {{ $t('Apply Filters') }}
                         </button>
                         <button
                             v-if="startDate || endDate || categoryFilter"
                             @click="clearFilters"
                             class="px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                         >
-                            Clear
+                            {{ $t('Clear') }}
                         </button>
                     </div>
                 </div>
@@ -313,11 +320,11 @@ const formatNumber = (num: number): string => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Quantity Sold</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Quantity Sold') }}</p>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                             {{ formatNumber(statistics.total_quantity_sold) }}
                         </h3>
-                        <p class="text-xs text-gray-400 mt-2.5">Units sold in period</p>
+                        <p class="text-xs text-gray-400 mt-2.5">{{ $t('Units sold in period') }}</p>
                     </div>
                     <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                         <Box :size="22" class="text-blue-600 dark:text-blue-400" />
@@ -329,11 +336,11 @@ const formatNumber = (num: number): string => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Total Revenue</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Total Revenue') }}</p>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                             {{ formatCurrency(statistics.total_revenue) }}
                         </h3>
-                        <p class="text-xs text-gray-400 mt-2.5">Revenue generated</p>
+                        <p class="text-xs text-gray-400 mt-2.5">{{ $t('Revenue generated') }}</p>
                     </div>
                     <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
                         <DollarSign :size="22" class="text-green-600 dark:text-green-400" />
@@ -345,11 +352,11 @@ const formatNumber = (num: number): string => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Low Stock</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Low Stock') }}</p>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                             {{ statistics.low_stock_count }}
                         </h3>
-                        <p class="text-xs text-gray-400 mt-2.5">Products running low</p>
+                        <p class="text-xs text-gray-400 mt-2.5">{{ $t('Products running low') }}</p>
                     </div>
                     <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl">
                         <AlertTriangle :size="22" class="text-yellow-600 dark:text-yellow-400" />
@@ -361,11 +368,11 @@ const formatNumber = (num: number): string => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Out of Stock</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Out of Stock') }}</p>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                             {{ statistics.out_of_stock_count }}
                         </h3>
-                        <p class="text-xs text-gray-400 mt-2.5">Products unavailable</p>
+                        <p class="text-xs text-gray-400 mt-2.5">{{ $t('Products unavailable') }}</p>
                     </div>
                     <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-xl">
                         <BarChart2 :size="22" class="text-red-600 dark:text-red-400" />
@@ -378,7 +385,7 @@ const formatNumber = (num: number): string => {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <!-- Best Sellers Chart -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">Top 10 Best Sellers</h2>
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Top 10 Best Sellers') }}</h2>
                 <div class="relative w-full h-80">
                     <Bar :data="bestSellersChart" :options="barChartOptions" />
                 </div>
@@ -386,7 +393,7 @@ const formatNumber = (num: number): string => {
 
             <!-- Category Performance -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">Revenue by Category</h2>
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Revenue by Category') }}</h2>
                 <div class="relative w-full h-80 flex justify-center">
                     <Doughnut :data="categoryChart" :options="doughnutChartOptions" />
                 </div>
@@ -395,7 +402,7 @@ const formatNumber = (num: number): string => {
 
         <!-- Sales Trend Chart -->
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 mb-6">
-            <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">Sales Trend</h2>
+            <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Sales Trend') }}</h2>
             <div class="relative w-full h-80">
                 <Line :data="salesTrendChart" :options="lineChartOptions" />
             </div>
@@ -406,20 +413,20 @@ const formatNumber = (num: number): string => {
             <!-- Low Stock Products -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
                 <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-700/20">
-                    <h2 class="text-base font-semibold text-gray-900 dark:text-white">Low Stock Products</h2>
+                    <h2 class="text-base font-semibold text-gray-900 dark:text-white">{{ $t('Low Stock Products') }}</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-800">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Product
+                                    {{ $t('Product') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    SKU
+                                    {{ $t('SKU') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Quantity
+                                    {{ $t('Quantity') }}
                                 </th>
                             </tr>
                         </thead>
@@ -439,7 +446,7 @@ const formatNumber = (num: number): string => {
                             </tr>
                             <tr v-if="lowStock.length === 0">
                                 <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                                    No low stock products
+                                    {{ $t('No low stock products') }}
                                 </td>
                             </tr>
                         </tbody>
@@ -450,20 +457,20 @@ const formatNumber = (num: number): string => {
             <!-- Slow Moving Products -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
                 <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-700/20">
-                    <h2 class="text-base font-semibold text-gray-900 dark:text-white">Slow Moving Products</h2>
+                    <h2 class="text-base font-semibold text-gray-900 dark:text-white">{{ $t('Slow Moving Products') }}</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-800">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Product
+                                    {{ $t('Product') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    SKU
+                                    {{ $t('SKU') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Sold
+                                    {{ $t('Sold') }}
                                 </th>
                             </tr>
                         </thead>
@@ -476,12 +483,16 @@ const formatNumber = (num: number): string => {
                                     {{ product.sku }}
                                 </td>
                                 <td class="px-6 py-3.5 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                    {{ product.sold_quantity || 0 }} units
+                                    {{
+                                        $t('{count} units', {
+                                            count: product.sold_quantity || 0,
+                                        })
+                                    }}
                                 </td>
                             </tr>
                             <tr v-if="slowMoving.length === 0">
                                 <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                                    No slow moving products
+                                    {{ $t('No slow moving products') }}
                                 </td>
                             </tr>
                         </tbody>

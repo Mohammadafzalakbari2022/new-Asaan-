@@ -166,7 +166,7 @@ const save = () => {
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>{{ $t('Get your keys:') }}</strong> Log in to your <a href="https://dashboard.razorpay.com/app/keys" target="_blank" class="underline">Razorpay Dashboard</a> {{ $t('→ Settings → API Keys') }}
+              <strong>{{ $t('Get your keys:') }}</strong> {{ $t('Log in to your') }} <a href="https://dashboard.razorpay.com/app/keys" target="_blank" class="underline">Razorpay Dashboard</a> {{ $t('→ Settings → API Keys') }}
             </p>
           </div>
 
@@ -236,10 +236,10 @@ const save = () => {
                 v-model="form.configuration.currency"
                 :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent', errors['configuration.currency'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
               >
-                <option value="INR">Indian Rupee (INR)</option>
-                <option value="USD">US Dollar (USD)</option>
-                <option value="EUR">Euro (EUR)</option>
-                <option value="GBP">British Pound (GBP)</option>
+                <option value="INR">{{ $t('Indian Rupee (INR)') }}</option>
+                <option value="USD">{{ $t('US Dollar (USD)') }}</option>
+                <option value="EUR">{{ $t('Euro (EUR)') }}</option>
+                <option value="GBP">{{ $t('British Pound (GBP)') }}</option>
               </select>
               <p v-if="errors['configuration.currency']" class="mt-1 text-sm text-red-600">{{ errors['configuration.currency'] }}</p>
               <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Razorpay primarily supports INR for domestic Indian payments') }}</p>

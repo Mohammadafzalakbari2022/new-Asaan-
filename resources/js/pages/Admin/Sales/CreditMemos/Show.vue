@@ -160,10 +160,10 @@ const viewInvoice = () => {
           <div v-if="activeTab === 'overview'" class="space-y-6">
             <!-- Credit Memo Information -->
             <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">Credit Memo Information</h3>
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Credit Memo Information') }}</h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <div class="text-sm text-gray-600">Credit Memo Number</div>
+                  <div class="text-sm text-gray-600">{{ $t('Credit Memo Number') }}</div>
                   <div class="mt-1 font-medium text-gray-900">{{ creditMemo.credit_memo_number }}</div>
                 </div>
                 <div>

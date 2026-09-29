@@ -1,13 +1,13 @@
 <template>
-  <Head title="Edit Shipping Method" />
+  <Head :title="$t('Edit Shipping Method')" />
 
-  <AdminLayout title="Edit Shipping Method">
+  <AdminLayout :title="$t('Edit Shipping Method')">
     <div class="space-y-6">
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
-            Edit Shipping Method
+            {{ $t('Edit Shipping Method') }}
           </h2>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
             <Truck class="w-4 h-4" />
@@ -19,7 +19,7 @@
           class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors shadow-sm"
         >
           <ChevronLeft class="w-4 h-4 mr-2" />
-          Back to List
+          {{ $t('Back to List') }}
         </Link>
       </div>
 
@@ -30,7 +30,7 @@
             <form @submit.prevent="submit" class="space-y-6">
               <!-- Name -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Method Name</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Method Name') }}</label>
                 <input
                   v-model="form.name"
                   type="text"
@@ -41,7 +41,7 @@
 
               <!-- Slug -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Slug</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Slug') }}</label>
                 <input
                   v-model="form.slug"
                   type="text"
@@ -52,25 +52,25 @@
 
               <!-- Type (Read-only) -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Shipping Type</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Shipping Type') }}</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <component :is="form.type === 'flat-rate' ? Package : Scale" class="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    :value="form.type === 'flat-rate' ? 'Flat Rate' : 'Calculated'"
+                    :value="form.type === 'flat-rate' ? $t('Flat Rate') : $t('Calculated')"
                     type="text"
                     disabled
                     class="block w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-sm text-gray-500 dark:text-gray-400 shadow-sm cursor-not-allowed"
                   />
                 </div>
-                <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Type cannot be changed after creation</p>
+                <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">{{ $t('Type cannot be changed after creation') }}</p>
               </div>
 
               <!-- Cost Fields -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Base Cost ($)</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Base Cost ($)') }}</label>
                   <input
                     v-model="form.base_cost"
                     type="number"
@@ -82,7 +82,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Cost per Kg ($)</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Cost per Kg ($)') }}</label>
                   <input
                     v-model="form.cost_per_kg"
                     type="number"
@@ -96,7 +96,7 @@
 
               <!-- Description -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Description') }}</label>
                 <textarea
                   v-model="form.description"
                   rows="4"
@@ -113,7 +113,7 @@
                     type="checkbox"
                     class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
                   />
-                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Set as default shipping method</span>
+                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Set as default shipping method') }}</span>
                 </label>
               </div>
 
@@ -123,7 +123,7 @@
                   href="/admin/settings/shipping-methods"
                   class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium text-sm transition-colors"
                 >
-                  Cancel
+                  {{ $t('Cancel') }}
                 </Link>
                 <button
                   type="submit"
@@ -131,7 +131,7 @@
                   class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Save class="w-4 h-4 mr-2" />
-                  {{ loading ? 'Saving...' : 'Save Changes' }}
+                  {{ loading ? $t('Saving...') : $t('Save Changes') }}
                 </button>
               </div>
             </form>
@@ -144,11 +144,11 @@
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
               <Activity class="w-5 h-5 text-gray-400" />
-              Status
+              {{ $t('Status') }}
             </h3>
             <div class="space-y-4">
               <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-700">
-                <span class="text-sm text-gray-600 dark:text-gray-400">Current Status</span>
+                <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Current Status') }}</span>
                 <span :class="[
                   'px-2.5 py-0.5 rounded-full text-xs font-medium capitalize',
                   method.status === 'active' 
@@ -164,26 +164,26 @@
                 class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium text-sm transition-colors disabled:opacity-50"
               >
                 <Power class="w-4 h-4 mr-2" />
-                {{ method.status === 'active' ? 'Deactivate Method' : 'Activate Method' }}
+                {{ method.status === 'active' ? $t('Deactivate Method') : $t('Activate Method') }}
               </button>
             </div>
           </div>
 
           <!-- Info Card -->
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Details</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Details') }}</h3>
             <div class="space-y-3 text-sm">
               <div class="flex justify-between items-center">
-                <span class="text-gray-600 dark:text-gray-400">Created</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Created') }}</span>
                 <div class="text-gray-900 dark:text-white font-medium flex items-center gap-1.5">
                   <Calendar class="w-3.5 h-3.5 text-gray-400" />
                   {{ formatDate(method.created_at) }}
                 </div>
               </div>
               <div v-if="method.rates && method.rates.length" class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700">
-                <span class="text-gray-600 dark:text-gray-400">Rates</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Rates') }}</span>
                 <div class="text-gray-900 dark:text-white font-medium">
-                  {{ method.rates.length }} configured
+                  {{ $t('{count} configured', { count: method.rates.length }) }}
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@
 
           <!-- Rates Preview -->
           <div v-if="method.type === 'calculated' && method.rates && method.rates.length" class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Shipping Rates</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Shipping Rates') }}</h3>
             <div class="space-y-2 text-sm max-h-48 overflow-y-auto">
               <div v-for="rate in method.rates" :key="rate.id" class="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-gray-700 last:border-0 last:pb-0">
                 <div class="flex-1">

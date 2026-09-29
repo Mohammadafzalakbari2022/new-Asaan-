@@ -180,7 +180,7 @@ const submit = () => {
                       id="name"
                       v-model="form.name"
                       type="text"
-                      placeholder="20% Off All Orders"
+                      :placeholder="$t('20% Off All Orders')"
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors.name }"
                     />

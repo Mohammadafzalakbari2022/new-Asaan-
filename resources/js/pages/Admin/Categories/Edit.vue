@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { router } from '@inertiajs/vue3';
 import * as categoryRoutes from '@/routes/admin/catalog/categories';
+import { useI18nStore } from '@/Stores/i18n';
 
 interface Category {
   id: number;
@@ -37,6 +38,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const page = usePage();
+const { t } = useI18nStore();
 const activeTab = ref<'general' | 'seo'>('general');
 const showDeleteModal = ref(false);
 
@@ -102,7 +104,7 @@ const submit = () => {
       images.value = [];
       
       // Manually trigger toast by updating page props
-      page.props.flash = { success: 'Category updated successfully.' };
+      page.props.flash = { success: t('Category updated successfully.') };
       
       // Then reload to get updated category data with new image
       router.reload({

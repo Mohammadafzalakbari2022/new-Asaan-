@@ -62,7 +62,7 @@ const lifetimeAwards = computed(() =>
             <ArrowLeft class="w-3.5 h-3.5 mr-1" />
             {{ $t('Back to overview') }}
           </Link>
-          <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Top earners') }}</h1>
+          <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Top Earners') }}</h1>
           <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ $t('Everyone who has earned referral credit, best first.') }}
           </p>

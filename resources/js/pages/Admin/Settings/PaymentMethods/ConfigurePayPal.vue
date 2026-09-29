@@ -172,7 +172,7 @@ const save = () => {
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>{{ $t('Get your credentials:') }}</strong> Log in to your
+              <strong>{{ $t('Get your credentials:') }}</strong> {{ $t('Log in to your') }}
               <a href="https://developer.paypal.com/dashboard/applications" target="_blank" class="underline">PayPal Developer Dashboard</a>
               {{ $t('→ Apps & Credentials') }}
             </p>

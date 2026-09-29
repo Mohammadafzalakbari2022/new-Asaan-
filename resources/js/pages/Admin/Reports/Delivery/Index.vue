@@ -30,6 +30,7 @@ import {
 } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { Bar } from 'vue-chartjs';
+import { useI18nStore } from '@/Stores/i18n';
 
 ChartJS.register(
     CategoryScale,
@@ -125,6 +126,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const { formatPrice } = useCurrency();
+const { t } = useI18nStore();
 
 const startDate = ref(props.filters.start_date);
 const endDate = ref(props.filters.end_date);
@@ -150,13 +152,13 @@ const chartData = computed(() => ({
     labels: props.chart.map((d) => d.date.slice(5)),
     datasets: [
         {
-            label: 'Created',
+            label: t('Created'),
             data: props.chart.map((d) => d.created),
             backgroundColor: 'rgba(59, 130, 246, 0.7)',
             borderRadius: 4,
         },
         {
-            label: 'Delivered',
+            label: t('Delivered'),
             data: props.chart.map((d) => d.delivered),
             backgroundColor: 'rgba(22, 163, 74, 0.7)',
             borderRadius: 4,
@@ -353,7 +355,9 @@ const rate = (value: number | null) =>
                                 v-model="statusFilter"
                                 class="w-full appearance-none rounded-lg border border-gray-200 bg-gray-50 py-2.5 pr-8 pl-10 text-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700/50"
                             >
-                                <option value="">All Statuses</option>
+                                <option value="">
+                                    {{ $t('All Statuses') }}
+                                </option>
                                 <option
                                     v-for="status in statuses"
                                     :key="status.value"
@@ -374,14 +378,14 @@ const rate = (value: number | null) =>
                             @click="applyFilters"
                             class="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white shadow-sm shadow-blue-600/20 transition-all hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/20"
                         >
-                            Apply Filters
+                            {{ $t('Apply Filters') }}
                         </button>
                         <button
                             v-if="hasFilters"
                             @click="clearFilters"
                             class="rounded-lg px-4 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200"
                         >
-                            Clear
+                            {{ $t('Clear') }}
                         </button>
                     </div>
                 </div>
@@ -397,7 +401,7 @@ const rate = (value: number | null) =>
                             <p
                                 class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                             >
-                                Total Deliveries
+                                {{ $t('Total Deliveries') }}
                             </p>
                             <h3
                                 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -405,7 +409,11 @@ const rate = (value: number | null) =>
                                 {{ statistics.total }}
                             </h3>
                             <p class="mt-2.5 text-xs text-gray-400">
-                                {{ unresolved }} still on the road
+                                {{
+                                    $t('{count} still on the road', {
+                                        count: unresolved,
+                                    })
+                                }}
                             </p>
                         </div>
                         <div
@@ -427,7 +435,7 @@ const rate = (value: number | null) =>
                             <p
                                 class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                             >
-                                Delivered
+                                {{ $t('Delivered') }}
                             </p>
                             <h3
                                 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -439,7 +447,13 @@ const rate = (value: number | null) =>
                                     class="flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
                                 >
                                     <TrendingUp :size="12" />
-                                    {{ rate(statistics.delivery_rate) }} rate
+                                    {{
+                                        $t('{rate} rate', {
+                                            rate: rate(
+                                                statistics.delivery_rate,
+                                            ),
+                                        })
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -462,19 +476,22 @@ const rate = (value: number | null) =>
                             <p
                                 class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                             >
-                                Undelivered
+                                {{ $t('Undelivered') }}
                             </p>
                             <h3
                                 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
                             >
                                 {{ statistics.undelivered }}
                                 <span class="text-sm font-medium text-gray-400"
-                                    >+
-                                    {{ statistics.cancelled }} cancelled</span
+                                    >{{
+                                        $t('+{count} cancelled', {
+                                            count: statistics.cancelled,
+                                        })
+                                    }}</span
                                 >
                             </h3>
                             <p class="mt-2.5 text-xs text-gray-400">
-                                Could not reach the customer
+                                {{ $t('Could not reach the customer') }}
                             </p>
                         </div>
                         <div
@@ -496,7 +513,7 @@ const rate = (value: number | null) =>
                             <p
                                 class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                             >
-                                COD Handling
+                                {{ $t('COD Handling') }}
                             </p>
                             <h3
                                 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -504,9 +521,13 @@ const rate = (value: number | null) =>
                                 {{ formatPrice(statistics.cod_collected) }}
                             </h3>
                             <p class="mt-2.5 text-xs text-gray-400">
-                                of
-                                {{ formatPrice(statistics.cod_expected) }}
-                                expected
+                                {{
+                                    $t('of {amount} expected', {
+                                        amount: formatPrice(
+                                            statistics.cod_expected,
+                                        ),
+                                    })
+                                }}
                             </p>
                         </div>
                         <div
@@ -528,7 +549,7 @@ const rate = (value: number | null) =>
                 <h2
                     class="mb-6 text-base font-semibold text-gray-900 dark:text-white"
                 >
-                    Deliveries Over Time
+                    {{ $t('Deliveries Over Time') }}
                 </h2>
                 <div class="relative h-72 w-full">
                     <Bar :data="chartData" :options="chartOptions" />
@@ -545,7 +566,7 @@ const rate = (value: number | null) =>
                     <h2
                         class="text-base font-semibold text-gray-900 dark:text-white"
                     >
-                        Per-Driver Performance
+                        {{ $t('Per-Driver Performance') }}
                     </h2>
                 </div>
                 <div class="overflow-x-auto">
@@ -557,37 +578,37 @@ const rate = (value: number | null) =>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Driver
+                                    {{ $t('Driver') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Total
+                                    {{ $t('Total') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Delivered
+                                    {{ $t('Delivered') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Undelivered
+                                    {{ $t('Undelivered') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Cancelled
+                                    {{ $t('Cancelled') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    On Road
+                                    {{ $t('On Road') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-right text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Delivery Rate
+                                    {{ $t('Delivery Rate') }}
                                 </th>
                             </tr>
                         </thead>
@@ -603,7 +624,9 @@ const rate = (value: number | null) =>
                                     <div
                                         class="text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        {{ row.driver?.name ?? 'Unassigned' }}
+                                        {{
+                                            row.driver?.name ?? $t('Unassigned')
+                                        }}
                                     </div>
                                     <div
                                         v-if="row.driver?.phone"
@@ -668,7 +691,7 @@ const rate = (value: number | null) =>
                     <h2
                         class="text-base font-semibold text-gray-900 dark:text-white"
                     >
-                        Deliveries
+                        {{ $t('Deliveries') }}
                     </h2>
                 </div>
                 <div class="overflow-x-auto">
@@ -680,37 +703,37 @@ const rate = (value: number | null) =>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Shipment
+                                    {{ $t('Shipment') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Order
+                                    {{ $t('Order') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Driver
+                                    {{ $t('Driver') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Recipient
+                                    {{ $t('Recipient') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-right text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    COD
+                                    {{ $t('COD') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Scheduled
+                                    {{ $t('Scheduled') }}
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                 >
-                                    Status
+                                    {{ $t('Status') }}
                                 </th>
                             </tr>
                         </thead>
@@ -735,7 +758,9 @@ const rate = (value: number | null) =>
                                 <td
                                     class="px-6 py-3.5 text-sm whitespace-nowrap text-gray-700 dark:text-gray-300"
                                 >
-                                    {{ item.driver?.name ?? 'Unassigned' }}
+                                    {{
+                                        item.driver?.name ?? $t('Unassigned')
+                                    }}
                                 </td>
                                 <td class="px-6 py-3.5 whitespace-nowrap">
                                     <div
@@ -762,7 +787,7 @@ const rate = (value: number | null) =>
                                         v-if="item.status === 'delivered'"
                                         class="text-xs text-green-600 dark:text-green-400"
                                     >
-                                        collected
+                                        {{ $t('collected') }}
                                         {{
                                             formatPrice(item.cod_received ?? 0)
                                         }}
@@ -795,7 +820,9 @@ const rate = (value: number | null) =>
                                     colspan="7"
                                     class="px-6 py-14 text-center text-sm text-gray-400"
                                 >
-                                    No deliveries match these filters.
+                                    {{
+                                        $t('No deliveries match these filters.')
+                                    }}
                                 </td>
                             </tr>
                         </tbody>

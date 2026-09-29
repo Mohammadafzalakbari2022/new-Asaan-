@@ -134,9 +134,9 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
 </script>
 
 <template>
-  <Head title="Deliveries" />
+  <Head :title="$t('Deliveries')" />
 
-  <AdminLayout title="Deliveries">
+  <AdminLayout :title="$t('Deliveries')">
     <div class="space-y-6">
       <div class="rounded-xl border border-gray-200 bg-white p-5">
         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -146,7 +146,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
               <input
                 v-model="search"
                 type="text"
-                placeholder="Search order / phone..."
+                :placeholder="$t('Search order / phone...')"
                 class="h-9 w-64 rounded-lg border border-gray-300 pl-9 pr-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 @input="performSearch"
               />
@@ -157,7 +157,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
               class="h-9 rounded-lg border border-gray-300 px-3 text-sm focus:border-blue-500 focus:outline-none"
               @change="applyFilters"
             >
-              <option value="">All statuses</option>
+              <option value="">{{ $t('All statuses') }}</option>
               <option v-for="s in props.statuses" :key="s.value" :value="s.value">{{ s.label }}</option>
             </select>
 
@@ -166,7 +166,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
               class="h-9 rounded-lg border border-gray-300 px-3 text-sm focus:border-blue-500 focus:outline-none"
               @change="applyFilters"
             >
-              <option value="">All drivers</option>
+              <option value="">{{ $t('All drivers') }}</option>
               <option v-for="d in props.drivers" :key="d.id" :value="d.id">{{ d.name }}</option>
             </select>
           </div>
@@ -177,7 +177,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
             @click="showAssign = true"
           >
             <Plus class="h-4 w-4" />
-            Assign Delivery
+            {{ $t('Assign Delivery') }}
           </button>
         </div>
       </div>
@@ -187,14 +187,14 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Delivery</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Order</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Driver</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Status</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Priority</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Scheduled</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">COD</th>
-                <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">Actions</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Delivery') }}</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Order') }}</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Driver') }}</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Status') }}</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Priority') }}</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Scheduled') }}</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('COD') }}</th>
+                <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Actions') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -227,14 +227,14 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
                   <td class="px-4 py-3 text-sm text-gray-600">{{ d.cod_amount != null ? `$${d.cod_amount}` : '—' }}</td>
                   <td class="px-4 py-3 text-right">
                     <div class="flex items-center justify-end gap-1">
-                      <Link :href="`/admin/sales/deliveries/${d.id}`" class="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 hover:text-blue-600" title="View">
+                      <Link :href="`/admin/sales/deliveries/${d.id}`" class="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 hover:text-blue-600" :title="$t('View')">
                         <Eye class="h-4 w-4" />
                       </Link>
                       <button
                         v-if="!isTerminal(d.status)"
                         type="button"
                         class="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 hover:text-blue-600"
-                        title="Reassign"
+                        :title="$t('Reassign')"
                         :disabled="!props.drivers.length"
                         @click="openReassign(d)"
                       >
@@ -244,7 +244,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
                         v-if="!isTerminal(d.status)"
                         type="button"
                         class="rounded-lg p-1.5 text-gray-500 hover:bg-red-50 hover:text-red-600"
-                        title="Cancel"
+                        :title="$t('Cancel')"
                         @click="confirmCancel(d)"
                       >
                         <Trash2 class="h-4 w-4" />
@@ -256,7 +256,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
               <tr v-else>
                 <td colspan="8" class="px-4 py-16 text-center">
                   <MapPin class="mx-auto mb-3 h-10 w-10 text-gray-300" />
-                  <p class="text-sm text-gray-500">No deliveries yet. Assign a shipment to a driver to get started.</p>
+                  <p class="text-sm text-gray-500">{{ $t('No deliveries yet. Assign a shipment to a driver to get started.') }}</p>
                 </td>
               </tr>
             </tbody>
@@ -265,7 +265,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
 
         <div v-if="props.deliveries.last_page > 1" class="flex items-center justify-between border-t border-gray-200 px-4 py-3">
           <p class="text-sm text-gray-500">
-            Page {{ props.deliveries.current_page }} of {{ props.deliveries.last_page }} ({{ props.deliveries.total }} total)
+            {{ $t('Page {page} of {last} ({total} total)', { page: props.deliveries.current_page, last: props.deliveries.last_page, total: props.deliveries.total }) }}
           </p>
           <div class="flex gap-2">
             <button
@@ -274,7 +274,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
               class="rounded-lg border border-gray-300 px-3 py-1.5 text-sm disabled:opacity-40"
               @click="router.get('/admin/sales/deliveries', { page: props.deliveries.current_page - 1, ...props.filters })"
             >
-              Previous
+              {{ $t('Previous') }}
             </button>
             <button
               type="button"
@@ -282,7 +282,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
               class="rounded-lg border border-gray-300 px-3 py-1.5 text-sm disabled:opacity-40"
               @click="router.get('/admin/sales/deliveries', { page: props.deliveries.current_page + 1, ...props.filters })"
             >
-              Next
+              {{ $t('Next') }}
             </button>
           </div>
         </div>
@@ -293,7 +293,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
     <div v-if="showAssign" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" @click.self="showAssign = false">
       <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
         <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-gray-900">Assign Delivery</h3>
+          <h3 class="text-lg font-semibold text-gray-900">{{ $t('Assign Delivery') }}</h3>
           <button type="button" class="rounded-lg p-1 hover:bg-gray-100" @click="showAssign = false">
             <X class="h-5 w-5 text-gray-500" />
           </button>
@@ -301,12 +301,12 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
 
         <form class="space-y-4" @submit.prevent="submitAssign">
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">Shipment</label>
+            <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('Shipment') }}</label>
             <select
               v-model="assignForm.shipment_id"
               class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
-              <option value="" disabled>Select a shipment</option>
+              <option value="" disabled>{{ $t('Select a shipment') }}</option>
               <option v-for="s in props.availableShipments" :key="s.id" :value="s.id">
                 {{ s.shipment_number }} — {{ s.order_number || s.customer || '' }}
               </option>
@@ -315,12 +315,12 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
           </div>
 
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">Delivery Person</label>
+            <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('Delivery Person') }}</label>
             <select
               v-model="assignForm.assigned_to"
               class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
-              <option value="" disabled>Select a driver</option>
+              <option value="" disabled>{{ $t('Select a driver') }}</option>
               <option v-for="d in props.drivers" :key="d.id" :value="d.id">{{ d.name }}</option>
             </select>
             <p v-if="assignForm.errors.assigned_to" class="mt-1 text-xs text-red-600">{{ assignForm.errors.assigned_to }}</p>
@@ -328,7 +328,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="mb-1 block text-sm font-medium text-gray-700">Scheduled Date</label>
+              <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('Scheduled Date') }}</label>
               <input
                 v-model="assignForm.scheduled_date"
                 type="date"
@@ -336,31 +336,31 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
               />
             </div>
             <div>
-              <label class="mb-1 block text-sm font-medium text-gray-700">Priority</label>
+              <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('Priority') }}</label>
               <select
                 v-model="assignForm.priority"
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
-                <option value="normal">Normal</option>
-                <option value="high">High</option>
+                <option value="normal">{{ $t('Normal') }}</option>
+                <option value="high">{{ $t('High') }}</option>
               </select>
             </div>
           </div>
 
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">COD Amount (USD)</label>
+            <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('COD Amount (USD)') }}</label>
             <input
               v-model="assignForm.cod_amount"
               type="number"
               min="0"
               step="0.01"
-              placeholder="Cash on delivery amount, if any"
+              :placeholder="$t('Cash on delivery amount, if any')"
               class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">Notes</label>
+            <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('Notes') }}</label>
             <textarea
               v-model="assignForm.notes"
               rows="2"
@@ -369,13 +369,13 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
           </div>
 
           <div class="flex justify-end gap-2 pt-2">
-            <button type="button" class="rounded-lg border border-gray-300 px-4 py-2 text-sm" @click="showAssign = false">Cancel</button>
+            <button type="button" class="rounded-lg border border-gray-300 px-4 py-2 text-sm" @click="showAssign = false">{{ $t('Cancel') }}</button>
             <button
               type="submit"
               :disabled="assignForm.processing"
               class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60"
             >
-              {{ assignForm.processing ? 'Assigning...' : 'Assign' }}
+              {{ $t(assignForm.processing ? 'Assigning...' : 'Assign') }}
             </button>
           </div>
         </form>
@@ -386,31 +386,31 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
     <div v-if="reassignTarget" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" @click.self="reassignTarget = null">
       <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
         <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-gray-900">Reassign delivery</h3>
+          <h3 class="text-lg font-semibold text-gray-900">{{ $t('Reassign delivery') }}</h3>
           <button type="button" class="rounded-lg p-1 hover:bg-gray-100" @click="reassignTarget = null">
             <X class="h-5 w-5 text-gray-500" />
           </button>
         </div>
         <form class="space-y-4" @submit.prevent="submitReassign">
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">New Delivery Person</label>
+            <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('New Delivery Person') }}</label>
             <select
               v-model="reassignForm.assigned_to"
               class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
-              <option value="" disabled>Select a driver</option>
+              <option value="" disabled>{{ $t('Select a driver') }}</option>
               <option v-for="d in props.drivers" :key="d.id" :value="d.id">{{ d.name }}</option>
             </select>
             <p v-if="reassignForm.errors.assigned_to" class="mt-1 text-xs text-red-600">{{ reassignForm.errors.assigned_to }}</p>
           </div>
           <div class="flex justify-end gap-2 pt-2">
-            <button type="button" class="rounded-lg border border-gray-300 px-4 py-2 text-sm" @click="reassignTarget = null">Cancel</button>
+            <button type="button" class="rounded-lg border border-gray-300 px-4 py-2 text-sm" @click="reassignTarget = null">{{ $t('Cancel') }}</button>
             <button
               type="submit"
               :disabled="reassignForm.processing"
               class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60"
             >
-              Reassign
+              {{ $t('Reassign') }}
             </button>
           </div>
         </form>

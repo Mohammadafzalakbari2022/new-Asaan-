@@ -487,7 +487,7 @@ const save = () => {
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Site Logo') }}</label>
                         <div v-if="existingSiteLogo && siteLogoFiles.length === 0 && !removeSiteLogo" class="mb-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600 flex items-center gap-2">
-                            <img :src="`/storage/${existingSiteLogo}`" alt="Site logo" class="h-12 object-contain" />
+                            <img :src="`/storage/${existingSiteLogo}`" :alt="$t('Site logo')" class="h-12 object-contain" />
                             <button type="button" @click="removeSiteLogo = true" class="ml-1 p-1 text-gray-400 hover:text-red-500 rounded transition-colors" :title="$t('Remove logo')"><X class="w-4 h-4" /></button>
                         </div>
                         <div v-else-if="removeSiteLogo && siteLogoFiles.length === 0" class="mb-3 px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
@@ -505,7 +505,7 @@ const save = () => {
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Admin Logo') }}</label>
                         <div v-if="existingAdminLogo && adminLogoFiles.length === 0 && !removeAdminLogo" class="mb-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600 flex items-center gap-2">
-                            <img :src="`/storage/${existingAdminLogo}`" alt="Admin logo" class="h-12 object-contain" />
+                            <img :src="`/storage/${existingAdminLogo}`" :alt="$t('Admin logo')" class="h-12 object-contain" />
                             <button type="button" @click="removeAdminLogo = true" class="ml-1 p-1 text-gray-400 hover:text-red-500 rounded transition-colors" :title="$t('Remove logo')"><X class="w-4 h-4" /></button>
                         </div>
                         <div v-else-if="removeAdminLogo && adminLogoFiles.length === 0" class="mb-3 px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
@@ -523,7 +523,7 @@ const save = () => {
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Site Favicon') }}</label>
                         <div v-if="existingSiteFavicon && siteFaviconFiles.length === 0 && !removeSiteFavicon" class="mb-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600 flex items-center gap-2">
-                            <img :src="`/storage/${existingSiteFavicon}`" alt="Site favicon" class="h-8 w-8 object-contain" />
+                            <img :src="`/storage/${existingSiteFavicon}`" :alt="$t('Site favicon')" class="h-8 w-8 object-contain" />
                             <button type="button" @click="removeSiteFavicon = true" class="ml-1 p-1 text-gray-400 hover:text-red-500 rounded transition-colors" :title="$t('Remove favicon')"><X class="w-4 h-4" /></button>
                         </div>
                         <div v-else-if="removeSiteFavicon && siteFaviconFiles.length === 0" class="mb-3 px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
@@ -551,7 +551,7 @@ const save = () => {
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Auth Screen Logo') }}</label>
                         <div v-if="existingMobileAuthLogo && mobileAuthLogoFiles.length === 0 && !removeMobileAuthLogo" class="mb-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600 flex items-center gap-2">
-                            <img :src="`/storage/${existingMobileAuthLogo}`" alt="Mobile auth logo" class="h-12 object-contain" />
+                            <img :src="`/storage/${existingMobileAuthLogo}`" :alt="$t('Mobile auth logo')" class="h-12 object-contain" />
                             <button type="button" @click="removeMobileAuthLogo = true" class="ml-1 p-1 text-gray-400 hover:text-red-500 rounded transition-colors" :title="$t('Remove logo')"><X class="w-4 h-4" /></button>
                         </div>
                         <div v-else-if="removeMobileAuthLogo && mobileAuthLogoFiles.length === 0" class="mb-3 px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 flex items-center gap-2 text-sm text-red-600 dark:text-red-400">

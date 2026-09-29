@@ -332,7 +332,7 @@ const toggleActive = (item: MenuItem) => {
                                     <td class="px-6 py-4">
                                         <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                                             <div class="flex items-center gap-2">
-                                                <span class="text-gray-300 dark:text-gray-600 sm:inline hidden">SUB</span>
+                                                <span class="text-gray-300 dark:text-gray-600 sm:inline hidden">{{ $t('SUB') }}</span>
                                                 <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ child.title }}</span>
                                             </div>
                                             <!-- Mobile-only URL view -->

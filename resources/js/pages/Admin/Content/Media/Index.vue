@@ -421,7 +421,7 @@ const copyUrlToClipboard = async (url: string) => {
                             <button
                                 @click="showNewFolderModal = true"
                                 class="p-1.5 hover:bg-white dark:hover:bg-gray-600 rounded-lg transition-colors border border-transparent hover:border-gray-200 shadow-sm"
-                                :title="$t('Create folder')"
+                                :title="$t('Create Folder')"
                             >
                                 <FolderPlus :size="16" class="text-gray-600 dark:text-gray-400" />
                             </button>

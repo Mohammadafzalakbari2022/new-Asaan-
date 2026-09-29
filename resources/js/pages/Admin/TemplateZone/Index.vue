@@ -351,7 +351,7 @@ const downloadTemplate = (slug: string) => {
               v-model="searchQuery"
               @keyup.enter="applyFilters"
               type="search"
-              placeholder="{{ $t('Search themes...') }}"
+              :placeholder="$t('Search themes...')"
               class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm"
             />
           </div>

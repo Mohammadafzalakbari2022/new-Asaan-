@@ -12,6 +12,7 @@ import {
     Truck,
 } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useI18nStore } from '@/Stores/i18n';
 
 interface StatusBadge {
     label: string;
@@ -45,6 +46,8 @@ interface BoardDelivery {
 const props = defineProps<{
     activeDeliveries: BoardDelivery[];
 }>();
+
+const { t } = useI18nStore();
 
 const mapEl = ref<HTMLElement | null>(null);
 const map = ref<Leaflet.Map | null>(null);
@@ -93,23 +96,23 @@ function escapeHtml(value: unknown): string {
 }
 
 function popupHtml(item: BoardDelivery): string {
-    const driver = item.driver?.name ?? 'Unassigned';
+    const driver = item.driver?.name ?? t('Unassigned');
     const liveFlag = item.driver_location?.live
-        ? '<span style="color:#16a34a;font-weight:600">Live</span>'
-        : '<span style="color:#6b7280">Offline</span>';
+        ? `<span style="color:#16a34a;font-weight:600">${t('Live')}</span>`
+        : `<span style="color:#6b7280">${t('Offline')}</span>`;
     const reason = item.destination?.label
         ? escapeHtml(item.destination.label)
-        : 'No map pin — call the customer';
+        : t('No map pin — call the customer');
 
     return `
     <div style="min-width:180px">
-      <div style="font-weight:700;margin-bottom:2px">${escapeHtml(item.shipment_number ?? 'Shipment')}</div>
+      <div style="font-weight:700;margin-bottom:2px">${escapeHtml(item.shipment_number ?? t('Shipment'))}</div>
       <div style="font-size:12px;color:#6b7280;margin-bottom:6px">${escapeHtml(item.order_number ?? '')}</div>
       <div style="font-size:13px;margin-bottom:4px"><b>${escapeHtml(driver)}</b> &middot; ${liveFlag}</div>
       <div style="font-size:12px;color:#374151;margin-bottom:6px">${escapeHtml(reason)}</div>
       <div style="font-size:12px">
-        <span style="color:#111827">${escapeHtml(item.customer_phone ?? 'No phone')}</span>
-        &middot; COD ${item.cod_amount != null ? '$' + item.cod_amount : '—'}
+        <span style="color:#111827">${escapeHtml(item.customer_phone ?? t('No phone'))}</span>
+        &middot; ${t('COD')} ${item.cod_amount != null ? '$' + item.cod_amount : '—'}
       </div>
     </div>`;
 }
@@ -261,13 +264,15 @@ function tick(): void {
         Math.floor((Date.now() - updatedAt.value.getTime()) / 1000),
     );
     lastUpdateText.value =
-        elapsed < 60 ? `${elapsed}s ago` : `${Math.floor(elapsed / 60)}m ago`;
+        elapsed < 60
+            ? t('{seconds}s ago', { seconds: elapsed })
+            : t('{minutes}m ago', { minutes: Math.floor(elapsed / 60) });
 }
 
 onMounted(() => {
     initMap();
     updatedAt.value = new Date();
-    lastUpdateText.value = 'just now';
+    lastUpdateText.value = t('just now');
 
     pollTimer = window.setInterval(() => {
         poll();
@@ -282,39 +287,38 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <Head title="Delivery Board" />
+    <Head :title="$t('Delivery Board')" />
 
-    <AdminLayout title="Delivery Board">
+    <AdminLayout :title="$t('Delivery Board')">
         <div class="flex flex-col gap-4">
             <div
                 class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-background p-4"
             >
                 <div>
                     <h2 class="text-sm font-semibold text-foreground">
-                        Live deliveries
+                        {{ $t('Live deliveries') }}
                     </h2>
                     <p class="mt-0.5 text-xs text-muted-foreground">
-                        {{ props.activeDeliveries.length }} on the road ·
-                        {{ liveCount }} sharing live location
+                        {{ $t('{count} on the road · {live} sharing live location', { count: props.activeDeliveries.length, live: liveCount }) }}
                     </p>
                 </div>
                 <div
                     class="flex items-center gap-2 text-xs text-muted-foreground"
                 >
-                    <span>Updated {{ lastUpdateText }}</span>
+                    <span>{{ $t('Updated {time}', { time: lastUpdateText }) }}</span>
                     <button
                         type="button"
                         class="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-semibold text-foreground transition-colors hover:bg-muted"
                         @click="poll"
                     >
-                        <RefreshCw class="h-3.5 w-3.5" /> Refresh
+                        <RefreshCw class="h-3.5 w-3.5" /> {{ $t('Refresh') }}
                     </button>
                     <button
                         type="button"
                         class="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-semibold text-foreground transition-colors hover:bg-muted"
                         @click="fitBounds"
                     >
-                        <Crosshair class="h-3.5 w-3.5" /> Zoom to all
+                        <Crosshair class="h-3.5 w-3.5" /> {{ $t('Zoom to all') }}
                     </button>
                 </div>
             </div>
@@ -373,10 +377,7 @@ onBeforeUnmount(() => {
                                         <span
                                             class="mt-0.5 block truncate text-xs text-muted-foreground"
                                         >
-                                            {{
-                                                item.driver?.name ??
-                                                'Unassigned'
-                                            }}
+                                            {{ $t(item.driver?.name ?? 'Unassigned') }}
                                         </span>
                                         <span
                                             class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground"
@@ -385,11 +386,7 @@ onBeforeUnmount(() => {
                                                 class="inline-flex items-center gap-1"
                                             >
                                                 <Navigation class="h-3 w-3" />
-                                                {{
-                                                    item.driver
-                                                        ? 'Live'
-                                                        : 'No location'
-                                                }}
+                                                {{ $t(item.driver ? 'Live' : 'No location') }}
                                             </span>
                                             <span
                                                 v-if="item.customer_phone"
@@ -421,8 +418,7 @@ onBeforeUnmount(() => {
                                 v-else
                                 class="px-4 py-16 text-center text-sm text-muted-foreground"
                             >
-                                No active deliveries. Assign a shipment to a
-                                driver to see it here.
+                                {{ $t('No active deliveries. Assign a shipment to a driver to see it here.') }}
                             </p>
                         </div>
                     </aside>

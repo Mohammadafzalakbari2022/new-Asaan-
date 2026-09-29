@@ -82,7 +82,7 @@ const save = () => {
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Payment Methods
+            {{ $t('Back to Payment Methods') }}
           </Link>
         </div>
       </div>
@@ -91,7 +91,7 @@ const save = () => {
       <form @submit.prevent="save" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <!-- Basic Information Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Basic Information') }}</h2>
 
           <div class="space-y-4">
             <!-- Name -->
@@ -186,7 +186,7 @@ const save = () => {
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>{{ $t('Get your credentials:') }}</strong> Log in to your <a href="https://business.phonepe.com/" target="_blank" class="underline">PhonePe Business Dashboard</a> {{ $t('→ Settings → API Credentials') }}
+              <strong>{{ $t('Get your credentials:') }}</strong> {{ $t('Log in to your') }} <a href="https://business.phonepe.com/" target="_blank" class="underline">PhonePe Business Dashboard</a> {{ $t('→ Settings → API Credentials') }}
             </p>
           </div>
 

@@ -171,26 +171,26 @@ const getStatusClass = (status: string) => {
 </script>
 
 <template>
-    <Head title="Sales Reports" />
-    <AdminLayout title="Sales Reports">
+    <Head :title="$t('Sales Reports')" />
+    <AdminLayout :title="$t('Sales Reports')">
         <div class="space-y-6">
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Sales Reports</h1>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $t('Sales Reports') }}</h1>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        Track revenue, orders, and financial performance
+                        {{ $t('Track revenue, orders, and financial performance') }}
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
                     <button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm">
                         <Download :size="16" />
-                        Export Report
+                        {{ $t('Export Report') }}
                     </button>
                     <button 
                         @click="router.reload()"
                         class="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
-                        title="Refresh"
+                        :title="$t('Refresh')"
                     >
                         <RefreshCw :size="18" />
                     </button>
@@ -202,7 +202,7 @@ const getStatusClass = (status: string) => {
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- Start Date -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Start Date</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Start Date') }}</label>
                         <div class="relative">
                             <Calendar :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                             <input
@@ -215,7 +215,7 @@ const getStatusClass = (status: string) => {
 
                     <!-- End Date -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">End Date</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('End Date') }}</label>
                         <div class="relative">
                             <Calendar :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                             <input
@@ -228,18 +228,18 @@ const getStatusClass = (status: string) => {
 
                     <!-- Status Filter -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Order Status</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Order Status') }}</label>
                         <div class="relative">
                             <Filter :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                             <select
                                 v-model="statusFilter"
                                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors appearance-none"
                             >
-                                <option value="">All Statuses</option>
-                                <option value="completed">Completed</option>
-                                <option value="processing">Processing</option>
-                                <option value="pending">Pending</option>
-                                <option value="cancelled">Cancelled</option>
+                                <option value="">{{ $t('All Statuses') }}</option>
+                                <option value="completed">{{ $t('Completed') }}</option>
+                                <option value="processing">{{ $t('Processing') }}</option>
+                                <option value="pending">{{ $t('Pending') }}</option>
+                                <option value="cancelled">{{ $t('Cancelled') }}</option>
                             </select>
                             <ChevronDown :size="16" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                         </div>
@@ -251,14 +251,14 @@ const getStatusClass = (status: string) => {
                             @click="applyFilters"
                             class="flex-1 px-4 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/20 transition-all shadow-sm shadow-blue-600/20"
                         >
-                            Apply Filters
+                            {{ $t('Apply Filters') }}
                         </button>
                         <button
                             v-if="startDate || endDate || statusFilter"
                             @click="clearFilters"
                             class="px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                         >
-                            Clear
+                            {{ $t('Clear') }}
                         </button>
                     </div>
                 </div>
@@ -270,7 +270,7 @@ const getStatusClass = (status: string) => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Total Revenue</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Total Revenue') }}</p>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                             {{ formatCurrency(statistics.total_revenue) }}
                         </h3>
@@ -285,7 +285,7 @@ const getStatusClass = (status: string) => {
                                 <TrendingUp :size="12" class="transform rotate-180" v-else />
                                 {{ statistics.growth_percentage > 0 ? '+' : '' }}{{ statistics.growth_percentage.toFixed(1) }}%
                             </span>
-                            <span class="text-xs text-gray-400 ml-1.5">vs last period</span>
+                            <span class="text-xs text-gray-400 ml-1.5">{{ $t('vs last period') }}</span>
                         </div>
                     </div>
                     <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
@@ -298,11 +298,11 @@ const getStatusClass = (status: string) => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Total Orders</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Total Orders') }}</p>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                             {{ statistics.order_count }}
                         </h3>
-                        <p class="text-xs text-gray-400 mt-2.5">Orders placed in period</p>
+                        <p class="text-xs text-gray-400 mt-2.5">{{ $t('Orders placed in period') }}</p>
                     </div>
                     <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
                         <ShoppingCart :size="22" class="text-green-600 dark:text-green-400" />
@@ -314,11 +314,11 @@ const getStatusClass = (status: string) => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Avg. Order Value</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Avg. Order Value') }}</p>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                             {{ formatCurrency(statistics.avg_order_value) }}
                         </h3>
-                        <p class="text-xs text-gray-400 mt-2.5">Revenue per order</p>
+                        <p class="text-xs text-gray-400 mt-2.5">{{ $t('Revenue per order') }}</p>
                     </div>
                     <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl">
                         <CreditCard :size="22" class="text-yellow-600 dark:text-yellow-400" />
@@ -330,13 +330,13 @@ const getStatusClass = (status: string) => {
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 transition-all hover:shadow-md">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Total Growth</p>
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Total Growth') }}</p>
                         <h3 class="text-2xl font-bold tracking-tight" :class="[
                             statistics.growth_percentage > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                         ]">
                             {{ statistics.growth_percentage > 0 ? '+' : '' }}{{ statistics.growth_percentage.toFixed(2) }}%
                         </h3>
-                        <p class="text-xs text-gray-400 mt-2.5">Overall performance</p>
+                        <p class="text-xs text-gray-400 mt-2.5">{{ $t('Overall performance') }}</p>
                     </div>
                     <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
                         <TrendingUp :size="22" class="text-purple-600 dark:text-purple-400" />
@@ -347,7 +347,7 @@ const getStatusClass = (status: string) => {
 
         <!-- Revenue Chart -->
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5 mb-6">
-            <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">Revenue Over Time</h2>
+            <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Revenue Over Time') }}</h2>
             <div class="relative w-full h-80">
                 <Line :data="revenueChart" :options="lineChartOptions" />
             </div>
@@ -357,7 +357,7 @@ const getStatusClass = (status: string) => {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <!-- Orders by Status -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">Orders by Status</h2>
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Orders by Status') }}</h2>
                 <div class="relative w-full h-72">
                     <Bar :data="ordersChart" :options="barChartOptions" />
                 </div>
@@ -365,7 +365,7 @@ const getStatusClass = (status: string) => {
 
             <!-- Payment Methods -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">Payment Methods</h2>
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Payment Methods') }}</h2>
                 <div class="relative w-full h-72 flex justify-center">
                     <Doughnut :data="paymentChart" :options="doughnutChartOptions" />
                 </div>
@@ -375,26 +375,26 @@ const getStatusClass = (status: string) => {
         <!-- Top Orders Table -->
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
             <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-700/20">
-                <h2 class="text-base font-semibold text-gray-900 dark:text-white">Top 10 Orders</h2>
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white">{{ $t('Top 10 Orders') }}</h2>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-800">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Order ID
+                                {{ $t('Order ID') }}
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Customer
+                                {{ $t('Customer') }}
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Amount
+                                {{ $t('Amount') }}
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Date
+                                {{ $t('Date') }}
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Status
+                                {{ $t('Status') }}
                             </th>
                         </tr>
                     </thead>

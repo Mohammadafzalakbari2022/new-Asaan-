@@ -3,6 +3,7 @@ import { Head, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { ref } from 'vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 
 interface Order {
   id: number;
@@ -91,10 +92,11 @@ interface Props {
 const props = defineProps<Props>();
 
 const { formatPrice } = useCurrency();
+const { t } = useI18nStore();
 
 const paymentMethodLabels: Record<string, string> = {
-  cod: 'Cash on Delivery',
-  bank_transfer: 'Bank Transfer',
+  cod: t('Cash on Delivery'),
+  bank_transfer: t('Bank Transfer'),
   stripe: 'Stripe',
   razorpay: 'Razorpay',
   phonepe: 'PhonePe',

@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { Link, router, Head } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import { useI18nStore } from '@/Stores/i18n'
 import { 
   Truck, 
   ChevronLeft, 
@@ -41,19 +42,19 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Create Shipping Method" />
+  <Head :title="$t('Create Shipping Method')" />
 
-  <AdminLayout title="Create Shipping Method">
+  <AdminLayout :title="$t('Create Shipping Method')">
     <div class="space-y-6">
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
-            Create Shipping Method
+            {{ $t('Create Shipping Method') }}
           </h2>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
             <Truck class="w-4 h-4" />
-            Add a new shipping method to your store
+            {{ $t('Add a new shipping method to your store') }}
           </p>
         </div>
         <Link
@@ -61,7 +62,7 @@ const submit = () => {
           class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors shadow-sm"
         >
           <ChevronLeft class="w-4 h-4 mr-2" />
-          Back to List
+          {{ $t('Back to List') }}
         </Link>
       </div>
 
@@ -72,11 +73,11 @@ const submit = () => {
             <form @submit.prevent="submit" class="space-y-6">
               <!-- Name -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Method Name</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Method Name') }}</label>
                 <input
                   v-model="form.name"
                   type="text"
-                  placeholder="e.g., Standard Shipping"
+                  :placeholder="$t('e.g., Standard Shipping')"
                   class="block w-full px-3 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow dark:text-white"
                 />
                 <p v-if="errors.name" class="text-red-600 text-sm mt-1">{{ errors.name }}</p>
@@ -84,20 +85,20 @@ const submit = () => {
 
               <!-- Slug -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Slug</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Slug') }}</label>
                 <input
                   v-model="form.slug"
                   type="text"
                   placeholder="e.g., standard-shipping"
                   class="block w-full px-3 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow dark:text-white"
                 />
-                <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">URL-friendly identifier</p>
+                <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">{{ $t('URL-friendly identifier') }}</p>
                 <p v-if="errors.slug" class="text-red-600 text-sm mt-1">{{ errors.slug }}</p>
               </div>
 
               <!-- Type -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Shipping Type</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Shipping Type') }}</label>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div class="relative flex items-start p-4 border rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors"
                     :class="form.type === 'flat-rate' ? 'border-blue-500 ring-1 ring-blue-500 bg-blue-50/50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'"
@@ -114,9 +115,9 @@ const submit = () => {
                     <div class="ml-3">
                       <label class="font-medium text-gray-900 dark:text-white flex items-center gap-2">
                         <Package class="w-4 h-4 text-gray-500" />
-                        Flat Rate
+                        {{ $t('Flat Rate') }}
                       </label>
-                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Fixed price regardless of weight</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Fixed price regardless of weight') }}</p>
                     </div>
                   </div>
 
@@ -135,9 +136,9 @@ const submit = () => {
                     <div class="ml-3">
                       <label class="font-medium text-gray-900 dark:text-white flex items-center gap-2">
                         <Scale class="w-4 h-4 text-gray-500" />
-                        Calculated
+                        {{ $t('Calculated') }}
                       </label>
-                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Based on weight and rules</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Based on weight and rules') }}</p>
                     </div>
                   </div>
                 </div>
@@ -147,7 +148,7 @@ const submit = () => {
               <!-- Cost Fields -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Base Cost ($)</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Base Cost ($)') }}</label>
                   <input
                     v-model="form.base_cost"
                     type="number"
@@ -160,7 +161,7 @@ const submit = () => {
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Cost per Kg ($)</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Cost per Kg ($)') }}</label>
                   <input
                     v-model="form.cost_per_kg"
                     type="number"
@@ -175,10 +176,10 @@ const submit = () => {
 
               <!-- Description -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Description') }}</label>
                 <textarea
                   v-model="form.description"
-                  placeholder="Describe this shipping method..."
+                  :placeholder="$t('Describe this shipping method...')"
                   rows="4"
                   class="block w-full px-3 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow dark:text-white"
                 ></textarea>
@@ -193,7 +194,7 @@ const submit = () => {
                     type="checkbox"
                     class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
                   />
-                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Set as default shipping method</span>
+                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Set as default shipping method') }}</span>
                 </label>
               </div>
 
@@ -203,7 +204,7 @@ const submit = () => {
                   href="/admin/settings/shipping-methods"
                   class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium text-sm transition-colors"
                 >
-                  Cancel
+                  {{ $t('Cancel') }}
                 </Link>
                 <button
                   type="submit"
@@ -211,7 +212,7 @@ const submit = () => {
                   class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Save class="w-4 h-4 mr-2" />
-                  {{ loading ? 'Creating...' : 'Create Method' }}
+                  {{ loading ? $t('Creating...') : $t('Create Method') }}
                 </button>
               </div>
             </form>
@@ -227,19 +228,19 @@ const submit = () => {
               </div>
               <div class="ml-3">
                 <h3 class="text-sm font-medium text-blue-800 dark:text-blue-300">
-                  Shipping Configuration
+                  {{ $t('Shipping Configuration') }}
                 </h3>
                 <div class="mt-2 text-sm text-blue-700 dark:text-blue-400 space-y-3">
                   <p>
-                    <span class="font-semibold block mb-1">Flat Rate:</span>
-                    Charges a fixed base cost regardless of the total weight of the order.
+                    <span class="font-semibold block mb-1">{{ $t('Flat Rate:') }}</span>
+                    {{ $t('Charges a fixed base cost regardless of the total weight of the order.') }}
                   </p>
                   <p>
-                    <span class="font-semibold block mb-1">Calculated:</span>
-                    Combines the Base Cost with the Cost per Kg multiplied by the total weight.
+                    <span class="font-semibold block mb-1">{{ $t('Calculated:') }}</span>
+                    {{ $t('Combines the Base Cost with the Cost per Kg multiplied by the total weight.') }}
                   </p>
                   <p class="text-xs opacity-75">
-                    Example: Base $5 + ($2/kg * 2kg) = $9 Total
+                    {{ $t('Example: Base $5 + ($2/kg * 2kg) = $9 Total') }}
                   </p>
                 </div>
               </div>

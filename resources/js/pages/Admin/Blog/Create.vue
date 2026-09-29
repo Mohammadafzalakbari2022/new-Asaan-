@@ -160,7 +160,7 @@
                         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
                             <h3 class="text-base font-medium text-gray-900 dark:text-white mb-4">{{ $t('Featured Image') }}</h3>
                             <div v-if="form.featured_image" class="mb-3">
-                                <img :src="form.featured_image" :alt="$t('Featured image')" class="w-full h-36 object-cover rounded-lg" />
+                                <img :src="form.featured_image" :alt="$t('Featured Image')" class="w-full h-36 object-cover rounded-lg" />
                             </div>
                             <input
                                 v-model="form.featured_image"

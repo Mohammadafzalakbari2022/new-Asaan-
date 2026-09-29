@@ -344,7 +344,7 @@ function confirmBulkDelete() {
                 <div v-if="selectedReviews.length > 0" class="bg-blue-600 rounded-xl shadow-lg p-3 text-white flex items-center justify-between sticky top-4 z-10 px-6">
                     <span class="text-sm font-semibold flex items-center">
                         <CheckCircle class="w-4 h-4 mr-2" />
-                        {{ selectedReviews.length }} {{ selectedReviews.length === 1 ? 'review' : 'reviews' }} selected
+                        {{ selectedReviews.length }} {{ $t(selectedReviews.length === 1 ? 'review' : 'reviews') }} {{ $t('selected') }}
                     </span>
                     <div class="flex gap-2">
                         <button
@@ -352,14 +352,14 @@ function confirmBulkDelete() {
                             :disabled="isLoading"
                             class="px-3 py-1.5 text-xs font-bold text-green-600 bg-white rounded-lg hover:bg-green-50 transition-colors uppercase tracking-wide disabled:opacity-50"
                         >
-                            Approve
+                            {{ $t('Approve') }}
                         </button>
                         <button
                             @click="bulkReject"
                             :disabled="isLoading"
                             class="px-3 py-1.5 text-xs font-bold text-yellow-600 bg-white rounded-lg hover:bg-yellow-50 transition-colors uppercase tracking-wide disabled:opacity-50"
                         >
-                            Reject
+                            {{ $t('Reject') }}
                         </button>
                         <div class="w-px h-6 bg-blue-400 mx-1"></div>
                         <button
@@ -368,7 +368,7 @@ function confirmBulkDelete() {
                             class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors flex items-center uppercase tracking-wide disabled:opacity-50"
                         >
                             <Trash2 class="w-3 h-3 mr-1.5" />
-                            Delete
+                            {{ $t('Delete') }}
                         </button>
                     </div>
                 </div>
@@ -389,13 +389,13 @@ function confirmBulkDelete() {
                                         class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-white dark:bg-gray-700 w-4 h-4 transition-all"
                                     />
                                 </th>
-                                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Product</th>
-                                <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Reviewer</th>
-                                <th scope="col" class="hidden sm:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rating</th>
-                                <th scope="col" class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Review</th>
-                                <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="hidden xl:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
-                                <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Product') }}</th>
+                                <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Reviewer') }}</th>
+                                <th scope="col" class="hidden sm:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Rating') }}</th>
+                                <th scope="col" class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Review') }}</th>
+                                <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                                <th scope="col" class="hidden xl:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Date') }}</th>
+                                <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-100 dark:divide-gray-700">
@@ -459,7 +459,7 @@ function confirmBulkDelete() {
                                         <div class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{{ review.comment }}</div>
                                         <div v-if="review.admin_reply" class="mt-2 flex items-center text-xs text-green-600 dark:text-green-400 font-medium bg-green-50 dark:bg-green-900/10 w-fit px-2 py-1 rounded">
                                             <MessageSquare class="w-3 h-3 mr-1.5" />
-                                            Admin replied
+                                            {{ $t('Admin replied') }}
                                         </div>
                                     </div>
                                 </td>
@@ -472,9 +472,9 @@ function confirmBulkDelete() {
                                         }"
                                         class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border shadow-sm"
                                     >
-                                        <template v-if="review.status === 'approved'"><CheckCircle class="w-3 h-3 mr-1" /> Approved</template>
-                                        <template v-else-if="review.status === 'pending'"><Eye class="w-3 h-3 mr-1" /> Pending</template>
-                                        <template v-else><X class="w-3 h-3 mr-1" /> Rejected</template>
+                                        <template v-if="review.status === 'approved'"><CheckCircle class="w-3 h-3 mr-1" /> {{ $t('Approved') }}</template>
+                                        <template v-else-if="review.status === 'pending'"><Eye class="w-3 h-3 mr-1" /> {{ $t('Pending') }}</template>
+                                        <template v-else><X class="w-3 h-3 mr-1" /> {{ $t('Rejected') }}</template>
                                     </span>
                                 </td>
                                 <td class="hidden xl:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">
@@ -485,7 +485,7 @@ function confirmBulkDelete() {
                                         <Link
                                             :href="reviewRoutes.show({ review: review.id }).url"
                                             class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                                            title="View Details"
+                                            :title="$t('View Details')"
                                         >
                                             <Eye class="w-4 h-4" />
                                         </Link>
@@ -497,7 +497,7 @@ function confirmBulkDelete() {
                                 <td colspan="8" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                                         <div class="md:hidden flex flex-col gap-1">
-                                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Reviewer</span>
+                                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Reviewer') }}</span>
                                              <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-6 w-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-600 mr-2">
                                                     <span class="text-xs font-bold text-gray-500 dark:text-gray-400">{{ review.reviewer.charAt(0).toUpperCase() }}</span>
@@ -506,7 +506,7 @@ function confirmBulkDelete() {
                                             </div>
                                         </div>
                                         <div class="sm:hidden flex flex-col gap-1">
-                                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Rating</span>
+                                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Rating') }}</span>
                                              <div class="flex items-center">
                                                 <span class="text-sm font-bold text-gray-900 dark:text-white mr-2">{{ review.rating }}/5</span>
                                                 <div class="flex">
@@ -520,18 +520,18 @@ function confirmBulkDelete() {
                                             </div>
                                         </div>
                                          <div class="lg:hidden flex flex-col gap-2 col-span-1 md:col-span-2">
-                                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Review Content</span>
+                                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Review Content') }}</span>
                                              <div class="bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
                                                 <div class="font-bold text-gray-900 dark:text-white mb-1">{{ review.title }}</div>
                                                 <div class="text-gray-600 dark:text-gray-400 italic">"{{ review.comment }}"</div>
                                                 <div v-if="review.admin_reply" class="mt-3 pl-3 border-l-2 border-green-500">
-                                                    <div class="text-xs text-green-600 font-semibold mb-0.5">Admin Response</div>
+                                                    <div class="text-xs text-green-600 font-semibold mb-0.5">{{ $t('Admin Response') }}</div>
                                                     <div class="text-sm text-gray-600 dark:text-gray-400">{{ review.admin_reply }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="xl:hidden flex flex-col gap-1">
-                                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Date</span>
+                                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Date') }}</span>
                                             <span class="text-gray-700 dark:text-gray-300 font-mono">{{ new Date(review.created_at).toLocaleString() }}</span>
                                         </div>
                                     </div>
@@ -544,8 +544,8 @@ function confirmBulkDelete() {
                                         <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                                             <MessageSquare class="w-8 h-8" />
                                         </div>
-                                        <p class="text-lg font-semibold text-gray-900 dark:text-white">No reviews found</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">Try adjusting your search or filters.</p>
+                                        <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No reviews found') }}</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('Try adjusting your search or filters.') }}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -554,28 +554,28 @@ function confirmBulkDelete() {
                 </div>
 
                 <!-- Pagination -->
-                <Pagination :data="reviews" resource-name="reviews" />
+                <Pagination :data="reviews" :resource-name="$t('reviews')" />
             </div>
 
             <!-- Bulk Delete Confirmation Modal -->
                         <div v-if="showBulkDeleteModal" class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75 flex items-center justify-center z-50">
                 <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Delete Reviews</h3>
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Delete Reviews') }}</h3>
                     <p class="text-sm text-gray-500 mb-6">
-                        Are you sure you want to delete {{ selectedReviews.length }} review{{ selectedReviews.length > 1 ? 's' : '' }}? This action cannot be undone.
+                        {{ $t(selectedReviews.length === 1 ? 'Are you sure you want to delete {count} review? This action cannot be undone.' : 'Are you sure you want to delete {count} reviews? This action cannot be undone.', { count: selectedReviews.length }) }}
                     </p>
                     <div class="flex gap-3 justify-end">
                         <button
                             @click="showBulkDeleteModal = false"
                             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                         >
-                            Cancel
+                            {{ $t('Cancel') }}
                         </button>
                         <button
                             @click="confirmBulkDelete"
                             class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
                         >
-                            Delete
+                            {{ $t('Delete') }}
                         </button>
                     </div>
                 </div>

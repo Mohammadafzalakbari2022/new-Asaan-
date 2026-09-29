@@ -74,6 +74,7 @@ const isSubmitting = ref(false);
 const copiedSecret = ref(false);
 
 const titlePlaceholder = t("We'll be back soon!");
+const formPlaceholder = t('Enter one IP per line') + '\n192.168.1.1\n10.0.0.1';
 const showEnableDialog = ref(false);
 const showDisableDialog = ref(false);
 
@@ -313,7 +314,7 @@ const formatDateTime = (datetime: string | undefined) => {
                                     <Textarea 
                                         id="ips"
                                         v-model="form.allowed_ips"
-                                        placeholder="Enter one IP per line&#10;192.168.1.1&#10;10.0.0.1"
+                                        :placeholder="formPlaceholder"
                                         rows="3"
                                     />
                                     <p class="text-sm text-muted-foreground">

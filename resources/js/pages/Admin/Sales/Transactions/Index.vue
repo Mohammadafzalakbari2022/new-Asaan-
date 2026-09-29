@@ -559,24 +559,24 @@ const exportTransactions = () => {
                  <td colspan="9" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                         <div class="sm:hidden flex flex-col gap-2">
-                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Order Reference</span>
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Order Reference') }}</span>
                            <Link v-if="transaction.order" :href="`/admin/sales/orders/${transaction.order.id}`" class="text-sm text-blue-600 dark:text-blue-400 font-medium">
                               {{ transaction.order.order_number }}
                            </Link>
-                           <span v-else class="text-sm text-gray-500">N/A</span>
+                           <span v-else class="text-sm text-gray-500">{{ $t('N/A') }}</span>
                        </div>
                        <div class="md:hidden flex flex-col gap-2">
-                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Type</span>
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Type') }}</span>
                             <span :class="['inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border shadow-sm w-fit', getTypeBadge(transaction.type)]">
                                 {{ transaction.type }}
                             </span>
                         </div>
                         <div class="lg:hidden flex flex-col gap-2">
-                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Gateway</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Gateway') }}</span>
                             <span class="text-sm text-gray-900 dark:text-white capitalize">{{ transaction.gateway }}</span>
                         </div>
                          <div class="xl:hidden flex flex-col gap-2">
-                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Date</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Date') }}</span>
                             <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(transaction.created_at) }}</span>
                         </div>
                     </div>
@@ -589,8 +589,8 @@ const exportTransactions = () => {
                     <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                       <CreditCard class="w-8 h-8" />
                     </div>
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white">No transactions found</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">Try adjusting your filters.</p>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No transactions found') }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('Try adjusting your filters.') }}</p>
                   </div>
                 </td>
               </tr>
@@ -601,7 +601,7 @@ const exportTransactions = () => {
         <!-- Pagination -->
         <div class="bg-gray-50/50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
           <div class="text-xs text-gray-500 dark:text-gray-400">
-            Showing <span class="font-medium">{{ transactions.from || 0 }}</span> to <span class="font-medium">{{ transactions.to || 0 }}</span> of <span class="font-medium">{{ transactions.total }}</span> results
+            {{ $t('Showing') }} <span class="font-medium">{{ transactions.from || 0 }}</span> {{ $t('to') }} <span class="font-medium">{{ transactions.to || 0 }}</span> {{ $t('of') }} <span class="font-medium">{{ transactions.total }}</span> {{ $t('results') }}
           </div>
            <div class="flex gap-2">
             <Link
@@ -610,7 +610,7 @@ const exportTransactions = () => {
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
               <ChevronLeft class="w-3 h-3" />
-              Previous
+              {{ $t('Previous') }}
             </Link>
              <button
               v-else
@@ -618,7 +618,7 @@ const exportTransactions = () => {
               class="px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-600 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1 opacity-50"
             >
               <ChevronLeft class="w-3 h-3" />
-              Previous
+              {{ $t('Previous') }}
             </button>
             
             <Link
@@ -626,7 +626,7 @@ const exportTransactions = () => {
               :href="transactions.next_page_url"
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
-              Next
+              {{ $t('Next') }}
               <ChevronRight class="w-3 h-3" />
             </Link>
              <button
@@ -634,7 +634,7 @@ const exportTransactions = () => {
               disabled
               class="px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-600 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1 opacity-50"
             >
-              Next
+              {{ $t('Next') }}
               <ChevronRight class="w-3 h-3" />
             </button>
           </div>

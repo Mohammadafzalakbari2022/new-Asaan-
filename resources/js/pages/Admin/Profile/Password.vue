@@ -85,7 +85,7 @@ const submit = () => {
                             required
                             autocomplete="new-password"
                             class="w-full"
-                            :placeholder="$t('Confirm new password')"
+                            :placeholder="$t('Confirm New Password')"
                         />
                         <p v-if="form.errors.password_confirmation" class="text-sm text-red-600 dark:text-red-400">
                             {{ form.errors.password_confirmation }}

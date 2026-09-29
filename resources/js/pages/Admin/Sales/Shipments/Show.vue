@@ -585,17 +585,17 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
           <div class="flex justify-end space-x-2">
             <button
               type="button"
-              @click="showUpdateStatusModal = false"
-              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              Cancel
-            </button>
+               @click="showUpdateStatusModal = false"
+               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+             >
+               {{ $t('Cancel') }}
+             </button>
             <button
               type="submit"
-              class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700"
-            >
-              Update
-            </button>
+               class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700"
+             >
+               {{ $t('Update') }}
+             </button>
           </div>
         </form>
       </div>

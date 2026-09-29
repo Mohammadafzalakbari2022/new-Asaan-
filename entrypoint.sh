@@ -209,7 +209,19 @@ sed -i "s|^pm.max_children = 5|pm.max_children = ${FPM_MAX_CHILDREN:-10}|" "$FPM
     fi
 } >> "$FPM_POOL"
 
-# Bind nginx to the platform-provided PORT (default 80) so the image is portable across
+  # Raise PHP's own upload/post ceilings. The image ships none of these, so PHP
+  # falls back to upload_max_filesize=2M and post_max_size=8M. Anything larger is
+  # dropped silently (the file just arrives empty) or truncates the whole POST.
+  # Kept in step with client_max_body_size in the vhost below, because whichever
+  # limit is lower is the one that actually rejects the request.
+  cat > /usr/local/etc/php/conf.d/zz-upload-limits.ini <<'EOF'
+  upload_max_filesize = 20M
+  post_max_size = 20M
+  max_file_uploads = 40
+  max_input_vars = 5000
+  EOF
+
+  # Bind nginx to the platform-provided PORT (default 80) so the image is portable across
 # hosts: Koyeb/Railway default 80, Hugging Face Spaces requires 7860, etc.
 # A plain sed over the stock Debian vhost is fragile (`listen 80 default_server;`, not
 # `listen 80;`), so write our own vhost and substitute the port via a placeholder
@@ -218,9 +230,17 @@ cat > /etc/nginx/sites-available/default <<'EOF'
 server {
     listen __PORT__ default_server;
     server_name _;
-    root /var/www/html/public;
-    index index.php;
-    charset utf-8;
+      root /var/www/html/public;
+      index index.php;
+      charset utf-8;
+  
+      # This vhost is generated here and overwrites the nginx.conf copied in by the
+      # Dockerfile, so any body-size limit has to be set in this block. Without it
+      # nginx uses its 1M default and answers "413 Request Entity Too Large" before
+      # PHP is reached, which is why saving General Settings with a logo attached
+      # failed and discarded every other field in the same form.
+      client_max_body_size 20m;
+  
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;

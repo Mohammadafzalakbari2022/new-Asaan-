@@ -450,7 +450,7 @@ const getTypeBadgeColor = (type: string): string => {
                          <span v-if="['select', 'multiselect'].includes(attribute.type)" class="text-gray-900 dark:text-gray-100 font-medium">
                             {{ $t('{count} options', { count: attribute.options_count }) }}
                          </span>
-                         <span v-else class="text-gray-400 italic">N/A</span>
+                          <span v-else class="text-gray-400 italic">{{ $t('N/A') }}</span>
                       </div>
                       <div class="flex flex-col gap-1">
                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Settings') }}</span>
@@ -500,13 +500,13 @@ const getTypeBadgeColor = (type: string): string => {
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p class="text-sm text-gray-700">
-                Showing
+                {{ $t('Showing') }}
                 <span class="font-medium">{{ (attributes.current_page - 1) * attributes.per_page + 1 }}</span>
-                to
+                {{ $t('to') }}
                 <span class="font-medium">{{ Math.min(attributes.current_page * attributes.per_page, attributes.total) }}</span>
-                of
+                {{ $t('of') }}
                 <span class="font-medium">{{ attributes.total }}</span>
-                results
+                {{ $t('results') }}
               </p>
             </div>
             <div>

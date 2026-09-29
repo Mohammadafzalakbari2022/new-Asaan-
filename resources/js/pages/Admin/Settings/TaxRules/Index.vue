@@ -1,17 +1,17 @@
 <template>
-  <Head title="Tax Rules" />
+  <Head :title="$t('Tax Rules')" />
 
-  <AdminLayout title="Tax Rules">
+  <AdminLayout :title="$t('Tax Rules')">
     <div class="space-y-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
-            Tax Configuration
+            {{ $t('Tax Configuration') }}
           </h2>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
             <Receipt class="w-4 h-4" />
-            Manage tax rules, classes, rates, and zones
+            {{ $t('Manage tax rules, classes, rates, and zones') }}
           </p>
         </div>
       </div>
@@ -20,7 +20,7 @@
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <!-- Tabs -->
         <div class="border-b border-gray-200 dark:border-gray-700">
-          <nav class="flex overflow-x-auto" aria-label="Tabs">
+          <nav class="flex overflow-x-auto" :aria-label="$t('Tabs')">
             <button
               v-for="tab in tabs"
               :key="tab.id"
@@ -47,7 +47,7 @@
                 <input
                   v-model="searchQuery"
                   type="text"
-                  placeholder="Search tax rules..."
+                  :placeholder="$t('Search tax rules...')"
                   class="w-full pl-9 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
                 />
               </div>
@@ -56,7 +56,7 @@
                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
               >
                 <Plus class="w-4 h-4 mr-2" />
-                Create Rule
+                {{ $t('Create Rule') }}
               </Link>
             </div>
 
@@ -64,21 +64,21 @@
               <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 mb-4">
                 <Gavel class="w-6 h-6 text-gray-400" />
               </div>
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white">No rules found</h3>
-              <p class="mt-1 text-gray-500 dark:text-gray-400">Get started by creating your first tax rule.</p>
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ $t('No rules found') }}</h3>
+              <p class="mt-1 text-gray-500 dark:text-gray-400">{{ $t('Get started by creating your first tax rule.') }}</p>
             </div>
 
             <div v-else class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
               <table class="w-full text-left text-sm">
                 <thead class="bg-gray-50 dark:bg-gray-700/50">
                   <tr>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Name</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Tax Class</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Zone</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Rate</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Priority</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Status</th>
-                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">Actions</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Name') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Tax Class') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Zone') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Rate') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Priority') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Status') }}</th>
+                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">{{ $t('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -102,7 +102,7 @@
                       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
                         :class="rule.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'"
                       >
-                        {{ rule.is_active ? 'Active' : 'Inactive' }}
+                        {{ rule.is_active ? $t('Active') : $t('Inactive') }}
                       </span>
                     </td>
                     <td class="px-6 py-4 text-right">
@@ -133,15 +133,15 @@
           <div v-show="activeTab === 'classes'" class="space-y-4">
             <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-gray-50 dark:bg-gray-700/30 p-4 rounded-xl">
               <div>
-                <h3 class="text-base font-semibold text-gray-900 dark:text-white">Tax Classes</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Categorize products for tax calculation purposes.</p>
+                <h3 class="text-base font-semibold text-gray-900 dark:text-white">{{ $t('Tax Classes') }}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Categorize products for tax calculation purposes.') }}</p>
               </div>
               <button
                 @click="openTaxClassModal()"
                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
               >
                 <Plus class="w-4 h-4 mr-2" />
-                Add Class
+                {{ $t('Add Class') }}
               </button>
             </div>
 
@@ -149,11 +149,11 @@
               <table class="w-full text-left text-sm">
                 <thead class="bg-gray-50 dark:bg-gray-700/50">
                   <tr>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Name</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Code</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Description</th>
-                    <th class="px-6 py-4 text-center font-semibold text-gray-900 dark:text-white">Default</th>
-                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">Actions</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Name') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Code') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Description') }}</th>
+                    <th class="px-6 py-4 text-center font-semibold text-gray-900 dark:text-white">{{ $t('Default') }}</th>
+                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">{{ $t('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -163,7 +163,7 @@
                     <td class="px-6 py-4 text-gray-500 dark:text-gray-400">{{ taxClass.description || '—' }}</td>
                     <td class="px-6 py-4 text-center">
                       <span v-if="taxClass.is_default" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-                        Default
+                        {{ $t('Default') }}
                       </span>
                       <span v-else class="text-gray-400 dark:text-gray-600">—</span>
                     </td>
@@ -193,15 +193,15 @@
           <div v-show="activeTab === 'rates'" class="space-y-4">
             <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-gray-50 dark:bg-gray-700/30 p-4 rounded-xl">
               <div>
-                <h3 class="text-base font-semibold text-gray-900 dark:text-white">Tax Rates</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Define percentages for tax calculations.</p>
+                <h3 class="text-base font-semibold text-gray-900 dark:text-white">{{ $t('Tax Rates') }}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Define percentages for tax calculations.') }}</p>
               </div>
               <button
                 @click="openTaxRateModal()"
                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
               >
                 <Plus class="w-4 h-4 mr-2" />
-                Add Rate
+                {{ $t('Add Rate') }}
               </button>
             </div>
 
@@ -209,13 +209,13 @@
               <table class="w-full text-left text-sm">
                 <thead class="bg-gray-50 dark:bg-gray-700/50">
                   <tr>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Name</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Code</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Rate</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Priority</th>
-                    <th class="px-6 py-4 text-center font-semibold text-gray-900 dark:text-white">Compound</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Status</th>
-                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">Actions</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Name') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Code') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Rate') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Priority') }}</th>
+                    <th class="px-6 py-4 text-center font-semibold text-gray-900 dark:text-white">{{ $t('Compound') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Status') }}</th>
+                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">{{ $t('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -226,7 +226,7 @@
                     <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ rate.priority }}</td>
                     <td class="px-6 py-4 text-center">
                       <span v-if="rate.is_compound" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
-                        Compound
+                        {{ $t('Compound') }}
                       </span>
                       <span v-else class="text-gray-400 dark:text-gray-600">—</span>
                     </td>
@@ -234,7 +234,7 @@
                       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
                         :class="rate.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'"
                       >
-                        {{ rate.is_active ? 'Active' : 'Inactive' }}
+                        {{ rate.is_active ? $t('Active') : $t('Inactive') }}
                       </span>
                     </td>
                     <td class="px-6 py-4 text-right">
@@ -263,15 +263,15 @@
           <div v-show="activeTab === 'zones'" class="space-y-4">
             <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-gray-50 dark:bg-gray-700/30 p-4 rounded-xl">
               <div>
-                <h3 class="text-base font-semibold text-gray-900 dark:text-white">Tax Zones</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Define geographic regions for tax application.</p>
+                <h3 class="text-base font-semibold text-gray-900 dark:text-white">{{ $t('Tax Zones') }}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Define geographic regions for tax application.') }}</p>
               </div>
               <button
                 @click="openTaxZoneModal()"
                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
               >
                 <Plus class="w-4 h-4 mr-2" />
-                Add Zone
+                {{ $t('Add Zone') }}
               </button>
             </div>
 
@@ -279,12 +279,12 @@
               <table class="w-full text-left text-sm">
                 <thead class="bg-gray-50 dark:bg-gray-700/50">
                   <tr>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Name</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Code</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Description</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Locations</th>
-                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">Status</th>
-                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">Actions</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Name') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Code') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Description') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Locations') }}</th>
+                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $t('Status') }}</th>
+                    <th class="px-6 py-4 text-right font-semibold text-gray-900 dark:text-white">{{ $t('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -294,14 +294,14 @@
                     <td class="px-6 py-4 text-gray-500 dark:text-gray-400">{{ zone.description || '—' }}</td>
                     <td class="px-6 py-4 text-gray-600 dark:text-gray-300">
                        <span class="inline-flex items-center px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded text-xs ring-1 ring-inset ring-blue-700/10 dark:ring-blue-400/20">
-                          {{ zone.locations.length }} location(s)
+                          {{ $t('{count} location(s)', { count: zone.locations.length }) }}
                        </span>
                     </td>
                     <td class="px-6 py-4">
                       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
                         :class="zone.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'"
                       >
-                        {{ zone.is_active ? 'Active' : 'Inactive' }}
+                        {{ zone.is_active ? $t('Active') : $t('Inactive') }}
                       </span>
                     </td>
                     <td class="px-6 py-4 text-right">
@@ -341,7 +341,7 @@
         <div class="p-2 bg-red-100 dark:bg-red-900/30 rounded-xl">
           <AlertTriangle class="w-6 h-6" />
         </div>
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Confirm Delete</h3>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ $t('Confirm Delete') }}</h3>
       </div>
       <p class="text-gray-600 dark:text-gray-400">{{ deleteMessage }}</p>
       <div class="flex justify-end gap-3 pt-2">
@@ -349,13 +349,13 @@
           @click="showDeleteModal = false"
           class="px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl font-medium transition-colors"
         >
-          Cancel
+          {{ $t('Cancel') }}
         </button>
         <button
           @click="deleteItem"
           class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-colors shadow-sm"
         >
-          Delete
+          {{ $t('Delete') }}
         </button>
       </div>
     </div>
@@ -369,14 +369,14 @@
   >
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
       <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ taxClassForm.id ? 'Edit Tax Class' : 'Create Tax Class' }}</h3>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ taxClassForm.id ? $t('Edit Tax Class') : $t('Create Tax Class') }}</h3>
         <button @click="showTaxClassModal = false" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
           <X class="w-5 h-5" />
         </button>
       </div>
       <form @submit.prevent="saveTaxClass" class="p-6 space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Name <span class="text-red-500">*</span></label>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Name') }} <span class="text-red-500">*</span></label>
           <input
             v-model="taxClassForm.name"
             type="text"
@@ -385,7 +385,7 @@
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Code <span class="text-red-500">*</span></label>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Code') }} <span class="text-red-500">*</span></label>
           <input
             v-model="taxClassForm.code"
             type="text"
@@ -394,7 +394,7 @@
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Description') }}</label>
           <textarea
             v-model="taxClassForm.description"
             rows="3"
@@ -407,7 +407,7 @@
             type="checkbox"
             class="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-gray-700"
           />
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Set as default tax class</label>
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Set as default tax class') }}</label>
         </div>
         
         <div class="flex justify-end gap-3 pt-4">
@@ -416,14 +416,14 @@
             @click="showTaxClassModal = false"
             class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             type="submit"
             :disabled="processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ processing ? 'Saving...' : 'Save Changes' }}
+            {{ processing ? $t('Saving...') : $t('Save Changes') }}
           </button>
         </div>
       </form>
@@ -438,7 +438,7 @@
   >
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
       <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ taxRateForm.id ? 'Edit Tax Rate' : 'Create Tax Rate' }}</h3>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ taxRateForm.id ? $t('Edit Tax Rate') : $t('Create Tax Rate') }}</h3>
         <button @click="showTaxRateModal = false" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
           <X class="w-5 h-5" />
         </button>
@@ -446,7 +446,7 @@
       <form @submit.prevent="saveTaxRate" class="p-6 space-y-4">
         <div class="grid grid-cols-2 gap-4">
            <div class="col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Name <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Name') }} <span class="text-red-500">*</span></label>
             <input
               v-model="taxRateForm.name"
               type="text"
@@ -455,7 +455,7 @@
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Code <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Code') }} <span class="text-red-500">*</span></label>
             <input
               v-model="taxRateForm.code"
               type="text"
@@ -464,7 +464,7 @@
             />
           </div>
            <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Priority <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Priority') }} <span class="text-red-500">*</span></label>
             <input
               v-model="taxRateForm.priority"
               type="number"
@@ -474,7 +474,7 @@
             />
           </div>
           <div class="col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Percentage (%) <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Percentage (%)') }} <span class="text-red-500">*</span></label>
             <input
               v-model="taxRateForm.percentage"
               type="number"
@@ -494,7 +494,7 @@
               type="checkbox"
               class="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-gray-700"
             />
-            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Compound Tax (calculated on top of other taxes)</label>
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Compound Tax (calculated on top of other taxes)') }}</label>
           </div>
           <div class="flex items-center gap-3 border-t border-gray-200 dark:border-gray-600 pt-3">
             <input
@@ -502,7 +502,7 @@
               type="checkbox"
               class="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-gray-700"
             />
-            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Active</label>
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Active') }}</label>
           </div>
         </div>
 
@@ -512,14 +512,14 @@
             @click="showTaxRateModal = false"
             class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             type="submit"
             :disabled="processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ processing ? 'Saving...' : 'Save Changes' }}
+            {{ processing ? $t('Saving...') : $t('Save Changes') }}
           </button>
         </div>
       </form>
@@ -534,7 +534,7 @@
   >
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
       <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ taxZoneForm.id ? 'Edit Tax Zone' : 'Create Tax Zone' }}</h3>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ taxZoneForm.id ? $t('Edit Tax Zone') : $t('Create Tax Zone') }}</h3>
         <button @click="showTaxZoneModal = false" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
           <X class="w-5 h-5" />
         </button>
@@ -542,7 +542,7 @@
       <form @submit.prevent="saveTaxZone" class="p-6 space-y-4">
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Name <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Name') }} <span class="text-red-500">*</span></label>
             <input
               v-model="taxZoneForm.name"
               type="text"
@@ -551,7 +551,7 @@
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Code <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Code') }} <span class="text-red-500">*</span></label>
             <input
               v-model="taxZoneForm.code"
               type="text"
@@ -560,7 +560,7 @@
             />
           </div>
           <div class="col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Description') }}</label>
             <textarea
               v-model="taxZoneForm.description"
               rows="2"
@@ -574,7 +574,7 @@
                  type="checkbox"
                  class="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-gray-700"
                />
-               <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Active</label>
+               <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Active') }}</label>
              </div>
            </div>
         </div>
@@ -582,31 +582,31 @@
         <!-- Locations -->
         <div class="border-t border-gray-100 dark:border-gray-700 pt-4">
           <div class="flex justify-between items-center mb-3">
-            <label class="block text-sm font-medium text-gray-900 dark:text-white">Locations</label>
+            <label class="block text-sm font-medium text-gray-900 dark:text-white">{{ $t('Locations') }}</label>
             <button
               type="button"
               @click="addLocation"
               class="text-sm bg-green-50 text-green-700 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30 px-3 py-1.5 rounded-lg transition-colors font-medium border border-green-200 dark:border-green-800"
             >
-              + Add Location
+              {{ $t('+ Add Location') }}
             </button>
           </div>
           
           <div class="space-y-3">
              <div v-if="taxZoneForm.locations.length === 0" class="text-center py-4 text-gray-500 dark:text-gray-400 text-sm italic bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
-               No locations added yet.
+               {{ $t('No locations added yet.') }}
              </div>
             <div v-for="(location, index) in taxZoneForm.locations" :key="index" class="flex gap-2 items-start">
               <input
                 v-model="location.country_code"
                 type="text"
-                placeholder="Country Code (e.g., US)"
+                :placeholder="$t('Country Code (e.g., US)')"
                 class="flex-1 px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
               />
               <input
                 v-model="location.state_code"
                 type="text"
-                placeholder="State (optional)"
+                :placeholder="$t('State (optional)')"
                 class="flex-1 px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
               />
               <button
@@ -626,14 +626,14 @@
             @click="showTaxZoneModal = false"
             class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             type="submit"
             :disabled="processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ processing ? 'Saving...' : 'Save Changes' }}
+            {{ processing ? $t('Saving...') : $t('Save Changes') }}
           </button>
         </div>
       </form>
@@ -646,6 +646,7 @@ import { ref, reactive } from 'vue'
 import { router, Link, Head } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import Pagination from '@/components/Admin/Pagination.vue'
+import { useI18nStore } from '@/Stores/i18n'
 import { 
   Receipt, 
   Search, 
@@ -737,6 +738,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const { t } = useI18nStore()
+
 const activeTab = ref('rules')
 const searchQuery = ref(props.filters?.search || '')
 const showDeleteModal = ref(false)
@@ -779,17 +782,17 @@ const taxZoneForm = reactive({
 })
 
 const tabs = [
-  { id: 'rules', name: 'Tax Rules', icon: Gavel },
-  { id: 'classes', name: 'Tax Classes', icon: Tag },
-  { id: 'rates', name: 'Tax Rates', icon: Percent },
-  { id: 'zones', name: 'Tax Zones', icon: Map },
+  { id: 'rules', name: t('Tax Rules'), icon: Gavel },
+  { id: 'classes', name: t('Tax Classes'), icon: Tag },
+  { id: 'rates', name: t('Tax Rates'), icon: Percent },
+  { id: 'zones', name: t('Tax Zones'), icon: Map },
 ]
 
 // Tax Rule Functions
 const confirmDelete = (id: number) => {
   deleteId.value = id
   deleteType.value = 'rule'
-  deleteMessage.value = 'Are you sure you want to delete this tax rule? This action cannot be undone.'
+  deleteMessage.value = t('Are you sure you want to delete this tax rule? This action cannot be undone.')
   showDeleteModal.value = true
 }
 
@@ -845,7 +848,7 @@ const saveTaxClass = () => {
 const confirmDeleteTaxClass = (id: number) => {
   deleteId.value = id
   deleteType.value = 'class'
-  deleteMessage.value = 'Are you sure you want to delete this tax class? This may affect existing tax rules.'
+  deleteMessage.value = t('Are you sure you want to delete this tax class? This may affect existing tax rules.')
   showDeleteModal.value = true
 }
 
@@ -906,7 +909,7 @@ const saveTaxRate = () => {
 const confirmDeleteTaxRate = (id: number) => {
   deleteId.value = id
   deleteType.value = 'rate'
-  deleteMessage.value = 'Are you sure you want to delete this tax rate? This may affect existing tax rules.'
+  deleteMessage.value = t('Are you sure you want to delete this tax rate? This may affect existing tax rules.')
   showDeleteModal.value = true
 }
 
@@ -980,7 +983,7 @@ const saveTaxZone = () => {
 const confirmDeleteTaxZone = (id: number) => {
   deleteId.value = id
   deleteType.value = 'zone'
-  deleteMessage.value = 'Are you sure you want to delete this tax zone? This may affect existing tax rules.'
+  deleteMessage.value = t('Are you sure you want to delete this tax zone? This may affect existing tax rules.')
   showDeleteModal.value = true
 }
 

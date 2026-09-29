@@ -181,7 +181,7 @@ const save = () => {
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>{{ $t('Get your keys:') }}</strong> Log in to your
+              <strong>{{ $t('Get your keys:') }}</strong> {{ $t('Log in to your') }}
               <a href="https://dashboard.stripe.com/apikeys" target="_blank" class="underline">Stripe Dashboard</a>
               {{ $t('→ Developers → API Keys') }}
             </p>
@@ -202,11 +202,11 @@ const save = () => {
                   placeholder="pk_test_..."
                 />
                 <p v-if="errors['configuration.test_publishable_key']" class="mt-1 text-sm text-red-600">{{ errors['configuration.test_publishable_key'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Starts with <code>pk_test_</code></p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Starts with') }} <code>pk_test_</code></p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Secret Key <span class="text-red-500">*</span>
+                  {{ $t('Test Secret Key') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.test_secret_key"
@@ -215,11 +215,11 @@ const save = () => {
                   placeholder="sk_test_..."
                 />
                 <p v-if="errors['configuration.test_secret_key']" class="mt-1 text-sm text-red-600">{{ errors['configuration.test_secret_key'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Starts with <code>sk_test_</code> — keep secure</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Starts with') }} <code>sk_test_</code> {{ $t('— keep secure') }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Webhook Secret <span class="text-gray-400 text-xs">(Optional)</span>
+                  {{ $t('Test Webhook Secret') }} <span class="text-gray-400 text-xs">{{ $t('(Optional)') }}</span>
                 </label>
                 <input
                   v-model="form.configuration.test_webhook_secret"
@@ -227,7 +227,7 @@ const save = () => {
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
                   placeholder="whsec_..."
                 />
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Starts with <code>whsec_</code></p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Starts with') }} <code>whsec_</code></p>
               </div>
             </template>
 
@@ -235,7 +235,7 @@ const save = () => {
             <template v-else>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Publishable Key <span class="text-red-500">*</span>
+                  {{ $t('Live Publishable Key') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.publishable_key"
@@ -244,11 +244,11 @@ const save = () => {
                   placeholder="pk_live_..."
                 />
                 <p v-if="errors['configuration.publishable_key']" class="mt-1 text-sm text-red-600">{{ errors['configuration.publishable_key'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Starts with <code>pk_live_</code></p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Starts with') }} <code>pk_live_</code></p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Secret Key <span class="text-red-500">*</span>
+                  {{ $t('Live Secret Key') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.secret_key"
@@ -257,11 +257,11 @@ const save = () => {
                   placeholder="sk_live_..."
                 />
                 <p v-if="errors['configuration.secret_key']" class="mt-1 text-sm text-red-600">{{ errors['configuration.secret_key'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Starts with <code>sk_live_</code> — keep secure</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Starts with') }} <code>sk_live_</code> {{ $t('— keep secure') }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Webhook Secret <span class="text-gray-400 text-xs">(Optional)</span>
+                  {{ $t('Live Webhook Secret') }} <span class="text-gray-400 text-xs">{{ $t('(Optional)') }}</span>
                 </label>
                 <input
                   v-model="form.configuration.webhook_secret"
@@ -269,7 +269,7 @@ const save = () => {
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
                   placeholder="whsec_..."
                 />
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Starts with <code>whsec_</code></p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Starts with') }} <code>whsec_</code></p>
               </div>
             </template>
 
@@ -278,16 +278,16 @@ const save = () => {
 
         <!-- Webhook URL Info -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Webhook Configuration</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Webhook Configuration') }}</h2>
           <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <p class="text-sm text-green-900 dark:text-green-200 mb-2">
-              <strong>Webhook URL:</strong> Configure this URL in your Stripe Dashboard → Developers → Webhooks
+              <strong>{{ $t('Webhook URL:') }}</strong> {{ $t('Configure this URL in your Stripe Dashboard → Developers → Webhooks') }}
             </p>
             <div class="bg-white dark:bg-gray-800 border border-green-300 dark:border-green-700 rounded px-3 py-2">
               <code class="text-sm text-green-800 dark:text-green-300 break-all">{{ webhookUrl }}</code>
             </div>
             <p class="mt-2 text-xs text-green-700 dark:text-green-400">
-              Stripe will send payment events to this URL for real-time order updates.
+              {{ $t('Stripe will send payment events to this URL for real-time order updates.') }}
             </p>
           </div>
         </div>
@@ -296,7 +296,7 @@ const save = () => {
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>Payment Processing:</strong> Mobile app customers pay via the Stripe Flutter SDK (Payment Sheet). Web customers are redirected to the Stripe Checkout page.
+              <strong>{{ $t('Payment Processing:') }}</strong> {{ $t('Mobile app customers pay via the Stripe Flutter SDK (Payment Sheet). Web customers are redirected to the Stripe Checkout page.') }}
             </p>
           </div>
         </div>
@@ -308,7 +308,7 @@ const save = () => {
             :disabled="form.processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+            {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
           </button>
         </div>
       </form>

@@ -1,7 +1,7 @@
 <template>
-  <Head title="Create Tax Rule" />
+  <Head :title="$t('Create Tax Rule')" />
 
-  <AdminLayout title="Create Tax Rule">
+  <AdminLayout :title="$t('Create Tax Rule')">
     <div class="max-w-4xl mx-auto space-y-6">
       <!-- Header -->
       <div class="flex items-center justify-between">
@@ -14,11 +14,11 @@
               <ArrowLeft class="w-5 h-5" />
             </Link>
             <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
-              Create Tax Rule
+              {{ $t('Create Tax Rule') }}
             </h2>
           </div>
           <p class="text-sm text-gray-500 dark:text-gray-400 ml-7">
-            Configure a new tax calculation rule
+            {{ $t('Configure a new tax calculation rule') }}
           </p>
         </div>
       </div>
@@ -30,20 +30,20 @@
           <div class="space-y-6">
             <h3 class="text-lg font-medium text-gray-900 dark:text-white flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
               <Sparkles class="w-5 h-5 text-blue-500" />
-              Rule Details
+              {{ $t('Rule Details') }}
             </h3>
 
             <!-- Rule Name -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                Rule Name <span class="text-red-500">*</span>
+                {{ $t('Rule Name') }} <span class="text-red-500">*</span>
               </label>
               <div class="relative">
                 <input
                   v-model="form.name"
                   type="text"
                   class="block w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white transition-all pl-10"
-                  placeholder="e.g., US Standard Tax"
+                  :placeholder="$t('e.g., US Standard Tax')"
                   required
                 />
                 <Type class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -55,7 +55,7 @@
               <!-- Tax Class -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Tax Class <span class="text-red-500">*</span>
+                  {{ $t('Tax Class') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
                   <select
@@ -63,7 +63,7 @@
                     class="block w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white appearance-none pl-10"
                     required
                   >
-                    <option value="">Select Tax Class...</option>
+                    <option value="">{{ $t('Select Tax Class...') }}</option>
                     <option v-for="taxClass in taxClasses" :key="taxClass.id" :value="taxClass.id">
                       {{ taxClass.name }}
                     </option>
@@ -79,7 +79,7 @@
               <!-- Tax Zone -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Tax Zone <span class="text-red-500">*</span>
+                  {{ $t('Tax Zone') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
                   <select
@@ -87,7 +87,7 @@
                     class="block w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white appearance-none pl-10"
                     required
                   >
-                    <option value="">Select Tax Zone...</option>
+                    <option value="">{{ $t('Select Tax Zone...') }}</option>
                     <option v-for="zone in taxZones" :key="zone.id" :value="zone.id">
                       {{ zone.name }}
                     </option>
@@ -103,7 +103,7 @@
               <!-- Tax Rate -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Tax Rate <span class="text-red-500">*</span>
+                  {{ $t('Tax Rate') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
                   <select
@@ -111,7 +111,7 @@
                     class="block w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white appearance-none pl-10"
                     required
                   >
-                    <option value="">Select Tax Rate...</option>
+                    <option value="">{{ $t('Select Tax Rate...') }}</option>
                     <option v-for="rate in taxRates" :key="rate.id" :value="rate.id">
                       {{ rate.name }} ({{ rate.percentage }}%)
                     </option>
@@ -127,7 +127,7 @@
               <!-- Priority -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Priority
+                  {{ $t('Priority') }}
                 </label>
                 <div class="relative">
                   <input
@@ -139,7 +139,7 @@
                   />
                   <Layers class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 </div>
-                <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">Lower numbers have higher priority in calculation.</p>
+                <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">{{ $t('Lower numbers have higher priority in calculation.') }}</p>
                 <p v-if="errors.priority" class="mt-1 text-sm text-red-600">{{ errors.priority }}</p>
               </div>
             </div>
@@ -149,7 +149,7 @@
           <div class="space-y-6 pt-6 border-t border-gray-100 dark:border-gray-700">
             <h3 class="text-lg font-medium text-gray-900 dark:text-white flex items-center gap-2 pb-4">
               <Settings class="w-5 h-5 text-blue-500" />
-              Settings
+              {{ $t('Settings') }}
             </h3>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,8 +164,8 @@
                   />
                 </div>
                 <div class="ml-3 text-sm">
-                  <label class="font-medium text-gray-700 dark:text-gray-300 cursor-pointer">Include Shipping</label>
-                  <p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Include shipping cost in tax calculation.</p>
+                  <label class="font-medium text-gray-700 dark:text-gray-300 cursor-pointer">{{ $t('Include Shipping') }}</label>
+                  <p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">{{ $t('Include shipping cost in tax calculation.') }}</p>
                 </div>
               </div>
 
@@ -180,8 +180,8 @@
                   />
                 </div>
                 <div class="ml-3 text-sm">
-                  <label class="font-medium text-gray-700 dark:text-gray-300 cursor-pointer">Active Status</label>
-                  <p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Enable or disable this tax rule.</p>
+                  <label class="font-medium text-gray-700 dark:text-gray-300 cursor-pointer">{{ $t('Active Status') }}</label>
+                  <p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">{{ $t('Enable or disable this tax rule.') }}</p>
                 </div>
               </div>
             </div>
@@ -193,7 +193,7 @@
               href="/admin/settings/tax-rules"
               class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </Link>
             <button
               type="submit"
@@ -202,7 +202,7 @@
             >
               <Save v-if="!processing" class="w-4 h-4 mr-2" />
               <div v-else class="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
-              <span>{{ processing ? 'Creating...' : 'Create Tax Rule' }}</span>
+              <span>{{ processing ? $t('Creating...') : $t('Create Tax Rule') }}</span>
             </button>
           </div>
         </form>

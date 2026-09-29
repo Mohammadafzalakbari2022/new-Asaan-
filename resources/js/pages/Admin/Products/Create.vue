@@ -718,7 +718,7 @@ const saveDraft = () => {
               <div v-if="costNumber > 0 && currentPriceNumber > 0" class="mb-8 p-4 rounded-md border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/20">
                 <p class="text-sm text-gray-700 dark:text-gray-300">
                   {{ $t('Current unit profit:') }} <span class="font-semibold">{{ currencySymbol }}{{ (currentPriceNumber - costNumber).toFixed(2) }}</span>
-                  ({{ (((currentPriceNumber - costNumber) / currentPriceNumber) * 100).toFixed(2) }}% margin)
+                  ({{ (((currentPriceNumber - costNumber) / currentPriceNumber) * 100).toFixed(2) }}{{ $t('% margin') }})
                 </p>
               </div>
 
@@ -1020,7 +1020,7 @@ const saveDraft = () => {
                 <div v-if="selectedComparison && selectedPriceProfit" class="rounded-md border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 p-4 text-sm text-green-800 dark:text-green-300">
                   {{ $t('Selected price profit overview:') }}
                   <span class="font-semibold ml-1">{{ currencySymbol }}{{ selectedPriceProfit.unitProfit.toFixed(2) }}</span>
-                  {{ $t('per unit (') }}{{ selectedPriceProfit.margin.toFixed(2) }}% margin)
+                  {{ $t('per unit (') }}{{ selectedPriceProfit.margin.toFixed(2) }}{{ $t('% margin') }})
                 </div>
                 <div v-else-if="selectedComparison && costNumber <= 0" class="rounded-md border border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20 p-4 text-sm text-yellow-800 dark:text-yellow-300">
                   {{ $t('Profit / Unit = Selected Price - Product Cost. Enter cost in the Inventory & Pricing section to see margin overview.') }}

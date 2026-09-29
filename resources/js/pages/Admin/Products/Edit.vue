@@ -1127,7 +1127,7 @@ const deleteProduct = () => {
                   <div v-if="costNumber > 0 && currentPriceNumber > 0" class="p-4 rounded-md border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/20">
                     <p class="text-sm text-gray-700 dark:text-gray-300">
                       {{ $t('Current unit profit:') }} <span class="font-semibold">{{ currencySymbol }}{{ (currentPriceNumber - costNumber).toFixed(2) }}</span>
-                      ({{ (((currentPriceNumber - costNumber) / currentPriceNumber) * 100).toFixed(2) }}% margin)
+                      ({{ (((currentPriceNumber - costNumber) / currentPriceNumber) * 100).toFixed(2) }}{{ $t('% margin') }})
                     </p>
                   </div>
 
@@ -1376,7 +1376,7 @@ const deleteProduct = () => {
                         v-model="attributeValues[attribute.code]"
                         type="text"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        :placeholder="`Enter ${attribute.name.toLowerCase()}`"
+                        :placeholder="$t('Enter {attribute}', { attribute: attribute.name.toLowerCase() })"
                       />
 
                       <!-- Textarea -->
@@ -1385,7 +1385,7 @@ const deleteProduct = () => {
                         v-model="attributeValues[attribute.code]"
                         rows="3"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        :placeholder="`Enter ${attribute.name.toLowerCase()}`"
+                        :placeholder="$t('Enter {attribute}', { attribute: attribute.name.toLowerCase() })"
                       />
 
                       <!-- Select -->
@@ -1456,7 +1456,7 @@ const deleteProduct = () => {
                           step="0.01"
                           min="0"
                           class="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          :placeholder="`Enter ${attribute.name.toLowerCase()}`"
+                          :placeholder="$t('Enter {attribute}', { attribute: attribute.name.toLowerCase() })"
                         />
                       </div>
                     </div>
@@ -1496,7 +1496,7 @@ const deleteProduct = () => {
                 v-model="form.visibility"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="both">{{ $t('Catalog and Search') }}</option>
+                <option value="both">{{ $t('Catalog & Search') }}</option>
                 <option value="catalog">{{ $t('Catalog Only') }}</option>
                 <option value="search">{{ $t('Search Only') }}</option>
                 <option value="none">{{ $t('Not Visible') }}</option>
@@ -1644,7 +1644,7 @@ const deleteProduct = () => {
                 <div v-if="selectedComparison && selectedPriceProfit" class="rounded-md border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 p-4 text-sm text-green-800 dark:text-green-300">
                   {{ $t('Selected price profit overview:') }}
                   <span class="font-semibold ml-1">{{ currencySymbol }}{{ selectedPriceProfit.unitProfit.toFixed(2) }}</span>
-                  {{ $t('per unit (') }}{{ selectedPriceProfit.margin.toFixed(2) }}% margin)
+                  {{ $t('per unit (') }}{{ selectedPriceProfit.margin.toFixed(2) }}{{ $t('% margin') }})
                 </div>
                 <div v-else-if="selectedComparison && costNumber <= 0" class="rounded-md border border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20 p-4 text-sm text-yellow-800 dark:text-yellow-300">
                   {{ $t('Profit / Unit = Selected Price - Product Cost. Enter cost in the Inventory & Pricing section to see margin overview.') }}

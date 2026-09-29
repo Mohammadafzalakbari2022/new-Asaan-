@@ -325,7 +325,7 @@ const uploadTheme = (event: Event) => {
                 <div class="flex items-start justify-between mb-2">
                   <div>
                     <h3 class="text-lg font-bold text-gray-900 leading-tight">{{ theme.name }}</h3>
-                    <div class="text-xs text-gray-500 mt-1">v{{ theme.version }} by {{ theme.author }}</div>
+                    <div class="text-xs text-gray-500 mt-1">v{{ theme.version }} {{ $t('by {author}', { author: theme.author }) }}</div>
                   </div>
                   <span v-if="theme.is_default" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">{{ $t('Default') }}</span>
                 </div>
@@ -371,8 +371,8 @@ const uploadTheme = (event: Event) => {
                  <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                      <Plus class="w-8 h-8 text-gray-400 group-hover:text-gray-600" />
                  </div>
-                 <h3 class="text-base font-semibold text-gray-900">Add New Theme</h3>
-                 <p class="text-sm text-gray-500 mt-1 max-w-[200px]">Upload a .zip file containing your theme files</p>
+                  <h3 class="text-base font-semibold text-gray-900">{{ $t('Add New Theme') }}</h3>
+                  <p class="text-sm text-gray-500 mt-1 max-w-[200px]">{{ $t('Upload a .zip file containing your theme files') }}</p>
              </div>
           </div>
         </div>
@@ -384,8 +384,8 @@ const uploadTheme = (event: Event) => {
           @click="triggerThemeUpload"
         >
           <Package class="mx-auto h-12 w-12 text-gray-400" />
-          <h3 class="mt-4 text-lg font-medium text-gray-900">No themes installed</h3>
-          <p class="mt-2 text-sm text-gray-500">Click here to upload your first theme.</p>
+          <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('No themes installed') }}</h3>
+          <p class="mt-2 text-sm text-gray-500">{{ $t('Click here to upload your first theme.') }}</p>
         </div>
       </div>
     </div>

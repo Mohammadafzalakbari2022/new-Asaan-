@@ -9,6 +9,7 @@ import EditorCanvas from '@/components/UIEditor/EditorCanvas.vue'
 import BlockPalette from '@/components/UIEditor/BlockPalette.vue'
 import PropertiesPanel from '@/components/UIEditor/PropertiesPanel.vue'
 import PageSettingsPanel from '@/components/UIEditor/PageSettingsPanel.vue'
+import { useI18nStore } from '@/Stores/i18n'
 
 interface PageInfo {
   id: number | null
@@ -46,6 +47,7 @@ const props = defineProps<{
 }>()
 
 const store = useUiEditorStore()
+const { t } = useI18nStore()
 
 onMounted(() => {
   store.loadLayout(props.layoutData, props.layoutStatus ?? 'draft', props.publishedAt)
@@ -62,12 +64,14 @@ onMounted(() => {
 })
 
 const editorTitle = computed(() => {
-  if (props.pageType === 'homepage') return 'Homepage Editor'
+  if (props.pageType === 'homepage') return t('Homepage Editor')
   if (props.pageType === 'global_region') {
-    return props.regionMeta?.name ? `Region Editor — ${props.regionMeta.name}` : 'Region Editor'
+    return props.regionMeta?.name
+      ? t('Region Editor — {name}', { name: props.regionMeta.name })
+      : t('Region Editor')
   }
   const title = store.pageSettings?.title ?? props.page?.title
-  return title ? `Block Editor — ${title}` : 'Block Editor'
+  return title ? t('Block Editor — {title}', { title }) : t('Block Editor')
 })
 
 const iframeStyle = computed(() => {
@@ -135,13 +139,13 @@ const showFloatingPanel = computed(() => !store.showProperties && hasSelection.v
       <!-- Back -->
       <button type="button" class="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" @click="goBack">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-        Back
+        {{ $t('Back') }}
       </button>
 
       <!-- Toggle palette (left panel) -->
       <button
         type="button"
-        :title="store.showPalette ? 'Hide block palette' : 'Show block palette'"
+        :title="store.showPalette ? $t('Hide block palette') : $t('Show block palette')"
         :class="[
           'flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0',
           store.showPalette
@@ -161,7 +165,7 @@ const showFloatingPanel = computed(() => !store.showProperties && hasSelection.v
       <button
         v-if="props.page !== null"
         type="button"
-        title="Page settings"
+        :title="$t('Page settings')"
         :class="[
           'flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0',
           store.isPageSettingsOpen
@@ -191,7 +195,7 @@ const showFloatingPanel = computed(() => !store.showProperties && hasSelection.v
         <!-- Toggle properties (right panel) -->
         <button
           type="button"
-          :title="store.showProperties ? 'Hide block settings' : 'Show block settings'"
+          :title="store.showProperties ? $t('Hide block settings') : $t('Show block settings')"
           :class="[
             'flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0',
             store.showProperties
@@ -229,7 +233,7 @@ const showFloatingPanel = computed(() => !store.showProperties && hasSelection.v
       <main class="flex-1 overflow-auto bg-gray-100 dark:bg-gray-950 flex flex-col items-center">
         <template v-if="store.isPreviewIframe">
           <DeviceFrame :mode="store.previewMode" class="my-6">
-            <iframe :src="store.previewUrl ?? ''" :style="iframeStyle" class="block bg-white" title="Page preview" />
+            <iframe :src="store.previewUrl ?? ''" :style="iframeStyle" class="block bg-white" :title="$t('Page preview')" />
           </DeviceFrame>
         </template>
         <template v-else>
@@ -281,14 +285,14 @@ const showFloatingPanel = computed(() => !store.showProperties && hasSelection.v
                 <circle cx="5" cy="8" r="1.5"/><circle cx="11" cy="8" r="1.5"/>
                 <circle cx="5" cy="12" r="1.5"/><circle cx="11" cy="12" r="1.5"/>
               </svg>
-              <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Block Settings</span>
+              <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Block Settings') }}</span>
             </div>
 
             <div class="flex items-center gap-1">
               <!-- Dock to sidebar button -->
               <button
                 type="button"
-                title="Dock to sidebar"
+                :title="$t('Dock to sidebar')"
                 class="w-6 h-6 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 @click="store.showProperties = true"
               >
@@ -300,7 +304,7 @@ const showFloatingPanel = computed(() => !store.showProperties && hasSelection.v
               <!-- Close / deselect button -->
               <button
                 type="button"
-                title="Close"
+                :title="$t('Close')"
                 class="w-6 h-6 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 @click="store.clearSelection()"
               >

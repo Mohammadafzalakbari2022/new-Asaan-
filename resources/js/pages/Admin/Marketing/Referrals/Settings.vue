@@ -116,7 +116,7 @@ const errorFor = (key: keyof typeof form.errors) => form.errors[key];
   <AdminLayout :title="$t('Referral Settings')">
     <div class="p-6 max-w-4xl space-y-6">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Referral settings') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Referral Settings') }}</h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
           {{ $t('These numbers are what customers are promised. Changing them only affects rewards from now on.') }}
         </p>
