@@ -159,22 +159,22 @@ const exportTransactions = () => {
 </script>
 
 <template>
-  <Head title="Transactions" />
+  <Head :title="$t('Transactions')" />
 
-  <AdminLayout title="Transactions">
+  <AdminLayout :title="$t('Transactions')">
     <div class="p-6 space-y-6">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Transactions</h1>
-          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">View and manage payment transactions</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Transactions') }}</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('View and manage payment transactions') }}</p>
         </div>
         <button
           @click="exportTransactions"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <Download class="w-4 h-4 mr-2" />
-          Export
+          {{ $t('Export') }}
         </button>
       </div>
 
@@ -183,7 +183,7 @@ const exportTransactions = () => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Transactions</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total Transactions') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.total }}</p>
             </div>
             <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
@@ -195,7 +195,7 @@ const exportTransactions = () => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Completed</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Completed') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.completed }}</p>
             </div>
             <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -207,7 +207,7 @@ const exportTransactions = () => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-yellow-200 dark:hover:border-yellow-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pending</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Pending') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.pending }}</p>
             </div>
             <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
@@ -219,7 +219,7 @@ const exportTransactions = () => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-red-200 dark:hover:border-red-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Failed</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Failed') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.failed }}</p>
             </div>
             <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
@@ -233,18 +233,18 @@ const exportTransactions = () => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-medium text-gray-900 dark:text-white">Payments</h3>
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ $t('Payments') }}</h3>
                <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                  <DollarSign class="w-4 h-4 text-blue-600 dark:text-blue-400" />
                </div>
            </div>
           <div class="space-y-3">
             <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600 dark:text-gray-400">Count</span>
+               <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Count') }}</span>
               <span class="text-sm font-bold text-gray-900 dark:text-white">{{ statistics.payment_count }}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600 dark:text-gray-400">Total Amount</span>
+               <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Total Amount') }}</span>
               <span class="text-sm font-bold text-green-600 dark:text-green-400">{{ formatPrice(statistics.payment_amount) }}</span>
             </div>
           </div>
@@ -252,18 +252,18 @@ const exportTransactions = () => {
 
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
           <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-medium text-gray-900 dark:text-white">Refunds</h3>
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ $t('Refunds') }}</h3>
                <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                  <RefreshCw class="w-4 h-4 text-purple-600 dark:text-purple-400" />
                </div>
            </div>
           <div class="space-y-3">
             <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600 dark:text-gray-400">Count</span>
+               <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Count') }}</span>
               <span class="text-sm font-bold text-gray-900 dark:text-white">{{ statistics.refund_count }}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600 dark:text-gray-400">Total Amount</span>
+               <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Total Amount') }}</span>
               <span class="text-sm font-bold text-purple-600 dark:text-purple-400">{{ formatPrice(statistics.refund_amount) }}</span>
             </div>
           </div>
@@ -275,14 +275,14 @@ const exportTransactions = () => {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Search -->
           <div class="lg:col-span-1">
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="search"
                 @input="applyFilters"
                 type="text"
-                placeholder="Transaction #, Order #..."
+                :placeholder="$t('Transaction #, Order #...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -290,7 +290,7 @@ const exportTransactions = () => {
 
           <!-- Type Filter -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Type</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Type') }}</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Filter class="h-4 w-4 text-gray-400" />
@@ -300,7 +300,7 @@ const exportTransactions = () => {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Types</option>
+                <option value="">{{ $t('All Types') }}</option>
                 <option v-for="type in types" :key="type.value" :value="type.value">
                   {{ type.label }}
                 </option>
@@ -313,7 +313,7 @@ const exportTransactions = () => {
 
           <!-- Status Filter -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <CheckCircle class="h-4 w-4 text-gray-400" />
@@ -323,7 +323,7 @@ const exportTransactions = () => {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Statuses</option>
+                <option value="">{{ $t('All Statuses') }}</option>
                 <option v-for="status in statuses" :key="status.value" :value="status.value">
                   {{ status.label }}
                 </option>
@@ -336,7 +336,7 @@ const exportTransactions = () => {
 
           <!-- Gateway Filter -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Gateway</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Gateway') }}</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <CreditCard class="h-4 w-4 text-gray-400" />
@@ -346,7 +346,7 @@ const exportTransactions = () => {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Gateways</option>
+                <option value="">{{ $t('All Gateways') }}</option>
                 <option v-for="gateway in gateways" :key="gateway.value" :value="gateway.value">
                   {{ gateway.label }}
                 </option>
@@ -359,7 +359,7 @@ const exportTransactions = () => {
 
           <!-- Date From -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">From Date</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('From Date') }}</label>
             <div class="relative">
               <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -373,7 +373,7 @@ const exportTransactions = () => {
 
           <!-- Date To -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">To Date</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('To Date') }}</label>
              <div class="relative">
               <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -387,7 +387,7 @@ const exportTransactions = () => {
           
            <!-- Min Amount -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Min Amount</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Min Amount') }}</label>
             <div class="relative">
               <DollarSign class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -395,7 +395,7 @@ const exportTransactions = () => {
                 @change="applyFilters"
                 type="number"
                 step="0.01"
-                placeholder="0.00"
+                :placeholder="$t('0.00')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -403,7 +403,7 @@ const exportTransactions = () => {
 
           <!-- Max Amount -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Max Amount</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Max Amount') }}</label>
             <div class="relative">
               <DollarSign class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -411,7 +411,7 @@ const exportTransactions = () => {
                 @change="applyFilters"
                 type="number"
                 step="0.01"
-                placeholder="0.00"
+                :placeholder="$t('0.00')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -425,7 +425,7 @@ const exportTransactions = () => {
              class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
           >
             <X class="w-4 h-4" />
-            Clear Filters
+            {{ $t('Clear Filters') }}
           </button>
         </div>
       </div>
@@ -436,7 +436,7 @@ const exportTransactions = () => {
         <div v-if="selectedIds.length > 0" class="bg-blue-600 rounded-xl shadow-lg p-3 text-white flex items-center justify-between sticky top-4 z-10 px-6 mb-6">
           <span class="text-sm font-semibold flex items-center">
             <CheckCircle class="w-4 h-4 mr-2" />
-             {{ selectedIds.length }} selected
+             {{ $t('{count} selected', { count: selectedIds.length }) }}
           </span>
           <div class="flex gap-2">
             <!-- Add bulk actions here if needed -->
@@ -459,28 +459,28 @@ const exportTransactions = () => {
                   />
                 </th>
                 <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Transaction #
+                  {{ $t('Transaction #') }}
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Order #
+                  {{ $t('Order #') }}
                 </th>
                 <th scope="col" class="hidden xl:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Date
+                  {{ $t('Date') }}
                 </th>
                 <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Type
+                  {{ $t('Type') }}
                 </th>
                 <th scope="col" class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Gateway
+                  {{ $t('Gateway') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Amount
+                  {{ $t('Amount') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
+                  {{ $t('Status') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -517,7 +517,7 @@ const exportTransactions = () => {
                   >
                     {{ transaction.order.order_number }}
                   </Link>
-                  <span v-else class="text-sm text-gray-500 dark:text-gray-400">N/A</span>
+                  <span v-else class="text-sm text-gray-500 dark:text-gray-400">{{ $t('N/A') }}</span>
                 </td>
                 <td class="hidden xl:table-cell px-6 py-4 whitespace-nowrap">
                   <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(transaction.created_at) }}</span>
@@ -547,7 +547,7 @@ const exportTransactions = () => {
                       <button
                         @click="viewTransaction(transaction.id)"
                         class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                        title="View Details"
+                        :title="$t('View Details')"
                       >
                          <Eye class="w-4 h-4" />
                       </button>

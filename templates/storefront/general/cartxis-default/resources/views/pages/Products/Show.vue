@@ -6,8 +6,11 @@ import ThemeLayout from '../../layouts/ThemeLayout.vue';
 import ProductCard from '../../components/ProductCard.vue';
 import QuickViewModal from '../../components/QuickViewModal.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 
 const { formatPrice } = useCurrency();
+const i18n = useI18nStore();
+const t = i18n.t;
 
 interface Brand {
     id: number;
@@ -150,7 +153,7 @@ const addToCart = async () => {
             .map(attr => attr.name);
 
         if (missingAttributes.length > 0) {
-            alert(`Please select: ${missingAttributes.join(', ')}`);
+            alert(t('Please select: {options}', { options: missingAttributes.join(', ') }));
             return;
         }
     }
@@ -185,9 +188,9 @@ const handleMouseMove = (e: MouseEvent) => {
         <div class="bg-gray-50 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <nav class="flex items-center space-x-2 text-sm text-gray-500">
-                    <Link href="/" class="hover:text-gray-700">Home</Link>
+                    <Link href="/" class="hover:text-gray-700">{{ $t('Home') }}</Link>
                     <span>/</span>
-                    <Link href="/products" class="hover:text-gray-700">Products</Link>
+                    <Link href="/products" class="hover:text-gray-700">{{ $t('Products') }}</Link>
                     <span>/</span>
                     <span
                         v-if="product.categories && product.categories.length > 0"
@@ -292,7 +295,7 @@ const handleMouseMove = (e: MouseEvent) => {
                             </div>
                             <span class="ml-2 text-sm text-gray-600">{{ product.rating.toFixed(1) }}</span>
                         </div>
-                        <span class="text-sm text-gray-500">({{ product.reviews_count }} reviews)</span>
+                        <span class="text-sm text-gray-500">{{ $t('({count} reviews)', { count: product.reviews_count }) }}</span>
                     </div>
 
                     <!-- Price -->
@@ -300,7 +303,7 @@ const handleMouseMove = (e: MouseEvent) => {
                         <span class="text-3xl font-bold text-gray-900">{{ formatPrice(displayPrice) }}</span>
                         <span v-if="hasDiscount" class="text-xl text-gray-500 line-through">{{ formatPrice(product.price) }}</span>
                         <span v-if="hasDiscount" class="text-sm font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">
-                            Save {{ discountPercentage }}%
+                            {{ $t('Save {percent}%', { percent: discountPercentage }) }}
                         </span>
                     </div>
 
@@ -313,7 +316,7 @@ const handleMouseMove = (e: MouseEvent) => {
                             <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                             </svg>
-                            In Stock ({{ product.quantity }} available)
+                            {{ $t('In Stock ({count} available)', { count: product.quantity }) }}
                         </span>
                         <span
                             v-else
@@ -322,14 +325,14 @@ const handleMouseMove = (e: MouseEvent) => {
                             <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                             </svg>
-                            Out of Stock
+                            {{ $t('Out of Stock') }}
                         </span>
                     </div>
 
                     <!-- SKU & Product Type -->
                     <div class="flex items-center gap-3">
                         <div class="text-sm text-gray-500">
-                            SKU: <span class="font-medium text-gray-700">{{ product.sku }}</span>
+                            {{ $t('SKU:') }} <span class="font-medium text-gray-700">{{ product.sku }}</span>
                         </div>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="{
                             'bg-gray-100 text-gray-800': product.type === 'simple',
@@ -342,7 +345,7 @@ const handleMouseMove = (e: MouseEvent) => {
                                 <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z" />
                                 <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z" />
                             </svg>
-                            {{ product.type.charAt(0).toUpperCase() + product.type.slice(1) }}
+                            {{ $t(product.type.charAt(0).toUpperCase() + product.type.slice(1)) }}
                         </span>
                     </div>
 
@@ -354,13 +357,13 @@ const handleMouseMove = (e: MouseEvent) => {
                             </svg>
                             <div>
                                 <p class="text-sm font-medium text-blue-900">
-                                    {{ product.type === 'downloadable' ? 'Digital Download' : 'Virtual Product' }}
+                                    {{ $t(product.type === 'downloadable' ? 'Digital Download' : 'Virtual Product') }}
                                 </p>
                                 <p class="text-sm text-blue-700 mt-1">
-                                    {{ product.type === 'downloadable' 
-                                        ? 'This is a digital product. Download link will be available after purchase.' 
-                                        : 'This is a virtual product. No physical shipping required.' 
-                                    }}
+                                    {{ $t(product.type === 'downloadable'
+                                        ? 'This is a digital product. Download link will be available after purchase.'
+                                        : 'This is a virtual product. No physical shipping required.'
+                                    ) }}
                                 </p>
                             </div>
                         </div>
@@ -423,7 +426,7 @@ const handleMouseMove = (e: MouseEvent) => {
                                 
                                 <!-- Selected Color Display -->
                                 <div v-if="selectedAttributes[attribute.code]" class="text-sm text-gray-600">
-                                    Selected: <span class="font-semibold text-gray-900">{{ selectedAttributes[attribute.code] }}</span>
+                                    {{ $t('Selected:') }} <span class="font-semibold text-gray-900">{{ selectedAttributes[attribute.code] }}</span>
                                 </div>
                             </div>
 
@@ -448,7 +451,7 @@ const handleMouseMove = (e: MouseEvent) => {
                     <div v-if="product.in_stock" class="space-y-4">
                         <!-- Quantity Selector - Hidden for downloadable products -->
                         <div v-if="product.type !== 'downloadable'" class="flex items-center gap-4">
-                            <span class="text-sm font-medium text-gray-700">Quantity:</span>
+                            <span class="text-sm font-medium text-gray-700">{{ $t('Quantity:') }}</span>
                             <div class="flex items-center border rounded-lg">
                                 <button
                                     @click="decrementQuantity"
@@ -484,15 +487,15 @@ const handleMouseMove = (e: MouseEvent) => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                             <span v-if="!isAddingToCart">
-                                {{ product.type === 'downloadable' ? 'Buy Now & Download' : 'Add to Cart' }}
+                                {{ $t(product.type === 'downloadable' ? 'Buy Now & Download' : 'Add to Cart') }}
                             </span>
-                            <span v-else>Adding...</span>
+                            <span v-else>{{ $t('Adding...') }}</span>
                         </button>
                     </div>
 
                     <!-- Categories -->
                     <div v-if="product.categories && product.categories.length > 0" class="border-t pt-6">
-                        <span class="text-sm font-medium text-gray-700">Categories: </span>
+                        <span class="text-sm font-medium text-gray-700">{{ $t('Categories:') }}</span>
                         <Link
                             v-for="(category, index) in product.categories"
                             :key="category.id"
@@ -507,7 +510,7 @@ const handleMouseMove = (e: MouseEvent) => {
 
             <!-- Full Description -->
             <div v-if="product.description" class="mt-12 border-t pt-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Product Description</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ $t('Product Description') }}</h2>
                 <div class="prose max-w-none text-gray-600 leading-relaxed">
                     {{ product.description }}
                 </div>
@@ -515,7 +518,7 @@ const handleMouseMove = (e: MouseEvent) => {
 
             <!-- Related Products -->
             <div v-if="relatedProducts.length > 0" class="mt-12 border-t pt-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Related Products</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('Related Products') }}</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     <ProductCard
                         v-for="relatedProduct in relatedProducts"

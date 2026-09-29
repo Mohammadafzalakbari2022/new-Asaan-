@@ -200,15 +200,15 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
 </script>
 
 <template>
-  <Head :title="`Order #${order.order_number}`" />
+  <Head :title="$t('Order #{number}', { number: order.order_number })" />
 
-  <AdminLayout :title="`Order #${order.order_number}`">
+  <AdminLayout :title="$t('Order #{number}', { number: order.order_number })">
     <div class="p-6 space-y-6">
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
           <div class="flex items-center gap-3">
-            <h1 class="text-2xl font-bold text-gray-900">Order #{{ order.order_number }}</h1>
+            <h1 class="text-2xl font-bold text-gray-900">{{ $t('Order #{number}', { number: order.order_number }) }}</h1>
             <span
               v-if="order.source_channel === 'mobile_app'"
               class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800"
@@ -216,7 +216,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
               <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17 2H7a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2zm-5 18a1 1 0 110-2 1 1 0 010 2zm5-4H7V4h10v12z"/>
               </svg>
-              Mobile App
+              {{ $t('Mobile App') }}
             </span>
             <span
               v-else-if="order.source_channel && order.source_channel !== 'web'"
@@ -233,26 +233,26 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
             v-if="order.payment_status === 'paid'"
             class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700"
           >
-            Create Credit Memo
+            {{ $t('Create Credit Memo') }}
           </button>
           <button
             @click="showStatusModal = true"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
           >
-            Update Status
+            {{ $t('Update Status') }}
           </button>
           <button
             @click="showPaymentModal = true"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
           >
-            Update Payment
+            {{ $t('Update Payment') }}
           </button>
           <button
             @click="showCancelModal = true"
             v-if="order.status !== 'cancelled'"
             class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
           >
-            Cancel Order
+            {{ $t('Cancel Order') }}
           </button>
         </div>
       </div>
@@ -260,7 +260,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
       <!-- Status Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <div class="text-sm text-gray-600">Order Status</div>
+          <div class="text-sm text-gray-600">{{ $t('Order Status') }}</div>
           <div class="mt-2">
             <span :class="['px-3 py-1 inline-flex text-sm font-semibold rounded-full', getStatusBadge(order.status)]">
               {{ order.status }}
@@ -268,7 +268,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
           </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <div class="text-sm text-gray-600">Payment Status</div>
+          <div class="text-sm text-gray-600">{{ $t('Payment Status') }}</div>
           <div class="mt-2">
             <span :class="['px-3 py-1 inline-flex text-sm font-semibold rounded-full', getStatusBadge(order.payment_status)]">
               {{ order.payment_status }}
@@ -276,7 +276,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
           </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <div class="text-sm text-gray-600">Order Total</div>
+          <div class="text-sm text-gray-600">{{ $t('Order Total') }}</div>
           <div class="mt-2 text-2xl font-bold text-gray-900">{{ formatPrice(order.total) }}</div>
         </div>
       </div>
@@ -296,7 +296,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               ]"
             >
-              {{ tab.charAt(0).toUpperCase() + tab.slice(1) }}
+              {{ $t(tab.charAt(0).toUpperCase() + tab.slice(1)) }}
             </button>
           </nav>
         </div>
@@ -306,17 +306,17 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
           <div v-if="activeTab === 'overview'" class="space-y-6">
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <div class="text-sm font-medium text-gray-500">Customer</div>
-                <div class="mt-1 text-sm text-gray-900">{{ order.user?.name || 'Guest' }}</div>
+                <div class="text-sm font-medium text-gray-500">{{ $t('Customer') }}</div>
+                <div class="mt-1 text-sm text-gray-900">{{ order.user?.name || $t('Guest') }}</div>
                 <div class="text-sm text-gray-500">{{ order.customer_email }}</div>
                 <div class="text-sm text-gray-500">{{ order.customer_phone }}</div>
               </div>
               <div>
-                <div class="text-sm font-medium text-gray-500">Payment Method</div>
+                <div class="text-sm font-medium text-gray-500">{{ $t('Payment Method') }}</div>
                 <div class="mt-1 text-sm text-gray-900">{{ paymentMethodLabel(order.payment_method) }}</div>
-                <div class="text-sm font-medium text-gray-500 mt-3">Shipping Method</div>
+                <div class="text-sm font-medium text-gray-500 mt-3">{{ $t('Shipping Method') }}</div>
                 <div class="mt-1 text-sm text-gray-900">{{ order.shipping_method }}</div>
-                <div class="text-sm font-medium text-gray-500 mt-3">Order Source</div>
+                <div class="text-sm font-medium text-gray-500 mt-3">{{ $t('Order Source') }}</div>
                 <div class="mt-1">
                   <span
                     v-if="order.source_channel === 'mobile_app'"
@@ -325,16 +325,16 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M17 2H7a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2zm-5 18a1 1 0 110-2 1 1 0 010 2zm5-4H7V4h10v12z"/>
                     </svg>
-                    Mobile App
+                    {{ $t('Mobile App') }}
                   </span>
-                  <span v-else class="text-sm text-gray-900">{{ order.source_channel || 'Web' }}</span>
+                  <span v-else class="text-sm text-gray-900">{{ order.source_channel || $t('Web') }}</span>
                 </div>
-                <div v-if="order.tracking_number" class="text-sm font-medium text-gray-500 mt-3">Tracking Number</div>
+                <div v-if="order.tracking_number" class="text-sm font-medium text-gray-500 mt-3">{{ $t('Tracking Number') }}</div>
                 <div v-if="order.tracking_number" class="mt-1 text-sm text-gray-900">{{ order.tracking_number }}</div>
               </div>
             </div>
             <div v-if="order.notes">
-              <div class="text-sm font-medium text-gray-500">Notes</div>
+              <div class="text-sm font-medium text-gray-500">{{ $t('Notes') }}</div>
               <div class="mt-1 text-sm text-gray-900 bg-gray-50 p-3 rounded">{{ order.notes }}</div>
             </div>
           </div>
@@ -344,10 +344,10 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
             <table class="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
-                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Price</th>
-                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Qty</th>
-                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Total</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('Product') }}</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ $t('Price') }}</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ $t('Qty') }}</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ $t('Total') }}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
@@ -360,23 +360,23 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
               </tbody>
               <tfoot class="bg-gray-50">
                 <tr>
-                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Subtotal:</td>
+                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Subtotal:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ formatPrice(order.subtotal) }}</td>
                 </tr>
                 <tr>
-                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Tax:</td>
+                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Tax:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ formatPrice(order.tax) }}</td>
                 </tr>
                 <tr>
-                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Shipping:</td>
+                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Shipping:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ formatPrice(order.shipping_cost) }}</td>
                 </tr>
                 <tr v-if="order.discount > 0">
-                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Discount:</td>
+                  <td colspan="3" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Discount:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-red-600 text-right">-{{ formatPrice(order.discount) }}</td>
                 </tr>
                 <tr class="border-t-2 border-gray-300">
-                  <td colspan="3" class="px-4 py-3 text-base font-bold text-gray-900 text-right">Total:</td>
+                  <td colspan="3" class="px-4 py-3 text-base font-bold text-gray-900 text-right">{{ $t('Total:') }}</td>
                   <td class="px-4 py-3 text-base font-bold text-gray-900 text-right">{{ formatPrice(order.total) }}</td>
                 </tr>
               </tfoot>
@@ -386,7 +386,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
           <!-- Addresses Tab -->
           <div v-if="activeTab === 'addresses'" class="grid grid-cols-2 gap-6">
             <div v-if="shippingAddress">
-              <h3 class="text-sm font-medium text-gray-900 mb-3">Shipping Address</h3>
+              <h3 class="text-sm font-medium text-gray-900 mb-3">{{ $t('Shipping Address') }}</h3>
               <div class="text-sm text-gray-600 space-y-1">
                 <div>{{ shippingAddress.full_name }}</div>
                 <div>{{ shippingAddress.phone }}</div>
@@ -397,7 +397,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
               </div>
             </div>
             <div v-if="billingAddress">
-              <h3 class="text-sm font-medium text-gray-900 mb-3">Billing Address</h3>
+              <h3 class="text-sm font-medium text-gray-900 mb-3">{{ $t('Billing Address') }}</h3>
               <div class="text-sm text-gray-600 space-y-1">
                 <div>{{ billingAddress.full_name }}</div>
                 <div>{{ billingAddress.phone }}</div>
@@ -436,11 +436,11 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                       
                       <div class="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <span class="font-medium text-gray-700">Carrier:</span>
-                          <span class="ml-2 text-gray-900">{{ shipment.carrier }}</span>
-                        </div>
-                        <div v-if="shipment.tracking_number">
-                          <span class="font-medium text-gray-700">Tracking:</span>
+                           <span class="font-medium text-gray-700">{{ $t('Carrier:') }}</span>
+                           <span class="ml-2 text-gray-900">{{ shipment.carrier }}</span>
+                         </div>
+                         <div v-if="shipment.tracking_number">
+                           <span class="font-medium text-gray-700">{{ $t('Tracking:') }}</span>
                           <a 
                             v-if="shipment.tracking_url"
                             :href="shipment.tracking_url"
@@ -452,17 +452,17 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                           <span v-else class="ml-2 text-gray-900">{{ shipment.tracking_number }}</span>
                         </div>
                         <div v-if="shipment.shipped_at">
-                          <span class="font-medium text-gray-700">Shipped:</span>
+                           <span class="font-medium text-gray-700">{{ $t('Shipped:') }}</span>
                           <span class="ml-2 text-gray-900">{{ formatDate(shipment.shipped_at) }}</span>
                         </div>
                         <div v-if="shipment.delivered_at">
-                          <span class="font-medium text-gray-700">Delivered:</span>
+                           <span class="font-medium text-gray-700">{{ $t('Delivered:') }}</span>
                           <span class="ml-2 text-gray-900">{{ formatDate(shipment.delivered_at) }}</span>
                         </div>
                       </div>
 
                       <div v-if="shipment.shipment_items && shipment.shipment_items.length > 0" class="mt-3">
-                        <div class="text-xs font-medium text-gray-700 mb-1">Items:</div>
+                         <div class="text-xs font-medium text-gray-700 mb-1">{{ $t('Items:') }}</div>
                         <div class="text-sm text-gray-600">
                           <span v-for="(item, index) in shipment.shipment_items" :key="item.id">
                             {{ item.order_item.product_name }} (×{{ item.quantity }})<span v-if="index < shipment.shipment_items.length - 1">, </span>
@@ -480,13 +480,13 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                   </svg>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900 mb-1">No shipments yet</h3>
-                <p class="text-gray-600 mb-4">Create a shipment to start tracking this order's delivery.</p>
+                <h3 class="text-lg font-medium text-gray-900 mb-1">{{ $t('No shipments yet') }}</h3>
+                <p class="text-gray-600 mb-4">{{ $t("Create a shipment to start tracking this order's delivery.") }}</p>
                 <a 
                   :href="`/admin/sales/shipments/create?order_id=${order.id}`"
                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"
                 >
-                  Create Shipment
+                  {{ $t('Create Shipment') }}
                 </a>
               </div>
             </div>
@@ -499,21 +499,21 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                 <div class="flex items-start justify-between">
                   <div>
                     <div v-if="history.status_from && history.status_to" class="text-sm font-medium text-gray-900">
-                      Status changed: {{ history.status_from }} → {{ history.status_to }}
+                      {{ $t('Status changed: {from} to {to}', { from: history.status_from, to: history.status_to }) }}
                     </div>
                     <div v-if="history.payment_status_from && history.payment_status_to" class="text-sm font-medium text-gray-900">
-                      Payment: {{ history.payment_status_from }} → {{ history.payment_status_to }}
+                      {{ $t('Payment: {from} to {to}', { from: history.payment_status_from, to: history.payment_status_to }) }}
                     </div>
                     <div v-if="history.comment" class="mt-1 text-sm text-gray-600">{{ history.comment }}</div>
                     <div class="mt-1 text-xs text-gray-500">
-                      {{ history.admin_user?.name || 'System' }} • {{ formatDate(history.created_at) }}
-                      <span v-if="history.customer_notified" class="ml-2 text-blue-600">✓ Customer notified</span>
+                      {{ history.admin_user?.name || $t('System') }} • {{ formatDate(history.created_at) }}
+                      <span v-if="history.customer_notified" class="ml-2 text-blue-600">✓ {{ $t('Customer notified') }}</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div v-if="order.histories.length === 0" class="text-center py-8 text-gray-500">
-                No history available
+                {{ $t('No history available') }}
               </div>
             </div>
           </div>
@@ -526,27 +526,27 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
       <div class="flex items-center justify-center min-h-screen px-4">
         <div class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75" @click="showStatusModal = false"></div>
         <div class="relative bg-white rounded-lg max-w-lg w-full p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Update Order Status</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Update Order Status') }}</h3>
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">New Status</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('New Status') }}</label>
               <select v-model="newStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                <option value="">Select status...</option>
+                <option value="">{{ $t('Select status...') }}</option>
                 <option v-for="status in statuses" :key="status.value" :value="status.value">{{ status.label }}</option>
               </select>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Comment</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Comment') }}</label>
               <textarea v-model="statusComment" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg"></textarea>
             </div>
             <div class="flex items-center">
               <input type="checkbox" v-model="notifyCustomer" class="h-4 w-4 rounded border-gray-300 text-blue-600" />
-              <label class="ml-2 text-sm text-gray-700">Notify customer</label>
+              <label class="ml-2 text-sm text-gray-700">{{ $t('Notify customer') }}</label>
             </div>
           </div>
           <div class="mt-6 flex justify-end gap-2">
-            <button @click="showStatusModal = false" class="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg">Cancel</button>
-            <button @click="updateStatus" :disabled="!newStatus" class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg disabled:opacity-50">Update</button>
+            <button @click="showStatusModal = false" class="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg">{{ $t('Cancel') }}</button>
+            <button @click="updateStatus" :disabled="!newStatus" class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg disabled:opacity-50">{{ $t('Update') }}</button>
           </div>
         </div>
       </div>
@@ -557,20 +557,20 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
       <div class="flex items-center justify-center min-h-screen px-4">
         <div class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75" @click="showCancelModal = false"></div>
         <div class="relative bg-white rounded-lg max-w-lg w-full p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Cancel Order</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Cancel Order') }}</h3>
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Cancellation Reason</label>
-              <textarea v-model="cancelReason" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Enter reason for cancellation..."></textarea>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Cancellation Reason') }}</label>
+              <textarea v-model="cancelReason" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg" :placeholder="$t('Enter reason for cancellation...')"></textarea>
             </div>
             <div class="flex items-center">
               <input type="checkbox" v-model="restoreStock" class="h-4 w-4 rounded border-gray-300 text-blue-600" />
-              <label class="ml-2 text-sm text-gray-700">Restore product stock</label>
+              <label class="ml-2 text-sm text-gray-700">{{ $t('Restore product stock') }}</label>
             </div>
           </div>
           <div class="mt-6 flex justify-end gap-2">
-            <button @click="showCancelModal = false" class="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg">Cancel</button>
-            <button @click="cancelOrder" :disabled="!cancelReason" class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg disabled:opacity-50">Cancel Order</button>
+            <button @click="showCancelModal = false" class="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg">{{ $t('Cancel') }}</button>
+            <button @click="cancelOrder" :disabled="!cancelReason" class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg disabled:opacity-50">{{ $t('Cancel Order') }}</button>
           </div>
         </div>
       </div>
@@ -581,10 +581,10 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
       <div class="flex items-center justify-center min-h-screen px-4">
         <div class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75" @click="showPaymentModal = false"></div>
         <div class="relative bg-white rounded-lg max-w-lg w-full p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Update Payment Status</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Update Payment Status') }}</h3>
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Current Payment Status</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Current Payment Status') }}</label>
               <div class="px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg">
                 <span :class="['px-3 py-1 inline-flex text-sm font-semibold rounded-full', getStatusBadge(order.payment_status)]">
                   {{ order.payment_status }}
@@ -592,9 +592,9 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
               </div>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">New Payment Status</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('New Payment Status') }}</label>
               <select v-model="newPaymentStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                <option value="">Select payment status...</option>
+                <option value="">{{ $t('Select payment status...') }}</option>
                 <option v-for="status in paymentStatuses" :key="status.value" :value="status.value">{{ status.label }}</option>
               </select>
             </div>
@@ -603,13 +603,13 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                 <svg class="h-5 w-5 text-blue-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                 </svg>
-                <p class="text-sm text-blue-700">Updating payment status will be recorded in order history.</p>
+                <p class="text-sm text-blue-700">{{ $t('Updating payment status will be recorded in order history.') }}</p>
               </div>
             </div>
           </div>
           <div class="mt-6 flex justify-end gap-2">
-            <button @click="showPaymentModal = false" class="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg">Cancel</button>
-            <button @click="updatePaymentStatus" :disabled="!newPaymentStatus" class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg disabled:opacity-50">Update Payment Status</button>
+            <button @click="showPaymentModal = false" class="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg">{{ $t('Cancel') }}</button>
+            <button @click="updatePaymentStatus" :disabled="!newPaymentStatus" class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg disabled:opacity-50">{{ $t('Update Payment Status') }}</button>
           </div>
         </div>
       </div>

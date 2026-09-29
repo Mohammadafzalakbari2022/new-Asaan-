@@ -241,22 +241,22 @@ function formatDate(date: string): string {
 </script>
 
 <template>
-  <Head title="Products" />
+  <Head :title="$t('Products')" />
 
-  <AdminLayout title="Products">
+  <AdminLayout :title="$t('Products')">
     <div class="space-y-5">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Products</h1>
-          <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">Manage your entire product catalog from one place.</p>
+          <h1 class="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">{{ $t('Products') }}</h1>
+          <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">{{ $t('Manage your entire product catalog from one place.') }}</p>
         </div>
         <Link
           :href="productRoutes.create().url"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <Plus class="w-4 h-4 mr-2" />
-          Add Product
+          {{ $t('Add Product') }}
         </Link>
       </div>
 
@@ -264,7 +264,7 @@ function formatDate(date: string): string {
       <div class="bg-white dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700/60 p-5">
         <div class="flex items-center gap-2 mb-3.5 text-gray-700 dark:text-gray-300 text-sm font-medium">
           <Filter class="w-3.5 h-3.5 text-gray-400" />
-          Filters & Search
+          {{ $t('Filters & Search') }}
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -277,7 +277,7 @@ function formatDate(date: string): string {
               v-model="search"
               @input="performSearch"
               type="text"
-              placeholder="Search by name, SKU..."
+              :placeholder="$t('Search by name, SKU...')"
               class="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm"
             />
           </div>
@@ -290,9 +290,9 @@ function formatDate(date: string): string {
                 @change="applyFilters"
                 class="appearance-none block w-full pl-3 pr-10 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm cursor-pointer"
               >
-                <option value="">All Status</option>
-                <option value="enabled">Enabled</option>
-                <option value="disabled">Disabled</option>
+                <option value="">{{ $t('All Status') }}</option>
+                <option value="enabled">{{ $t('Enabled') }}</option>
+                <option value="disabled">{{ $t('Disabled') }}</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                 <ChevronDown class="h-4 w-4" />
@@ -308,7 +308,7 @@ function formatDate(date: string): string {
                 @change="applyFilters"
                 class="appearance-none block w-full pl-3 pr-10 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm cursor-pointer"
               >
-                <option value="">All Categories</option>
+                <option value="">{{ $t('All Categories') }}</option>
                 <option v-for="category in categories" :key="category.id" :value="category.id">
                   {{ category.name }}
                 </option>
@@ -327,10 +327,10 @@ function formatDate(date: string): string {
                 @change="applyFilters"
                 class="appearance-none block w-full pl-3 pr-10 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm cursor-pointer"
               >
-                <option value="">All Stock Status</option>
-                <option value="in_stock">In Stock</option>
-                <option value="out_of_stock">Out of Stock</option>
-                <option value="on_backorder">On Backorder</option>
+                <option value="">{{ $t('All Stock Status') }}</option>
+                <option value="in_stock">{{ $t('In Stock') }}</option>
+                <option value="out_of_stock">{{ $t('Out of Stock') }}</option>
+                <option value="on_backorder">{{ $t('On Backorder') }}</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                 <ChevronDown class="h-4 w-4" />
@@ -343,11 +343,11 @@ function formatDate(date: string): string {
         <div v-if="search || statusFilter || categoryFilter || stockStatusFilter" class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <div class="flex flex-wrap gap-2">
             <span v-if="search" class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
-              Search: {{ search }}
+              {{ $t('Search: {value}', { value: search }) }}
               <button @click="search = ''; performSearch()" class="ml-1.5 hover:text-blue-900 dark:hover:text-blue-100"><X class="w-3 h-3" /></button>
             </span>
             <span v-if="statusFilter" class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
-              Status: {{ statusFilter }}
+              {{ $t('Status: {value}', { value: statusFilter }) }}
               <button @click="statusFilter = ''; applyFilters()" class="ml-1.5 hover:text-gray-900 dark:hover:text-white"><X class="w-3 h-3" /></button>
             </span>
             <!-- Add more badges as needed -->
@@ -357,7 +357,7 @@ function formatDate(date: string): string {
             class="text-sm text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 font-medium flex items-center transition-colors"
           >
             <X class="w-4 h-4 mr-1" />
-            Clear All
+            {{ $t('Clear All') }}
           </button>
         </div>
       </div>
@@ -367,20 +367,20 @@ function formatDate(date: string): string {
         <div v-if="selectedProducts.length > 0" class="bg-blue-600 rounded-xl p-3 text-white flex items-center justify-between sticky top-4 z-10 px-5 shadow-lg shadow-blue-600/20">
           <span class="text-xs font-semibold flex items-center">
             <CheckCircle class="w-3.5 h-3.5 mr-1.5" />
-            {{ selectedProducts.length }} product{{ selectedProducts.length > 1 ? 's' : '' }} selected
+            {{ $t(selectedProducts.length > 1 ? '{count} products selected' : '{count} product selected', { count: selectedProducts.length }) }}
           </span>
           <div class="flex gap-2">
             <button
               @click="bulkUpdateStatus('enabled')"
               class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide"
             >
-              Enable
+              {{ $t('Enable') }}
             </button>
             <button
               @click="bulkUpdateStatus('disabled')"
               class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide"
             >
-              Disable
+              {{ $t('Disable') }}
             </button>
             <div class="w-px h-6 bg-blue-400 mx-1"></div>
             <button
@@ -388,7 +388,7 @@ function formatDate(date: string): string {
               class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors flex items-center uppercase tracking-wide"
             >
               <Trash2 class="w-3 h-3 mr-1.5" />
-              Delete
+              {{ $t('Delete') }}
             </button>
           </div>
         </div>
@@ -410,14 +410,14 @@ function formatDate(date: string): string {
                   />
                 </th>
                 <th class="w-20 px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Image
+                  {{ $t('Image') }}
                 </th>
                 <th
                   @click="sortTable('name')"
                   class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer group hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <div class="flex items-center gap-1">
-                    Product Details
+                    {{ $t('Product Details') }}
                     <span v-if="sortBy === 'name'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -430,7 +430,7 @@ function formatDate(date: string): string {
                   class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer group hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <div class="flex items-center gap-1">
-                    SKU & Type
+                    {{ $t('SKU & Type') }}
                     <span v-if="sortBy === 'sku'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -443,7 +443,7 @@ function formatDate(date: string): string {
                   class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer group hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <div class="flex items-center gap-1">
-                    Price
+                    {{ $t('Price') }}
                     <span v-if="sortBy === 'price'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -456,7 +456,7 @@ function formatDate(date: string): string {
                   class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer group hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <div class="flex items-center gap-1">
-                    Stock
+                    {{ $t('Stock') }}
                     <span v-if="sortBy === 'quantity'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -465,10 +465,10 @@ function formatDate(date: string): string {
                   </div>
                 </th>
                 <th class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
+                  {{ $t('Status') }}
                 </th>
                 <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -479,9 +479,9 @@ function formatDate(date: string): string {
                     <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                       <Package class="w-8 h-8" />
                     </div>
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white">No products found</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">No products matched your search criteria. Try adjusting your filters or add a new product.</p>
-                    <button @click="clearFilters" v-if="search || statusFilter || categoryFilter" class="mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm">Clear all filters</button>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No products found') }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('No products matched your search criteria. Try adjusting your filters or add a new product.') }}</p>
+                    <button @click="clearFilters" v-if="search || statusFilter || categoryFilter" class="mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm">{{ $t('Clear all filters') }}</button>
                   </div>
                 </td>
               </tr>
@@ -530,10 +530,10 @@ function formatDate(date: string): string {
                       </div>
                       <div class="flex gap-1.5 mt-2" v-if="product.featured || product.new">
                         <span v-if="product.featured" class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-gradient-to-r from-yellow-100 to-yellow-200 dark:from-yellow-900/40 dark:to-yellow-800/40 text-yellow-800 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800/50 shadow-sm">
-                          Featured
+                          {{ $t('Featured') }}
                         </span>
                         <span v-if="product.new" class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-gradient-to-r from-green-100 to-green-200 dark:from-green-900/40 dark:to-green-800/40 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800/50 shadow-sm">
-                          New
+                          {{ $t('New') }}
                         </span>
                       </div>
                     </div>
@@ -548,7 +548,7 @@ function formatDate(date: string): string {
                       'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800': product.type === 'virtual',
                       'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/20 dark:text-cyan-300 dark:border-cyan-800': product.type === 'downloadable',
                     }">
-                      {{ product.type.charAt(0).toUpperCase() + product.type.slice(1) }}
+                      {{ $t(product.type.charAt(0).toUpperCase() + product.type.slice(1)) }}
                     </span>
                   </div>
                 </td>
@@ -571,10 +571,10 @@ function formatDate(date: string): string {
                           'bg-red-500': product.stock_status === 'out_of_stock',
                           'bg-yellow-500': product.stock_status === 'on_backorder',
                         }"></div>
-                        {{ product.quantity }} units
+                        {{ $t('{quantity} units', { quantity: product.quantity }) }}
                      </div>
                     <span class="text-[10px] uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-400">
-                      {{ product.stock_status.replace('_', ' ') }}
+                      {{ $t(product.stock_status.replace('_', ' ')) }}
                     </span>
                   </div>
                 </td>
@@ -585,7 +585,7 @@ function formatDate(date: string): string {
                   }">
                     <CheckCircle v-if="product.status === 'enabled'" class="w-3 h-3 mr-1" />
                     <XCircle v-else class="w-3 h-3 mr-1" />
-                    {{ product.status.charAt(0).toUpperCase() + product.status.slice(1) }}
+                    {{ $t(product.status.charAt(0).toUpperCase() + product.status.slice(1)) }}
                   </span>
                 </td>
                 <td class="px-6 py-4 text-right text-sm font-medium align-middle">
@@ -593,21 +593,21 @@ function formatDate(date: string): string {
                     <button
                       @click="openQuickView(product)"
                       class="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-500/10 rounded-lg transition-colors"
-                      title="Quick View"
+                      :title="$t('Quick View')"
                     >
                       <Eye class="w-4 h-4" />
                     </button>
                     <Link
                       :href="productRoutes.edit({ product: product.id }).url"
                       class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors"
-                      title="Edit"
+                      :title="$t('Edit')"
                     >
                       <Edit class="w-4 h-4" />
                     </Link>
                     <button
                       @click="confirmDelete(product.id)"
                       class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
-                      title="Delete"
+                      :title="$t('Delete')"
                     >
                       <Trash2 class="w-4 h-4" />
                     </button>
@@ -619,7 +619,7 @@ function formatDate(date: string): string {
                  <td colspan="8" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                     <div class="grid grid-cols-2 gap-4 text-sm">
                        <div class="flex flex-col gap-1">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Price</span>
+                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Price') }}</span>
                           <div v-if="product.special_price">
                              <span class="font-bold text-red-600">{{ formatPrice(product.special_price) }}</span>
                              <span class="text-xs line-through text-gray-400 ml-1">{{ formatPrice(product.price) }}</span>
@@ -627,30 +627,30 @@ function formatDate(date: string): string {
                           <span v-else class="font-bold text-gray-900 dark:text-gray-100">{{ formatPrice(product.price) }}</span>
                        </div>
                        <div class="flex flex-col gap-1">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Stock</span>
+                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Stock') }}</span>
                           <div class="flex items-center gap-2">
-                             <span class="font-semibold text-gray-900 dark:text-white">{{ product.quantity }} units</span>
+                             <span class="font-semibold text-gray-900 dark:text-white">{{ $t('{quantity} units', { quantity: product.quantity }) }}</span>
                              <span class="px-1.5 py-0.5 text-[10px] rounded border" :class="{
                                 'bg-green-50 text-green-700 border-green-200': product.stock_status === 'in_stock',
                                 'bg-red-50 text-red-700 border-red-200': product.stock_status === 'out_of_stock',
                                 'bg-yellow-50 text-yellow-700 border-yellow-200': product.stock_status === 'on_backorder'
-                             }">{{ product.stock_status.replace('_', ' ') }}</span>
+                             }">{{ $t(product.stock_status.replace('_', ' ')) }}</span>
                           </div>
                        </div>
                        <div class="flex flex-col gap-1">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">SKU & Type</span>
+                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('SKU & Type') }}</span>
                           <div class="flex flex-col gap-1">
                              <span class="font-mono text-xs text-gray-600">{{ product.sku || 'N/A' }}</span>
                              <span class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded w-fit capitalize">{{ product.type }}</span>
                           </div>
                        </div>
                        <div class="flex flex-col gap-1">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Status</span>
+                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Status') }}</span>
                           <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium w-fit border" :class="{
                            'bg-green-50 text-green-700 border-green-200': product.status === 'enabled',
                            'bg-gray-100 text-gray-600 border-gray-200': product.status === 'disabled',
                           }">
-                             {{ product.status.charAt(0).toUpperCase() + product.status.slice(1) }}
+                             {{ $t(product.status.charAt(0).toUpperCase() + product.status.slice(1)) }}
                           </span>
                        </div>
                     </div>
@@ -662,22 +662,22 @@ function formatDate(date: string): string {
         </div>
 
         <!-- Pagination -->
-        <Pagination :data="products" resource-name="products" />
+        <Pagination :data="products" :resource-name="$t('products')" />
       </div>
 
       <!-- Delete Confirmation Modal -->
       <ConfirmDeleteModal
         v-model:show="showDeleteModal"
         :title="deletingProduct?.name ?? ''"
-        :message="`Are you sure you want to delete '${deletingProduct?.name}'? This action cannot be undone.`"
+        :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: deletingProduct?.name })"
         @confirm="deleteProduct"
       />
 
       <!-- Bulk Delete Confirmation Modal -->
       <ConfirmDeleteModal
         v-model:show="showBulkDeleteModal"
-        title="Delete Multiple Products"
-        :message="`Are you sure you want to delete ${selectedProducts.length} product${selectedProducts.length > 1 ? 's' : ''}? This action cannot be undone.`"
+        :title="$t('Delete Multiple Products')"
+        :message="$t(selectedProducts.length > 1 ? 'Are you sure you want to delete {count} products? This action cannot be undone.' : 'Are you sure you want to delete {count} product? This action cannot be undone.', { count: selectedProducts.length })"
         @confirm="bulkDelete"
       />
 

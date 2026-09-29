@@ -22,7 +22,7 @@ const showConfirmPassword = ref(false);
 
 <template>
     <ThemeLayout>
-        <Head title="Create Account" />
+        <Head :title="$t('Create Account')" />
 
         <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
             <div class="w-full max-w-md">
@@ -35,10 +35,10 @@ const showConfirmPassword = ref(false);
                         class="h-16 w-auto mx-auto mb-4 object-contain"
                     />
                     <h1 class="text-3xl font-bold text-gray-900 mb-2">
-                        Create Your Account
+                        {{ $t('Create Your Account') }}
                     </h1>
                     <p class="text-gray-600">
-                        Join us and start shopping today
+                        {{ $t('Join us and start shopping today') }}
                     </p>
                 </div>
 
@@ -54,7 +54,7 @@ const showConfirmPassword = ref(false);
                         <!-- Name Field -->
                         <div class="space-y-2">
                             <Label for="name" class="text-sm font-medium text-gray-700">
-                                Full Name
+                                {{ $t('Full Name') }}
                             </Label>
                             <Input
                                 id="name"
@@ -71,7 +71,7 @@ const showConfirmPassword = ref(false);
                         <!-- Email Field -->
                         <div class="space-y-2">
                             <Label for="email" class="text-sm font-medium text-gray-700">
-                                Email Address
+                                {{ $t('Email Address') }}
                             </Label>
                             <Input
                                 id="email"
@@ -89,7 +89,7 @@ const showConfirmPassword = ref(false);
                         <!-- Password Field -->
                         <div class="space-y-2">
                             <Label for="password" class="text-sm font-medium text-gray-700">
-                                Password
+                                {{ $t('Password') }}
                             </Label>
                             <div class="relative">
                                 <Input
@@ -99,13 +99,13 @@ const showConfirmPassword = ref(false);
                                     required
                                     :tabindex="3"
                                     autocomplete="new-password"
-                                    placeholder="Create a strong password"
+                                    :placeholder="$t('Create a strong password')"
                                     class="w-full pr-10"
                                 />
                                 <button
                                     type="button"
                                     tabindex="-1"
-                                    :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                                    :aria-label="showPassword ? $t('Hide password') : $t('Show password')"
                                     class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
                                     @click="showPassword = !showPassword"
                                 >
@@ -113,14 +113,14 @@ const showConfirmPassword = ref(false);
                                     <Eye v-else class="h-4 w-4" />
                                 </button>
                             </div>
-                            <p class="text-xs text-gray-500">Must be at least 8 characters</p>
+                            <p class="text-xs text-gray-500">{{ $t('Must be at least 8 characters') }}</p>
                             <InputError :message="errors.password" />
                         </div>
 
                         <!-- Confirm Password Field -->
                         <div class="space-y-2">
                             <Label for="password_confirmation" class="text-sm font-medium text-gray-700">
-                                Confirm Password
+                                {{ $t('Confirm Password') }}
                             </Label>
                             <div class="relative">
                                 <Input
@@ -130,13 +130,13 @@ const showConfirmPassword = ref(false);
                                     required
                                     :tabindex="4"
                                     autocomplete="new-password"
-                                    placeholder="Confirm your password"
+                                    :placeholder="$t('Confirm your password')"
                                     class="w-full pr-10"
                                 />
                                 <button
                                     type="button"
                                     tabindex="-1"
-                                    :aria-label="showConfirmPassword ? 'Hide password' : 'Show password'"
+                                    :aria-label="showConfirmPassword ? $t('Hide password') : $t('Show password')"
                                     class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
                                     @click="showConfirmPassword = !showConfirmPassword"
                                 >
@@ -152,13 +152,13 @@ const showConfirmPassword = ref(false);
                             <Label for="terms" class="flex items-start space-x-2 cursor-pointer text-sm text-gray-600">
                                 <Checkbox id="terms" name="terms" :tabindex="5" class="mt-0.5" />
                                 <span>
-                                    I agree to the
+                                    {{ $t('I agree to the') }}
                                     <TextLink href="/terms" class="hover:underline" :style="{ color: primaryColor }">
-                                        Terms of Service
+                                        {{ $t('Terms of Service') }}
                                     </TextLink>
-                                    and
+                                    {{ $t('and') }}
                                     <TextLink href="/privacy" class="hover:underline" :style="{ color: primaryColor }">
-                                        Privacy Policy
+                                        {{ $t('Privacy Policy') }}
                                     </TextLink>
                                 </span>
                             </Label>
@@ -177,7 +177,7 @@ const showConfirmPassword = ref(false);
                                 v-if="processing"
                                 class="h-5 w-5 animate-spin mr-2"
                             />
-                            {{ processing ? 'Creating Account...' : 'Create Account' }}
+                            {{ processing ? $t('Creating Account...') : $t('Create Account') }}
                         </Button>
                     </Form>
 
@@ -187,21 +187,21 @@ const showConfirmPassword = ref(false);
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">or</span>
+                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
                         </div>
                     </div>
 
                     <!-- Login Link -->
                     <div class="text-center">
                         <p class="text-sm text-gray-600">
-                            Already have an account?
+                            {{ $t('Already have an account?') }}
                             <TextLink
                                 href="/login"
                                 class="font-medium hover:underline"
                                 :style="{ color: primaryColor }"
                                 :tabindex="7"
                             >
-                                Log in
+                                {{ $t('Log in') }}
                             </TextLink>
                         </p>
                     </div>
@@ -217,7 +217,7 @@ const showConfirmPassword = ref(false);
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
-                        Back to shop
+                        {{ $t('Back to shop') }}
                     </TextLink>
                 </div>
             </div>

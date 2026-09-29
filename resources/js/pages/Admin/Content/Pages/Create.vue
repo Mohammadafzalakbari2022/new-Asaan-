@@ -1,13 +1,13 @@
 <template>
-    <Head title="Create Page" />
+    <Head :title="$t('Create Page')" />
 
-    <AdminLayout title="Create Page">
+    <AdminLayout :title="$t('Create Page')">
         <div class="p-6 space-y-6">
             <!-- Page Header -->
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Create Page</h1>
-                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Add a new content page to your store</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Create Page') }}</h1>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Add a new content page to your store') }}</p>
                 </div>
                 <Link
                     :href="pageRoutes.index().url"
@@ -16,7 +16,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    Back to Pages
+                    {{ $t('Back to Pages') }}
                 </Link>
             </div>
 
@@ -26,7 +26,7 @@
                     <!-- Title -->
                     <div>
                         <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Title <span class="text-red-500">*</span>
+                            {{ $t('Title') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                             id="title"
@@ -36,7 +36,7 @@
                             required
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                             :class="{ 'border-red-500': form.errors.title }"
-                            placeholder="Enter page title"
+                            :placeholder="$t('Enter page title')"
                         />
                         <p v-if="form.errors.title" class="mt-1 text-sm text-red-600">{{ form.errors.title }}</p>
                     </div>
@@ -44,7 +44,7 @@
                     <!-- URL Key -->
                     <div>
                         <label for="url_key" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            URL Key <span class="text-red-500">*</span>
+                            {{ $t('URL Key') }} <span class="text-red-500">*</span>
                         </label>
                         <div class="flex gap-2">
                             <div class="flex-1">
@@ -59,19 +59,19 @@
                                     placeholder="page-url-key"
                                 />
                                 <p v-if="form.errors.url_key" class="mt-1 text-sm text-red-600">{{ form.errors.url_key }}</p>
-                                <p v-else-if="!slugAvailable && form.url_key" class="mt-1 text-sm text-red-600">This URL key is already taken</p>
-                                <p v-else-if="slugAvailable && form.url_key && slugChecked" class="mt-1 text-sm text-green-600">✓ URL key is available</p>
+                                <p v-else-if="!slugAvailable && form.url_key" class="mt-1 text-sm text-red-600">{{ $t('This URL key is already taken') }}</p>
+                                <p v-else-if="slugAvailable && form.url_key && slugChecked" class="mt-1 text-sm text-green-600">{{ $t('✓ URL key is available') }}</p>
                             </div>
                             <button
                                 type="button"
                                 @click="generateSlug"
                                 class="px-4 py-2 h-10 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 whitespace-nowrap"
                             >
-                                Generate
+                                {{ $t('Generate') }}
                             </button>
                         </div>
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            Lowercase letters, numbers, and hyphens only. Will be: {{ previewUrl }}
+                            {{ $t('Lowercase letters, numbers, and hyphens only. Will be: {url}', { url: previewUrl }) }}
                         </p>
                     </div>
 
@@ -79,12 +79,12 @@
 
                     <!-- SEO Meta Fields -->
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">SEO Settings</h3>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ $t('SEO Settings') }}</h3>
                         
                         <!-- Meta Title -->
                         <div class="mb-4">
                             <label for="meta_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Meta Title
+                                {{ $t('Meta Title') }}
                             </label>
                             <input
                                 id="meta_title"
@@ -93,18 +93,18 @@
                                 maxlength="255"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 :class="{ 'border-red-500': form.errors.meta_title }"
-                                placeholder="SEO title for search engines"
+                                :placeholder="$t('SEO title for search engines')"
                             />
                             <p v-if="form.errors.meta_title" class="mt-1 text-sm text-red-600">{{ form.errors.meta_title }}</p>
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                {{ form.meta_title?.length || 0 }}/255 characters. Leave empty to use page title.
+                                {{ $t('{count}/255 characters. Leave empty to use page title.', { count: form.meta_title?.length || 0 }) }}
                             </p>
                         </div>
 
                         <!-- Meta Description -->
                         <div class="mb-4">
                             <label for="meta_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Meta Description
+                                {{ $t('Meta Description') }}
                             </label>
                             <textarea
                                 id="meta_description"
@@ -113,18 +113,18 @@
                                 maxlength="500"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 :class="{ 'border-red-500': form.errors.meta_description }"
-                                placeholder="Brief description for search results"
+                                :placeholder="$t('Brief description for search results')"
                             ></textarea>
                             <p v-if="form.errors.meta_description" class="mt-1 text-sm text-red-600">{{ form.errors.meta_description }}</p>
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                {{ form.meta_description?.length || 0 }}/500 characters. Recommended: 150-160 characters.
+                                {{ $t('{count}/500 characters. Recommended: 150-160 characters.', { count: form.meta_description?.length || 0 }) }}
                             </p>
                         </div>
 
                         <!-- Meta Keywords -->
                         <div>
                             <label for="meta_keywords" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Meta Keywords
+                                {{ $t('Meta Keywords') }}
                             </label>
                             <input
                                 id="meta_keywords"
@@ -137,7 +137,7 @@
                             />
                             <p v-if="form.errors.meta_keywords" class="mt-1 text-sm text-red-600">{{ form.errors.meta_keywords }}</p>
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                Comma-separated keywords. Not widely used by search engines anymore.
+                                {{ $t('Comma-separated keywords. Not widely used by search engines anymore.') }}
                             </p>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                     <!-- Status -->
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                         <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Status <span class="text-red-500">*</span>
+                            {{ $t('Status') }} <span class="text-red-500">*</span>
                         </label>
                         <select
                             id="status"
@@ -154,13 +154,13 @@
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                             :class="{ 'border-red-500': form.errors.status }"
                         >
-                            <option value="draft">Draft</option>
-                            <option value="published">Published</option>
-                            <option value="disabled">Disabled</option>
+                            <option value="draft">{{ $t('Draft') }}</option>
+                            <option value="published">{{ $t('Published') }}</option>
+                            <option value="disabled">{{ $t('Disabled') }}</option>
                         </select>
                         <p v-if="form.errors.status" class="mt-1 text-sm text-red-600">{{ form.errors.status }}</p>
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            Draft pages are not visible on storefront. Published pages are live.
+                            {{ $t('Draft pages are not visible on storefront. Published pages are live.') }}
                         </p>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                         :href="pageRoutes.index().url"
                         class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                     >
-                        Cancel
+                        {{ $t('Cancel') }}
                     </Link>
                     <div class="flex gap-3">
                         <button
@@ -180,15 +180,15 @@
                             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500 dark:hover:bg-gray-500"
                             :disabled="form.processing"
                         >
-                            Save as Draft
+                            {{ $t('Save as Draft') }}
                         </button>
                         <button
                             type="submit"
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             :disabled="form.processing || !slugAvailable"
                         >
-                            <span v-if="form.processing">Saving...</span>
-                            <span v-else>{{ form.status === 'published' ? 'Publish Page' : 'Save Page' }}</span>
+                            <span v-if="form.processing">{{ $t('Saving...') }}</span>
+                            <span v-else>{{ form.status === 'published' ? $t('Publish Page') : $t('Save Page') }}</span>
                         </button>
                     </div>
                 </div>
@@ -204,6 +204,9 @@ import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useDebounceFn } from '@vueuse/core';
 import * as pageRoutes from '@/routes/admin/content/pages';
 import axios from 'axios';
+import { useI18nStore } from '@/Stores/i18n';
+
+const { t } = useI18nStore();
 
 const form = useForm({
     title: '',
@@ -218,7 +221,7 @@ const slugAvailable = ref(true);
 const slugChecked = ref(false);
 
 const previewUrl = computed(() => {
-    return form.url_key ? `${window.location.origin}/${form.url_key}` : 'Enter URL key to preview';
+    return form.url_key ? `${window.location.origin}/${form.url_key}` : t('Enter URL key to preview');
 });
 
 const generateSlug = () => {

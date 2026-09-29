@@ -45,9 +45,9 @@ const formatDate = (date: string) =>
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <!-- Breadcrumb -->
                 <nav class="text-sm text-gray-500 mb-6 flex gap-2">
-                    <Link href="/" class="hover:text-blue-600">Home</Link>
+                    <Link href="/" class="hover:text-blue-600">{{ $t('Home') }}</Link>
                     <span>/</span>
-                    <Link href="/blog" class="hover:text-blue-600">Blog</Link>
+                    <Link href="/blog" class="hover:text-blue-600">{{ $t('Blog') }}</Link>
                     <span>/</span>
                     <span class="text-gray-900">{{ post.title }}</span>
                 </nav>
@@ -83,7 +83,7 @@ const formatDate = (date: string) =>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
-                                {{ post.view_count }} views
+                                {{ $t('{count} views', { count: post.view_count }) }}
                             </span>
                         </div>
 
@@ -94,7 +94,7 @@ const formatDate = (date: string) =>
 
                 <!-- Related Posts -->
                 <div v-if="related.length" class="mt-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Related Posts</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('Related Posts') }}</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         <article
                             v-for="relPost in related"
@@ -132,7 +132,7 @@ const formatDate = (date: string) =>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                        Back to Blog
+                        {{ $t('Back to Blog') }}
                     </Link>
                 </div>
             </div>

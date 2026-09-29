@@ -146,15 +146,15 @@ function goToOrder() {
 </script>
 
 <template>
-  <Head :title="`Invoice ${invoice.invoice_number}`" />
+  <Head :title="$t('Invoice {number}', { number: invoice.invoice_number })" />
 
-  <AdminLayout :title="`Invoice ${invoice.invoice_number}`">
+  <AdminLayout :title="$t('Invoice {number}', { number: invoice.invoice_number })">
     <div class="space-y-6">
       <!-- Header -->
       <div class="flex justify-between items-start">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Invoice {{ invoice.invoice_number }}</h1>
-          <p class="text-sm text-gray-500 mt-1">Issue Date: {{ invoiceData.invoice.issue_date }}</p>
+          <h1 class="text-2xl font-bold text-gray-900">{{ $t('Invoice {number}', { number: invoice.invoice_number }) }}</h1>
+          <p class="text-sm text-gray-500 mt-1">{{ $t('Issue Date: {date}', { date: invoiceData.invoice.issue_date }) }}</p>
         </div>
         <div class="flex gap-2">
           <button
@@ -162,33 +162,33 @@ function goToOrder() {
             @click="showMarkAsSentModal = true"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
-            Mark as Sent
+            {{ $t('Mark as Sent') }}
           </button>
           <button
             v-if="invoice.status !== 'paid' && invoice.status !== 'cancelled'"
             @click="showMarkAsPaidModal = true"
             class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
           >
-            Mark as Paid
+            {{ $t('Mark as Paid') }}
           </button>
           <button
             @click="downloadPdf"
             class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
           >
-            Download PDF
+            {{ $t('Download PDF') }}
           </button>
           <button
             @click="showSendEmailModal = true"
             class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
           >
-            Send Email
+            {{ $t('Send Email') }}
           </button>
           <button
             v-if="invoice.status === 'pending'"
             @click="showCancelModal = true"
             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
         </div>
       </div>
@@ -196,7 +196,7 @@ function goToOrder() {
       <!-- Invoice Status & Info Cards -->
       <div class="grid grid-cols-3 gap-4">
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <div class="text-sm text-gray-600">Status</div>
+          <div class="text-sm text-gray-600">{{ $t('Status') }}</div>
           <div class="mt-2">
             <span :class="['px-3 py-1 inline-flex text-sm font-semibold rounded-full', getStatusBadge(invoice.status)]">
               {{ invoice.status }}
@@ -204,7 +204,7 @@ function goToOrder() {
           </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <div class="text-sm text-gray-600">Order Number</div>
+          <div class="text-sm text-gray-600">{{ $t('Order Number') }}</div>
           <div class="mt-2">
             <button
               @click="goToOrder"
@@ -215,7 +215,7 @@ function goToOrder() {
           </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow-sm">
-          <div class="text-sm text-gray-600">Total Amount</div>
+          <div class="text-sm text-gray-600">{{ $t('Total Amount') }}</div>
           <div class="mt-2 text-2xl font-bold text-gray-900">{{ formatPrice(invoice.total) }}</div>
         </div>
       </div>
@@ -227,7 +227,7 @@ function goToOrder() {
           <div class="grid grid-cols-2 gap-8">
             <!-- Bill To -->
             <div>
-              <h3 class="text-sm font-semibold text-gray-900 mb-3">Bill To</h3>
+              <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('Bill To') }}</h3>
               <div class="text-sm text-gray-600 space-y-1">
                 <div class="font-medium text-gray-900">{{ invoiceData.customer.name }}</div>
                 <div>{{ invoiceData.customer.email }}</div>
@@ -245,22 +245,22 @@ function goToOrder() {
 
             <!-- Invoice Info -->
             <div>
-              <h3 class="text-sm font-semibold text-gray-900 mb-3">Invoice Details</h3>
+              <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('Invoice Details') }}</h3>
               <div class="text-sm space-y-2">
                 <div class="flex justify-between">
-                  <span class="text-gray-600">Invoice Number:</span>
+                  <span class="text-gray-600">{{ $t('Invoice Number:') }}</span>
                   <span class="font-medium text-gray-900">{{ invoiceData.invoice.number }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600">Issue Date:</span>
+                  <span class="text-gray-600">{{ $t('Issue Date:') }}</span>
                   <span class="font-medium text-gray-900">{{ invoiceData.invoice.issue_date }}</span>
                 </div>
                 <div v-if="invoiceData.invoice.due_date" class="flex justify-between">
-                  <span class="text-gray-600">Due Date:</span>
+                  <span class="text-gray-600">{{ $t('Due Date:') }}</span>
                   <span class="font-medium text-gray-900">{{ invoiceData.invoice.due_date }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600">Order Number:</span>
+                  <span class="text-gray-600">{{ $t('Order Number:') }}</span>
                   <button @click="goToOrder" class="font-medium text-blue-600 hover:text-blue-800">
                     {{ invoiceData.order.number }}
                   </button>
@@ -271,15 +271,15 @@ function goToOrder() {
 
           <!-- Items Table -->
           <div>
-            <h3 class="text-sm font-semibold text-gray-900 mb-3">Items</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('Items') }}</h3>
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">SKU</th>
-                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Price</th>
-                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Qty</th>
-                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Total</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('Product') }}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('SKU') }}</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ $t('Price') }}</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ $t('Qty') }}</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ $t('Total') }}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
@@ -293,23 +293,23 @@ function goToOrder() {
               </tbody>
               <tfoot class="bg-gray-50">
                 <tr>
-                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Subtotal:</td>
+                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Subtotal:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ formatPrice(invoiceData.totals.subtotal) }}</td>
                 </tr>
                 <tr>
-                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Tax:</td>
+                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Tax:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ formatPrice(invoiceData.totals.tax) }}</td>
                 </tr>
                 <tr>
-                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Shipping:</td>
+                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Shipping:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ formatPrice(invoiceData.totals.shipping) }}</td>
                 </tr>
                 <tr v-if="invoiceData.totals.discount > 0">
-                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">Discount:</td>
+                  <td colspan="4" class="px-4 py-3 text-sm font-medium text-gray-900 text-right">{{ $t('Discount:') }}</td>
                   <td class="px-4 py-3 text-sm font-medium text-red-600 text-right">-{{ formatPrice(invoiceData.totals.discount) }}</td>
                 </tr>
                 <tr class="border-t-2 border-gray-300">
-                  <td colspan="4" class="px-4 py-3 text-base font-bold text-gray-900 text-right">Total:</td>
+                  <td colspan="4" class="px-4 py-3 text-base font-bold text-gray-900 text-right">{{ $t('Total:') }}</td>
                   <td class="px-4 py-3 text-base font-bold text-gray-900 text-right">{{ formatPrice(invoiceData.totals.total) }}</td>
                 </tr>
               </tfoot>
@@ -318,7 +318,7 @@ function goToOrder() {
 
           <!-- Notes -->
           <div v-if="invoiceData.invoice.notes">
-            <h3 class="text-sm font-semibold text-gray-900 mb-2">Notes</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-2">{{ $t('Notes') }}</h3>
             <p class="text-sm text-gray-600">{{ invoiceData.invoice.notes }}</p>
           </div>
         </div>
@@ -329,22 +329,22 @@ function goToOrder() {
     <!-- Mark as Sent Modal -->
     <div v-if="showMarkAsSentModal" class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Mark as Sent</h3>
+        <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Mark as Sent') }}</h3>
         <p class="text-sm text-gray-500 mb-6">
-          Are you sure you want to mark this invoice as sent?
+          {{ $t('Are you sure you want to mark this invoice as sent?') }}
         </p>
         <div class="flex gap-3 justify-end">
           <button
             @click="showMarkAsSentModal = false"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             @click="confirmMarkAsSent"
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
           >
-            Mark as Sent
+            {{ $t('Mark as Sent') }}
           </button>
         </div>
       </div>
@@ -353,22 +353,22 @@ function goToOrder() {
     <!-- Mark as Paid Modal -->
     <div v-if="showMarkAsPaidModal" class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Mark as Paid</h3>
+        <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Mark as Paid') }}</h3>
         <p class="text-sm text-gray-500 mb-6">
-          Are you sure you want to mark this invoice as paid?
+          {{ $t('Are you sure you want to mark this invoice as paid?') }}
         </p>
         <div class="flex gap-3 justify-end">
           <button
             @click="showMarkAsPaidModal = false"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             @click="confirmMarkAsPaid"
             class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
           >
-            Mark as Paid
+            {{ $t('Mark as Paid') }}
           </button>
         </div>
       </div>
@@ -377,22 +377,22 @@ function goToOrder() {
     <!-- Cancel Invoice Modal -->
     <div v-if="showCancelModal" class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Cancel Invoice</h3>
+        <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Cancel Invoice') }}</h3>
         <p class="text-sm text-gray-500 mb-6">
-          Are you sure you want to cancel this invoice? This action cannot be undone.
+          {{ $t('Are you sure you want to cancel this invoice? This action cannot be undone.') }}
         </p>
         <div class="flex gap-3 justify-end">
           <button
             @click="showCancelModal = false"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             @click="confirmCancelInvoice"
             class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
           >
-            Cancel Invoice
+            {{ $t('Cancel Invoice') }}
           </button>
         </div>
       </div>
@@ -401,22 +401,22 @@ function goToOrder() {
     <!-- Send Email Modal -->
     <div v-if="showSendEmailModal" class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/75 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Send Invoice Email</h3>
+        <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Send Invoice Email') }}</h3>
         <p class="text-sm text-gray-500 mb-6">
-          Send invoice email to {{ invoiceData.customer.email }}?
+          {{ $t('Send invoice email to {email}?', { email: invoiceData.customer.email }) }}
         </p>
         <div class="flex gap-3 justify-end">
           <button
             @click="showSendEmailModal = false"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             @click="confirmSendEmail"
             class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
           >
-            Send Email
+            {{ $t('Send Email') }}
           </button>
         </div>
       </div>

@@ -219,8 +219,8 @@ const rate = (value: number | null) =>
 </script>
 
 <template>
-    <Head title="Delivery Reports" />
-    <AdminLayout title="Delivery Reports">
+    <Head :title="$t('Delivery Reports')" />
+    <AdminLayout :title="$t('Delivery Reports')">
         <div class="space-y-6">
             <!-- Header -->
             <div
@@ -230,10 +230,10 @@ const rate = (value: number | null) =>
                     <h1
                         class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
                     >
-                        Delivery Reports
+                        {{ $t('Delivery Reports') }}
                     </h1>
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        Track delivery performance, drivers, and COD collection
+                        {{ $t('Track delivery performance, drivers, and COD collection') }}
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -242,12 +242,12 @@ const rate = (value: number | null) =>
                         class="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
                     >
                         <Download :size="16" />
-                        Export CSV
+                        {{ $t('Export CSV') }}
                     </button>
                     <button
                         @click="router.reload()"
                         class="rounded-lg border border-gray-200 bg-white p-2 text-gray-500 shadow-sm transition-colors hover:bg-gray-50 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                        title="Refresh"
+                        :title="$t('Refresh')"
                     >
                         <svg
                             class="h-4 w-4"
@@ -276,7 +276,7 @@ const rate = (value: number | null) =>
                     <div>
                         <label
                             class="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
-                            >Start Date</label
+                            >{{ $t('Start Date') }}</label
                         >
                         <div class="relative">
                             <Calendar
@@ -294,7 +294,7 @@ const rate = (value: number | null) =>
                     <div>
                         <label
                             class="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
-                            >End Date</label
+                            >{{ $t('End Date') }}</label
                         >
                         <div class="relative">
                             <Calendar
@@ -312,7 +312,7 @@ const rate = (value: number | null) =>
                     <div>
                         <label
                             class="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
-                            >Driver</label
+                            >{{ $t('Driver') }}</label
                         >
                         <div class="relative">
                             <Filter
@@ -323,7 +323,7 @@ const rate = (value: number | null) =>
                                 v-model="driverFilter"
                                 class="w-full appearance-none rounded-lg border border-gray-200 bg-gray-50 py-2.5 pr-8 pl-10 text-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700/50"
                             >
-                                <option value="">All Drivers</option>
+                                <option value="">{{ $t('All Drivers') }}</option>
                                 <option
                                     v-for="driver in drivers"
                                     :key="driver.id"
@@ -342,7 +342,7 @@ const rate = (value: number | null) =>
                     <div>
                         <label
                             class="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
-                            >Status</label
+                            >{{ $t('Status') }}</label
                         >
                         <div class="relative">
                             <Filter

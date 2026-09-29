@@ -28,3 +28,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+// Language switch used by the storefront and admin/delivery language dropdowns
+Route::post('/locale/{locale}', [App\Http\Controllers\LocaleController::class, 'store'])
+    ->name('locale.store');

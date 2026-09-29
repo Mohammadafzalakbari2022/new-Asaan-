@@ -24,7 +24,7 @@ const handleMoveToCart = async (itemId: number) => {
 
 <template>
   <ThemeLayout>
-    <Head title="My Wishlist" />
+    <Head :title="$t('My Wishlist')" />
 
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-7xl mx-auto">
@@ -32,9 +32,9 @@ const handleMoveToCart = async (itemId: number) => {
         <div class="mb-8 flex items-center gap-3">
           <Heart class="w-7 h-7 text-red-500" />
           <div>
-            <h1 class="text-3xl font-bold">My Wishlist</h1>
+            <h1 class="text-3xl font-bold">{{ $t('My Wishlist') }}</h1>
             <p class="text-gray-600 text-sm mt-1">
-              {{ wishlistCount }} {{ wishlistCount === 1 ? 'item' : 'items' }} saved
+              {{ $t('{count} items saved', { count: wishlistCount }) }}
             </p>
           </div>
         </div>
@@ -42,7 +42,7 @@ const handleMoveToCart = async (itemId: number) => {
         <!-- Loading State -->
         <div v-if="loading" class="flex items-center justify-center py-20">
           <Loader2 class="w-8 h-8 text-blue-600 animate-spin" />
-          <span class="ml-3 text-gray-600">Loading your wishlist…</span>
+          <span class="ml-3 text-gray-600">{{ $t('Loading your wishlist...') }}</span>
         </div>
 
         <!-- Empty State -->
@@ -51,13 +51,13 @@ const handleMoveToCart = async (itemId: number) => {
           class="flex flex-col items-center justify-center py-20 text-center"
         >
           <Heart class="w-16 h-16 text-gray-300 mb-4" />
-          <h2 class="text-xl font-semibold text-gray-700 mb-2">Your wishlist is empty</h2>
-          <p class="text-gray-500 mb-6">Save products you love and come back to them later.</p>
+          <h2 class="text-xl font-semibold text-gray-700 mb-2">{{ $t('Your wishlist is empty') }}</h2>
+          <p class="text-gray-500 mb-6">{{ $t('Save products you love and come back to them later.') }}</p>
           <Link
             href="/products"
             class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Browse Products
+            {{ $t('Browse Products') }}
           </Link>
         </div>
 
@@ -113,7 +113,7 @@ const handleMoveToCart = async (itemId: number) => {
                 v-if="!item.product.is_in_stock"
                 class="inline-block mb-3 text-xs font-medium text-red-600 bg-red-50 border border-red-100 rounded px-2 py-1"
               >
-                Out of Stock
+                {{ $t('Out of Stock') }}
               </span>
 
               <!-- Actions -->
@@ -124,11 +124,11 @@ const handleMoveToCart = async (itemId: number) => {
                   @click="handleMoveToCart(item.id)"
                 >
                   <ShoppingCart class="w-4 h-4" />
-                  Add to Cart
+                  {{ $t('Add to Cart') }}
                 </button>
                 <button
                   class="p-2 text-gray-400 hover:text-red-500 border border-gray-200 rounded-lg hover:border-red-200 transition-colors"
-                  aria-label="Remove from wishlist"
+                  :aria-label="$t('Remove from wishlist')"
                   :disabled="loading"
                   @click="handleRemove(item.id)"
                 >
@@ -145,7 +145,7 @@ const handleMoveToCart = async (itemId: number) => {
             href="/account"
             class="inline-flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors"
           >
-            ← Back to My Account
+            {{ $t('← Back to My Account') }}
           </Link>
         </div>
       </div>

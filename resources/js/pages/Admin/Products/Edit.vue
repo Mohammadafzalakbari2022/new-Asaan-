@@ -653,17 +653,17 @@ const deleteProduct = () => {
 </script>
 
 <template>
-  <Head title="Edit Product" />
-  
-  <AdminLayout title="Edit Product">
+  <Head :title="$t('Edit Product')" />
+
+  <AdminLayout :title="$t('Edit Product')">
     <div class="p-6 max-w-7xl mx-auto space-y-6">
       
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Product</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Edit Product') }}</h1>
           <div class="flex items-center gap-2 mt-1 text-sm text-gray-500 dark:text-gray-400">
-            <Link :href="productRoutes.index().url" class="hover:text-blue-600 transition-colors">Products</Link>
+            <Link :href="productRoutes.index().url" class="hover:text-blue-600 transition-colors">{{ $t('Products') }}</Link>
             <span class="text-gray-300 dark:text-gray-600">/</span>
             <span>{{ product.name }}</span>
           </div>
@@ -674,21 +674,21 @@ const deleteProduct = () => {
             :href="productRoutes.index().url" 
             class="hidden sm:inline-flex px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </Link>
           <button 
             type="button" 
             @click="showDeleteModal = true"
             class="px-4 py-2 border border-red-300 dark:border-red-700 rounded-lg text-sm font-medium text-red-700 dark:text-red-400 bg-white dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
           >
-            Delete
+            {{ $t('Delete') }}
           </button>
           <button 
             type="button" 
             @click="submitForm"
             class="px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
           >
-            Update Product
+            {{ $t('Update Product') }}
           </button>
         </div>
       </div>
@@ -699,7 +699,7 @@ const deleteProduct = () => {
         <div class="lg:col-span-2 space-y-6">
           <!-- Tabs Navigation -->
           <div class="border-b border-gray-200 dark:border-gray-700">
-            <nav class="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
+            <nav class="-mb-px flex space-x-8 overflow-x-auto" :aria-label="$t('Tabs')">
               <button
                 @click="activeTab = 'general'"
                 :class="[
@@ -709,7 +709,7 @@ const deleteProduct = () => {
                  'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                 ]"
               >
-                General
+                {{ $t('General') }}
               </button>
               <button
                 @click="activeTab = 'images'"
@@ -720,7 +720,7 @@ const deleteProduct = () => {
                  'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                 ]"
               >
-                Images
+                {{ $t('Images') }}
               </button>
               <button
                 @click="activeTab = 'attributes'"
@@ -731,7 +731,7 @@ const deleteProduct = () => {
                   'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                 ]"
               >
-                Attributes
+                {{ $t('Attributes') }}
               </button>
               <button
                 @click="activeTab = 'inventory'"
@@ -742,7 +742,7 @@ const deleteProduct = () => {
                   'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                 ]"
               >
-                Inventory & Pricing
+                {{ $t('Inventory & Pricing') }}
               </button>
               <button
                 v-if="form.type === 'downloadable'"
@@ -754,7 +754,7 @@ const deleteProduct = () => {
                   'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                 ]"
               >
-                Downloads
+                {{ $t('Downloads') }}
               </button>
               <button
                 @click="activeTab = 'seo'"
@@ -765,7 +765,7 @@ const deleteProduct = () => {
                   'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                 ]"
               >
-                SEO
+                {{ $t('SEO') }}
               </button>
             </nav>
           </div>
@@ -775,7 +775,7 @@ const deleteProduct = () => {
                 <!-- Product Name -->
                 <div>
                   <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Product Name <span class="text-red-500">*</span>
+                    {{ $t('Product Name') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     id="name"
@@ -784,7 +784,7 @@ const deleteProduct = () => {
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': errors?.name }"
-                    placeholder="Enter product name"
+                   :placeholder="$t('Enter product name')"
                   />
                   <p v-if="errors?.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
                 </div>
@@ -792,7 +792,7 @@ const deleteProduct = () => {
                 <!-- Slug -->
                 <div>
                   <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Slug <span class="text-red-500">*</span>
+                    {{ $t('Slug') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     id="slug"
@@ -800,16 +800,16 @@ const deleteProduct = () => {
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': errors?.slug }"
-                    placeholder="auto-generated-from-name"
+                   :placeholder="$t('auto-generated-from-name')"
                   />
                   <p v-if="errors?.slug" class="mt-1 text-sm text-red-600">{{ errors.slug }}</p>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Auto-generated from product name</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Auto-generated from product name') }}</p>
                 </div>
 
                 <!-- SKU -->
                 <div>
                   <label for="sku" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    SKU <span class="text-red-500">*</span>
+                    {{ $t('SKU') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     id="sku"
@@ -817,7 +817,7 @@ const deleteProduct = () => {
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': errors?.sku }"
-                    placeholder="Enter SKU"
+                   :placeholder="$t('Enter SKU')"
                   />
                   <p v-if="errors?.sku" class="mt-1 text-sm text-red-600">{{ errors.sku }}</p>
                 </div>
@@ -825,7 +825,7 @@ const deleteProduct = () => {
                 <!-- Product Type -->
                 <div>
                   <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Product Type <span class="text-red-500">*</span>
+                    {{ $t('Product Type') }} <span class="text-red-500">*</span>
                   </label>
                   <select
                     id="type"
@@ -833,42 +833,42 @@ const deleteProduct = () => {
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': errors?.type }"
                   >
-                    <option value="simple">Simple Product</option>
-                    <option value="configurable">Configurable Product (Variants)</option>
-                    <option value="virtual">Virtual Product (No Shipping)</option>
-                    <option value="downloadable">Downloadable Product (Digital)</option>
+                    <option value="simple">{{ $t('Simple Product') }}</option>
+                    <option value="configurable">{{ $t('Configurable Product (Variants)') }}</option>
+                    <option value="virtual">{{ $t('Virtual Product (No Shipping)') }}</option>
+                    <option value="downloadable">{{ $t('Downloadable Product (Digital)') }}</option>
                   </select>
                   <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    <span v-if="form.type === 'simple'">Physical product with no variants</span>
-                    <span v-else-if="form.type === 'configurable'">Product with options like size, color, etc.</span>
-                    <span v-else-if="form.type === 'virtual'">Non-physical product (no shipping required)</span>
-                    <span v-else-if="form.type === 'downloadable'">Digital file product with download links</span>
+                    <span v-if="form.type === 'simple'">{{ $t('Physical product with no variants') }}</span>
+                    <span v-else-if="form.type === 'configurable'">{{ $t('Product with options like size, color, etc.') }}</span>
+                    <span v-else-if="form.type === 'virtual'">{{ $t('Non-physical product (no shipping required)') }}</span>
+                    <span v-else-if="form.type === 'downloadable'">{{ $t('Digital file product with download links') }}</span>
                   </p>
                   <p v-if="errors?.type" class="mt-1 text-sm text-red-600">{{ errors.type }}</p>
                 </div>
 
                 <!-- Brand -->
                 <div>
-                  <label for="brand" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Brand</label>
+                  <label for="brand" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Brand') }}</label>
                   <select
                     id="brand"
                     v-model="form.brand_id"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    <option :value="null">Select Brand</option>
+                    <option :value="null">{{ $t('Select Brand') }}</option>
                     <option v-for="brand in brands" :key="brand.id" :value="brand.id">
                       {{ brand.name }}
                     </option>
                   </select>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Associate this product with a brand</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Associate this product with a brand') }}</p>
                 </div>
 
                 <!-- AI Description Generator -->
                 <div v-if="aiEnabled" class="border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/50 p-4 space-y-4">
                   <div class="flex items-center justify-between">
                     <div>
-                      <h3 class="text-sm font-semibold text-gray-900 dark:text-white">AI Product Description</h3>
-                      <p class="text-xs text-gray-500 dark:text-gray-400">Generate SEO-optimized descriptions from product data.</p>
+                      <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('AI Product Description') }}</h3>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">{{ $t('Generate SEO-optimized descriptions from product data.') }}</p>
                     </div>
                     <button
                       type="button"
@@ -876,32 +876,32 @@ const deleteProduct = () => {
                       :disabled="aiIsGenerating"
                       class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {{ aiIsGenerating ? 'Generating...' : 'Generate Description' }}
+                      {{ $t(aiIsGenerating ? 'Generating...' : 'Generate Description') }}
                     </button>
                   </div>
 
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tone</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Tone') }}</label>
                       <select v-model="aiTone" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm">
-                        <option value="professional">Professional</option>
-                        <option value="casual">Casual</option>
-                        <option value="luxury">Luxury</option>
-                        <option value="minimalist">Minimalist</option>
+                        <option value="professional">{{ $t('Professional') }}</option>
+                        <option value="casual">{{ $t('Casual') }}</option>
+                        <option value="luxury">{{ $t('Luxury') }}</option>
+                        <option value="minimalist">{{ $t('Minimalist') }}</option>
                       </select>
                     </div>
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Language</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Language') }}</label>
                       <select v-model="aiLanguage" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm">
-                        <option value="en">English</option>
-                        <option value="es">Spanish</option>
-                        <option value="fr">French</option>
-                        <option value="de">German</option>
-                        <option value="zh">Chinese</option>
+                        <option value="en">{{ $t('English') }}</option>
+                        <option value="es">{{ $t('Spanish') }}</option>
+                        <option value="fr">{{ $t('French') }}</option>
+                        <option value="de">{{ $t('German') }}</option>
+                        <option value="zh">{{ $t('Chinese') }}</option>
                       </select>
                     </div>
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">AI Agent</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('AI Agent') }}</label>
                       <input
                         :value="aiAgent"
                         type="text"
@@ -910,12 +910,12 @@ const deleteProduct = () => {
                       />
                     </div>
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Target Audience</label>
-                      <input v-model="aiTargetAudience" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm" placeholder="e.g., gym enthusiasts" />
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Target Audience') }}</label>
+                      <input v-model="aiTargetAudience" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm" :placeholder="$t('e.g., gym enthusiasts')" />
                     </div>
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Key Features (comma separated)</label>
-                      <input v-model="aiKeyFeatures" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm" placeholder="Active noise cancellation, 30-hour battery" />
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Key Features (comma separated)') }}</label>
+                      <input v-model="aiKeyFeatures" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md text-sm" :placeholder="$t('Active noise cancellation, 30-hour battery')" />
                     </div>
                   </div>
 
@@ -923,26 +923,26 @@ const deleteProduct = () => {
 
                   <div v-if="aiResult" class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Short Description</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Short Description') }}</label>
                       <p class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md p-3" v-text="aiResult.short_description"></p>
                     </div>
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Long Description</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Long Description') }}</label>
                       <p class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md p-3 whitespace-pre-line" v-text="aiResult.long_description"></p>
                     </div>
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Meta Description</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Meta Description') }}</label>
                       <p class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md p-3" v-text="aiResult.meta_description"></p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Bullet Points</label>
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Bullet Points') }}</label>
                         <ul class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md p-3 list-disc pl-5" v-if="Array.isArray(aiResult.bullet_points)">
                           <li v-for="(item, idx) in aiResult.bullet_points" :key="idx">{{ item }}</li>
                         </ul>
                       </div>
                       <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Keywords</label>
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Keywords') }}</label>
                         <div class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md p-3">
                           {{ Array.isArray(aiResult.keywords) ? aiResult.keywords.join(', ') : '' }}
                         </div>
@@ -950,7 +950,7 @@ const deleteProduct = () => {
                     </div>
                     <div class="flex justify-end">
                       <button type="button" class="px-3 py-2 text-xs font-medium text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-700 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" @click="applyAiDescription">
-                        Apply to Product Fields
+                        {{ $t('Apply to Product Fields') }}
                       </button>
                     </div>
                   </div>
@@ -959,17 +959,17 @@ const deleteProduct = () => {
                 <!-- Short Description -->
                 <div>
                   <label for="short_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Short Description
+                    {{ $t('Short Description') }}
                   </label>
-                  <TiptapEditor v-model="form.short_description" placeholder="Brief product description" />
+                  <TiptapEditor v-model="form.short_description" :placeholder="$t('Brief product description')" />
                 </div>
 
                 <!-- Description -->
                 <div>
                   <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Description
+                    {{ $t('Description') }}
                   </label>
-                  <TiptapEditor v-model="form.description" placeholder="Detailed product description with formatting..." />
+                  <TiptapEditor v-model="form.description" :placeholder="$t('Detailed product description with formatting...')" />
                 </div>
               </div>
 
@@ -977,7 +977,7 @@ const deleteProduct = () => {
               <div v-show="activeTab === 'images'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6">
                 <!-- Existing Images -->
                 <div v-if="product.images && product.images.length > 0">
-                  <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Current Images</h3>
+                  <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ $t('Current Images') }}</h3>
                   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
                     <div
                       v-for="image in product.images"
@@ -996,7 +996,7 @@ const deleteProduct = () => {
                           
                           <!-- Main Image Badge -->
                           <div v-if="product.main_image_id === image.id" class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-20">
-                            Main
+                            {{ $t('Main') }}
                           </div>
 
                           <!-- Actions Overlay -->
@@ -1006,17 +1006,17 @@ const deleteProduct = () => {
                               type="button"
                               @click="setMainImage(image.id)"
                               class="cursor-pointer opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition-all duration-200 bg-blue-600 text-white rounded-lg px-3 py-1.5 text-xs hover:bg-blue-700"
-                              title="Set as main image"
+                             :title="$t('Set as main image')"
                             >
-                              Set Main
+                              {{ $t('Set Main') }}
                             </button>
                             <button
                               type="button"
                               @click="openDeleteImageModal(image.id)"
                               class="cursor-pointer opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition-all duration-200 bg-red-600 text-white rounded-lg px-3 py-1.5 text-xs hover:bg-red-700"
-                              title="Delete image"
+                             :title="$t('Delete image')"
                             >
-                              Delete
+                              {{ $t('Delete') }}
                             </button>
                           </div>
                         </div>
@@ -1027,7 +1027,7 @@ const deleteProduct = () => {
 
                 <!-- Upload New Images -->
                 <div>
-                  <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Upload New Images</h3>
+                  <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ $t('Upload New Images') }}</h3>
                   <ImageUploader v-model="images" :maxFiles="10" :maxSize="5" accept="image/*" />
                   <button
                     v-if="images.length > 0"
@@ -1040,7 +1040,7 @@ const deleteProduct = () => {
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    {{ isUploading ? 'Uploading...' : `Upload ${images.length} Image${images.length > 1 ? 's' : ''}` }}
+                    {{ isUploading ? $t('Uploading...') : $t(images.length > 1 ? 'Upload {count} Images' : 'Upload {count} Image', { count: images.length }) }}
                   </button>
                 </div>
               </div>
@@ -1061,20 +1061,20 @@ const deleteProduct = () => {
                 <!-- Pricing Section (moved from old inventory tab) -->
                 <div class="mt-6 space-y-6">
                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Pricing</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Pricing') }}</h3>
                     <button
                       type="button"
                       @click="openPriceComparison"
                       class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                     >
-                      Price Comparison
+                      {{ $t('Price Comparison') }}
                     </button>
                   </div>
                   
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Regular Price <span class="text-red-500">*</span>
+                        {{ $t('Regular Price') }} <span class="text-red-500">*</span>
                       </label>
                       <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 dark:text-gray-400">{{ currencySymbol }}</span>
@@ -1092,7 +1092,7 @@ const deleteProduct = () => {
 
                     <div>
                       <label for="cost" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Cost
+                        {{ $t('Cost') }}
                       </label>
                       <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 dark:text-gray-400">{{ currencySymbol }}</span>
@@ -1108,36 +1108,36 @@ const deleteProduct = () => {
 
                     <div>
                       <label for="tax_class_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Tax Class
+                        {{ $t('Tax Class') }}
                       </label>
                       <select
                         id="tax_class_id"
                         v-model="form.tax_class_id"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       >
-                        <option :value="null">No Tax</option>
+                        <option :value="null">{{ $t('No Tax') }}</option>
                         <option v-for="taxClass in props.taxClasses" :key="taxClass.id" :value="taxClass.id">
                           {{ taxClass.name }}
                         </option>
                       </select>
-                      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Select applicable tax class for this product</p>
+                      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Select applicable tax class for this product') }}</p>
                     </div>
                   </div>
 
                   <div v-if="costNumber > 0 && currentPriceNumber > 0" class="p-4 rounded-md border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/20">
                     <p class="text-sm text-gray-700 dark:text-gray-300">
-                      Current unit profit: <span class="font-semibold">{{ currencySymbol }}{{ (currentPriceNumber - costNumber).toFixed(2) }}</span>
+                      {{ $t('Current unit profit:') }} <span class="font-semibold">{{ currencySymbol }}{{ (currentPriceNumber - costNumber).toFixed(2) }}</span>
                       ({{ (((currentPriceNumber - costNumber) / currentPriceNumber) * 100).toFixed(2) }}% margin)
                     </p>
                   </div>
 
                   <!-- Special Pricing -->
                   <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                    <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-4">Special Pricing</h4>
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-4">{{ $t('Special Pricing') }}</h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
                         <label for="special_price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Special Price
+                          {{ $t('Special Price') }}
                         </label>
                         <div class="relative">
                           <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 dark:text-gray-400">{{ currencySymbol }}</span>
@@ -1153,7 +1153,7 @@ const deleteProduct = () => {
 
                       <div>
                         <label for="special_price_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          From Date
+                          {{ $t('From Date') }}
                         </label>
                         <input
                           id="special_price_from"
@@ -1165,7 +1165,7 @@ const deleteProduct = () => {
 
                       <div>
                         <label for="special_price_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          To Date
+                          {{ $t('To Date') }}
                         </label>
                         <input
                           id="special_price_to"
@@ -1179,10 +1179,10 @@ const deleteProduct = () => {
 
                   <!-- Weight - Only for physical products -->
                   <div v-if="form.type === 'simple' || form.type === 'configurable'" class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                    <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-4">Physical Attributes</h4>
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-4">{{ $t('Physical Attributes') }}</h4>
                     <div>
                       <label for="weight" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Weight (kg)
+                        {{ $t('Weight (kg)') }}
                       </label>
                       <input
                         id="weight"
@@ -1202,9 +1202,9 @@ const deleteProduct = () => {
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div>
-                          <p class="text-sm text-blue-800 dark:text-blue-300 font-medium">{{ form.type === 'virtual' ? 'Virtual Product' : 'Downloadable Product' }}</p>
+                          <p class="text-sm text-blue-800 dark:text-blue-300 font-medium">{{ $t(form.type === 'virtual' ? 'Virtual Product' : 'Downloadable Product') }}</p>
                           <p class="text-sm text-blue-700 dark:text-blue-400 mt-1">
-                            {{ form.type === 'virtual' ? 'This product does not require shipping.' : 'This product will be available for download after purchase.' }}
+                            {{ $t(form.type === 'virtual' ? 'This product does not require shipping.' : 'This product will be available for download after purchase.') }}
                           </p>
                         </div>
                       </div>
@@ -1216,7 +1216,7 @@ const deleteProduct = () => {
               <!-- Downloadable Files Tab -->
               <div v-show="activeTab === 'downloads'" v-if="form.type === 'downloadable'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6">
                 <div>
-                  <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Downloadable Files</h3>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ $t('Downloadable Files') }}</h3>
                   
                   <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-400 dark:hover:border-blue-500 transition-colors">
                     <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" stroke="currentColor" fill="none" viewBox="0 0 48 48">
@@ -1224,12 +1224,12 @@ const deleteProduct = () => {
                     </svg>
                     <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
                       <label for="file-upload-edit" class="relative cursor-pointer rounded-md font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500">
-                        <span>Upload files</span>
+                        <span>{{ $t('Upload files') }}</span>
                         <input id="file-upload-edit" name="file-upload" type="file" class="sr-only" multiple />
                       </label>
-                      or drag and drop
+                      {{ $t('or drag and drop') }}
                     </p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Any file type up to 50MB</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Any file type up to 50MB') }}</p>
                   </div>
 
                   <div class="mt-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700/50 rounded-md p-4">
@@ -1238,9 +1238,9 @@ const deleteProduct = () => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                       <div>
-                        <p class="text-sm text-yellow-800 dark:text-yellow-300 font-medium">File Management Coming Soon</p>
+                        <p class="text-sm text-yellow-800 dark:text-yellow-300 font-medium">{{ $t('File Management Coming Soon') }}</p>
                         <p class="text-sm text-yellow-700 dark:text-yellow-400 mt-1">
-                          Downloadable file upload and management will be available in the next update.
+                          {{ $t('Downloadable file upload and management will be available in the next update.') }}
                         </p>
                       </div>
                     </div>
@@ -1252,74 +1252,74 @@ const deleteProduct = () => {
               <div v-show="activeTab === 'seo'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6">
                 <div>
                   <label for="meta_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Meta Title
+                    {{ $t('Meta Title') }}
                   </label>
                   <input
                     id="meta_title"
                     v-model="form.meta_title"
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="SEO title for search engines"
+                   :placeholder="$t('SEO title for search engines')"
                   />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Recommended: 50-60 characters</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Recommended: 50-60 characters') }}</p>
                 </div>
 
                 <div>
                   <label for="meta_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Meta Description
+                    {{ $t('Meta Description') }}
                   </label>
                   <textarea
                     id="meta_description"
                     v-model="form.meta_description"
                     rows="3"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="SEO description for search engines"
+                   :placeholder="$t('SEO description for search engines')"
                   />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Recommended: 150-160 characters</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Recommended: 150-160 characters') }}</p>
                 </div>
 
                 <div>
                   <label for="meta_keywords" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Meta Keywords
+                    {{ $t('Meta Keywords') }}
                   </label>
                   <input
                     id="meta_keywords"
                     v-model="form.meta_keywords"
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="keyword1, keyword2, keyword3"
+                   :placeholder="$t('keyword1, keyword2, keyword3')"
                   />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Separate keywords with commas</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Separate keywords with commas') }}</p>
                 </div>
               </div>
 
               <!-- Attributes Tab -->
               <div v-show="activeTab === 'attributes'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6">
                 <div class="mb-6">
-                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Product Attributes</h3>
-                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Add and specify product characteristics and specifications</p>
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Product Attributes') }}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Add and specify product characteristics and specifications') }}</p>
                 </div>
                 
                 <!-- Attribute Selector -->
                 <div class="mb-6">
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Add Attribute
+                    {{ $t('Add Attribute') }}
                   </label>
                   <select 
                     @change="(e) => { addAttribute(Number((e.target as HTMLSelectElement).value)); (e.target as HTMLSelectElement).value = ''; }"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    <option value="">Select an attribute to add...</option>
+                    <option value="">{{ $t('Select an attribute to add...') }}</option>
                     <option 
                       v-for="attribute in getAvailableAttributes" 
                       :key="attribute.id" 
                       :value="attribute.id"
                     >
                       {{ attribute.name }}
-                      <template v-if="attribute.is_required"> (Required)</template>
+                      <template v-if="attribute.is_required"> {{ $t('(Required)') }}</template>
                     </option>
                   </select>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Choose attributes that apply to this product</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Choose attributes that apply to this product') }}</p>
                 </div>
 
                 <!-- No Attributes Selected State -->
@@ -1327,8 +1327,8 @@ const deleteProduct = () => {
                   <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
-                  <p class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No attributes added yet</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">Select attributes from the dropdown above to add product specifications</p>
+                  <p class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ $t('No attributes added yet') }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ $t('Select attributes from the dropdown above to add product specifications') }}</p>
                 </div>
 
                 <!-- Selected Attributes -->
@@ -1347,10 +1347,10 @@ const deleteProduct = () => {
                         </label>
                         <div class="flex items-center gap-2 mt-1">
                           <span v-if="attribute.is_configurable" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200">
-                            Configurable
+                            {{ $t('Configurable') }}
                           </span>
                           <span v-if="attribute.is_filterable" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                            Filterable
+                            {{ $t('Filterable') }}
                           </span>
                           <span class="text-xs text-gray-500 dark:text-gray-400">{{ attribute.type }}</span>
                         </div>
@@ -1360,7 +1360,7 @@ const deleteProduct = () => {
                         type="button"
                         @click="removeAttribute(attribute.id)"
                         class="text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                        title="Remove attribute"
+                       :title="$t('Remove attribute')"
                       >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -1394,7 +1394,7 @@ const deleteProduct = () => {
                         v-model="attributeValues[attribute.code]"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       >
-                        <option value="">Select {{ attribute.name }}</option>
+                        <option value="">{{ $t('Select') }} {{ attribute.name }}</option>
                         <option v-for="option in attribute.options" :key="option.id" :value="option.value">
                           {{ option.label }}
                         </option>
@@ -1435,7 +1435,7 @@ const deleteProduct = () => {
                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
                         />
                         <label :for="attribute.code" class="ml-3 text-sm text-gray-700 dark:text-gray-300">
-                          Enable {{ attribute.name }}
+                          {{ $t('Enable') }} {{ attribute.name }}
                         </label>
                       </div>
 
@@ -1469,37 +1469,37 @@ const deleteProduct = () => {
         <div class="space-y-6">
           <!-- Publish Card -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">Publish</h3>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Publish') }}</h3>
             
             <!-- Status -->
             <div class="mb-4">
               <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Status
+                {{ $t('Status') }}
               </label>
               <select
                 id="status"
                 v-model="form.status"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="enabled">Enabled</option>
-                <option value="disabled">Disabled</option>
+                <option value="enabled">{{ $t('Enabled') }}</option>
+                <option value="disabled">{{ $t('Disabled') }}</option>
               </select>
             </div>
 
             <!-- Visibility -->
             <div class="mb-4">
               <label for="visibility" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Visibility
+                {{ $t('Visibility') }}
               </label>
               <select
                 id="visibility"
                 v-model="form.visibility"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="both">Catalog and Search</option>
-                <option value="catalog">Catalog Only</option>
-                <option value="search">Search Only</option>
-                <option value="none">Not Visible</option>
+                <option value="both">{{ $t('Catalog and Search') }}</option>
+                <option value="catalog">{{ $t('Catalog Only') }}</option>
+                <option value="search">{{ $t('Search Only') }}</option>
+                <option value="none">{{ $t('Not Visible') }}</option>
               </select>
             </div>
 
@@ -1511,7 +1511,7 @@ const deleteProduct = () => {
                   type="checkbox"
                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
                 />
-                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Featured Product</span>
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ $t('Featured Product') }}</span>
               </label>
               <label class="flex items-center">
                 <input
@@ -1519,7 +1519,7 @@ const deleteProduct = () => {
                   type="checkbox"
                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
                 />
-                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Mark as New</span>
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ $t('Mark as New') }}</span>
               </label>
             </div>
 
@@ -1530,7 +1530,7 @@ const deleteProduct = () => {
 
           <!-- Categories Card -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">Categories</h3>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Categories') }}</h3>
             <div class="space-y-2 max-h-64 overflow-y-auto">
               <label
                 v-for="category in flatCategories"
@@ -1570,9 +1570,9 @@ const deleteProduct = () => {
           <div class="relative w-full max-w-4xl rounded-lg bg-white shadow-xl dark:bg-gray-800" @click.stop>
             <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6 py-4">
               <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Price Comparison</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Price Comparison') }}</h2>
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Select one of 4 market-based price variations to apply.
+                  {{ $t('Select one of 4 market-based price variations to apply.') }}
                 </p>
               </div>
               <button
@@ -1586,7 +1586,7 @@ const deleteProduct = () => {
 
             <div class="px-6 py-5 max-h-[70vh] overflow-y-auto">
               <div v-if="isComparingPrice" class="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-                Generating price comparison...
+                {{ $t('Generating price comparison...') }}
               </div>
 
               <div v-else-if="priceComparisonError" class="rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-700 dark:text-red-300">
@@ -1598,12 +1598,12 @@ const deleteProduct = () => {
                   <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-900/20">
                       <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Select</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Variation</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Source</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Price</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Current - Suggested</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Profit / Unit (Price - Cost)</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Select') }}</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Variation') }}</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Source') }}</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Price') }}</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Current - Suggested') }}</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Profit / Unit (Price - Cost)') }}</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -1634,7 +1634,7 @@ const deleteProduct = () => {
                         </td>
                         <td class="px-4 py-3 text-sm text-right text-gray-900 dark:text-gray-100">
                           <span v-if="costNumber > 0">{{ currencySymbol }}{{ (option.price - costNumber).toFixed(2) }}</span>
-                          <span v-else class="text-xs text-gray-400 dark:text-gray-500">Add cost to calculate</span>
+                          <span v-else class="text-xs text-gray-400 dark:text-gray-500">{{ $t('Add cost to calculate') }}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -1642,12 +1642,12 @@ const deleteProduct = () => {
                 </div>
 
                 <div v-if="selectedComparison && selectedPriceProfit" class="rounded-md border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 p-4 text-sm text-green-800 dark:text-green-300">
-                  Selected price profit overview:
+                  {{ $t('Selected price profit overview:') }}
                   <span class="font-semibold ml-1">{{ currencySymbol }}{{ selectedPriceProfit.unitProfit.toFixed(2) }}</span>
-                  per unit ({{ selectedPriceProfit.margin.toFixed(2) }}% margin)
+                  {{ $t('per unit (') }}{{ selectedPriceProfit.margin.toFixed(2) }}% margin)
                 </div>
                 <div v-else-if="selectedComparison && costNumber <= 0" class="rounded-md border border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20 p-4 text-sm text-yellow-800 dark:text-yellow-300">
-                  Profit / Unit = Selected Price - Product Cost. Enter cost in the Inventory & Pricing section to see margin overview.
+                  {{ $t('Profit / Unit = Selected Price - Product Cost. Enter cost in the Inventory & Pricing section to see margin overview.') }}
                 </div>
               </div>
             </div>
@@ -1658,7 +1658,7 @@ const deleteProduct = () => {
                 class="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 @click="showPriceComparisonModal = false"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
               <button
                 type="button"
@@ -1666,7 +1666,7 @@ const deleteProduct = () => {
                 :disabled="selectedComparisonIndex === null"
                 @click="applySelectedComparisonPrice"
               >
-                Apply Selected Price
+                {{ $t('Apply Selected Price') }}
               </button>
             </div>
           </div>
@@ -1678,7 +1678,7 @@ const deleteProduct = () => {
     <ConfirmDeleteModal
       v-model:show="showDeleteModal"
       :title="product.name"
-      :message="`Are you sure you want to delete '${product.name}'? This action cannot be undone.`"
+      :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: product.name })"
       @confirm="deleteProduct"
     />
 
@@ -1706,10 +1706,10 @@ const deleteProduct = () => {
                   </svg>
                 </div>
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Delete Image</h3>
+                  <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">{{ $t('Delete Image') }}</h3>
                   <div class="mt-2">
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                      Are you sure you want to delete this image? This action cannot be undone.
+                      {{ $t('Are you sure you want to delete this image? This action cannot be undone.') }}
                     </p>
                   </div>
                 </div>
@@ -1722,15 +1722,15 @@ const deleteProduct = () => {
                 type="button"
                 class="cursor-pointer inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span v-if="isDeletingImage">Deleting...</span>
-                <span v-else>Delete</span>
+                <span v-if="isDeletingImage">{{ $t('Deleting...') }}</span>
+                <span v-else>{{ $t('Delete') }}</span>
               </button>
               <button
                 @click="showDeleteImageModal = false"
                 type="button"
                 class="cursor-pointer mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
             </div>
           </div>

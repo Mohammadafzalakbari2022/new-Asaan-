@@ -2,8 +2,10 @@
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 
 const { formatPrice } = useCurrency();
+const { t } = useI18nStore();
 
 interface ServiceCategory {
     id: number;
@@ -63,7 +65,7 @@ const price = computed(() =>
                 v-if="service.featured"
                 class="absolute left-3 top-3 rounded-full bg-gray-900 px-2.5 py-1 text-xs font-medium text-white"
             >
-                Popular
+                {{ $t('Popular') }}
             </span>
         </div>
 
@@ -87,7 +89,7 @@ const price = computed(() =>
             </p>
 
             <p v-if="service.duration_display" class="mt-2 text-xs text-gray-500">
-                Takes about {{ service.duration_display }}
+                {{ $t('Takes about {duration}', { duration: service.duration_display }) }}
             </p>
 
             <div class="mt-auto flex items-baseline gap-1 pt-3">

@@ -154,21 +154,21 @@ const takingTooMuch = computed(
           class="inline-flex items-center text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
         >
           <ArrowLeft class="w-3.5 h-3.5 mr-1" />
-          Back to people
+          {{ $t('Back to people') }}
         </Link>
         <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ person.name }}</h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
           {{ person.email }}<span v-if="person.phone"> · {{ person.phone }}</span>
         </p>
         <p v-if="person.created_at" class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-          Joined {{ person.created_at }}
+          {{ $t('Joined {date}', { date: person.created_at }) }}
         </p>
       </div>
 
       <div v-if="referredBy" class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4">
         <p class="text-xs font-semibold text-purple-700 dark:text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
           <UserPlus class="w-3.5 h-3.5" />
-          Invited by
+          {{ $t('Invited by') }}
         </p>
         <p class="mt-1 text-sm text-purple-900 dark:text-purple-100">
           {{ referredBy.name }}
@@ -179,11 +179,11 @@ const takingTooMuch = computed(
       <!-- Balances -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Available now</p>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Available now') }}</p>
           <p class="mt-2 text-2xl font-bold text-green-600 dark:text-green-400">{{ formatPrice(balances.available) }}</p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Locked</p>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Locked') }}</p>
           <p class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
             <span class="inline-flex items-center">
               <Lock v-if="balances.locked > 0" class="w-5 h-5 mr-1.5" />
@@ -192,11 +192,11 @@ const takingTooMuch = computed(
           </p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Lifetime earned</p>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Lifetime earned') }}</p>
           <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ formatPrice(balances.earned) }}</p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Lifetime spent</p>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Lifetime spent') }}</p>
           <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ formatPrice(balances.spent) }}</p>
         </div>
       </div>
@@ -205,29 +205,31 @@ const takingTooMuch = computed(
       <div v-if="allowManualCredit" class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
         <h2 class="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
           <SlidersHorizontal class="w-4 h-4 text-gray-400" />
-          Adjust credit by hand
+          {{ $t('Adjust credit by hand') }}
         </h2>
         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-          For fixing mistakes and goodwill gestures. The customer sees the amount and your reason in their history.
+          {{
+            $t('For fixing mistakes and goodwill gestures. The customer sees the amount and your reason in their history.')
+          }}
         </p>
 
         <form @submit.prevent="submitCredit" class="mt-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
           <div class="md:col-span-3">
             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
-              Action
+              {{ $t('Action') }}
             </label>
             <select
               v-model="creditForm.type"
               class="w-full px-3 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
             >
-              <option value="admin_credit">Give credit</option>
-              <option value="admin_debit">Take credit back</option>
+              <option value="admin_credit">{{ $t('Give credit') }}</option>
+              <option value="admin_debit">{{ $t('Take credit back') }}</option>
             </select>
           </div>
 
           <div class="md:col-span-2">
             <label for="credit_amount" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
-              Amount
+              {{ $t('Amount') }}
             </label>
             <input
               id="credit_amount"
@@ -246,19 +248,19 @@ const takingTooMuch = computed(
               {{ creditForm.errors.amount }}
             </p>
             <p v-else-if="takingTooMuch" class="mt-1 text-xs text-red-600 dark:text-red-400">
-              They only have {{ formatPrice(balances.available) }} available.
+              {{ $t('They only have {amount} available.', { amount: formatPrice(balances.available) }) }}
             </p>
           </div>
 
           <div class="md:col-span-5">
             <label for="credit_reason" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
-              Reason
+              {{ $t('Reason') }}
             </label>
             <input
               id="credit_reason"
               v-model="creditForm.reason"
               type="text"
-              placeholder="Why is this being done?"
+              :placeholder="$t('Why is this being done?')"
               :class="[
                 'w-full px-3 py-2.5 bg-gray-50 dark:bg-gray-700/50 border rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 transition-all placeholder:text-gray-400',
                 creditForm.errors.reason
@@ -277,7 +279,7 @@ const takingTooMuch = computed(
               :disabled="creditForm.processing || takingTooMuch"
               class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold uppercase tracking-widest rounded-lg transition disabled:opacity-50"
             >
-              {{ creditForm.processing ? 'Saving...' : 'Apply' }}
+              {{ creditForm.processing ? $t('Saving...') : $t('Apply') }}
             </button>
           </div>
         </form>
@@ -289,16 +291,16 @@ const takingTooMuch = computed(
           <div>
             <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
               <Link2 class="w-3.5 h-3.5" />
-              Share link
+              {{ $t('Share link') }}
             </p>
             <p class="mt-2 font-mono text-sm text-gray-900 dark:text-white break-all">
               {{ person.share_link }}
             </p>
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Code <span class="font-mono">{{ person.code }}</span> ·
-              {{ person.clicks }} link opens ·
+              {{ $t('Code') }} <span class="font-mono">{{ person.code }}</span> ·
+              {{ $t('{clicks} link opens', { clicks: person.clicks }) }} ·
               <span :class="person.code_status === 'active' ? 'text-green-600 dark:text-green-400' : 'text-red-500'">
-                {{ person.code_status === 'active' ? 'active' : 'disabled' }}
+                {{ person.code_status === 'active' ? $t('active') : $t('disabled') }}
               </span>
             </p>
           </div>
@@ -309,12 +311,12 @@ const takingTooMuch = computed(
           >
             <Check v-if="copied" class="w-4 h-4 mr-2" />
             <Copy v-else class="w-4 h-4 mr-2" />
-            {{ copied ? 'Copied' : 'Copy link' }}
+            {{ copied ? $t('Copied') : $t('Copy link') }}
           </button>
         </div>
 
         <p v-if="person.code_status === 'disabled'" class="mt-3 text-xs text-amber-600 dark:text-amber-400">
-          This code is disabled, so new visits with it are not credited to this customer.
+          {{ $t('This code is disabled, so new visits with it are not credited to this customer.') }}
         </p>
       </div>
 
@@ -323,23 +325,23 @@ const takingTooMuch = computed(
         <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center gap-2">
           <Users class="w-4 h-4 text-gray-400" />
           <h2 class="text-sm font-semibold text-gray-900 dark:text-white">
-            People they invited
+            {{ $t('People they invited') }}
             <span class="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">({{ referralsMade.length }})</span>
           </h2>
         </div>
 
         <div v-if="referralsMade.length === 0" class="px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-          Nobody yet.
+          {{ $t('Nobody yet.') }}
         </div>
 
         <div v-else class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Person</th>
-                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Lifetime spend</th>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Joined</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Person') }}</th>
+                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Lifetime spend') }}</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Joined') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -357,20 +359,20 @@ const takingTooMuch = computed(
                     class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                   >
                     <Gift class="w-3 h-3" />
-                    Rewarded
+                    {{ $t('Rewarded') }}
                   </span>
                   <span
                     v-else-if="row.status === 'voided'"
                     class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                   >
                     <Ban class="w-3 h-3" />
-                    Voided
+                    {{ $t('Voided') }}
                   </span>
                   <span
                     v-else
                     class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
                   >
-                    Still spending
+                    {{ $t('Still spending') }}
                   </span>
                 </td>
                 <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{{ row.created_at }}</td>
@@ -385,24 +387,24 @@ const takingTooMuch = computed(
         <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center gap-2">
           <Wallet class="w-4 h-4 text-gray-400" />
           <h2 class="text-sm font-semibold text-gray-900 dark:text-white">
-            Rewards granted
-            <span class="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">(last 50)</span>
+            {{ $t('Rewards granted') }}
+            <span class="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">({{ $t('last 50') }})</span>
           </h2>
         </div>
 
         <div v-if="commissions.length === 0" class="px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-          No rewards granted yet.
+          {{ $t('No rewards granted yet.') }}
         </div>
 
         <div v-else class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Order</th>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Level</th>
-                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Amount</th>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Order') }}</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Level') }}</th>
+                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Amount') }}</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -412,7 +414,7 @@ const takingTooMuch = computed(
                     {{ c.order_number ?? '—' }}
                     <div class="text-xs text-gray-500 dark:text-gray-400">{{ c.created_at }}</div>
                   </td>
-                  <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">L{{ c.level }}</td>
+                  <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{{ $t('Level {level}', { level: c.level }) }}</td>
                   <td class="px-5 py-4 text-right text-sm font-semibold text-gray-900 dark:text-white">
                     {{ formatPrice(c.amount) }}
                   </td>
@@ -425,14 +427,14 @@ const takingTooMuch = computed(
                         : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'"
                     >
                       <Lock v-if="c.unlocks_at && new Date(c.unlocks_at) > new Date()" class="w-3 h-3" />
-                      {{ c.unlocks_at && new Date(c.unlocks_at) > new Date() ? `Locked until ${c.unlocks_at}` : 'Available' }}
+                      {{ c.unlocks_at && new Date(c.unlocks_at) > new Date() ? $t('Locked until {date}', { date: c.unlocks_at }) : $t('Available') }}
                     </span>
                     <span
                       v-else
                       class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                     >
                       <Ban class="w-3 h-3" />
-                      Reversed
+                      {{ $t('Reversed') }}
                     </span>
                   </td>
                   <td class="px-5 py-4 text-right">
@@ -441,7 +443,7 @@ const takingTooMuch = computed(
                       @click="openReverse(c)"
                       class="text-xs font-semibold text-red-600 dark:text-red-400 hover:underline"
                     >
-                      Reverse
+                      {{ $t('Reverse') }}
                     </button>
                     <span v-else class="text-xs text-gray-400">—</span>
                   </td>
@@ -451,12 +453,12 @@ const takingTooMuch = computed(
                 <tr v-if="reversing === c.id" class="bg-red-50 dark:bg-red-900/10">
                   <td colspan="5" class="px-5 py-4">
                     <label class="block text-xs font-semibold text-red-800 dark:text-red-300 mb-1.5">
-                      Why is this being taken back? The customer sees this in their history.
+                      {{ $t('Why is this being taken back? The customer sees this in their history.') }}
                     </label>
                     <input
                       v-model="reverseForm.reason"
                       type="text"
-                      placeholder="e.g. The referred order was refunded"
+                      :placeholder="$t('e.g. The referred order was refunded')"
                       class="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-red-300 dark:border-red-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
                       @keyup.enter="submitReverse(c)"
                     />
@@ -469,13 +471,13 @@ const takingTooMuch = computed(
                         :disabled="reverseForm.processing"
                         class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-lg disabled:opacity-50"
                       >
-                        {{ reverseForm.processing ? 'Reversing...' : 'Take back' }}
+                        {{ reverseForm.processing ? $t('Reversing...') : $t('Take back') }}
                       </button>
                       <button
                         @click="reversing = null"
                         class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs font-semibold rounded-lg"
                       >
-                        Cancel
+                        {{ $t('Cancel') }}
                       </button>
                     </div>
                   </td>
@@ -491,30 +493,30 @@ const takingTooMuch = computed(
         <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center gap-2">
           <ScrollText class="w-4 h-4 text-gray-400" />
           <h2 class="text-sm font-semibold text-gray-900 dark:text-white">
-            Credit history
-            <span class="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">(last 50)</span>
+            {{ $t('Credit history') }}
+            <span class="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">({{ $t('last 50') }})</span>
           </h2>
         </div>
 
         <div v-if="ledger.length === 0" class="px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-          No movements yet.
+          {{ $t('No movements yet.') }}
         </div>
 
         <div v-else class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">When</th>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">What</th>
-                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Change</th>
-                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Balance after</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('When') }}</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('What') }}</th>
+                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Change') }}</th>
+                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Balance after') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
               <tr v-for="entry in ledger" :key="entry.id" class="hover:bg-gray-50 dark:hover:bg-gray-700/20">
                 <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{{ entry.created_at }}</td>
                 <td class="px-5 py-4">
-                  <div class="text-sm text-gray-900 dark:text-white">{{ ledgerLabel[entry.type] ?? entry.type }}</div>
+                  <div class="text-sm text-gray-900 dark:text-white">{{ $t(ledgerLabel[entry.type] ?? entry.type) }}</div>
                   <div v-if="entry.reason" class="text-xs text-gray-500 dark:text-gray-400">{{ entry.reason }}</div>
                 </td>
                 <td

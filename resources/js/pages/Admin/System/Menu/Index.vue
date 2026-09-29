@@ -7,12 +7,15 @@ import * as menuRoutes from '@/routes/admin/system/menus/index'
 import MenuFormModal from '@/components/Admin/System/Menu/MenuFormModal.vue'
 import ConfirmDeleteModal from '@/components/Admin/ConfirmDeleteModal.vue'
 import type { MenuItem } from '@/types/admin-menu'
+import { useI18nStore } from '@/Stores/i18n'
 
 interface Props {
     menuItems: MenuItem[]
 }
 
 const props = defineProps<Props>()
+
+const { t } = useI18nStore()
 
 // State
 const showFormModal = ref(false)
@@ -157,18 +160,18 @@ const toggleActive = (item: MenuItem) => {
 </script>
 
 <template>
-    <Head title="Menu Management" />
+    <Head :title="$t('Menu Management')" />
 
-    <AdminLayout title="Menu Management">
+    <AdminLayout :title="$t('Menu Management')">
         <div class="space-y-6">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        Menu Management
+                        {{ $t('Menu Management') }}
                    </h1>
                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        Manage and customize your admin sidebar navigation hierarchy.
+                        {{ $t('Manage and customize your admin sidebar navigation hierarchy.') }}
                    </p>
                 </div>
                 <button
@@ -176,7 +179,7 @@ const toggleActive = (item: MenuItem) => {
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     <Plus class="w-4 h-4 mr-2" />
-                    Add Menu Item
+                    {{ $t('Add Menu Item') }}
                 </button>
             </div>
 
@@ -187,7 +190,7 @@ const toggleActive = (item: MenuItem) => {
             <div class="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20 mb-6">
                 <p class="text-sm text-blue-800 dark:text-blue-200 flex items-start gap-2">
                     <span class="mt-0.5">•</span>
-                    <span><strong>Admin Menu Structure:</strong> Drag and drop items to reorder the sidebar navigation. Parent items act as collapsible sections when they contain child menu links.</span>
+                    <span><strong>{{ $t('Admin Menu Structure:') }}</strong> {{ $t('Drag and drop items to reorder the sidebar navigation. Parent items act as collapsible sections when they contain child menu links.') }}</span>
                 </p>
             </div>
 
@@ -199,19 +202,19 @@ const toggleActive = (item: MenuItem) => {
                             <tr>
                                 <th class="w-12 px-6 py-4"></th>
                                 <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    Title
+                                    {{ $t('Title') }}
                                 </th>
                                 <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    Icon
+                                    {{ $t('Icon') }}
                                 </th>
                                 <th class="hidden sm:table-cell px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    Route / URL
+                                    {{ $t('Route / URL') }}
                                 </th>
                                 <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    Status
+                                    {{ $t('Status') }}
                                 </th>
                                 <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    Actions
+                                    {{ $t('Actions') }}
                                 </th>
                             </tr>
                         </thead>
@@ -242,7 +245,7 @@ const toggleActive = (item: MenuItem) => {
                                         <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                                             <span class="font-medium text-gray-900 dark:text-white">{{ item.title }}</span>
                                             <span v-if="getChildren(item.id).length > 0" class="inline-flex w-fit rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-                                                {{ getChildren(item.id).length }} children
+                                                {{ $t('{count} children', { count: getChildren(item.id).length }) }}
                                             </span>
                                             <!-- Mobile-only URL view -->
                                             <span v-if="item.route || item.url" class="sm:hidden text-xs text-gray-500 font-mono truncate max-w-[150px]">
@@ -280,7 +283,7 @@ const toggleActive = (item: MenuItem) => {
                                         >
                                             <Eye v-if="item.active" class="h-3 w-3" />
                                             <EyeOff v-else class="h-3 w-3" />
-                                            {{ item.active ? 'Active' : 'Inactive' }}
+                                            {{ item.active ? $t('Active') : $t('Inactive') }}
                                         </button>
                                     </td>
 
@@ -290,14 +293,14 @@ const toggleActive = (item: MenuItem) => {
                                             <button
                                                 @click="handleEdit(item)"
                                                 class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                                                title="Edit"
+                                                :title="$t('Edit')"
                                             >
                                                 <Edit class="w-4 h-4" />
                                             </button>
                                             <button
                                                 @click="handleDelete(item)"
                                                 class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                                                title="Delete"
+                                                :title="$t('Delete')"
                                             >
                                                 <Trash2 class="w-4 h-4" />
                                             </button>
@@ -362,7 +365,7 @@ const toggleActive = (item: MenuItem) => {
                                         >
                                             <Eye v-if="child.active" class="h-3 w-3" />
                                             <EyeOff v-else class="h-3 w-3" />
-                                            {{ child.active ? 'Active' : 'Inactive' }}
+                                            {{ child.active ? $t('Active') : $t('Inactive') }}
                                         </button>
                                     </td>
                                     <td class="px-6 py-4 text-right">
@@ -370,14 +373,14 @@ const toggleActive = (item: MenuItem) => {
                                             <button
                                                 @click="handleEdit(child)"
                                                 class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                                                title="Edit"
+                                                :title="$t('Edit')"
                                             >
                                                 <Edit class="w-4 h-4" />
                                             </button>
                                             <button
                                                 @click="handleDelete(child)"
                                                 class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                                                title="Delete"
+                                                :title="$t('Delete')"
                                             >
                                                 <Trash2 class="w-4 h-4" />
                                             </button>
@@ -391,7 +394,7 @@ const toggleActive = (item: MenuItem) => {
 
                 <!-- Empty State -->
                 <div v-if="parentItems.length === 0" class="p-12 text-center">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">No menu items found. Click "Add Menu Item" to create your first item.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('No menu items found. Click "Add Menu Item" to create your first item.') }}</p>
                 </div>
             </div>
         </div>
@@ -408,7 +411,7 @@ const toggleActive = (item: MenuItem) => {
         <ConfirmDeleteModal
             v-model:show="showDeleteModal"
             :title="deletingItem?.title ?? ''"
-            :message="`Are you sure you want to delete this menu item? ${deletingItem && getChildren(deletingItem.id).length > 0 ? 'All child items will also be deleted.' : ''}`"
+            :message="$t('Are you sure you want to delete this menu item? {note}', { note: deletingItem && getChildren(deletingItem.id).length > 0 ? t('All child items will also be deleted.') : '' })"
             @confirm="confirmDelete"
         />
     </AdminLayout>

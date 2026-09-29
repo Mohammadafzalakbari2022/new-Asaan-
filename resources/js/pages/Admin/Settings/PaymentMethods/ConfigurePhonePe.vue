@@ -64,16 +64,16 @@ const save = () => {
 </script>
 
 <template>
-  <AdminLayout title="Payment Methods - PhonePe">
-    <Head title="Configure PhonePe" />
+  <AdminLayout :title="$t('Payment Methods - PhonePe')">
+    <Head :title="$t('Configure PhonePe')" />
 
     <div>
       <!-- Page Header -->
       <div class="mb-6">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">PhonePe Configuration</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Configure PhonePe payment gateway settings</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">{{ $t('PhonePe Configuration') }}</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Configure PhonePe payment gateway settings') }}</p>
           </div>
           <Link 
             href="/admin/settings/payment-methods"
@@ -97,7 +97,7 @@ const save = () => {
             <!-- Name -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Method Name <span class="text-red-500">*</span>
+                {{ $t('Method Name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.name"
@@ -110,23 +110,23 @@ const save = () => {
 
             <!-- Description -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Description') }}</label>
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Describe this payment method..."
+                :placeholder="$t('Describe this payment method...')"
               ></textarea>
             </div>
 
             <!-- Instructions -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Instructions</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Customer Instructions') }}</label>
               <textarea
                 v-model="form.instructions"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Instructions shown to customers at checkout..."
+                :placeholder="$t('Instructions shown to customers at checkout...')"
               ></textarea>
             </div>
           </div>
@@ -134,7 +134,7 @@ const save = () => {
 
         <!-- Environment Mode Toggle -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Environment Mode</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Environment Mode') }}</h2>
 
           <div class="flex items-center gap-4 mb-6">
             <label
@@ -146,8 +146,8 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'test'" class="w-2 h-2 rounded-full bg-amber-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'test' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">Test Mode</div>
-                <div class="text-xs text-gray-500">UAT — no real charges</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'test' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Test Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('UAT — no real charges') }}</div>
               </div>
             </label>
 
@@ -160,20 +160,20 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'production'" class="w-2 h-2 rounded-full bg-green-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'production' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">Production Mode</div>
-                <div class="text-xs text-gray-500">Live — real transactions</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'production' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Production Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('Live — real transactions') }}</div>
               </div>
             </label>
           </div>
 
           <div v-if="form.configuration.mode === 'test'" class="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
             <p class="text-sm text-amber-800 dark:text-amber-200">
-              <strong>&#9888; Test Mode Active:</strong> No real charges will be made. PhonePe will use the UAT environment with your test credentials.
+              <strong>&#9888; {{ $t('Test Mode Active:') }}</strong> {{ $t('No real charges will be made. PhonePe will use the UAT environment with your test credentials.') }}
             </p>
           </div>
           <div v-if="form.configuration.mode === 'production'" class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <p class="text-sm text-green-800 dark:text-green-200">
-              <strong>&#10003; Production Mode:</strong> Real charges will be processed via PhonePe's live environment.
+              <strong>&#10003; {{ $t('Production Mode:') }}</strong> {{ $t("Real charges will be processed via PhonePe's live environment.") }}
             </p>
           </div>
         </div>
@@ -181,12 +181,12 @@ const save = () => {
         <!-- PhonePe API Credentials -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            {{ form.configuration.mode === 'test' ? 'Test (UAT)' : 'Live' }} API Credentials
+            {{ form.configuration.mode === 'test' ? $t('Test (UAT)') : $t('Live') }} {{ $t('API Credentials') }}
           </h2>
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>Get your credentials:</strong> Log in to your <a href="https://business.phonepe.com/" target="_blank" class="underline">PhonePe Business Dashboard</a> → Settings → API Credentials
+              <strong>{{ $t('Get your credentials:') }}</strong> Log in to your <a href="https://business.phonepe.com/" target="_blank" class="underline">PhonePe Business Dashboard</a> {{ $t('→ Settings → API Credentials') }}
             </p>
           </div>
 
@@ -196,7 +196,7 @@ const save = () => {
             <template v-if="form.configuration.mode === 'test'">
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Merchant ID <span class="text-red-500">*</span>
+                  {{ $t('Test Merchant ID') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.test_merchant_id"
@@ -205,36 +205,36 @@ const save = () => {
                   placeholder="e.g. M22TUU3OAID7Z"
                 />
                 <p v-if="errors['configuration.test_merchant_id']" class="mt-1 text-sm text-red-600">{{ errors['configuration.test_merchant_id'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">PhonePe Merchant ID for UAT / test environment</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('PhonePe Merchant ID for UAT / test environment') }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Client ID <span class="text-red-500">*</span>
+                  {{ $t('Test Client ID') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.test_client_id"
                   type="text"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.test_client_id'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Enter your PhonePe Test Client ID"
+                  :placeholder="$t('Enter your PhonePe Test Client ID')"
                 />
                 <p v-if="errors['configuration.test_client_id']" class="mt-1 text-sm text-red-600">{{ errors['configuration.test_client_id'] }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Client Secret <span class="text-red-500">*</span>
+                  {{ $t('Test Client Secret') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.test_client_secret"
                   type="password"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.test_client_secret'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Enter your PhonePe Test Client Secret"
+                  :placeholder="$t('Enter your PhonePe Test Client Secret')"
                 />
                 <p v-if="errors['configuration.test_client_secret']" class="mt-1 text-sm text-red-600">{{ errors['configuration.test_client_secret'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Keep this secret secure — never share it publicly</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Keep this secret secure — never share it publicly') }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Client Version <span class="text-red-500">*</span>
+                  {{ $t('Test Client Version') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model.number="form.configuration.test_client_version"
@@ -244,7 +244,7 @@ const save = () => {
                   placeholder="1"
                 />
                 <p v-if="errors['configuration.test_client_version']" class="mt-1 text-sm text-red-600">{{ errors['configuration.test_client_version'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">PhonePe API version for UAT (typically 1)</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('PhonePe API version for UAT (typically 1)') }}</p>
               </div>
             </template>
 
@@ -252,7 +252,7 @@ const save = () => {
             <template v-else>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Merchant ID <span class="text-red-500">*</span>
+                  {{ $t('Live Merchant ID') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.merchant_id"
@@ -261,36 +261,36 @@ const save = () => {
                   placeholder="e.g. M22TUU3OAID7Z"
                 />
                 <p v-if="errors['configuration.merchant_id']" class="mt-1 text-sm text-red-600">{{ errors['configuration.merchant_id'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">PhonePe Merchant ID for production</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('PhonePe Merchant ID for production') }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Client ID <span class="text-red-500">*</span>
+                  {{ $t('Live Client ID') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.client_id"
                   type="text"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.client_id'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Enter your PhonePe Live Client ID"
+                  :placeholder="$t('Enter your PhonePe Live Client ID')"
                 />
                 <p v-if="errors['configuration.client_id']" class="mt-1 text-sm text-red-600">{{ errors['configuration.client_id'] }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Client Secret <span class="text-red-500">*</span>
+                  {{ $t('Live Client Secret') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.client_secret"
                   type="password"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.client_secret'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Enter your PhonePe Live Client Secret"
+                  :placeholder="$t('Enter your PhonePe Live Client Secret')"
                 />
                 <p v-if="errors['configuration.client_secret']" class="mt-1 text-sm text-red-600">{{ errors['configuration.client_secret'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Keep this secret secure — never share it publicly</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Keep this secret secure — never share it publicly') }}</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Client Version <span class="text-red-500">*</span>
+                  {{ $t('Live Client Version') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model.number="form.configuration.client_version"
@@ -300,7 +300,7 @@ const save = () => {
                   placeholder="1"
                 />
                 <p v-if="errors['configuration.client_version']" class="mt-1 text-sm text-red-600">{{ errors['configuration.client_version'] }}</p>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">PhonePe API version for production (typically 1)</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('PhonePe API version for production (typically 1)') }}</p>
               </div>
             </template>
 
@@ -309,11 +309,11 @@ const save = () => {
 
         <!-- Callback Authentication Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Webhook Authentication</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Webhook Authentication') }}</h2>
 
           <div class="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-yellow-900 dark:text-yellow-200">
-              <strong>Important:</strong> PhonePe uses Basic Authentication for webhook callbacks. Set these credentials in your PhonePe Business Dashboard.
+              <strong>{{ $t('Important:') }}</strong> {{ $t('PhonePe uses Basic Authentication for webhook callbacks. Set these credentials in your PhonePe Business Dashboard.') }}
             </p>
           </div>
 
@@ -321,45 +321,45 @@ const save = () => {
             <!-- Callback Username -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Callback Username <span class="text-gray-400 dark:text-gray-500">(Optional)</span>
+                {{ $t('Callback Username') }} <span class="text-gray-400 dark:text-gray-500">({{ $t('Optional') }})</span>
               </label>
               <input
                 v-model="form.configuration.callback_username"
                 type="text"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter webhook username"
+                :placeholder="$t('Enter webhook username')"
               />
-              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Username for webhook Basic Authentication</p>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Username for webhook Basic Authentication') }}</p>
             </div>
 
             <!-- Callback Password -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Callback Password <span class="text-gray-400 dark:text-gray-500">(Optional)</span>
+                {{ $t('Callback Password') }} <span class="text-gray-400 dark:text-gray-500">({{ $t('Optional') }})</span>
               </label>
               <input
                 v-model="form.configuration.callback_password"
                 type="password"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter webhook password"
+                :placeholder="$t('Enter webhook password')"
               />
-              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Password for webhook Basic Authentication</p>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Password for webhook Basic Authentication') }}</p>
             </div>
           </div>
         </div>
 
         <!-- Webhook URL Info -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Webhook Configuration</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Webhook Configuration') }}</h2>
           <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <p class="text-sm text-green-900 dark:text-green-200 mb-2">
-              <strong>Webhook URL:</strong> Configure this URL in your PhonePe Business Dashboard
+              <strong>{{ $t('Webhook URL:') }}</strong> {{ $t('Configure this URL in your PhonePe Business Dashboard') }}
             </p>
             <div class="bg-white dark:bg-gray-800 border border-green-300 dark:border-green-700 rounded px-3 py-2">
               <code class="text-sm text-green-800 dark:text-green-300 break-all">{{ webhookUrl }}</code>
             </div>
             <p class="mt-2 text-xs text-green-700 dark:text-green-400">
-              PhonePe will send payment notifications to this URL for real-time order updates.
+              {{ $t('PhonePe will send payment notifications to this URL for real-time order updates.') }}
             </p>
           </div>
         </div>
@@ -368,7 +368,7 @@ const save = () => {
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>Payment Processing:</strong> Customers will be redirected to PhonePe's secure payment page to complete their transaction. All payments are processed through PhonePe's secure gateway.
+              <strong>{{ $t('Payment Processing:') }}</strong> {{ $t("Customers will be redirected to PhonePe's secure payment page to complete their transaction. All payments are processed through PhonePe's secure gateway.") }}
             </p>
           </div>
         </div>
@@ -380,7 +380,7 @@ const save = () => {
             :disabled="form.processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+            {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
           </button>
         </div>
       </form>

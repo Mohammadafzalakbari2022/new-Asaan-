@@ -8,6 +8,10 @@ import { Heart, Menu, Search, X } from 'lucide-vue-next';
 import axios from 'axios';
 import { useCurrency } from '@/composables/useCurrency';
 import { useThemeSettings } from '@/composables/useThemeSettings';
+import { useI18nStore } from '@/Stores/i18n';
+
+const i18n = useI18nStore();
+const t = i18n.t;
 
 interface SearchSuggestion {
     id: number;
@@ -267,7 +271,7 @@ onUnmounted(() => {
                 <button
                     type="button"
                     class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
-                    aria-label="Open menu"
+                    :aria-label="$t('Open menu')"
                     @click="mobileMenuOpen = true"
                 >
                     <Menu class="w-6 h-6" />
@@ -367,7 +371,7 @@ onUnmounted(() => {
                     <!-- Fallback to hardcoded menu while loading -->
                     <template v-else>
                         <Link href="/products" class="text-gray-700 hover:text-gray-900 transition-colors">
-                            Shop
+                            {{ $t('Shop') }}
                         </Link>
                         
                         <!-- Categories Dropdown -->
@@ -376,7 +380,7 @@ onUnmounted(() => {
                                 @click="toggleCategoriesDropdown"
                                 class="text-gray-700 hover:text-gray-900 transition-colors flex items-center space-x-1"
                             >
-                                <span>Categories</span>
+                                <span>{{ $t('Categories') }}</span>
                                 <svg 
                                     class="w-4 h-4 transition-transform duration-200" 
                                     :class="{ 'rotate-180': showCategoriesDropdown }"
@@ -414,24 +418,24 @@ onUnmounted(() => {
                                             class="block px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100"
                                             :style="{ color: primary }"
                                         >
-                                            View All Categories →
+                                            {{ $t('View All Categories') }} →
                                         </Link>
                                     </template>
                                     <div v-else class="px-4 py-3 text-sm text-gray-500">
-                                        No categories available
+                                        {{ $t('No categories available') }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
                         <Link href="/products?on_sale=1" class="text-gray-700 hover:text-gray-900 transition-colors">
-                            Deals
+                            {{ $t('Deals') }}
                         </Link>
                         <Link href="/blog" class="text-gray-700 hover:text-gray-900 transition-colors">
-                            Blog
+                            {{ $t('Blog') }}
                         </Link>
                         <Link href="/about-us" class="text-gray-700 hover:text-gray-900 transition-colors">
-                            About
+                            {{ $t('About') }}
                         </Link>
                     </template>
                 </nav>
@@ -442,7 +446,7 @@ onUnmounted(() => {
                     <button
                         type="button"
                         class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
-                        aria-label="Search"
+                        :aria-label="$t('Search')"
                         @click="mobileSearchOpen = !mobileSearchOpen"
                     >
                         <Search class="w-5 h-5" />
@@ -454,7 +458,7 @@ onUnmounted(() => {
                             ref="searchInputRef"
                             v-model="searchQuery"
                             type="text"
-                            placeholder="Search products..."
+                            :placeholder="$t('Search products...')"
                             class="w-64 rounded-lg border border-gray-300 px-4 py-2 pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             @input="onSearchInput"
                             @keydown="handleKeyDown"
@@ -555,7 +559,7 @@ onUnmounted(() => {
                         v-if="user && wishlistEnabled"
                         href="/account/wishlist"
                         class="relative p-2 text-gray-700 hover:text-red-500 transition-colors"
-                        title="Wishlist"
+                        :title="$t('Wishlist')"
                     >
                         <Heart class="w-6 h-6" />
                         <span 
@@ -573,14 +577,14 @@ onUnmounted(() => {
                             class="hidden sm:inline-flex rounded-lg px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
                             :style="{ backgroundColor: primary }"
                         >
-                            Login
+                            {{ $t('Login') }}
                         </Link>
                         <Link
                             href="/register"
                             class="hidden sm:inline-flex rounded-lg border-2 px-4 py-2 text-sm font-medium hover:bg-gray-50 transition-colors"
                             :style="{ borderColor: primary, color: primary }"
                         >
-                            Register
+                            {{ $t('Register') }}
                         </Link>
                     </template>
 
@@ -623,7 +627,7 @@ onUnmounted(() => {
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                     </svg>
-                                    <span>Dashboard</span>
+                                    <span>{{ $t('Dashboard') }}</span>
                                 </Link>
                                 <Link
                                     href="/account/orders"
@@ -632,7 +636,7 @@ onUnmounted(() => {
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                                     </svg>
-                                    <span>My Orders</span>
+                                    <span>{{ $t('My Orders') }}</span>
                                 </Link>
                                 <Link
                                     href="/account/profile"
@@ -641,7 +645,7 @@ onUnmounted(() => {
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
-                                    <span>Profile</span>
+                                    <span>{{ $t('Profile') }}</span>
                                 </Link>
                                 <Link
                                     href="/account/addresses"
@@ -651,7 +655,7 @@ onUnmounted(() => {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    <span>Addresses</span>
+                                    <span>{{ $t('Addresses') }}</span>
                                 </Link>
                                 <Link
                                     v-if="referralEnabled"
@@ -661,7 +665,7 @@ onUnmounted(() => {
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span>Refer & Earn</span>
+                                    <span>{{ $t('Refer & Earn') }}</span>
                                 </Link>
                                 <div class="border-t border-gray-100 my-1"></div>
                                 <Link
@@ -673,7 +677,7 @@ onUnmounted(() => {
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                     </svg>
-                                    <span>Logout</span>
+                                    <span>{{ $t('Logout') }}</span>
                                 </Link>
                             </div>
                         </div>
@@ -687,7 +691,7 @@ onUnmounted(() => {
                     <input
                         v-model="searchQuery"
                         type="text"
-                        placeholder="Search products..."
+                        :placeholder="$t('Search products...')"
                         class="w-full rounded-lg border border-gray-300 px-4 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         @input="onSearchInput"
                         @keydown="handleKeyDown"
@@ -709,7 +713,7 @@ onUnmounted(() => {
                     <aside class="absolute left-0 top-0 h-full w-[min(320px,88vw)] bg-white shadow-xl flex flex-col">
                         <div class="flex items-center justify-between px-4 h-16 border-b border-slate-200">
                             <span class="font-bold text-slate-900">{{ siteConfig.name }}</span>
-                            <button type="button" class="p-2 rounded-lg hover:bg-slate-100" aria-label="Close menu" @click="closeMobileMenu">
+                            <button type="button" class="p-2 rounded-lg hover:bg-slate-100" :aria-label="$t('Close menu')" @click="closeMobileMenu">
                                 <X class="w-5 h-5" />
                             </button>
                         </div>
@@ -740,12 +744,12 @@ onUnmounted(() => {
                                 </template>
                             </template>
                             <template v-else>
-                                <Link href="/products" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">Shop</Link>
-                                <Link href="/products?on_sale=1" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">Deals</Link>
-                                <Link href="/blog" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">Blog</Link>
-                                <Link href="/about-us" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">About</Link>
+                                <Link href="/products" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">{{ $t('Shop') }}</Link>
+                                <Link href="/products?on_sale=1" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">{{ $t('Deals') }}</Link>
+                                <Link href="/blog" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">{{ $t('Blog') }}</Link>
+                                <Link href="/about-us" class="block px-3 py-3 rounded-lg text-slate-700 hover:bg-blue-50 font-medium" @click="closeMobileMenu">{{ $t('About') }}</Link>
                                 <div v-if="categories?.length" class="pt-2">
-                                    <p class="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Categories</p>
+                                    <p class="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{{ $t('Categories') }}</p>
                                     <Link
                                         v-for="category in categories"
                                         :key="category.id"
@@ -767,7 +771,7 @@ onUnmounted(() => {
                                     :style="{ backgroundColor: primary }"
                                     @click="closeMobileMenu"
                                 >
-                                    Login
+                                    {{ $t('Login') }}
                                 </Link>
                                 <Link
                                     href="/register"
@@ -775,11 +779,11 @@ onUnmounted(() => {
                                     :style="{ borderColor: primary, color: primary }"
                                     @click="closeMobileMenu"
                                 >
-                                    Create Account
+                                    {{ $t('Create Account') }}
                                 </Link>
                             </template>
                             <Link v-else href="/account" class="block w-full text-center rounded-lg bg-slate-100 px-4 py-3 text-sm font-medium text-slate-800" @click="closeMobileMenu">
-                                My Account
+                                {{ $t('My Account') }}
                             </Link>
                         </div>
                     </aside>

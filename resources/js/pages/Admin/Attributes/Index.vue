@@ -4,6 +4,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
 import { debounce } from 'lodash';
 import * as attributeRoutes from '@/routes/admin/catalog/attributes';
+import { useI18nStore } from '@/Stores/i18n';
 import {
   Plus,
   Search,
@@ -59,6 +60,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const { t } = useI18nStore();
 
 const search = ref(props.filters.search || '');
 const typeFilter = ref(props.filters.type || '');
@@ -167,14 +170,14 @@ const bulkDelete = () => {
 // Get type label
 const getTypeLabel = (type: string): string => {
   const labels: Record<string, string> = {
-    text: 'Text',
-    textarea: 'Textarea',
-    select: 'Select',
-    multiselect: 'Multi-select',
-    boolean: 'Boolean',
-    date: 'Date',
-    price: 'Price',
-    number: 'Number',
+    text: t('Text'),
+    textarea: t('Textarea'),
+    select: t('Select'),
+    multiselect: t('Multi-select'),
+    boolean: t('Boolean'),
+    date: t('Date'),
+    price: t('Price'),
+    number: t('Number'),
   };
   return labels[type] || type;
 };
@@ -196,22 +199,22 @@ const getTypeBadgeColor = (type: string): string => {
 </script>
 
 <template>
-  <Head title="Attributes" />
+  <Head :title="$t('Attributes')" />
 
-  <AdminLayout title="Attributes">
+  <AdminLayout :title="$t('Attributes')">
     <div class="p-6 space-y-6">
       <!-- Page Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Attributes</h1>
-          <p class="mt-1 text-sm text-gray-600">Manage product attributes and their options</p>
+          <h1 class="text-2xl font-bold text-gray-900">{{ $t('Attributes') }}</h1>
+          <p class="mt-1 text-sm text-gray-600">{{ $t('Manage product attributes and their options') }}</p>
         </div>
         <Link
           :href="attributeRoutes.create().url"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <Plus class="w-4 h-4 mr-2" />
-          Add Attribute
+          {{ $t('Add Attribute') }}
         </Link>
       </div>
 
@@ -220,14 +223,14 @@ const getTypeBadgeColor = (type: string): string => {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Search -->
           <div class="relative">
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="search"
                 @input="performSearch"
                 type="text"
-                placeholder="Search by name or code..."
+                :placeholder="$t('Search by name or code...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -235,7 +238,7 @@ const getTypeBadgeColor = (type: string): string => {
 
           <!-- Type Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Type</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Type') }}</label>
             <div class="relative">
               <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -243,14 +246,14 @@ const getTypeBadgeColor = (type: string): string => {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Types</option>
-                <option value="text">Text</option>
-                <option value="textarea">Textarea</option>
-                <option value="select">Select</option>
-                <option value="multiselect">Multi-select</option>
-                <option value="boolean">Boolean</option>
-                <option value="date">Date</option>
-                <option value="price">Price</option>
+                <option value="">{{ $t('All Types') }}</option>
+                <option value="text">{{ $t('Text') }}</option>
+                <option value="textarea">{{ $t('Textarea') }}</option>
+                <option value="select">{{ $t('Select') }}</option>
+                <option value="multiselect">{{ $t('Multi-select') }}</option>
+                <option value="boolean">{{ $t('Boolean') }}</option>
+                <option value="date">{{ $t('Date') }}</option>
+                <option value="price">{{ $t('Price') }}</option>
               </select>
               <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -266,7 +269,7 @@ const getTypeBadgeColor = (type: string): string => {
               class="w-full py-2.5 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <X class="w-4 h-4" />
-              Clear Filters
+              {{ $t('Clear Filters') }}
             </button>
           </div>
         </div>
@@ -277,7 +280,7 @@ const getTypeBadgeColor = (type: string): string => {
         <div v-if="selectedAttributes.length > 0" class="bg-blue-600 rounded-xl shadow-lg p-3 text-white flex items-center justify-between sticky top-4 z-10 px-6">
           <span class="text-sm font-semibold flex items-center">
             <CheckCircle class="w-4 h-4 mr-2" />
-            {{ selectedAttributes.length }} {{ selectedAttributes.length === 1 ? 'attribute' : 'attributes' }} selected
+            {{ $t(selectedAttributes.length === 1 ? '{count} attribute selected' : '{count} attributes selected', { count: selectedAttributes.length }) }}
           </span>
           <div class="flex gap-2">
             <button
@@ -285,7 +288,7 @@ const getTypeBadgeColor = (type: string): string => {
               class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors flex items-center uppercase tracking-wide"
             >
               <Trash2 class="w-3 h-3 mr-1.5" />
-              Delete Selected
+              {{ $t('Delete Selected') }}
             </button>
           </div>
         </div>
@@ -310,7 +313,7 @@ const getTypeBadgeColor = (type: string): string => {
                 @click="sortTable('name')"
               >
                 <div class="flex items-center gap-1">
-                  Name
+                  {{ $t('Name') }}
                   <span v-if="sortBy === 'name'" class="text-blue-600 dark:text-blue-400">
                      <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                      <ArrowDown v-else class="w-3 h-3" />
@@ -324,7 +327,7 @@ const getTypeBadgeColor = (type: string): string => {
                 @click="sortTable('code')"
               >
                 <div class="flex items-center gap-1">
-                  Code
+                  {{ $t('Code') }}
                   <span v-if="sortBy === 'code'" class="text-blue-600 dark:text-blue-400">
                      <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                      <ArrowDown v-else class="w-3 h-3" />
@@ -333,22 +336,22 @@ const getTypeBadgeColor = (type: string): string => {
                 </div>
               </th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Type
+                {{ $t('Type') }}
               </th>
               <th scope="col" class="hidden lg:table-cell px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Options
+                {{ $t('Options') }}
               </th>
               <th scope="col" class="hidden lg:table-cell px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Required
+                {{ $t('Required') }}
               </th>
               <th scope="col" class="hidden xl:table-cell px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Filterable
+                {{ $t('Filterable') }}
               </th>
               <th scope="col" class="hidden xl:table-cell px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Configurable
+                {{ $t('Configurable') }}
               </th>
               <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Actions
+                {{ $t('Actions') }}
               </th>
             </tr>
           </thead>
@@ -420,14 +423,14 @@ const getTypeBadgeColor = (type: string): string => {
                   <Link
                     :href="attributeRoutes.edit(attribute.id).url"
                     class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                    title="Edit"
+                    :title="$t('Edit')"
                   >
                     <Edit class="w-4 h-4" />
                   </Link>
                   <button
                     @click="confirmDelete(attribute.id)"
                     class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                    title="Delete"
+                    :title="$t('Delete')"
                   >
                     <Trash2 class="w-4 h-4" />
                   </button>
@@ -438,25 +441,25 @@ const getTypeBadgeColor = (type: string): string => {
             <tr v-if="expandedRows.includes(attribute.id)" class="bg-gray-50/50 dark:bg-gray-900/50 lg:hidden">
                <td colspan="9" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                   <div class="grid grid-cols-2 gap-4 text-sm">
-                     <div class="flex flex-col gap-1 md:hidden">
-                        <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Code</span>
+                      <div class="flex flex-col gap-1 md:hidden">
+                         <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Code') }}</span>
                          <code class="text-xs bg-gray-100 dark:bg-gray-700/50 px-2 py-1 rounded text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600 font-mono w-fit">{{ attribute.code }}</code>
                      </div>
-                     <div class="flex flex-col gap-1">
-                        <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Options</span>
-                        <span v-if="['select', 'multiselect'].includes(attribute.type)" class="text-gray-900 dark:text-gray-100 font-medium">
-                           {{ attribute.options_count }} options
-                        </span>
-                        <span v-else class="text-gray-400 italic">N/A</span>
-                     </div>
-                     <div class="flex flex-col gap-1">
-                        <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Settings</span>
-                        <div class="flex flex-wrap gap-2">
-                           <span v-if="attribute.is_required" class="inline-flex items-center text-[10px] text-green-700 bg-green-50 border border-green-100 px-1.5 py-0.5 rounded">Required</span>
-                           <span v-if="attribute.is_filterable" class="inline-flex items-center text-[10px] text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded">Filterable</span>
-                           <span v-if="attribute.is_configurable" class="inline-flex items-center text-[10px] text-purple-700 bg-purple-50 border border-purple-100 px-1.5 py-0.5 rounded">Configurable</span>
-                        </div>
-                     </div>
+                      <div class="flex flex-col gap-1">
+                         <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Options') }}</span>
+                         <span v-if="['select', 'multiselect'].includes(attribute.type)" class="text-gray-900 dark:text-gray-100 font-medium">
+                            {{ $t('{count} options', { count: attribute.options_count }) }}
+                         </span>
+                         <span v-else class="text-gray-400 italic">N/A</span>
+                      </div>
+                      <div class="flex flex-col gap-1">
+                         <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Settings') }}</span>
+                         <div class="flex flex-wrap gap-2">
+                            <span v-if="attribute.is_required" class="inline-flex items-center text-[10px] text-green-700 bg-green-50 border border-green-100 px-1.5 py-0.5 rounded">{{ $t('Required') }}</span>
+                            <span v-if="attribute.is_filterable" class="inline-flex items-center text-[10px] text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded">{{ $t('Filterable') }}</span>
+                            <span v-if="attribute.is_configurable" class="inline-flex items-center text-[10px] text-purple-700 bg-purple-50 border border-purple-100 px-1.5 py-0.5 rounded">{{ $t('Configurable') }}</span>
+                         </div>
+                      </div>
                   </div>
                </td>
             </tr>
@@ -467,8 +470,8 @@ const getTypeBadgeColor = (type: string): string => {
                   <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                     <List class="w-8 h-8" />
                   </div>
-                  <p class="text-lg font-semibold text-gray-900 dark:text-white">No attributes found</p>
-                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">Get started by creating your first attribute.</p>
+                  <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No attributes found') }}</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('Get started by creating your first attribute.') }}</p>
                 </div>
               </td>
             </tr>
@@ -484,14 +487,14 @@ const getTypeBadgeColor = (type: string): string => {
               :href="attributes.links[0].url || '#'"
               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              Previous
+              {{ $t('Previous') }}
             </Link>
             <Link
               v-if="attributes.current_page < attributes.last_page"
               :href="attributes.links[attributes.links.length - 1].url || '#'"
               class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              Next
+              {{ $t('Next') }}
             </Link>
           </div>
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
@@ -550,10 +553,10 @@ const getTypeBadgeColor = (type: string): string => {
                   </svg>
                 </div>
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <h3 class="text-base font-semibold leading-6 text-gray-900">Delete Attribute</h3>
+                  <h3 class="text-base font-semibold leading-6 text-gray-900">{{ $t('Delete Attribute') }}</h3>
                   <div class="mt-2">
                     <p class="text-sm text-gray-500">
-                      Are you sure you want to delete this attribute? This action cannot be undone.
+                      {{ $t('Are you sure you want to delete this attribute? This action cannot be undone.') }}
                     </p>
                   </div>
                 </div>
@@ -565,14 +568,14 @@ const getTypeBadgeColor = (type: string): string => {
                 type="button"
                 class="cursor-pointer inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
               >
-                Delete
+                {{ $t('Delete') }}
               </button>
               <button
                 @click="showDeleteModal = false"
                 type="button"
                 class="cursor-pointer mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
             </div>
           </div>
@@ -600,10 +603,10 @@ const getTypeBadgeColor = (type: string): string => {
                   </svg>
                 </div>
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <h3 class="text-base font-semibold leading-6 text-gray-900">Delete Multiple Attributes</h3>
+                  <h3 class="text-base font-semibold leading-6 text-gray-900">{{ $t('Delete Multiple Attributes') }}</h3>
                   <div class="mt-2">
                     <p class="text-sm text-gray-500">
-                      Are you sure you want to delete {{ selectedAttributes.length }} selected {{ selectedAttributes.length === 1 ? 'attribute' : 'attributes' }}? This action cannot be undone.
+                      {{ $t('Are you sure you want to delete {count} selected {noun}? This action cannot be undone.', { count: selectedAttributes.length, noun: $t(selectedAttributes.length === 1 ? 'attribute' : 'attributes') }) }}
                     </p>
                   </div>
                 </div>
@@ -615,14 +618,14 @@ const getTypeBadgeColor = (type: string): string => {
                 type="button"
                 class="cursor-pointer inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
               >
-                Delete All
+                {{ $t('Delete All') }}
               </button>
               <button
                 @click="showBulkDeleteModal = false"
                 type="button"
                 class="cursor-pointer mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
             </div>
           </div>

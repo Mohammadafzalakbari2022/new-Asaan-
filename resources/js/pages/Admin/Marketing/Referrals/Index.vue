@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Link, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 import {
   Users,
   Gift,
@@ -59,6 +60,7 @@ const props = defineProps<{
 }>();
 
 const { formatPrice } = useCurrency();
+const { t } = useI18nStore();
 
 // The chart is drawn with plain divs rather than a charting library, so it works
 // with no extra dependency and degrades to a readable bar list.
@@ -73,22 +75,22 @@ const bars = computed(() =>
 
 const rulesSummary = computed(() =>
   props.stats.level_breakdown
-    .map((row) => `L${row.level} ${row.share}% (${formatPrice(row.amount)})`)
+    .map((row) => t('L{level} {share}% ({amount})', { level: row.level, share: row.share, amount: formatPrice(row.amount) }))
     .join('  ·  ')
 );
 </script>
 
 <template>
-  <Head title="Referral Programme" />
+  <Head :title="$t('Referral Programme')" />
 
-  <AdminLayout title="Referrals">
+  <AdminLayout :title="$t('Referrals')">
     <div class="p-6 space-y-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Referral Programme</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Referral Programme') }}</h1>
           <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            How the programme is performing, and what the store is currently promising customers.
+            {{ $t('How the programme is performing, and what the store is currently promising customers.') }}
           </p>
         </div>
 
@@ -98,14 +100,14 @@ const rulesSummary = computed(() =>
             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
           >
             <CheckCircle2 class="w-4 h-4" />
-            Live
+            {{ $t('Live') }}
           </span>
           <span
             v-else
             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
           >
             <AlertTriangle class="w-4 h-4" />
-            Switched off
+            {{ $t('Switched off') }}
           </span>
 
           <Link
@@ -113,7 +115,7 @@ const rulesSummary = computed(() =>
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
           >
             <Settings class="w-4 h-4 mr-2" />
-            Settings
+            {{ $t('Settings') }}
           </Link>
         </div>
       </div>
@@ -124,12 +126,16 @@ const rulesSummary = computed(() =>
         class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-5"
       >
         <p class="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wider">
-          What customers are being offered
+          {{ $t('What customers are being offered') }}
         </p>
         <p class="mt-2 text-sm text-blue-900 dark:text-blue-100">
-          <strong>{{ formatPrice(stats.reward_amount) }}</strong> of store credit per qualifying referral,
-          once the person you invited has spent <strong>{{ formatPrice(stats.threshold_amount) }}</strong>.
-          Credit unlocks after <strong>{{ stats.lock_days }}</strong> days.
+          {{
+            $t('{reward} of store credit per qualifying referral, once the person you invited has spent {threshold}. Credit unlocks after {days} days.', {
+              reward: formatPrice(stats.reward_amount),
+              threshold: formatPrice(stats.threshold_amount),
+              days: stats.lock_days,
+            })
+          }}
         </p>
         <p class="mt-1 text-xs text-blue-700 dark:text-blue-400">{{ rulesSummary }}</p>
       </div>
@@ -137,77 +143,80 @@ const rulesSummary = computed(() =>
       <!-- Money owed to customers -->
       <div>
         <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-          What the store owes
+          {{ $t('What the store owes') }}
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Outstanding liability</p>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Outstanding liability') }}</p>
             <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
               {{ formatPrice(stats.outstanding_liability) }}
             </p>
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Credit earned that has not been spent yet
+              {{ $t('Credit earned that has not been spent yet') }}
             </p>
           </div>
 
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Still locked</p>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Still locked') }}</p>
             <p class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
               {{ formatPrice(stats.locked_credit) }}
             </p>
-            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Cannot be spent until it unlocks</p>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Cannot be spent until it unlocks') }}</p>
           </div>
 
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Spent so far</p>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Spent so far') }}</p>
             <p class="mt-2 text-2xl font-bold text-green-600 dark:text-green-400">
               {{ formatPrice(stats.credit_spent) }}
             </p>
-            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Credit customers have actually used</p>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Credit customers have actually used') }}</p>
           </div>
         </div>
         <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-          Total credit ever generated: {{ formatPrice(stats.total_credit_generated) }}.
-          Outstanding liability is what is still walkable, so it is the number to budget for.
+          {{
+            $t('Total credit ever generated: {total}. Outstanding liability is what is still walkable, so it is the number to budget for.', {
+              total: formatPrice(stats.total_credit_generated),
+            })
+          }}
         </p>
       </div>
 
       <!-- People -->
       <div>
         <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-          People
+          {{ $t('People') }}
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Members</p>
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Members') }}</p>
                 <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ stats.programme_members }}</p>
               </div>
               <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                 <Users class="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
-            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ stats.codes_issued }} codes issued</p>
+            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ $t('{count} codes issued', { count: stats.codes_issued }) }}</p>
           </div>
 
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Invites</p>
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Invites') }}</p>
                 <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ stats.total_referrals }}</p>
               </div>
               <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                 <UserCheck class="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
             </div>
-            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ stats.referrals_pending }} not yet qualified</p>
+            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ $t('{count} not yet qualified', { count: stats.referrals_pending }) }}</p>
           </div>
 
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Rewarded</p>
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Rewarded') }}</p>
                 <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ stats.referrals_rewarded }}</p>
               </div>
               <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -215,14 +224,14 @@ const rulesSummary = computed(() =>
               </div>
             </div>
             <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-              {{ stats.conversion_rate }}% of invites paid the threshold
+              {{ $t('{percent}% of invites paid the threshold', { percent: stats.conversion_rate }) }}
             </p>
           </div>
 
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Average spend</p>
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Average spend') }}</p>
                 <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
                   {{ formatPrice(stats.avg_lifetime_spend_of_referred) }}
                 </p>
@@ -231,16 +240,16 @@ const rulesSummary = computed(() =>
                 <TrendingUp class="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
             </div>
-            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Lifetime, of people who qualified</p>
+            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ $t('Lifetime, of people who qualified') }}</p>
           </div>
         </div>
       </div>
 
       <!-- 30 day trend -->
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-        <h2 class="text-sm font-semibold text-gray-900 dark:text-white">Credit handed out, last 30 days</h2>
+        <h2 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Credit handed out, last 30 days') }}</h2>
         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-          One bar per day. Flat days are days with no rewards.
+          {{ $t('One bar per day. Flat days are days with no rewards.') }}
         </p>
 
         <div class="mt-5 flex items-end gap-[3px] h-32">
@@ -250,7 +259,7 @@ const rulesSummary = computed(() =>
             class="flex-1 rounded-t bg-blue-500 dark:bg-blue-400 min-h-[2px] transition-colors"
             :class="point.total === 0 ? 'bg-gray-200 dark:bg-gray-700' : 'hover:bg-blue-600'"
             :style="{ height: point.height + '%' }"
-            :title="`${point.day}: ${formatPrice(point.total)}`"
+            :title="$t('{day}: {amount}', { day: point.day, amount: formatPrice(point.total) })"
           />
         </div>
 
@@ -260,7 +269,7 @@ const rulesSummary = computed(() =>
         </div>
 
         <p class="mt-3 text-xs text-gray-500 dark:text-gray-400">
-          Peak day: {{ formatPrice(peak) }}.
+          {{ $t('Peak day: {amount}.', { amount: formatPrice(peak) }) }}
         </p>
       </div>
 
@@ -268,14 +277,14 @@ const rulesSummary = computed(() =>
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
         <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <div>
-            <h2 class="text-sm font-semibold text-gray-900 dark:text-white">Top earners</h2>
-            <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">Ranked by credit earned</p>
+            <h2 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Top earners') }}</h2>
+            <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{{ $t('Ranked by credit earned') }}</p>
           </div>
           <Link
             href="/admin/marketing/referrals/top-referrers"
             class="inline-flex items-center text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
           >
-            See all
+            {{ $t('See all') }}
             <ArrowRight class="w-3.5 h-3.5 ml-1" />
           </Link>
         </div>
@@ -283,7 +292,7 @@ const rulesSummary = computed(() =>
         <div v-if="topReferrers.length === 0" class="px-5 py-10 text-center">
           <Crown class="w-8 h-8 mx-auto text-gray-300 dark:text-gray-600" />
           <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
-            Nobody has earned a reward yet. Once someone does, they show up here.
+            {{ $t('Nobody has earned a reward yet. Once someone does, they show up here.') }}
           </p>
         </div>
 
@@ -292,11 +301,11 @@ const rulesSummary = computed(() =>
             <thead class="bg-gray-50 dark:bg-gray-700/50">
               <tr>
                 <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">#</th>
-                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer</th>
-                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Earned</th>
-                <th class="hidden sm:table-cell px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Awards</th>
-                <th class="hidden sm:table-cell px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Available</th>
-                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Locked</th>
+                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Customer') }}</th>
+                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Earned') }}</th>
+                <th class="hidden sm:table-cell px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Awards') }}</th>
+                <th class="hidden sm:table-cell px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Available') }}</th>
+                <th class="px-5 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Locked') }}</th>
                 <th class="px-5 py-3"></th>
               </tr>
             </thead>
@@ -327,7 +336,7 @@ const rulesSummary = computed(() =>
                     :href="`/admin/marketing/referrals/people/${person.user_id}`"
                     class="text-blue-600 dark:text-blue-400 hover:underline text-xs font-semibold"
                   >
-                    Open
+                    {{ $t('Open') }}
                   </Link>
                 </td>
               </tr>

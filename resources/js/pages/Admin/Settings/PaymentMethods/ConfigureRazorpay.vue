@@ -49,16 +49,16 @@ const save = () => {
 </script>
 
 <template>
-  <AdminLayout title="Payment Methods - Razorpay">
-    <Head title="Configure Razorpay" />
+  <AdminLayout :title="$t('Payment Methods - Razorpay')">
+    <Head :title="$t('Configure Razorpay')" />
 
     <div>
       <!-- Page Header -->
       <div class="mb-6">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">Razorpay Configuration</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Configure Razorpay payment gateway settings</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">{{ $t('Razorpay Configuration') }}</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Configure Razorpay payment gateway settings') }}</p>
           </div>
           <Link 
             href="/admin/settings/payment-methods"
@@ -67,7 +67,7 @@ const save = () => {
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Payment Methods
+            {{ $t('Back to Payment Methods') }}
           </Link>
         </div>
       </div>
@@ -76,13 +76,13 @@ const save = () => {
       <form @submit.prevent="save" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <!-- Basic Information Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Basic Information') }}</h2>
 
           <div class="space-y-4">
             <!-- Name -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Method Name <span class="text-red-500">*</span>
+                {{ $t('Method Name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.name"
@@ -95,23 +95,23 @@ const save = () => {
 
             <!-- Description -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Description') }}</label>
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Describe this payment method..."
+                :placeholder="$t('Describe this payment method...')"
               ></textarea>
             </div>
 
             <!-- Instructions -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Instructions</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Customer Instructions') }}</label>
               <textarea
                 v-model="form.instructions"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Instructions shown to customers at checkout..."
+                :placeholder="$t('Instructions shown to customers at checkout...')"
               ></textarea>
             </div>
           </div>
@@ -119,7 +119,7 @@ const save = () => {
 
         <!-- Razorpay API Keys Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Environment Mode</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Environment Mode') }}</h2>
 
           <div class="flex items-center gap-4 mb-6">
             <label
@@ -131,8 +131,8 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'test'" class="w-2 h-2 rounded-full bg-amber-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'test' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">Test Mode</div>
-                <div class="text-xs text-gray-500">Use test API keys for development</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'test' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Test Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('Use test API keys for development') }}</div>
               </div>
             </label>
             <label
@@ -144,29 +144,29 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'production'" class="w-2 h-2 rounded-full bg-green-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'production' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">Production Mode</div>
-                <div class="text-xs text-gray-500">Use live API keys for real transactions</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'production' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Production Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('Use live API keys for real transactions') }}</div>
               </div>
             </label>
           </div>
 
           <div v-if="form.configuration.mode === 'test'" class="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
             <p class="text-sm text-amber-800 dark:text-amber-200">
-              <strong>⚠ Test Mode Active:</strong> No real charges will be made. Use Razorpay test keys (starting with <code class="bg-amber-100 dark:bg-amber-800 px-1 rounded">rzp_test_</code>).
+              <strong>{{ $t('⚠ Test Mode Active:') }}</strong> {{ $t('No real charges will be made. Use Razorpay test keys (starting with') }} <code class="bg-amber-100 dark:bg-amber-800 px-1 rounded">rzp_test_</code>{{ $t(').') }}
             </p>
           </div>
 
           <div v-if="form.configuration.mode === 'production'" class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-6">
             <p class="text-sm text-green-800 dark:text-green-200">
-              <strong>✓ Production Mode:</strong> Real charges will be processed. Use live keys (starting with <code class="bg-green-100 dark:bg-green-800 px-1 rounded">rzp_live_</code>).
+              <strong>{{ $t('✓ Production Mode:') }}</strong> {{ $t('Real charges will be processed. Use live keys (starting with') }} <code class="bg-green-100 dark:bg-green-800 px-1 rounded">rzp_live_</code>{{ $t(').') }}
             </p>
           </div>
 
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ form.configuration.mode === 'test' ? 'Test' : 'Production' }} API Keys</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ form.configuration.mode === 'test' ? $t('Test') : $t('Production') }} {{ $t('API Keys') }}</h2>
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>Get your keys:</strong> Log in to your <a href="https://dashboard.razorpay.com/app/keys" target="_blank" class="underline">Razorpay Dashboard</a> → Settings → API Keys
+              <strong>{{ $t('Get your keys:') }}</strong> Log in to your <a href="https://dashboard.razorpay.com/app/keys" target="_blank" class="underline">Razorpay Dashboard</a> {{ $t('→ Settings → API Keys') }}
             </p>
           </div>
 
@@ -175,7 +175,7 @@ const save = () => {
             <template v-if="form.configuration.mode === 'test'">
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Key ID <span class="text-red-500">*</span>
+                  {{ $t('Test Key ID') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.test_key_id"
@@ -187,13 +187,13 @@ const save = () => {
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Key Secret <span class="text-red-500">*</span>
+                  {{ $t('Test Key Secret') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.test_key_secret"
                   type="password"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.test_key_secret'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Enter your Test Key Secret"
+                  :placeholder="$t('Enter your Test Key Secret')"
                 />
                 <p v-if="errors['configuration.test_key_secret']" class="mt-1 text-sm text-red-600">{{ errors['configuration.test_key_secret'] }}</p>
               </div>
@@ -203,7 +203,7 @@ const save = () => {
             <template v-else>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Key ID <span class="text-red-500">*</span>
+                  {{ $t('Live Key ID') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.key_id"
@@ -215,13 +215,13 @@ const save = () => {
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Live Key Secret <span class="text-red-500">*</span>
+                  {{ $t('Live Key Secret') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.key_secret"
                   type="password"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.key_secret'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Enter your Live Key Secret"
+                  :placeholder="$t('Enter your Live Key Secret')"
                 />
                 <p v-if="errors['configuration.key_secret']" class="mt-1 text-sm text-red-600">{{ errors['configuration.key_secret'] }}</p>
               </div>
@@ -230,7 +230,7 @@ const save = () => {
             <!-- Currency -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Currency <span class="text-red-500">*</span>
+                {{ $t('Currency') }} <span class="text-red-500">*</span>
               </label>
               <select
                 v-model="form.configuration.currency"
@@ -242,13 +242,13 @@ const save = () => {
                 <option value="GBP">British Pound (GBP)</option>
               </select>
               <p v-if="errors['configuration.currency']" class="mt-1 text-sm text-red-600">{{ errors['configuration.currency'] }}</p>
-              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Razorpay primarily supports INR for domestic Indian payments</p>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Razorpay primarily supports INR for domestic Indian payments') }}</p>
             </div>
 
             <!-- Webhook Secret (Optional) -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Webhook Secret <span class="text-gray-400 dark:text-gray-500">(Optional)</span>
+                {{ $t('Webhook Secret') }} <span class="text-gray-400 dark:text-gray-500">({{ $t('Optional') }})</span>
               </label>
               <input
                 v-model="form.configuration.webhook_secret"
@@ -257,7 +257,7 @@ const save = () => {
                 placeholder="whsec_..."
               />
               <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                Configure webhooks in your <a href="https://dashboard.razorpay.com/app/webhooks" target="_blank" class="text-blue-600 dark:text-blue-400 underline">Razorpay Dashboard</a>
+                {{ $t('Configure webhooks in your') }} <a href="https://dashboard.razorpay.com/app/webhooks" target="_blank" class="text-blue-600 dark:text-blue-400 underline">Razorpay Dashboard</a>
               </p>
             </div>
 
@@ -269,26 +269,26 @@ const save = () => {
                   type="checkbox"
                   class="rounded border-gray-300 dark:border-gray-600 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700"
                 />
-                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Auto-capture payments</span>
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ $t('Auto-capture payments') }}</span>
               </label>
-              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 ml-6">Automatically capture payments after authorization (recommended)</p>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 ml-6">{{ $t('Automatically capture payments after authorization (recommended)') }}</p>
             </div>
           </div>
         </div>
 
         <!-- Payment Methods Info -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Supported Payment Methods</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Supported Payment Methods') }}</h2>
           <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <p class="text-sm text-green-900 dark:text-green-200 mb-2">
-              <strong>Razorpay supports multiple payment methods:</strong>
+              <strong>{{ $t('Razorpay supports multiple payment methods:') }}</strong>
             </p>
             <ul class="text-sm text-green-800 dark:text-green-300 space-y-1 ml-4 list-disc">
-              <li>Credit & Debit Cards (Visa, Mastercard, Maestro, RuPay)</li>
-              <li>UPI (Google Pay, PhonePe, Paytm, etc.)</li>
-              <li>Net Banking (All major Indian banks)</li>
-              <li>Wallets (Paytm, Mobikwik, Freecharge, etc.)</li>
-              <li>EMI (Easy Monthly Installments)</li>
+              <li>{{ $t('Credit & Debit Cards (Visa, Mastercard, Maestro, RuPay)') }}</li>
+              <li>{{ $t('UPI (Google Pay, PhonePe, Paytm, etc.)') }}</li>
+              <li>{{ $t('Net Banking (All major Indian banks)') }}</li>
+              <li>{{ $t('Wallets (Paytm, Mobikwik, Freecharge, etc.)') }}</li>
+              <li>{{ $t('EMI (Easy Monthly Installments)') }}</li>
             </ul>
           </div>
         </div>
@@ -297,7 +297,7 @@ const save = () => {
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>Payment Processing:</strong> Customers will see the Razorpay payment interface to complete their transactions securely. All payments are processed through Razorpay's secure gateway.
+              <strong>{{ $t('Payment Processing:') }}</strong> {{ $t("Customers will see the Razorpay payment interface to complete their transactions securely. All payments are processed through Razorpay's secure gateway.") }}
             </p>
           </div>
         </div>
@@ -309,7 +309,7 @@ const save = () => {
             :disabled="form.processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+            {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
           </button>
         </div>
       </form>

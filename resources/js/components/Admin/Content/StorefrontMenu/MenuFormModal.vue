@@ -160,7 +160,7 @@ const iconOptions = [
             <!-- Header -->
             <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700">
               <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                {{ isEditMode ? 'Edit Menu Item' : 'Add Menu Item' }}
+                {{ $t(isEditMode ? 'Edit Menu Item' : 'Add Menu Item') }}
               </h2>
               <button
                 @click="close"
@@ -175,7 +175,7 @@ const iconOptions = [
               <!-- Title -->
               <div>
                 <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Title <span class="text-red-500">*</span>
+                  {{ $t('Title') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   id="title"
@@ -183,7 +183,7 @@ const iconOptions = [
                   type="text"
                   required
                   class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500"
-                  placeholder="e.g., Shop All, About Us"
+                  :placeholder="$t('e.g., Shop All, About Us')"
                 />
               </div>
 
@@ -191,7 +191,7 @@ const iconOptions = [
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label for="url" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    URL
+                    {{ $t('URL') }}
                   </label>
                   <input
                     id="url"
@@ -204,7 +204,7 @@ const iconOptions = [
 
                 <div>
                   <label for="route" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Route
+                    {{ $t('Route') }}
                   </label>
                   <input
                     id="route"
@@ -220,7 +220,7 @@ const iconOptions = [
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label for="icon" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Icon
+                    {{ $t('Icon') }}
                   </label>
                   <select
                     id="icon"
@@ -228,21 +228,21 @@ const iconOptions = [
                     class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   >
                     <option v-for="option in iconOptions" :key="option.value" :value="option.value">
-                      {{ option.label }}
+                      {{ $t(option.label) }}
                     </option>
                   </select>
                 </div>
 
                 <div>
                   <label for="parent_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Parent Menu
+                    {{ $t('Parent Menu') }}
                   </label>
                   <select
                     id="parent_id"
                     v-model="form.parent_id"
                     class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   >
-                    <option :value="null">None (Top Level)</option>
+                    <option :value="null">{{ $t('None (Top Level)') }}</option>
                     <option v-for="option in parentOptions" :key="option.id" :value="option.id">
                       {{ option.title }}
                     </option>
@@ -253,7 +253,7 @@ const iconOptions = [
               <!-- Order -->
               <div>
                 <label for="order" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Order
+                  {{ $t('Order') }}
                 </label>
                 <input
                   id="order"
@@ -274,7 +274,7 @@ const iconOptions = [
                   class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
                 />
                 <label for="active" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Active
+                  {{ $t('Active') }}
                 </label>
               </div>
             </form>
@@ -286,7 +286,7 @@ const iconOptions = [
                 @click="close"
                 class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
               <button
                 type="button"
@@ -294,7 +294,7 @@ const iconOptions = [
                 :disabled="isSubmitting"
                 class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-800"
               >
-                {{ isEditMode ? 'Update' : 'Create' }}
+                {{ $t(isEditMode ? 'Update' : 'Create') }}
               </button>
             </div>
           </div>

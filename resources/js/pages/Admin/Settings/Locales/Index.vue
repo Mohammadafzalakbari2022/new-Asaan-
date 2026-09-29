@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import ConfirmDeleteModal from '@/components/Admin/ConfirmDeleteModal.vue';
+import { useI18nStore } from '@/Stores/i18n';
 import { debounce } from 'lodash';
 import { 
     Languages, 
@@ -62,6 +63,8 @@ const props = defineProps<{
     currencies: Currency[];
     countries: Country[];
 }>();
+
+const { t } = useI18nStore();
 
 const page = usePage();
 const errors = computed(() => page.props.errors as Record<string, string>);
@@ -178,6 +181,7 @@ const bulkDisableCountries = () => {
 // Delete Modal State
 const showDeleteModal = ref(false);
 const deleteTarget = ref<{ type: 'locale' | 'currency' | 'country'; item: any } | null>(null);
+const deleteConfirmMessage = computed(() => t("Are you sure you want to delete '{name}'? This action cannot be undone.", { name: deleteTarget?.value?.item?.name ?? deleteTarget?.value?.item?.code ?? '' }));
 
 // Locale Functions
 const openAddLocaleModal = () => {
@@ -302,15 +306,15 @@ const confirmDelete = () => {
 </script>
 
 <template>
-    <AdminLayout title="Locales & Countries">
-        <Head title="Locales & Countries" />
+    <AdminLayout :title="$t('Locales & Countries')">
+        <Head :title="$t('Locales & Countries')" />
         
         <div class="space-y-6">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Locales & Countries</h1>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Manage countries, languages and currencies for your store</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Locales & Countries') }}</h1>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Manage countries, languages and currencies for your store') }}</p>
                 </div>
                 <div class="flex gap-3">
                     <button
@@ -319,7 +323,7 @@ const confirmDelete = () => {
                         class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <Plus class="w-4 h-4 mr-2" />
-                        Add Country
+                        {{ $t('Add Country') }}
                     </button>
                     <button
                         v-if="activeTab === 'languages'"
@@ -327,7 +331,7 @@ const confirmDelete = () => {
                         class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <Plus class="w-4 h-4 mr-2" />
-                        Add Language
+                        {{ $t('Add Language') }}
                     </button>
                     <button
                         v-if="activeTab === 'currencies'"
@@ -335,7 +339,7 @@ const confirmDelete = () => {
                         class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <Plus class="w-4 h-4 mr-2" />
-                        Add Currency
+                        {{ $t('Add Currency') }}
                     </button>
                 </div>
             </div>
@@ -354,7 +358,7 @@ const confirmDelete = () => {
                             ]"
                         >
                             <Globe class="w-4 h-4 mr-2" :class="activeTab === 'countries' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                            Countries
+                            {{ $t('Countries') }}
                         </button>
                         <button
                             @click="activeTab = 'languages'"
@@ -366,7 +370,7 @@ const confirmDelete = () => {
                             ]"
                         >
                             <Languages class="w-4 h-4 mr-2" :class="activeTab === 'languages' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                            Languages
+                            {{ $t('Languages') }}
                         </button>
                         <button
                             @click="activeTab = 'currencies'"
@@ -378,7 +382,7 @@ const confirmDelete = () => {
                             ]"
                         >
                             <Coins class="w-4 h-4 mr-2" :class="activeTab === 'currencies' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                            Currencies
+                            {{ $t('Currencies') }}
                         </button>
                     </div>
                 </div>
@@ -394,7 +398,7 @@ const confirmDelete = () => {
                                 <input
                                     v-model="countrySearch"
                                     type="text"
-                                    placeholder="Search by name, code or phone code..."
+                                    :placeholder="$t('Search by name, code or phone code...')"
                                     class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
                                 />
                             </div>
@@ -404,9 +408,9 @@ const confirmDelete = () => {
                                     v-model="countryStatusFilter"
                                     class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                                 >
-                                    <option value="">All Status</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option value="">{{ $t('All Status') }}</option>
+                                    <option value="1">{{ $t('Active') }}</option>
+                                    <option value="0">{{ $t('Inactive') }}</option>
                                 </select>
                                 <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                     <ChevronDown class="w-3 h-3 text-gray-400" />
@@ -426,13 +430,13 @@ const confirmDelete = () => {
                             <div v-if="countrySelectedIds.length > 0" class="mb-3 bg-blue-600 rounded-xl p-3 text-white flex items-center justify-between px-4">
                                 <span class="text-sm font-semibold flex items-center">
                                     <CheckCircle class="w-4 h-4 mr-2" />
-                                    {{ countrySelectedIds.length }} {{ countrySelectedIds.length === 1 ? 'country' : 'countries' }} selected
+                                    {{ $t(countrySelectedIds.length === 1 ? '{count} country selected' : '{count} countries selected', { count: countrySelectedIds.length }) }}
                                 </span>
                                 <div class="flex gap-2">
-                                    <button @click="bulkEnableCountries" class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide">Enable</button>
-                                    <button @click="bulkDisableCountries" class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide">Disable</button>
+                                    <button @click="bulkEnableCountries" class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide">{{ $t('Enable') }}</button>
+                                    <button @click="bulkDisableCountries" class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide">{{ $t('Disable') }}</button>
                                     <div class="w-px h-6 bg-blue-400 mx-1"></div>
-                                    <button @click="countrySelectedIds = []" class="px-3 py-1.5 text-xs font-bold text-blue-200 hover:text-white rounded-lg transition-colors uppercase tracking-wide">Clear</button>
+                                    <button @click="countrySelectedIds = []" class="px-3 py-1.5 text-xs font-bold text-blue-200 hover:text-white rounded-lg transition-colors uppercase tracking-wide">{{ $t('Clear') }}</button>
                                 </div>
                             </div>
                         </transition>
@@ -451,20 +455,20 @@ const confirmDelete = () => {
                                                 class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-white dark:bg-gray-700 w-4 h-4"
                                             />
                                         </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Code</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-                                        <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Phone</th>
-                                        <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Currency</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Code') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Name') }}</th>
+                                        <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Phone') }}</th>
+                                        <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Currency') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                     <tr v-if="filteredCountries.length === 0">
                                         <td colspan="7" class="px-6 py-12 text-center">
                                             <Globe class="mx-auto h-12 w-12 text-gray-400" />
-                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No countries found</h3>
-                                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Try adjusting your search or filters.</p>
+                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ $t('No countries found') }}</h3>
+                                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Try adjusting your search or filters.') }}</p>
                                         </td>
                                     </tr>
                                     <tr v-for="country in filteredCountries" :key="country.id" class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
@@ -485,14 +489,14 @@ const confirmDelete = () => {
                                                 class="px-2.5 py-0.5 inline-flex items-center text-xs font-medium rounded-full cursor-pointer hover:opacity-75 transition-opacity"
                                             >
                                                 <span class="w-1.5 h-1.5 rounded-full mr-1.5" :class="country.is_active ? 'bg-green-500' : 'bg-gray-500'"></span>
-                                                {{ country.is_active ? 'Active' : 'Inactive' }}
+                                                {{ $t(country.is_active ? 'Active' : 'Inactive') }}
                                             </button>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                            <button @click="openEditCountryModal(country)" class="text-gray-400 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Edit">
+                                            <button @click="openEditCountryModal(country)" class="text-gray-400 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" :title="$t('Edit')">
                                                 <Edit class="w-4 h-4" />
                                             </button>
-                                            <button @click="deleteTarget = { type: 'country', item: country }; showDeleteModal = true" class="text-gray-400 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Delete">
+                                            <button @click="deleteTarget = { type: 'country', item: country }; showDeleteModal = true" class="text-gray-400 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" :title="$t('Delete')">
                                                 <Trash2 class="w-4 h-4" />
                                             </button>
                                         </td>
@@ -500,7 +504,7 @@ const confirmDelete = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <p class="mt-3 text-xs text-gray-400 dark:text-gray-500">Showing {{ filteredCountries.length }} of {{ countries.length }} countries</p>
+                        <p class="mt-3 text-xs text-gray-400 dark:text-gray-500">{{ $t('Showing {count} of {total} countries', { count: filteredCountries.length, total: countries.length }) }}</p>
                     </div>
 
                     <!-- Languages Tab -->
@@ -509,13 +513,13 @@ const confirmDelete = () => {
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700/50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Code</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Native Name</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Direction</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Default</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Code') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Name') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Native Name') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Direction') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Default') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -527,27 +531,27 @@ const confirmDelete = () => {
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span :class="locale.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'" class="px-2.5 py-0.5 inline-flex items-center text-xs font-medium rounded-full">
                                                 <span class="w-1.5 h-1.5 rounded-full mr-1.5" :class="locale.is_active ? 'bg-green-500' : 'bg-gray-500'"></span>
-                                                {{ locale.is_active ? 'Active' : 'Inactive' }}
+                                                {{ $t(locale.is_active ? 'Active' : 'Inactive') }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                                             <span v-if="locale.is_default" class="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium text-xs bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">
                                                 <Check class="w-3 h-3 mr-1" />
-                                                Default
+                                                {{ $t('Default') }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                             <button 
                                                 @click="openEditLocaleModal(locale)" 
                                                 class="text-gray-400 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" 
-                                                title="Edit"
+                                                :title="$t('Edit')"
                                             >
                                                 <Edit class="w-4 h-4" />
                                             </button>
                                             <button 
                                                 @click="deleteLocale(locale)" 
                                                 class="text-gray-400 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" 
-                                                title="Delete"
+                                                :title="$t('Delete')"
                                             >
                                                 <Trash2 class="w-4 h-4" />
                                             </button>
@@ -556,8 +560,8 @@ const confirmDelete = () => {
                                     <tr v-if="locales.length === 0">
                                         <td colspan="7" class="px-6 py-12 text-center">
                                             <Globe class="mx-auto h-12 w-12 text-gray-400" />
-                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No languages</h3>
-                                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new language.</p>
+                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ $t('No languages') }}</h3>
+                                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Get started by creating a new language.') }}</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -571,14 +575,14 @@ const confirmDelete = () => {
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700/50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Code</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Symbol</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Position</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Exchange Rate</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Default</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Code') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Name') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Symbol') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Position') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Exchange Rate') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Default') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -591,27 +595,27 @@ const confirmDelete = () => {
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span :class="currency.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'" class="px-2.5 py-0.5 inline-flex items-center text-xs font-medium rounded-full">
                                                 <span class="w-1.5 h-1.5 rounded-full mr-1.5" :class="currency.is_active ? 'bg-green-500' : 'bg-gray-500'"></span>
-                                                {{ currency.is_active ? 'Active' : 'Inactive' }}
+                                                {{ $t(currency.is_active ? 'Active' : 'Inactive') }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                                             <span v-if="currency.is_default" class="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium text-xs bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">
                                                 <Check class="w-3 h-3 mr-1" />
-                                                Default
+                                                {{ $t('Default') }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                             <button 
                                                 @click="openEditCurrencyModal(currency)" 
                                                 class="text-gray-400 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" 
-                                                title="Edit"
+                                                :title="$t('Edit')"
                                             >
                                                 <Edit class="w-4 h-4" />
                                             </button>
                                             <button 
                                                 @click="deleteCurrency(currency)" 
                                                 class="text-gray-400 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" 
-                                                title="Delete"
+                                                :title="$t('Delete')"
                                             >
                                                 <Trash2 class="w-4 h-4" />
                                             </button>
@@ -620,8 +624,8 @@ const confirmDelete = () => {
                                     <tr v-if="currencies.length === 0">
                                         <td colspan="8" class="px-6 py-12 text-center">
                                             <Coins class="mx-auto h-12 w-12 text-gray-400" />
-                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No currencies</h3>
-                                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new currency.</p>
+                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ $t('No currencies') }}</h3>
+                                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Get started by creating a new currency.') }}</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -640,7 +644,7 @@ const confirmDelete = () => {
                         <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                             <Languages class="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ localeMode === 'add' ? 'Add Language' : 'Edit Language' }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ localeMode === 'add' ? $t('Add Language') : $t('Edit Language') }}</h3>
                     </div>
                     <button
                         type="button"
@@ -653,7 +657,7 @@ const confirmDelete = () => {
                 
                 <div class="px-6 py-6 space-y-4 overflow-y-auto flex-1">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Language Code <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Language Code') }} <span class="text-red-500">*</span></label>
                         <input 
                             v-model="localeForm.code" 
                             type="text" 
@@ -665,7 +669,7 @@ const confirmDelete = () => {
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Display Name <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Display Name') }} <span class="text-red-500">*</span></label>
                         <input 
                             v-model="localeForm.name" 
                             type="text" 
@@ -676,7 +680,7 @@ const confirmDelete = () => {
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Native Name</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Native Name') }}</label>
                         <input 
                             v-model="localeForm.native_name" 
                             type="text" 
@@ -687,14 +691,14 @@ const confirmDelete = () => {
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Text Direction <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Text Direction') }} <span class="text-red-500">*</span></label>
                         <div class="relative">
                             <select 
                                 v-model="localeForm.direction" 
                                 :class="['w-full px-4 py-2.5 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600 appearance-none', errors.direction ? 'border-red-500' : 'border-gray-300']"
                             >
-                                <option value="ltr">Left to Right (LTR)</option>
-                                <option value="rtl">Right to Left (RTL)</option>
+                                <option value="ltr">{{ $t('Left to Right (LTR)') }}</option>
+                                <option value="rtl">{{ $t('Right to Left (RTL)') }}</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -706,7 +710,7 @@ const confirmDelete = () => {
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Sort Order</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Sort Order') }}</label>
                         <input 
                             v-model.number="localeForm.sort_order" 
                             type="number" 
@@ -718,11 +722,11 @@ const confirmDelete = () => {
                     <div class="flex items-center space-x-6 pt-2">
                         <label class="flex items-center cursor-pointer">
                             <input v-model="localeForm.is_active" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded">
-                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">Active</span>
+                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">{{ $t('Active') }}</span>
                         </label>
                         <label class="flex items-center cursor-pointer">
                             <input v-model="localeForm.is_default" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded">
-                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">Set as Default</span>
+                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">{{ $t('Set as Default') }}</span>
                         </label>
                     </div>
                 </div>
@@ -732,7 +736,7 @@ const confirmDelete = () => {
                         @click="showLocaleModal = false" 
                         class="px-5 py-2.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors"
                     >
-                        Cancel
+                        {{ $t('Cancel') }}
                     </button>
                     <button 
                         @click="saveLocale" 
@@ -744,7 +748,7 @@ const confirmDelete = () => {
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        {{ localeProcessing ? 'Saving...' : (localeMode === 'add' ? 'Add Language' : 'Save Changes') }}
+                        {{ $t(localeProcessing ? 'Saving...' : (localeMode === 'add' ? 'Add Language' : 'Save Changes')) }}
                     </button>
                 </div>
             </div>
@@ -758,7 +762,7 @@ const confirmDelete = () => {
                         <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                             <Globe class="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ countryMode === 'add' ? 'Add Country' : 'Edit Country' }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ countryMode === 'add' ? $t('Add Country') : $t('Edit Country') }}</h3>
                     </div>
                     <button type="button" @click="showCountryModal = false" class="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                         <X class="w-5 h-5" />
@@ -767,53 +771,53 @@ const confirmDelete = () => {
                 <div class="px-6 py-6 space-y-4 overflow-y-auto flex-1">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Country Name <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Country Name') }} <span class="text-red-500">*</span></label>
                             <input v-model="countryForm.name" type="text" placeholder="United States" :class="['w-full px-4 py-2.5 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600', errors.name ? 'border-red-500' : 'border-gray-300']">
                             <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">ISO Code (2-char) <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('ISO Code (2-char)') }} <span class="text-red-500">*</span></label>
                             <input v-model="countryForm.code" type="text" placeholder="US" maxlength="2" :class="['w-full px-4 py-2.5 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600 uppercase', errors.code ? 'border-red-500' : 'border-gray-300']">
                             <p v-if="errors.code" class="mt-1 text-sm text-red-600">{{ errors.code }}</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">ISO Code (3-char)</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('ISO Code (3-char)') }}</label>
                             <input v-model="countryForm.code3" type="text" placeholder="USA" maxlength="3" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white uppercase">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Phone Code</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Phone Code') }}</label>
                             <input v-model="countryForm.phone_code" type="text" placeholder="+1" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Currency Code</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Currency Code') }}</label>
                             <input v-model="countryForm.currency_code" type="text" placeholder="USD" maxlength="3" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white uppercase">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Currency Symbol</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Currency Symbol') }}</label>
                             <input v-model="countryForm.currency_symbol" type="text" placeholder="$" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                         </div>
                     </div>
                     <div class="flex items-center gap-6 pt-2">
                         <label class="flex items-center cursor-pointer">
                             <input v-model="countryForm.is_active" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded">
-                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">Active</span>
+                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">{{ $t('Active') }}</span>
                         </label>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort Order</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Sort Order') }}</label>
                             <input v-model.number="countryForm.sort_order" type="number" class="w-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                         </div>
                     </div>
                 </div>
                 <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 flex justify-end gap-3 flex-shrink-0 border-t border-gray-200 dark:border-gray-700">
-                    <button @click="showCountryModal = false" class="px-5 py-2.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors">Cancel</button>
+                    <button @click="showCountryModal = false" class="px-5 py-2.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors">{{ $t('Cancel') }}</button>
                     <button @click="saveCountry" :disabled="countryProcessing" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
                         <Save v-if="!countryProcessing" class="w-4 h-4 mr-2" />
                         <svg v-else class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                        {{ countryProcessing ? 'Saving...' : (countryMode === 'add' ? 'Add Country' : 'Save Changes') }}
+                        {{ $t(countryProcessing ? 'Saving...' : (countryMode === 'add' ? 'Add Country' : 'Save Changes')) }}
                     </button>
                 </div>
             </div>
@@ -827,7 +831,7 @@ const confirmDelete = () => {
                         <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                             <Coins class="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ currencyMode === 'add' ? 'Add Currency' : 'Edit Currency' }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ currencyMode === 'add' ? $t('Add Currency') : $t('Edit Currency') }}</h3>
                     </div>
                     <button
                         type="button"
@@ -840,7 +844,7 @@ const confirmDelete = () => {
                 
                 <div class="px-6 py-6 space-y-4 overflow-y-auto flex-1">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Currency Code <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Currency Code') }} <span class="text-red-500">*</span></label>
                         <input 
                             v-model="currencyForm.code" 
                             type="text" 
@@ -852,7 +856,7 @@ const confirmDelete = () => {
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Display Name <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Display Name') }} <span class="text-red-500">*</span></label>
                         <input 
                             v-model="currencyForm.name" 
                             type="text" 
@@ -864,7 +868,7 @@ const confirmDelete = () => {
                     
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Symbol <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Symbol') }} <span class="text-red-500">*</span></label>
                             <input 
                                 v-model="currencyForm.symbol" 
                                 type="text" 
@@ -873,14 +877,14 @@ const confirmDelete = () => {
                             >
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Position <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Position') }} <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <select 
                                     v-model="currencyForm.symbol_position" 
                                     :class="['w-full px-4 py-2.5 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600 appearance-none', errors.symbol_position ? 'border-red-500' : 'border-gray-300']"
                                 >
-                                    <option value="before">Before ($100)</option>
-                                    <option value="after">After (100€)</option>
+                                    <option value="before">{{ $t('Before ($100)') }}</option>
+                                    <option value="after">{{ $t('After (100€)') }}</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -895,7 +899,7 @@ const confirmDelete = () => {
                     
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Decimal Places <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Decimal Places') }} <span class="text-red-500">*</span></label>
                             <input 
                                 v-model.number="currencyForm.decimal_places" 
                                 type="number" 
@@ -905,7 +909,7 @@ const confirmDelete = () => {
                             >
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Exchange Rate <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Exchange Rate') }} <span class="text-red-500">*</span></label>
                             <input 
                                 v-model.number="currencyForm.exchange_rate" 
                                 type="number" 
@@ -918,7 +922,7 @@ const confirmDelete = () => {
                     <p v-if="errors.exchange_rate" class="mt-1 text-sm text-red-600">{{ errors.exchange_rate }}</p>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Sort Order</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Sort Order') }}</label>
                         <input 
                             v-model.number="currencyForm.sort_order" 
                             type="number" 
@@ -929,11 +933,11 @@ const confirmDelete = () => {
                     <div class="flex items-center space-x-6 pt-2">
                         <label class="flex items-center cursor-pointer">
                             <input v-model="currencyForm.is_active" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded">
-                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">Active</span>
+                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">{{ $t('Active') }}</span>
                         </label>
                         <label class="flex items-center cursor-pointer">
                             <input v-model="currencyForm.is_default" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded">
-                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">Set as Default</span>
+                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none">{{ $t('Set as Default') }}</span>
                         </label>
                     </div>
                 </div>
@@ -943,7 +947,7 @@ const confirmDelete = () => {
                         @click="showCurrencyModal = false" 
                         class="px-5 py-2.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors"
                     >
-                        Cancel
+                        {{ $t('Cancel') }}
                     </button>
                     <button 
                         @click="saveCurrency" 
@@ -955,7 +959,7 @@ const confirmDelete = () => {
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        {{ currencyProcessing ? 'Saving...' : (currencyMode === 'add' ? 'Add Currency' : 'Save Changes') }}
+                        {{ $t(currencyProcessing ? 'Saving...' : (currencyMode === 'add' ? 'Add Currency' : 'Save Changes')) }}
                     </button>
                 </div>
             </div>
@@ -965,7 +969,7 @@ const confirmDelete = () => {
         <ConfirmDeleteModal
             v-model:show="showDeleteModal"
             :title="deleteTarget?.item?.name ?? deleteTarget?.item?.code ?? ''"
-            :message="`Are you sure you want to delete '${deleteTarget?.item?.name ?? deleteTarget?.item?.code}'? This action cannot be undone.`"
+            :message="deleteConfirmMessage"
             @confirm="confirmDelete"
         />
     </AdminLayout>

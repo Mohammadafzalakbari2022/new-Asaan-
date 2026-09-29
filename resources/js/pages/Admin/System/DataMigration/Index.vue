@@ -2,6 +2,7 @@
 import { ref, reactive } from 'vue';
 import { Head, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import { useI18nStore } from '@/Stores/i18n';
 import { 
     ShoppingCart, 
     Store,
@@ -16,6 +17,8 @@ const props = defineProps({
     sources: Array,
 });
 
+const { t } = useI18nStore();
+
 const selectedSource = ref(null);
 const selectedEntity = ref('all');
 const dryRun = ref(true);
@@ -23,11 +26,11 @@ const isProcessing = ref(false);
 const migrationOutput = ref('');
 
 const entities = [
-    { value: 'all', label: 'All Data', description: 'Migrate all categories, customers, products, and orders' },
-    { value: 'categories', label: 'Categories', description: 'Product categories and hierarchies' },
-    { value: 'customers', label: 'Customers', description: 'Customer accounts and addresses' },
-    { value: 'products', label: 'Products', description: 'Products with inventory and pricing' },
-    { value: 'orders', label: 'Orders', description: 'Order history and line items' },
+    { value: 'all', label: t('All Data'), description: t('Migrate all categories, customers, products, and orders') },
+    { value: 'categories', label: t('Categories'), description: t('Product categories and hierarchies') },
+    { value: 'customers', label: t('Customers'), description: t('Customer accounts and addresses') },
+    { value: 'products', label: t('Products'), description: t('Products with inventory and pricing') },
+    { value: 'orders', label: t('Orders'), description: t('Order history and line items') },
 ];
 
 const getIcon = (iconName) => {
@@ -70,12 +73,12 @@ const testConnection = async () => {
         const data = await response.json();
         
         if (data.success) {
-            showToast('Connection successful!', 'success');
+            showToast(t('Connection successful!'), 'success');
         } else {
-            showToast('Connection failed: ' + data.message, 'error');
+            showToast(t('Connection failed: {message}', { message: data.message }), 'error');
         }
     } catch (error) {
-        showToast('Connection test failed: ' + error.message, 'error');
+        showToast(t('Connection test failed: {message}', { message: error.message }), 'error');
     } finally {
         isProcessing.value = false;
     }
@@ -85,7 +88,7 @@ const startMigration = async () => {
     if (!selectedSource.value) return;
     
     isProcessing.value = true;
-    migrationOutput.value = 'Starting migration...\n';
+    migrationOutput.value = t('Starting migration...') + '\n';
     
     try {
         const response = await fetch('/admin/system/migration/migrate', {
@@ -110,7 +113,7 @@ const startMigration = async () => {
             migrationOutput.value += '\n\n✗ ' + data.message;
         }
     } catch (error) {
-        migrationOutput.value += '\n\n✗ Migration failed: ' + error.message;
+        migrationOutput.value += '\n\n✗ ' + t('Migration failed: {message}', { message: error.message });
     } finally {
         isProcessing.value = false;
     }
@@ -118,18 +121,18 @@ const startMigration = async () => {
 </script>
 
 <template>
-    <Head title="Data Migration" />
+    <Head :title="$t('Data Migration')" />
 
-    <AdminLayout title="Data Migration">
+    <AdminLayout :title="$t('Data Migration')">
         <div class="space-y-6">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        Data Migration
+                        {{ $t('Data Migration') }}
                     </h1>
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        Migrate data from other ecommerce platforms
+                        {{ $t('Migrate data from other ecommerce platforms') }}
                     </p>
                 </div>
             </div>
@@ -140,7 +143,7 @@ const startMigration = async () => {
                     <!-- Source Selection -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
-                            <h2 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Select Migration Source</h2>
+                            <h2 class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $t('Select Migration Source') }}</h2>
                         </div>
                         <div class="p-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -176,7 +179,7 @@ const startMigration = async () => {
                                                 class="ml-1.5 text-xs font-medium"
                                                 :class="source.configured ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'"
                                             >
-                                                {{ source.configured ? 'Configured' : 'Not Configured' }}
+                                                {{ source.configured ? $t('Configured') : $t('Not Configured') }}
                                             </span>
                                         </div>
                                     </div>
@@ -191,14 +194,14 @@ const startMigration = async () => {
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
                     >
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
-                            <h2 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Migration Options</h2>
+                            <h2 class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $t('Migration Options') }}</h2>
                         </div>
                         
                         <div class="p-6">
                             <!-- Entity Selection -->
                             <div class="mb-6 max-w-xl">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    What to migrate
+                                    {{ $t('What to migrate') }}
                                 </label>
                                 <select
                                     v-model="selectedEntity"
@@ -223,7 +226,7 @@ const startMigration = async () => {
                                     class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                                 />
                                 <label for="dry-run" class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none cursor-pointer">
-                                    Dry run (preview without making changes)
+                                    {{ $t('Dry run (preview without making changes)') }}
                                 </label>
                             </div>
 
@@ -234,7 +237,7 @@ const startMigration = async () => {
                                     :disabled="isProcessing || !selectedSource.configured"
                                     class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
                                 >
-                                    Test Connection
+                                    {{ $t('Test Connection') }}
                                 </button>
                                 <button
                                     @click="startMigration"
@@ -242,7 +245,7 @@ const startMigration = async () => {
                                     class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
                                 >
                                     <component :is="dryRun ? Terminal : Play" class="w-4 h-4" />
-                                    {{ dryRun ? 'Preview Migration' : 'Start Migration' }}
+                                    {{ dryRun ? $t('Preview Migration') : $t('Start Migration') }}
                                 </button>
                             </div>
                         </div>
@@ -254,7 +257,7 @@ const startMigration = async () => {
                         class="bg-gray-900 rounded-lg shadow-sm border border-gray-700 overflow-hidden"
                     >
                         <div class="px-4 py-2 bg-gray-800 border-b border-gray-700 flex items-center justify-between">
-                            <h2 class="text-xs font-mono text-gray-400 uppercase tracking-wider">Migration Output</h2>
+                            <h2 class="text-xs font-mono text-gray-400 uppercase tracking-wider">{{ $t('Migration Output') }}</h2>
                         </div>
                         <div class="p-4 font-mono text-xs text-gray-300 whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
                             {{ migrationOutput }}
@@ -267,10 +270,10 @@ const startMigration = async () => {
                         class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4"
                     >
                         <h3 class="text-sm font-medium text-amber-800 dark:text-amber-200 mb-2">
-                            Configuration Required
+                            {{ $t('Configuration Required') }}
                         </h3>
                         <p class="text-sm text-amber-700 dark:text-amber-300 mb-3">
-                            Add the following to your .env file:
+                            {{ $t('Add the following to your .env file:') }}
                         </p>
                         <pre class="text-xs bg-white dark:bg-gray-900 text-amber-900 dark:text-amber-100 p-4 rounded-lg border border-amber-100 dark:border-amber-800/50 font-mono shadow-sm overflow-x-auto">{{ selectedSource.id === 'woocommerce' ? `WOOCOMMERCE_DB_HOST=127.0.0.1
 WOOCOMMERCE_DB_PORT=3306

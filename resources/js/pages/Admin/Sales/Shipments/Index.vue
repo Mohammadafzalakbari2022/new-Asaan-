@@ -170,15 +170,15 @@ const formatDate = (date: string): string => {
 </script>
 
 <template>
-  <Head title="Shipments" />
+  <Head :title="$t('Shipments')" />
 
-  <AdminLayout title="Shipments">
+  <AdminLayout :title="$t('Shipments')">
     <div class="p-6 space-y-6">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Shipments</h1>
-          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage order shipments and tracking</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Shipments') }}</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Manage order shipments and tracking') }}</p>
         </div>
       </div>
 
@@ -187,7 +187,7 @@ const formatDate = (date: string): string => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.total }}</p>
             </div>
             <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-colors">
@@ -199,7 +199,7 @@ const formatDate = (date: string): string => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-yellow-200 dark:hover:border-yellow-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pending</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Pending') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.pending }}</p>
             </div>
             <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
@@ -211,7 +211,7 @@ const formatDate = (date: string): string => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-indigo-200 dark:hover:border-indigo-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">In Transit</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('In Transit') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.in_transit }}</p>
             </div>
             <div class="p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
@@ -223,7 +223,7 @@ const formatDate = (date: string): string => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Delivered</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Delivered') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.delivered }}</p>
             </div>
             <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -238,14 +238,14 @@ const formatDate = (date: string): string => {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Search -->
           <div class="lg:col-span-1">
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="search"
                 @input="performSearch"
                 type="text"
-                placeholder="Shipment #, Order #..."
+                :placeholder="$t('Shipment #, Order #...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -253,17 +253,17 @@ const formatDate = (date: string): string => {
 
           <!-- Status Filter -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Filter class="h-4 w-4 text-gray-400" />
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
+             <div class="relative">
+               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                 <Filter class="h-4 w-4 text-gray-400" />
               </div>
               <select
                 v-model="statusFilter"
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Statuses</option>
+                <option value="">{{ $t('All Statuses') }}</option>
                 <option v-for="status in statuses" :key="status.value" :value="status.value">
                   {{ status.label }}
                 </option>
@@ -276,7 +276,7 @@ const formatDate = (date: string): string => {
 
           <!-- Date From -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">From Date</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('From Date') }}</label>
             <div class="relative">
               <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -290,7 +290,7 @@ const formatDate = (date: string): string => {
 
           <!-- Date To -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">To Date</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('To Date') }}</label>
              <div class="relative">
               <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -309,9 +309,9 @@ const formatDate = (date: string): string => {
             @click="clearFilters"
              class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
           >
-            <X class="w-4 h-4" />
-            Clear Filters
-          </button>
+             <X class="w-4 h-4" />
+             {{ $t('Clear Filters') }}
+           </button>
         </div>
       </div>
 
@@ -320,14 +320,14 @@ const formatDate = (date: string): string => {
         <div v-if="selectedIds.length > 0" class="bg-blue-600 rounded-xl shadow-lg p-3 text-white flex items-center justify-between sticky top-4 z-10 px-6">
           <span class="text-sm font-semibold flex items-center">
             <CheckCircle class="w-4 h-4 mr-2" />
-             {{ selectedIds.length }} selected
+             {{ $t('{count} selected', { count: selectedIds.length }) }}
           </span>
           <div class="flex gap-2">
              <button
               class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide flex items-center gap-2"
             >
               <Printer class="w-3 h-3" />
-              Print Labels
+              {{ $t('Print Labels') }}
             </button>
           </div>
         </div>
@@ -353,7 +353,7 @@ const formatDate = (date: string): string => {
                   @click="sortTable('shipment_number')"
                 >
                    <div class="flex items-center gap-1">
-                    Shipment #
+                    {{ $t('Shipment #') }}
                      <span v-if="sortBy === 'shipment_number'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -362,16 +362,16 @@ const formatDate = (date: string): string => {
                   </div>
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Order #
+                  {{ $t('Order #') }}
                 </th>
                 <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Customer
+                  {{ $t('Customer') }}
                 </th>
                 <th scope="col" class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Carrier
+                  {{ $t('Carrier') }}
                 </th>
                  <th scope="col" class="hidden xl:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Tracking #
+                  {{ $t('Tracking #') }}
                 </th>
                 <th
                   scope="col"
@@ -379,7 +379,7 @@ const formatDate = (date: string): string => {
                   @click="sortTable('created_at')"
                 >
                   <div class="flex items-center gap-1">
-                    Date Created
+                    {{ $t('Date Created') }}
                      <span v-if="sortBy === 'created_at'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -388,10 +388,10 @@ const formatDate = (date: string): string => {
                   </div>
                 </th>
                 <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
+                  {{ $t('Status') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -424,7 +424,7 @@ const formatDate = (date: string): string => {
                       {{ shipment.shipment_number }}
                     </Link>
                     <span class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                       {{ shipment.carrier || 'No Carrier' }}
+                       {{ shipment.carrier || $t('No Carrier') }}
                     </span>
                    </div>
                 </td>
@@ -442,9 +442,9 @@ const formatDate = (date: string): string => {
                       <User class="w-4 h-4" />
                     </div>
                     <div>
-                      <div class="text-sm font-medium text-gray-900 dark:text-white">
-                        {{ shipment.order.user?.name || 'Guest' }}
-                      </div>
+                                 <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                   {{ shipment.order.user?.name || $t('Guest') }}
+                                 </div>
                       <div class="text-xs text-gray-500 dark:text-gray-400">{{ shipment.order.customer_email }}</div>
                     </div>
                   </div>
@@ -457,7 +457,7 @@ const formatDate = (date: string): string => {
                 </td>
                 <td class="hidden xl:table-cell px-6 py-4 whitespace-nowrap">
                    <div class="text-sm font-mono text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-2 py-1 rounded w-fit">
-                    {{ shipment.tracking_number || 'N/A' }}
+                        {{ shipment.tracking_number || $t('N/A') }}
                   </div>
                 </td>
                 <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
@@ -473,7 +473,7 @@ const formatDate = (date: string): string => {
                       <Link
                         :href="`/admin/sales/shipments/${shipment.id}`"
                         class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                        title="View Shipment"
+                        :title="$t('View Shipment')"
                       >
                        <Eye class="w-4 h-4" />
                     </Link>
@@ -485,7 +485,7 @@ const formatDate = (date: string): string => {
                  <td colspan="9" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                         <div class="sm:hidden flex flex-col gap-2">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Order Reference</span>
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Order Reference') }}</span>
                            <Link
                               :href="`/admin/sales/orders/${shipment.order.id}`"
                               class="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:underline flex items-center gap-2"
@@ -495,37 +495,37 @@ const formatDate = (date: string): string => {
                             </Link>
                        </div>
                        <div class="md:hidden flex flex-col gap-2">
-                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Customer</span>
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Customer') }}</span>
                            <div class="flex items-center">
                                <div class="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-600 mr-3">
                                 <User class="w-4 h-4" />
                               </div>
                               <div>
                                 <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                  {{ shipment.order.user?.name || 'Guest' }}
+                        {{ shipment.order.user?.name || $t('Guest') }}
                                 </div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">{{ shipment.order.customer_email }}</div>
                               </div>
                            </div>
                         </div>
                         <div class="lg:hidden flex flex-col gap-2">
-                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Shipping Details</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Shipping Details') }}</span>
                             <div class="grid grid-cols-2 gap-4">
                                <div>
-                                  <span class="text-xs text-gray-500 block">Carrier</span>
+                                  <span class="text-xs text-gray-500 block">{{ $t('Carrier') }}</span>
                                   <span class="text-gray-700 dark:text-gray-300 flex items-center gap-1.5 mt-0.5">
                                     <Truck class="w-3.5 h-3.5 text-gray-400" />
                                     {{ shipment.carrier || '-' }}
                                   </span>
                                </div>
                                <div>
-                                  <span class="text-xs text-gray-500 block">Tracking</span>
-                                  <span class="text-gray-700 dark:text-gray-300 font-mono text-xs mt-0.5">{{ shipment.tracking_number || 'N/A' }}</span>
+                                  <span class="text-xs text-gray-500 block">{{ $t('Tracking') }}</span>
+                                  <span class="text-gray-700 dark:text-gray-300 font-mono text-xs mt-0.5">{{ shipment.tracking_number || $t('N/A') }}</span>
                                </div>
                             </div>
                         </div>
                          <div class="lg:hidden flex flex-col gap-2">
-                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Date</span>
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Date') }}</span>
                            <div class="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">
                              <Calendar class="w-3.5 h-3.5 text-gray-400" />
                              {{ formatDate(shipment.created_at) }}
@@ -542,8 +542,8 @@ const formatDate = (date: string): string => {
                     <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                       <Truck class="w-8 h-8" />
                     </div>
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white">No shipments found</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">Try adjusting your filters.</p>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No shipments found') }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('Try adjusting your filters.') }}</p>
                   </div>
                 </td>
               </tr>
@@ -554,7 +554,7 @@ const formatDate = (date: string): string => {
         <!-- Pagination -->
         <div class="bg-gray-50/50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
           <div class="text-xs text-gray-500 dark:text-gray-400">
-            Showing <span class="font-medium">{{ shipments.from || 0 }}</span> to <span class="font-medium">{{ shipments.to || 0 }}</span> of <span class="font-medium">{{ shipments.total }}</span> results
+            {{ $t('Showing') }} <span class="font-medium">{{ shipments.from || 0 }}</span> {{ $t('to') }} <span class="font-medium">{{ shipments.to || 0 }}</span> {{ $t('of') }} <span class="font-medium">{{ shipments.total }}</span> {{ $t('results') }}
           </div>
           <div class="flex gap-2">
             <Link
@@ -562,16 +562,16 @@ const formatDate = (date: string): string => {
               :href="shipments.prev_page_url"
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
-              <ChevronLeft class="w-3 h-3" />
-              Previous
-            </Link>
+               <ChevronLeft class="w-3 h-3" />
+               {{ $t('Previous') }}
+             </Link>
             <Link
               v-if="shipments.next_page_url"
               :href="shipments.next_page_url"
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
-              Next
-              <ChevronRight class="w-3 h-3" />
+               {{ $t('Next') }}
+               <ChevronRight class="w-3 h-3" />
             </Link>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { Link, usePage, router } from '@inertiajs/vue3'
 import admin from '@/routes/admin'
 import axios from '@/lib/axios'
 import Toast from '@/components/Toast.vue'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import { useMenuIcons } from '@/composables/useMenuIcons'
 import { useAppearance } from '@/composables/useAppearance'
 import {
@@ -493,7 +494,7 @@ onUnmounted(() => {
       >
         <Link :href="admin.dashboard.url()" class="flex items-center gap-3 min-w-0">
           <template v-if="adminConfig?.logo && !sidebarCollapsed">
-            <img :src="`/storage/${adminConfig.logo}`" :alt="adminConfig?.site_name || 'Admin'" class="h-8 object-contain" />
+            <img :src="`/storage/${adminConfig.logo}`" :alt="adminConfig?.site_name || $t('Admin')" class="h-8 object-contain" />
           </template>
           <template v-else>
             <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
@@ -510,7 +511,7 @@ onUnmounted(() => {
 
         <!-- Section label -->
         <div v-if="!sidebarCollapsed" class="px-3 mb-3">
-          <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">Navigation</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">{{ $t('Navigation') }}</span>
         </div>
 
         <!-- Dynamic Menu Items -->
@@ -538,7 +539,7 @@ onUnmounted(() => {
                 isActive(item) ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'
               ]" 
             />
-            <span v-if="!sidebarCollapsed" class="text-[15px] font-medium">{{ item.title }}</span>
+            <span v-if="!sidebarCollapsed" class="text-[15px] font-medium">{{ $t(item.title) }}</span>
           </Link>
 
           <!-- Parent Menu with children (Expandable) -->
@@ -569,7 +570,7 @@ onUnmounted(() => {
                   (isMenuOpen(item.id) || hasActiveChild(item)) ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300'
                 ]" 
               />
-              <span v-if="!sidebarCollapsed" class="flex-1 text-left text-[15px] font-medium">{{ item.title }}</span>
+              <span v-if="!sidebarCollapsed" class="flex-1 text-left text-[15px] font-medium">{{ $t(item.title) }}</span>
               <ChevronDown 
                 v-if="!sidebarCollapsed" 
                 :class="[
@@ -609,7 +610,7 @@ onUnmounted(() => {
                         isActive(child) ? 'text-blue-400' : 'text-slate-600 group-hover/child:text-slate-400'
                       ]" 
                     />
-                    <span class="text-[13px]">{{ child.title }}</span>
+                    <span class="text-[13px]">{{ $t(child.title) }}</span>
                   </Link>
                 </div>
               </div>
@@ -633,7 +634,7 @@ onUnmounted(() => {
                   @mouseleave="hoveredMenuId = null"
                 >
                   <div class="px-3.5 py-2 border-b border-white/[0.06]">
-                    <p class="text-xs font-semibold text-white">{{ item.title }}</p>
+                    <p class="text-xs font-semibold text-white">{{ $t(item.title) }}</p>
                   </div>
                   <div class="py-1">
                     <Link 
@@ -652,7 +653,7 @@ onUnmounted(() => {
                         v-if="child.icon"
                         class="w-3.5 h-3.5" 
                       />
-                      <span>{{ child.title }}</span>
+                      <span>{{ $t(child.title) }}</span>
                     </Link>
                   </div>
                 </div>
@@ -665,7 +666,7 @@ onUnmounted(() => {
       </nav>
 
       <div class="border-t border-white/[0.06] text-slate-400" :class="sidebarCollapsed ? 'px-2 py-3' : 'px-4 py-3'">
-        <span v-if="!sidebarCollapsed" class="text-xs">Version {{ appVersion || '--' }}</span>
+        <span v-if="!sidebarCollapsed" class="text-xs">{{ $t('Version {version}', { version: appVersion || '--' }) }}</span>
         <span v-else class="text-[10px] font-semibold uppercase block text-center">{{ versionLabel }}</span>
       </div>
     </aside>
@@ -686,17 +687,20 @@ onUnmounted(() => {
 
             <!-- Page title -->
             <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
-              {{ title || 'Dashboard' }}
+              {{ title || $t('Dashboard') }}
             </h1>
 
             <!-- Right side -->
             <div class="flex items-center space-x-4">
+              <!-- Language Switcher -->
+              <LanguageSwitcher />
+
               <!-- Theme Toggle -->
               <button
                 @click="toggleAppearance"
                 class="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-                :aria-label="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
-                :title="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+                :aria-label="isDarkMode ? $t('Switch to light mode') : $t('Switch to dark mode')"
+                :title="isDarkMode ? $t('Switch to light mode') : $t('Switch to dark mode')"
               >
                 <Sun v-if="isDarkMode" class="w-5 h-5" />
                 <Moon v-else class="w-5 h-5" />
@@ -716,8 +720,8 @@ onUnmounted(() => {
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-                aria-label="Visit store"
-                title="Visit Store"
+                :aria-label="$t('Visit store')"
+                :title="$t('Visit Store')"
               >
                 <Store class="w-5 h-5" />
               </a>
@@ -728,8 +732,8 @@ onUnmounted(() => {
                   @click="toggleNotifications"
                   class="relative text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-transform duration-300"
                   :class="hasNotificationPulse ? 'animate-bounce text-blue-600 dark:text-blue-400' : ''"
-                  aria-label="Notifications"
-                  title="Notifications"
+                  :aria-label="$t('Notifications')"
+                  :title="$t('Notifications')"
                 >
                   <Bell class="w-5 h-5" />
                   <span
@@ -757,30 +761,30 @@ onUnmounted(() => {
                     class="absolute right-0 top-full mt-2 w-96 max-w-[92vw] bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden z-50"
                   >
                     <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                      <p class="text-sm font-semibold text-gray-900 dark:text-white">Notifications</p>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Notifications') }}</p>
                       <div class="flex items-center gap-3">
                         <a
                           href="/admin/activity-logs"
                           class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:underline"
                         >
-                          View logs
+                          {{ $t('View logs') }}
                         </a>
                         <button
                           v-if="notificationsUnreadCount > 0"
                           @click="markAllNotificationsAsRead"
                           class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
                         >
-                          Mark all as read
+                          {{ $t('Mark all as read') }}
                         </button>
                       </div>
                     </div>
 
                     <div v-if="notificationsLoading" class="px-4 py-8 text-sm text-gray-500 dark:text-gray-400 text-center">
-                      Loading notifications...
+                      {{ $t('Loading notifications...') }}
                     </div>
 
                     <div v-else-if="notifications.length === 0" class="px-4 py-8 text-sm text-gray-500 dark:text-gray-400 text-center">
-                      No notifications yet.
+                      {{ $t('No notifications yet.') }}
                     </div>
 
                     <div v-else class="max-h-[360px] overflow-y-auto">
@@ -802,14 +806,14 @@ onUnmounted(() => {
                                 :href="notification.action_url"
                                 class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
                               >
-                                View
+                                {{ $t('View') }}
                               </a>
                               <button
                                 v-if="!notification.read_at"
                                 @click="markNotificationAsRead(notification.id)"
                                 class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:underline"
                               >
-                                Mark read
+                                {{ $t('Mark read') }}
                               </button>
                             </div>
                           </div>
@@ -828,7 +832,7 @@ onUnmounted(() => {
                 >
                   <div class="text-right hidden sm:block">
                     <div class="text-sm font-medium text-gray-900 dark:text-white">
-                      {{ page.props.auth?.user?.name || 'Admin' }}
+                      {{ page.props.auth?.user?.name || $t('Admin') }}
                     </div>
                     <div class="text-xs text-gray-500 dark:text-gray-400">
                       {{ page.props.auth?.user?.email }}
@@ -857,7 +861,7 @@ onUnmounted(() => {
                   >
                     <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
                       <p class="text-sm font-medium text-gray-900 dark:text-white">
-                        {{ page.props.auth?.user?.name || 'Admin' }}
+                        {{ page.props.auth?.user?.name || $t('Admin') }}
                       </p>
                       <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
                         {{ page.props.auth?.user?.email }}
@@ -866,12 +870,12 @@ onUnmounted(() => {
                     
                     <Link href="/admin/profile" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                       <User class="w-4 h-4 mr-3" />
-                      Update Profile Photo
+                      {{ $t('Update Profile Photo') }}
                     </Link>
                     
                     <Link href="/admin/password" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                       <Settings class="w-4 h-4 mr-3" />
-                      Change Password
+                      {{ $t('Change Password') }}
                     </Link>
                     
                     <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
@@ -883,7 +887,7 @@ onUnmounted(() => {
                       class="w-full flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       <LogOut class="w-4 h-4 mr-3" />
-                      Logout
+                      {{ $t('Logout') }}
                     </Link>
                   </div>
                 </Transition>
@@ -895,7 +899,7 @@ onUnmounted(() => {
           v-if="adminMaintenance?.enabled"
           class="px-4 sm:px-6 lg:px-8 py-2 bg-amber-50 border-t border-amber-200 text-amber-800 text-sm"
         >
-          Frontend maintenance mode is active: {{ adminMaintenance?.title || "We'll be back soon!" }}
+          {{ $t('Frontend maintenance mode is active: {title}', { title: adminMaintenance?.title || $t("We'll be back soon!") }) }}
         </div>
       </header>
 
@@ -925,7 +929,7 @@ onUnmounted(() => {
             id="admin-search-input"
             v-model="searchQuery"
             type="text"
-            placeholder="Search modules, pages, settings..."
+            :placeholder="$t('Search modules, pages, settings...')"
             class="w-full bg-transparent text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none"
           />
           <button
@@ -938,10 +942,10 @@ onUnmounted(() => {
 
         <div class="max-h-80 overflow-y-auto">
           <div v-if="!searchQuery" class="px-4 py-6 text-sm text-gray-500 dark:text-gray-400">
-            Start typing to search the admin menu.
+            {{ $t('Start typing to search the admin menu.') }}
           </div>
           <div v-else-if="searchResults.length === 0" class="px-4 py-6 text-sm text-gray-500 dark:text-gray-400">
-            No results found.
+            {{ $t('No results found.') }}
           </div>
           <div v-else class="py-2">
             <Link
@@ -951,7 +955,7 @@ onUnmounted(() => {
               @click="closeSearch"
               class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              <div class="font-medium text-gray-900 dark:text-white">{{ item.title }}</div>
+              <div class="font-medium text-gray-900 dark:text-white">{{ $t(item.title) }}</div>
               <div class="text-xs text-gray-500 dark:text-gray-400">{{ item.full_url }}</div>
             </Link>
           </div>

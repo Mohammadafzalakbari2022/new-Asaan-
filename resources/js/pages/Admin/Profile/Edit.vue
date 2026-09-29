@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { User } from 'lucide-vue-next';
+import { useI18nStore } from '@/Stores/i18n';
 
 interface Props {
     user: {
@@ -17,6 +18,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const { t } = useI18nStore();
 
 const form = useForm({
     name: props.user.name,
@@ -53,14 +56,14 @@ const submit = () => {
 </script>
 
 <template>
-    <AdminLayout title="Profile Settings">
-        <Head title="Profile Settings" />
+    <AdminLayout :title="$t('Profile Settings')">
+        <Head :title="$t('Profile Settings')" />
 
         <div class="max-w-4xl">
             <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Profile Settings</h1>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Profile Settings') }}</h1>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Update your profile information and photo
+                    {{ $t('Update your profile information and photo') }}
                 </p>
             </div>
 
@@ -68,15 +71,15 @@ const submit = () => {
                 <form @submit.prevent="submit" class="p-6 space-y-6">
                     <!-- Profile Photo -->
                     <div class="space-y-2">
-                        <Label for="profile_photo">Profile Photo</Label>
+                        <Label for="profile_photo">{{ $t('Profile Photo') }}</Label>
                         <div class="flex items-center gap-6">
                             <!-- Current/Preview Photo -->
                             <div class="flex-shrink-0">
                                 <div v-if="photoPreview" class="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600">
-                                    <img :src="photoPreview" alt="Preview" class="w-full h-full object-cover" />
+                                    <img :src="photoPreview" :alt="$t('Preview')" class="w-full h-full object-cover" />
                                 </div>
                                 <div v-else-if="user.profile_photo_path" class="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600">
-                                    <img :src="`/storage/${user.profile_photo_path}`" alt="Current photo" class="w-full h-full object-cover" />
+                                    <img :src="`/storage/${user.profile_photo_path}`" :alt="$t('Current photo')" class="w-full h-full object-cover" />
                                 </div>
                                 <div v-else class="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center border-2 border-gray-200 dark:border-gray-600">
                                     <User class="w-12 h-12 text-gray-400" />
@@ -93,7 +96,7 @@ const submit = () => {
                                     class="cursor-pointer"
                                 />
                                 <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                    JPG, PNG or GIF (max. 2MB)
+                                    {{ $t('JPG, PNG or GIF (max. 2MB)') }}
                                 </p>
                             </div>
                         </div>
@@ -104,14 +107,14 @@ const submit = () => {
 
                     <!-- Name -->
                     <div class="space-y-2">
-                        <Label for="name">Name</Label>
+                        <Label for="name">{{ $t('Name') }}</Label>
                         <Input
                             id="name"
                             v-model="form.name"
                             type="text"
                             required
                             class="w-full"
-                            placeholder="Your name"
+                            :placeholder="$t('Your name')"
                         />
                         <p v-if="form.errors.name" class="text-sm text-red-600 dark:text-red-400">
                             {{ form.errors.name }}
@@ -120,7 +123,7 @@ const submit = () => {
 
                     <!-- Email -->
                     <div class="space-y-2">
-                        <Label for="email">Email</Label>
+                        <Label for="email">{{ $t('Email') }}</Label>
                         <Input
                             id="email"
                             v-model="form.email"
@@ -141,7 +144,7 @@ const submit = () => {
                             :disabled="form.processing"
                             class="inline-flex justify-center items-center px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {{ form.processing ? 'Saving...' : 'Save Changes' }}
+                            {{ form.processing ? $t('Saving...') : $t('Save Changes') }}
                         </button>
 
                         <Transition
@@ -154,7 +157,7 @@ const submit = () => {
                                 v-show="form.recentlySuccessful"
                                 class="text-sm text-green-600 dark:text-green-400"
                             >
-                                Saved successfully!
+                                {{ $t('Saved successfully!') }}
                             </p>
                         </Transition>
                     </div>

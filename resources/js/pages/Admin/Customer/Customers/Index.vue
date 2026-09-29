@@ -245,22 +245,22 @@ function formatDate(dateString: string): string {
 </script>
 
 <template>
-  <Head title="Customers" />
+  <Head :title="$t('Customers')" />
 
-  <AdminLayout title="Customers">
+  <AdminLayout :title="$t('Customers')">
     <div class="p-6 space-y-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Customers</h1>
-          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage your customer database</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Customers') }}</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Manage your customer database') }}</p>
         </div>
         <Link
           :href="'/admin/customers/create'"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <PlusCircle class="w-4 h-4 mr-2" />
-          Add Customer
+          {{ $t('Add Customer') }}
         </Link>
       </div>
 
@@ -269,7 +269,7 @@ function formatDate(dateString: string): string {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Customers</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total Customers') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.total_customers }}</p>
             </div>
             <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
@@ -281,7 +281,7 @@ function formatDate(dateString: string): string {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Active</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Active') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.active_customers }}</p>
             </div>
             <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -293,7 +293,7 @@ function formatDate(dateString: string): string {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Verified</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Verified') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.verified_customers }}</p>
             </div>
             <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
@@ -305,7 +305,7 @@ function formatDate(dateString: string): string {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Subscribers</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Subscribers') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.newsletter_subscribers }}</p>
             </div>
             <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
@@ -320,14 +320,14 @@ function formatDate(dateString: string): string {
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
           <!-- Search -->
           <div class="md:col-span-2">
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="search"
                 @input="applyFilters"
                 type="text"
-                placeholder="Name, email, phone..."
+                :placeholder="$t('Name, email, phone...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -335,7 +335,7 @@ function formatDate(dateString: string): string {
 
           <!-- Customer Group Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Group</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Group') }}</label>
             <div class="relative">
               <Users class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -343,7 +343,7 @@ function formatDate(dateString: string): string {
                 @change="applyFilters"
                 class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Groups</option>
+                <option value="">{{ $t('All Groups') }}</option>
                 <option v-for="group in customerGroups" :key="group.id" :value="group.id">
                   {{ group.name }}
                 </option>
@@ -356,7 +356,7 @@ function formatDate(dateString: string): string {
 
           <!-- Status Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
              <div class="relative">
               <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -364,9 +364,9 @@ function formatDate(dateString: string): string {
                 @change="applyFilters"
                 class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="">{{ $t('All Status') }}</option>
+                <option value="active">{{ $t('Active') }}</option>
+                <option value="inactive">{{ $t('Inactive') }}</option>
               </select>
                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -376,7 +376,7 @@ function formatDate(dateString: string): string {
 
           <!-- Customer Type Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Type</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Type') }}</label>
              <div class="relative">
               <User class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -384,9 +384,9 @@ function formatDate(dateString: string): string {
                 @change="applyFilters"
                 class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Types</option>
-                <option value="registered">Registered</option>
-                <option value="guest">Guest</option>
+                <option value="">{{ $t('All Types') }}</option>
+                <option value="registered">{{ $t('Registered') }}</option>
+                <option value="guest">{{ $t('Guest') }}</option>
               </select>
                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -396,7 +396,7 @@ function formatDate(dateString: string): string {
 
           <!-- Verified Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Verified</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Verified') }}</label>
              <div class="relative">
               <Shield class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -404,9 +404,9 @@ function formatDate(dateString: string): string {
                 @change="applyFilters"
                 class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All</option>
-                <option value="true">Verified</option>
-                <option value="false">Not Verified</option>
+                <option value="">{{ $t('All') }}</option>
+                <option value="true">{{ $t('Verified') }}</option>
+                <option value="false">{{ $t('Not Verified') }}</option>
               </select>
                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -418,7 +418,7 @@ function formatDate(dateString: string): string {
         <!-- Date Range Filters -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">From Date</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('From Date') }}</label>
             <div class="relative">
               <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -430,7 +430,7 @@ function formatDate(dateString: string): string {
             </div>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">To Date</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('To Date') }}</label>
             <div class="relative">
               <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -451,16 +451,16 @@ function formatDate(dateString: string): string {
              class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
           >
             <X class="w-4 h-4" />
-            Clear Filters
+            {{ $t('Clear Filters') }}
           </button>
           
            <button
              @click="exportCustomers"
              class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium transition-colors"
            >
-             <Download class="w-4 h-4 mr-2" />
-             Export CSV
-           </button>
+              <Download class="w-4 h-4 mr-2" />
+              {{ $t('Export CSV') }}
+            </button>
         </div>
         <div v-else class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-end">
            <button
@@ -468,7 +468,7 @@ function formatDate(dateString: string): string {
              class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium transition-colors"
            >
              <Download class="w-4 h-4 mr-2" />
-             Export CSV
+             {{ $t('Export CSV') }}
            </button>
         </div>
       </div>
@@ -479,7 +479,7 @@ function formatDate(dateString: string): string {
         <div class="flex items-center">
           <CheckCircle class="w-4 h-4 mr-2" />
           <span class="text-sm font-semibold">
-            {{ selectedCustomers.length }} {{ selectedCustomers.length === 1 ? 'customer' : 'customers' }} selected
+            {{ selectedCustomers.length === 1 ? $t('{count} customer selected', { count: selectedCustomers.length }) : $t('{count} customers selected', { count: selectedCustomers.length }) }}
           </span>
         </div>
         <div class="flex gap-2">
@@ -488,7 +488,7 @@ function formatDate(dateString: string): string {
             class="px-3 py-1.5 text-xs font-semibold bg-white/20 hover:bg-white/30 rounded-lg transition-colors flex items-center"
           >
             <Trash2 class="w-3 h-3 mr-1.5" />
-            Delete Selected
+            {{ $t('Delete Selected') }}
           </button>
         </div>
       </div>
@@ -510,28 +510,28 @@ function formatDate(dateString: string): string {
               />
             </th>
             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Customer
+              {{ $t('Customer') }}
             </th>
             <th class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Contact
+              {{ $t('Contact') }}
             </th>
             <th class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Group
+              {{ $t('Group') }}
             </th>
             <th class="hidden xl:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Orders
+              {{ $t('Orders') }}
             </th>
             <th class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Total Spent
+              {{ $t('Total Spent') }}
             </th>
             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Status
+              {{ $t('Status') }}
             </th>
             <th class="hidden xl:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Created
+              {{ $t('Created') }}
             </th>
             <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Actions
+              {{ $t('Actions') }}
             </th>
           </tr>
         </thead>
@@ -543,14 +543,14 @@ function formatDate(dateString: string): string {
                 <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                     <User class="w-8 h-8" />
                 </div>
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">No customers found</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 max-w-sm">Get started by creating your first customer.</p>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{{ $t('No customers found') }}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 max-w-sm">{{ $t('Get started by creating your first customer.') }}</p>
                 <Link
                   href="/admin/customers/create"
                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                   <PlusCircle class="w-4 h-4 mr-2" />
-                  Add Customer
+                  {{ $t('Add Customer') }}
                 </Link>
               </div>
             </td>
@@ -624,20 +624,20 @@ function formatDate(dateString: string): string {
                         : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800'
                   ]"
                 >
-                  {{ customer.is_active ? 'Active' : 'Inactive' }}
+                  {{ customer.is_active ? $t('Active') : $t('Inactive') }}
                 </span>
                  <div class="flex gap-1">
                      <span
                       v-if="customer.is_guest"
                       class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
                     >
-                      Guest
+                      {{ $t('Guest') }}
                     </span>
                      <span
                       v-if="customer.is_verified"
                       class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-600 border border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800"
                     >
-                      Verified
+                      {{ $t('Verified') }}
                     </span>
                  </div>
               </div>
@@ -650,21 +650,21 @@ function formatDate(dateString: string): string {
                 <Link
                   :href="`/admin/customers/${customer.id}`"
                    class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                  title="View Customer"
+                  :title="$t('View Customer')"
                 >
                   <Eye class="w-4 h-4" />
                 </Link>
                 <Link
                   :href="`/admin/customers/${customer.id}/edit`"
                    class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
-                  title="Edit Customer"
+                  :title="$t('Edit Customer')"
                 >
                    <Edit class="w-4 h-4" />
                 </Link>
                 <button
                   @click="confirmDelete(customer.id)"
                    class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                  title="Delete Customer"
+                  :title="$t('Delete Customer')"
                 >
                    <Trash2 class="w-4 h-4" />
                 </button>
@@ -676,12 +676,12 @@ function formatDate(dateString: string): string {
                 <td colspan="9" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                         <div class="md:hidden flex flex-col gap-2">
-                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Contact</span>
+                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Contact') }}</span>
                              <div class="text-sm font-medium text-gray-900 dark:text-white">{{ customer.email }}</div>
                              <div v-if="customer.phone" class="text-xs text-gray-500">{{ customer.phone }}</div>
                         </div>
                         <div class="lg:hidden flex flex-col gap-2">
-                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Group</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Group') }}</span>
                              <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border shadow-sm w-fit"
                                 :style="{ 
@@ -694,20 +694,20 @@ function formatDate(dateString: string): string {
                             </span>
                         </div>
                          <div class="lg:hidden flex flex-col gap-2">
-                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Financials</span>
+                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Financials') }}</span>
                              <div class="grid grid-cols-2 gap-4">
                                  <div>
-                                     <span class="text-xs text-gray-500 block">Orders</span>
+                                     <span class="text-xs text-gray-500 block">{{ $t('Orders') }}</span>
                                      <span class="font-medium text-gray-900 dark:text-white">{{ customer.total_orders }}</span>
                                  </div>
                                   <div>
-                                     <span class="text-xs text-gray-500 block">Spent</span>
+                                     <span class="text-xs text-gray-500 block">{{ $t('Spent') }}</span>
                                      <span class="font-bold text-gray-900 dark:text-white">{{ formatCurrency(customer.total_spent) }}</span>
                                  </div>
                              </div>
                         </div>
                         <div class="xl:hidden flex flex-col gap-2">
-                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Joined</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Joined') }}</span>
                             <span class="text-sm text-gray-600 dark:text-gray-300">{{ formatDate(customer.created_at) }}</span>
                         </div>
                     </div>
@@ -721,7 +721,7 @@ function formatDate(dateString: string): string {
         <!-- Pagination -->
        <div class="bg-gray-50/50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
           <div class="text-xs text-gray-500 dark:text-gray-400">
-            Showing <span class="font-medium">{{ customers.from || 0 }}</span> to <span class="font-medium">{{ customers.to || 0 }}</span> of <span class="font-medium">{{ customers.total }}</span> results
+            {{ $t('Showing') }} <span class="font-medium">{{ customers.from || 0 }}</span> {{ $t('to') }} <span class="font-medium">{{ customers.to || 0 }}</span> {{ $t('of') }} <span class="font-medium">{{ customers.total }}</span> {{ $t('results') }}
           </div>
           <div class="flex gap-2">
             <Link
@@ -730,7 +730,7 @@ function formatDate(dateString: string): string {
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
               <ChevronLeft class="w-3 h-3" />
-              Previous
+              {{ $t('Previous') }}
             </Link>
              <button
               v-else
@@ -738,14 +738,14 @@ function formatDate(dateString: string): string {
               class="px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-600 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1 opacity-50"
             >
               <ChevronLeft class="w-3 h-3" />
-              Previous
+              {{ $t('Previous') }}
             </button>
             <Link
               v-if="customers.next_page_url"
               :href="customers.next_page_url"
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
-              Next
+              {{ $t('Next') }}
               <ChevronRight class="w-3 h-3" />
             </Link>
              <button
@@ -753,7 +753,7 @@ function formatDate(dateString: string): string {
               disabled
               class="px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-600 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1 opacity-50"
             >
-              Next
+              {{ $t('Next') }}
               <ChevronRight class="w-3 h-3" />
             </button>
           </div>
@@ -764,15 +764,15 @@ function formatDate(dateString: string): string {
       <ConfirmDeleteModal
         v-model:show="showDeleteModal"
         :title="deletingCustomer?.name ?? ''"
-        :message="`Are you sure you want to delete '${deletingCustomer?.name}'? This action cannot be undone.`"
+        :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: deletingCustomer?.name })"
         @confirm="deleteCustomer"
       />
 
       <!-- Bulk Delete Modal -->
       <ConfirmDeleteModal
         v-model:show="showBulkDeleteModal"
-        title="Delete Multiple Customers"
-        :message="`Are you sure you want to delete ${selectedCustomers.length} customer(s)? This action cannot be undone.`"
+        :title="$t('Delete Multiple Customers')"
+        :message="$t('Are you sure you want to delete {count} customers? This action cannot be undone.', { count: selectedCustomers.length })"
         @confirm="bulkDelete"
       />
     </div>

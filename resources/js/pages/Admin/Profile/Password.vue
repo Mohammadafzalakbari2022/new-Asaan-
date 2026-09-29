@@ -4,6 +4,9 @@ import AdminLayout from '@/layouts/AdminLayout.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useI18nStore } from '@/Stores/i18n';
+
+const { t } = useI18nStore();
 
 const form = useForm({
     current_password: '',
@@ -22,14 +25,14 @@ const submit = () => {
 </script>
 
 <template>
-    <AdminLayout title="Change Password">
-        <Head title="Change Password" />
+    <AdminLayout :title="$t('Change Password')">
+        <Head :title="$t('Change Password')" />
 
         <div class="max-w-2xl">
             <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Change Password</h1>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Change Password') }}</h1>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Ensure your account is using a long, random password to stay secure
+                    {{ $t('Ensure your account is using a long, random password to stay secure') }}
                 </p>
             </div>
 
@@ -37,7 +40,7 @@ const submit = () => {
                 <form @submit.prevent="submit" class="p-6 space-y-6">
                     <!-- Current Password -->
                     <div class="space-y-2">
-                        <Label for="current_password">Current Password</Label>
+                        <Label for="current_password">{{ $t('Current Password') }}</Label>
                         <Input
                             id="current_password"
                             v-model="form.current_password"
@@ -45,7 +48,7 @@ const submit = () => {
                             required
                             autocomplete="current-password"
                             class="w-full"
-                            placeholder="Enter your current password"
+                            :placeholder="$t('Enter your current password')"
                         />
                         <p v-if="form.errors.current_password" class="text-sm text-red-600 dark:text-red-400">
                             {{ form.errors.current_password }}
@@ -54,7 +57,7 @@ const submit = () => {
 
                     <!-- New Password -->
                     <div class="space-y-2">
-                        <Label for="password">New Password</Label>
+                        <Label for="password">{{ $t('New Password') }}</Label>
                         <Input
                             id="password"
                             v-model="form.password"
@@ -62,19 +65,19 @@ const submit = () => {
                             required
                             autocomplete="new-password"
                             class="w-full"
-                            placeholder="Enter new password"
+                            :placeholder="$t('Enter new password')"
                         />
                         <p v-if="form.errors.password" class="text-sm text-red-600 dark:text-red-400">
                             {{ form.errors.password }}
                         </p>
                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                            Password must be at least 8 characters
+                            {{ $t('Password must be at least 8 characters') }}
                         </p>
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="space-y-2">
-                        <Label for="password_confirmation">Confirm New Password</Label>
+                        <Label for="password_confirmation">{{ $t('Confirm New Password') }}</Label>
                         <Input
                             id="password_confirmation"
                             v-model="form.password_confirmation"
@@ -82,7 +85,7 @@ const submit = () => {
                             required
                             autocomplete="new-password"
                             class="w-full"
-                            placeholder="Confirm new password"
+                            :placeholder="$t('Confirm new password')"
                         />
                         <p v-if="form.errors.password_confirmation" class="text-sm text-red-600 dark:text-red-400">
                             {{ form.errors.password_confirmation }}
@@ -96,7 +99,7 @@ const submit = () => {
                             :disabled="form.processing"
                             class="inline-flex justify-center items-center px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {{ form.processing ? 'Changing...' : 'Change Password' }}
+                            {{ form.processing ? $t('Changing...') : $t('Change Password') }}
                         </button>
 
                         <Transition
@@ -109,7 +112,7 @@ const submit = () => {
                                 v-show="form.recentlySuccessful"
                                 class="text-sm text-green-600 dark:text-green-400"
                             >
-                                Password changed successfully!
+                                {{ $t('Password changed successfully!') }}
                             </p>
                         </Transition>
                     </div>

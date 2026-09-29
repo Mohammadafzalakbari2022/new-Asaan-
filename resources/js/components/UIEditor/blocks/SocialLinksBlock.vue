@@ -1,7 +1,16 @@
 <script setup lang="ts">
-defineProps<{ settings: Record<string, unknown>; editorMode?: boolean }>()
+import { computed } from 'vue'
+
+const props = defineProps<{ settings: Record<string, unknown>; editorMode?: boolean }>()
 
 type SocialLink = { platform: string; url: string; visible?: boolean }
+
+const visibleLinks = computed<SocialLink[]>(() =>
+  ((props.settings.links as SocialLink[] | undefined) ?? []).filter((l) => l.visible !== false),
+)
+
+const sizeKey = computed(() => (props.settings.size as string) || 'md')
+const iconColor = computed(() => (props.settings.color as string) || '#6b7280')
 
 const platformIcons: Record<string, string> = {
   facebook:  'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z',
@@ -38,14 +47,14 @@ const iconSizeClass: Record<string, string> = {
     }"
   >
     <a
-      v-for="(link, i) in (settings.links as { platform: string; url: string; visible?: boolean }[]).filter(l => l.visible !== false)"
+      v-for="(link, i) in visibleLinks"
       :key="i"
       :href="link.url || '#'"
       target="_blank"
       rel="noopener"
       class="flex items-center justify-center transition-all hover:scale-110"
       :class="[
-        sizeClass[settings.size as string] ?? sizeClass.md,
+        sizeClass[sizeKey] ?? sizeClass.md,
         settings.style === 'circle' ? 'rounded-full' : settings.style === 'square' ? 'rounded-lg' : 'rounded-none',
         settings.style !== 'flat' ? 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600' : '',
       ]"
@@ -53,7 +62,7 @@ const iconSizeClass: Record<string, string> = {
     >
       <svg
         class="w-4 h-4"
-        :style="{ color: (settings.color as string) || '#6b7280' }"
+        :style="{ color: iconColor }"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -67,7 +76,7 @@ const iconSizeClass: Record<string, string> = {
       </svg>
     </a>
 
-    <div v-if="!(settings.links as unknown[])?.filter((l: unknown) => (l as {visible?: boolean}).visible !== false).length" class="text-sm text-gray-400 dark:text-gray-500">
+    <div v-if="visibleLinks.length === 0" class="text-sm text-gray-400 dark:text-gray-500">
       No social links added
     </div>
   </div>

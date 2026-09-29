@@ -2,6 +2,10 @@
 import { ref, computed, onMounted } from 'vue'
 import { Head, useForm, usePage, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import { useI18nStore } from '@/Stores/i18n'
+
+const { t } = useI18nStore()
+const liveModeNotice = t("Real charges will be processed via Stripe's production environment.")
 
 interface PaymentMethod {
   id: number
@@ -58,16 +62,16 @@ const save = () => {
 </script>
 
 <template>
-  <AdminLayout title="Payment Methods - Stripe">
-    <Head title="Configure Stripe" />
+  <AdminLayout :title="$t('Payment Methods - Stripe')">
+    <Head :title="$t('Configure Stripe')" />
 
     <div>
       <!-- Page Header -->
       <div class="mb-6">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">Stripe Configuration</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Configure Stripe payment gateway settings</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">{{ $t('Stripe Configuration') }}</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Configure Stripe payment gateway settings') }}</p>
           </div>
           <Link
             href="/admin/settings/payment-methods"
@@ -76,7 +80,7 @@ const save = () => {
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Payment Methods
+            {{ $t('Back to Payment Methods') }}
           </Link>
         </div>
       </div>
@@ -86,11 +90,11 @@ const save = () => {
 
         <!-- Basic Information Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Basic Information') }}</h2>
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Method Name <span class="text-red-500">*</span>
+                {{ $t('Method Name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.name"
@@ -101,21 +105,21 @@ const save = () => {
               <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Description') }}</label>
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Describe this payment method..."
+                :placeholder="$t('Describe this payment method...')"
               ></textarea>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Instructions</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Customer Instructions') }}</label>
               <textarea
                 v-model="form.instructions"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Instructions shown to customers at checkout..."
+                :placeholder="$t('Instructions shown to customers at checkout...')"
               ></textarea>
             </div>
           </div>
@@ -123,7 +127,7 @@ const save = () => {
 
         <!-- Environment Mode Toggle -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Environment Mode</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Environment Mode') }}</h2>
 
           <div class="flex items-center gap-4 mb-6">
             <!-- Test Mode -->
@@ -136,8 +140,8 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'test'" class="w-2 h-2 rounded-full bg-amber-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'test' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">Test Mode</div>
-                <div class="text-xs text-gray-500">No real charges</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'test' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Test Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('No real charges') }}</div>
               </div>
             </label>
 
@@ -151,20 +155,20 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'live'" class="w-2 h-2 rounded-full bg-green-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'live' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">Live Mode</div>
-                <div class="text-xs text-gray-500">Real transactions</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'live' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Live Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('Real transactions') }}</div>
               </div>
             </label>
           </div>
 
           <div v-if="form.configuration.mode === 'test'" class="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
             <p class="text-sm text-amber-800 dark:text-amber-200">
-              <strong>&#9888; Test Mode Active:</strong> No real charges will be made. Use Stripe test keys (<code>pk_test_</code> / <code>sk_test_</code>) and test card numbers.
+              <strong>{{ $t('⚠ Test Mode Active:') }}</strong> {{ $t('No real charges will be made. Use Stripe test keys') }} (<code>pk_test_</code> / <code>sk_test_</code>) {{ $t('and test card numbers.') }}
             </p>
           </div>
           <div v-if="form.configuration.mode === 'live'" class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <p class="text-sm text-green-800 dark:text-green-200">
-              <strong>&#10003; Live Mode:</strong> Real charges will be processed via Stripe's production environment.
+              <strong>{{ $t('✓ Live Mode:') }}</strong> {{ liveModeNotice }}
             </p>
           </div>
         </div>
@@ -172,14 +176,14 @@ const save = () => {
         <!-- Stripe API Keys -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            {{ form.configuration.mode === 'test' ? 'Test' : 'Live' }} API Keys
+            {{ form.configuration.mode === 'test' ? $t('Test') : $t('Live') }} {{ $t('API Keys') }}
           </h2>
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>Get your keys:</strong> Log in to your
+              <strong>{{ $t('Get your keys:') }}</strong> Log in to your
               <a href="https://dashboard.stripe.com/apikeys" target="_blank" class="underline">Stripe Dashboard</a>
-              → Developers → API Keys
+              {{ $t('→ Developers → API Keys') }}
             </p>
           </div>
 
@@ -189,7 +193,7 @@ const save = () => {
             <template v-if="form.configuration.mode === 'test'">
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Test Publishable Key <span class="text-red-500">*</span>
+                  {{ $t('Test Publishable Key') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   v-model="form.configuration.test_publishable_key"

@@ -203,22 +203,22 @@ function changePage(page: number) {
 </script>
 
 <template>
-  <Head title="Brands" />
+  <Head :title="$t('Brands')" />
 
-  <AdminLayout title="Brands">
+  <AdminLayout :title="$t('Brands')">
     <div class="p-6 space-y-6">
       <!-- Page Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Brands</h1>
-          <p class="mt-1 text-sm text-gray-600">Manage your product brands</p>
+          <h1 class="text-2xl font-bold text-gray-900">{{ $t('Brands') }}</h1>
+          <p class="mt-1 text-sm text-gray-600">{{ $t('Manage your product brands') }}</p>
         </div>
         <Link
           :href="brandRoutes.create().url"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <Plus class="w-4 h-4 mr-2" />
-          Add Brand
+          {{ $t('Add Brand') }}
         </Link>
       </div>
 
@@ -227,14 +227,14 @@ function changePage(page: number) {
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <!-- Search -->
           <div class="relative">
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="search"
                 @input="performSearch"
                 type="text"
-                placeholder="Search brands..."
+                :placeholder="$t('Search brands...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -242,7 +242,7 @@ function changePage(page: number) {
 
           <!-- Status Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
             <div class="relative">
               <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -250,9 +250,9 @@ function changePage(page: number) {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Status</option>
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
+                <option value="">{{ $t('All Status') }}</option>
+                <option value="1">{{ $t('Active') }}</option>
+                <option value="0">{{ $t('Inactive') }}</option>
               </select>
                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -262,7 +262,7 @@ function changePage(page: number) {
 
           <!-- Featured Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Featured</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Featured') }}</label>
             <div class="relative">
               <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -270,9 +270,9 @@ function changePage(page: number) {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Brands</option>
-                <option value="1">Featured</option>
-                <option value="0">Not Featured</option>
+                <option value="">{{ $t('All Brands') }}</option>
+                <option value="1">{{ $t('Featured') }}</option>
+                <option value="0">{{ $t('Not Featured') }}</option>
               </select>
                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -287,7 +287,7 @@ function changePage(page: number) {
               class="w-full py-2.5 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <X class="w-4 h-4" />
-              Clear Filters
+              {{ $t('Clear Filters') }}
             </button>
           </div>
         </div>
@@ -298,20 +298,20 @@ function changePage(page: number) {
         <div v-if="selectedBrands.length > 0" class="bg-blue-600 rounded-xl shadow-lg p-3 text-white flex items-center justify-between sticky top-4 z-10 px-6">
           <span class="text-sm font-semibold flex items-center">
             <CheckCircle class="w-4 h-4 mr-2" />
-            {{ selectedBrands.length }} {{ selectedBrands.length === 1 ? 'brand' : 'brands' }} selected
+            {{ selectedBrands.length }} {{ $t(selectedBrands.length === 1 ? 'brand' : 'brands') }} {{ $t('selected') }}
           </span>
           <div class="flex gap-2">
             <button
               @click="bulkUpdateStatus(true)"
               class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide"
             >
-              Activate
+              {{ $t('Activate') }}
             </button>
             <button
               @click="bulkUpdateStatus(false)"
               class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide"
             >
-              Deactivate
+              {{ $t('Deactivate') }}
             </button>
              <div class="w-px h-6 bg-blue-400 mx-1"></div>
             <button
@@ -319,7 +319,7 @@ function changePage(page: number) {
                class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors flex items-center uppercase tracking-wide"
             >
               <Trash2 class="w-3 h-3 mr-1.5" />
-              Delete
+              {{ $t('Delete') }}
             </button>
           </div>
         </div>
@@ -346,7 +346,7 @@ function changePage(page: number) {
                   @click="sortTable('name')"
                 >
                   <div class="flex items-center gap-1">
-                    Name
+                    {{ $t('Name') }}
                     <span v-if="sortBy === 'name'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -355,7 +355,7 @@ function changePage(page: number) {
                   </div>
                 </th>
                 <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Website
+                  {{ $t('Website') }}
                 </th>
                 <th
                   scope="col"
@@ -363,7 +363,7 @@ function changePage(page: number) {
                   @click="sortTable('status')"
                 >
                   <div class="flex items-center justify-center gap-1">
-                    Status
+                    {{ $t('Status') }}
                     <span v-if="sortBy === 'status'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -372,13 +372,13 @@ function changePage(page: number) {
                   </div>
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Featured
+                  {{ $t('Featured') }}
                 </th>
                  <th scope="col" class="hidden lg:table-cell px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Products
+                  {{ $t('Products') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -419,7 +419,7 @@ function changePage(page: number) {
                 <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                   <a v-if="brand.website" :href="brand.website" target="_blank" class="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
                     <ExternalLink class="w-3 h-3" />
-                    Visit
+                    {{ $t('Visit') }}
                   </a>
                   <span v-else class="text-sm text-gray-400 dark:text-gray-600">-</span>
                 </td>
@@ -432,7 +432,7 @@ function changePage(page: number) {
                   >
                     <CheckCircle v-if="brand.status" class="w-3 h-3 mr-1" />
                     <XCircle v-else class="w-3 h-3 mr-1" />
-                    {{ brand.status ? 'Active' : 'Inactive' }}
+                    {{ $t(brand.status ? 'Active' : 'Inactive') }}
                   </span>
                 </td>
                 <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-center">
@@ -445,7 +445,7 @@ function changePage(page: number) {
                 </td>
                 <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
                   <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300">
-                    {{ brand.products_count || 0 }} products
+                    {{ $t('{count} products', { count: brand.products_count || 0 }) }}
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -453,14 +453,14 @@ function changePage(page: number) {
                     <Link
                       :href="brandRoutes.edit(brand.id).url"
                       class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                      title="Edit"
+                      :title="$t('Edit')"
                     >
                       <Edit class="w-4 h-4" />
                     </Link>
                     <button
                       @click="confirmDelete(brand.id)"
                       class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                      title="Delete"
+                      :title="$t('Delete')"
                     >
                       <Trash2 class="w-4 h-4" />
                     </button>
@@ -472,22 +472,22 @@ function changePage(page: number) {
                  <td colspan="7" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                     <div class="grid grid-cols-2 gap-4 text-sm">
                        <div class="flex flex-col gap-1 col-span-2 sm:col-span-1" v-if="brand.website">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Website</span>
+                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Website') }}</span>
                           <a :href="brand.website" target="_blank" class="text-blue-600 hover:underline flex items-center gap-1">
                              <ExternalLink class="w-3 h-3" /> {{ brand.website }}
                           </a>
                        </div>
                        <div class="flex flex-col gap-1 sm:hidden">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Featured</span>
-                           <span v-if="brand.is_featured" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 w-fit">Featured</span>
-                           <span v-else class="text-gray-500">No</span>
-                       </div>
-                        <div class="flex flex-col gap-1 lg:hidden">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Products</span>
-                          <span class="text-gray-700 dark:text-gray-300">{{ brand.products_count || 0 }} products</span>
-                       </div>
-                        <div class="flex flex-col gap-1">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Created</span>
+                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Featured') }}</span>
+                           <span v-if="brand.is_featured" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 w-fit">{{ $t('Featured') }}</span>
+                           <span v-else class="text-gray-500">{{ $t('No') }}</span>
+                        </div>
+                         <div class="flex flex-col gap-1 lg:hidden">
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Products') }}</span>
+                           <span class="text-gray-700 dark:text-gray-300">{{ $t('{count} products', { count: brand.products_count || 0 }) }}</span>
+                        </div>
+                         <div class="flex flex-col gap-1">
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Created') }}</span>
                           <span class="text-gray-700 dark:text-gray-300">{{ new Date(brand.created_at).toLocaleDateString() }}</span>
                        </div>
                     </div>
@@ -500,8 +500,8 @@ function changePage(page: number) {
                     <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                       <Tag class="w-8 h-8" />
                     </div>
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white">No brands found</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">Get started by creating a new brand.</p>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No brands found') }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('Get started by creating a new brand.') }}</p>
                   </div>
                 </td>
               </tr>
@@ -510,7 +510,7 @@ function changePage(page: number) {
         </div>
 
         <!-- Pagination -->
-        <Pagination :data="brands" resource-name="brands" />
+        <Pagination :data="brands" :resource-name="$t('brands')" />
       </div>
     </div>
 
@@ -518,15 +518,15 @@ function changePage(page: number) {
     <ConfirmDeleteModal
       v-model:show="showDeleteModal"
       :title="deletingBrand?.name ?? ''"
-      :message="`Are you sure you want to delete '${deletingBrand?.name}'? This action cannot be undone.`"
+      :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: deletingBrand?.name })"
       @confirm="deleteBrand"
     />
 
     <!-- Bulk Delete Modal -->
     <ConfirmDeleteModal
       v-model:show="showBulkDeleteModal"
-      title="Multiple Brands"
-      :message="`Are you sure you want to delete ${selectedBrands.length} brand(s)? This action cannot be undone.`"
+      :title="$t('Multiple Brands')"
+      :message="$t('Are you sure you want to delete {count} brand(s)? This action cannot be undone.', { count: selectedBrands.length })"
       @confirm="bulkDelete"
     />
   </AdminLayout>

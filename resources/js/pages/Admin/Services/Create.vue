@@ -146,33 +146,33 @@ function onFile(event: Event) {
 </script>
 
 <template>
-  <Head :title="isEdit ? 'Edit Service' : 'Add Service'" />
+  <Head :title="isEdit ? $t('Edit Service') : $t('Add Service')" />
 
-  <AdminLayout :title="isEdit ? 'Edit Service' : 'Add Service'">
+  <AdminLayout :title="isEdit ? $t('Edit Service') : $t('Add Service')">
     <div class="p-6 space-y-6">
       <div>
         <Link
           href="/admin/services"
           class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400"
         >
-          <ArrowLeft class="mr-1 h-4 w-4" /> Back to services
+          <ArrowLeft class="mr-1 h-4 w-4" /> {{ $t('Back to services') }}
         </Link>
         <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {{ isEdit ? `Edit ${props.service!.name}` : 'Add a service' }}
+          {{ isEdit ? $t('Edit {name}', { name: props.service!.name }) : $t('Add a service') }}
         </h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          The price here is what the customer sees, and what the job is worth.
+          {{ $t('The price here is what the customer sees, and what the job is worth.') }}
         </p>
       </div>
 
       <form class="grid grid-cols-1 gap-6 lg:grid-cols-3" novalidate @submit.prevent="submit">
         <div class="space-y-6 lg:col-span-2">
           <section class="space-y-5 rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">What it is</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('What it is') }}</h2>
 
             <div>
               <label for="field-name" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Name <span class="text-red-500">*</span>
+                {{ $t('Name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 id="field-name"
@@ -188,14 +188,14 @@ function onFile(event: Event) {
 
             <div>
               <label for="field-service_category_id" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Category
+                {{ $t('Category') }}
               </label>
               <select
                 id="field-service_category_id"
                 v-model="form.service_category_id"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               >
-                <option :value="null">No category</option>
+                <option :value="null">{{ $t('No category') }}</option>
                 <option v-for="item in categories" :key="item.id" :value="item.id">{{ item.name }}</option>
               </select>
               <p v-if="page.props.errors?.service_category_id" class="mt-1 text-sm text-red-600">
@@ -205,7 +205,7 @@ function onFile(event: Event) {
 
             <div>
               <label for="field-short_description" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Short description
+                {{ $t('Short description') }}
               </label>
               <input
                 id="field-short_description"
@@ -213,12 +213,12 @@ function onFile(event: Event) {
                 type="text"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
-              <p class="mt-1 text-xs text-gray-500">One line, shown on the service card.</p>
+              <p class="mt-1 text-xs text-gray-500">{{ $t('One line, shown on the service card.') }}</p>
             </div>
 
             <div>
               <label for="field-description" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Full description
+                {{ $t('Full description') }}
               </label>
               <textarea
                 id="field-description"
@@ -230,12 +230,12 @@ function onFile(event: Event) {
           </section>
 
           <section class="space-y-5 rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">Price and time</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('Price and time') }}</h2>
 
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <label for="field-price" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Price <span class="text-red-500">*</span>
+                  {{ $t('Price') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   id="field-price"
@@ -253,7 +253,7 @@ function onFile(event: Event) {
 
               <div>
                 <label for="field-price_unit" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Price is per
+                  {{ $t('Price is per') }}
                 </label>
                 <select
                   id="field-price_unit"
@@ -271,7 +271,7 @@ function onFile(event: Event) {
 
             <div>
               <label for="field-price_note" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Price note
+                {{ $t('Price note') }}
               </label>
               <input
                 id="field-price_note"
@@ -279,13 +279,13 @@ function onFile(event: Event) {
                 type="text"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
-              <p class="mt-1 text-xs text-gray-500">Anything the customer should know about the price.</p>
+              <p class="mt-1 text-xs text-gray-500">{{ $t('Anything the customer should know about the price.') }}</p>
             </div>
 
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <label for="field-duration_minutes" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Takes (minutes)
+                  {{ $t('Takes (minutes)') }}
                 </label>
                 <input
                   id="field-duration_minutes"
@@ -295,66 +295,66 @@ function onFile(event: Event) {
                   step="15"
                   class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
                 />
-                <p class="mt-1 text-xs text-gray-500">The website turns this into "2 hours" and so on.</p>
+                <p class="mt-1 text-xs text-gray-500">{{ $t('The website turns this into "2 hours" and so on.') }}</p>
               </div>
 
               <div>
                 <label for="field-duration_label" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Or your own wording
+                  {{ $t('Or your own wording') }}
                 </label>
                 <input
                   id="field-duration_label"
                   v-model="form.duration_label"
                   type="text"
-                  placeholder="half a day"
+                  :placeholder="$t('half a day')"
                   class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
                 />
-                <p class="mt-1 text-xs text-gray-500">Used instead of the minutes when filled in.</p>
+                <p class="mt-1 text-xs text-gray-500">{{ $t('Used instead of the minutes when filled in.') }}</p>
               </div>
             </div>
           </section>
 
           <section class="space-y-5 rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">
-              What the customer gets
+              {{ $t('What the customer gets') }}
             </h2>
 
             <div>
               <label for="field-includes" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Included
+                {{ $t('Included') }}
               </label>
               <textarea
                 id="field-includes"
                 v-model="form.includes"
                 rows="4"
-                placeholder="One item per line"
+                :placeholder="$t('One item per line')"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
             </div>
 
             <div>
               <label for="field-excludes" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Not included
+                {{ $t('Not included') }}
               </label>
               <textarea
                 id="field-excludes"
                 v-model="form.excludes"
                 rows="3"
-                placeholder="One item per line"
+                :placeholder="$t('One item per line')"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
-              <p class="mt-1 text-xs text-gray-500">Customers ask about this, so answering it up front saves arguments.</p>
+              <p class="mt-1 text-xs text-gray-500">{{ $t('Customers ask about this, so answering it up front saves arguments.') }}</p>
             </div>
 
             <div>
               <label for="field-service_area" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Where you cover it
+                {{ $t('Where you cover it') }}
               </label>
               <input
                 id="field-service_area"
                 v-model="form.service_area"
                 type="text"
-                placeholder="Kabul, Herat, Jalalabad"
+                :placeholder="$t('Kabul, Herat, Jalalabad')"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
             </div>
@@ -363,7 +363,7 @@ function onFile(event: Event) {
 
         <div class="space-y-6">
           <section class="space-y-4 rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">Picture</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('Picture') }}</h2>
 
             <img
               v-if="props.service?.image_url"
@@ -374,7 +374,7 @@ function onFile(event: Event) {
 
             <div>
               <label for="field-image" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Photo
+                {{ $t('Photo') }}
               </label>
               <input
                 id="field-image"
@@ -390,61 +390,61 @@ function onFile(event: Event) {
 
             <label v-if="props.service?.image_url" class="flex items-center gap-2 text-sm text-gray-600">
               <input id="field-remove_image" v-model="form.remove_image" type="checkbox" class="rounded" />
-              Remove the current photo when saving
+              {{ $t('Remove the current photo when saving') }}
             </label>
 
             <div>
               <label for="field-icon" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Icon name
+                {{ $t('Icon name') }}
               </label>
               <input
                 id="field-icon"
                 v-model="form.icon"
                 type="text"
-                placeholder="wrench"
+                :placeholder="$t('wrench')"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
             </div>
 
             <label class="flex items-center gap-2 text-sm text-gray-600">
               <input id="field-icon_only" v-model="form.icon_only" type="checkbox" class="rounded" />
-              Show the icon only, with no photo
+              {{ $t('Show the icon only, with no photo') }}
             </label>
           </section>
 
           <section class="space-y-4 rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">On the website</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('On the website') }}</h2>
 
             <div>
               <label for="field-status" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Visibility
+                {{ $t('Visibility') }}
               </label>
               <select
                 id="field-status"
                 v-model="form.status"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               >
-                <option value="enabled">On the website</option>
-                <option value="disabled">Hidden</option>
+                <option value="enabled">{{ $t('On the website') }}</option>
+                <option value="disabled">{{ $t('Hidden') }}</option>
               </select>
             </div>
 
             <label class="flex items-start gap-2 text-sm text-gray-600">
               <input id="field-booking_enabled" v-model="form.booking_enabled" type="checkbox" class="mt-0.5 rounded" />
               <span>
-                Customers can book this online
-                <span class="block text-xs text-gray-500">Switch off to show it without taking bookings.</span>
+                {{ $t('Customers can book this online') }}
+                <span class="block text-xs text-gray-500">{{ $t('Switch off to show it without taking bookings.') }}</span>
               </span>
             </label>
 
             <label class="flex items-center gap-2 text-sm text-gray-600">
               <input id="field-featured" v-model="form.featured" type="checkbox" class="rounded" />
-              Show as popular on the services page
+              {{ $t('Show as popular on the services page') }}
             </label>
 
             <div>
               <label for="field-sort_order" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Order
+                {{ $t('Order') }}
               </label>
               <input
                 id="field-sort_order"
@@ -452,7 +452,7 @@ function onFile(event: Event) {
                 type="number"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
-              <p class="mt-1 text-xs text-gray-500">Lower numbers come first.</p>
+              <p class="mt-1 text-xs text-gray-500">{{ $t('Lower numbers come first.') }}</p>
             </div>
           </section>
 
@@ -463,13 +463,13 @@ function onFile(event: Event) {
               class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-blue-700 disabled:opacity-60"
             >
               <Save class="mr-2 h-4 w-4" />
-              {{ form.processing ? 'Saving...' : isEdit ? 'Save changes' : 'Create service' }}
+              {{ form.processing ? $t('Saving...') : isEdit ? $t('Save changes') : $t('Create service') }}
             </button>
             <Link
               href="/admin/services"
               class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </Link>
           </div>
         </div>

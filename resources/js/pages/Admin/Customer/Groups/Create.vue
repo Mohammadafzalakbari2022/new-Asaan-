@@ -32,8 +32,8 @@ const generateCode = () => {
 </script>
 
 <template>
-    <AdminLayout title="Create Customer Group">
-        <Head title="Create Customer Group" />
+    <AdminLayout :title="$t('Create Customer Group')">
+        <Head :title="$t('Create Customer Group')" />
 
         <div class="p-6">
             <!-- Back Button -->
@@ -46,14 +46,14 @@ const generateCode = () => {
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    Back to Customer Groups
+                    {{ $t('Back to Customer Groups') }}
                 </button>
             </div>
 
             <!-- Page Header -->
             <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-900">Create Customer Group</h1>
-                <p class="mt-1 text-sm text-gray-600">Create a new customer group for segmentation and group-based pricing.</p>
+                <h1 class="text-2xl font-bold text-gray-900">{{ $t('Create Customer Group') }}</h1>
+                <p class="mt-1 text-sm text-gray-600">{{ $t('Create a new customer group for segmentation and group-based pricing.') }}</p>
             </div>
 
             <!-- Form -->
@@ -61,12 +61,12 @@ const generateCode = () => {
                 <form @submit.prevent="submit" class="space-y-6">
                     <!-- Basic Information -->
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">Basic Information</h2>
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Basic Information') }}</h2>
                         <div class="space-y-4">
                             <!-- Name and Code -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Group Name *</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Group Name *') }}</label>
                                     <input
                                         v-model="form.name"
                                         @blur="generateCode"
@@ -74,36 +74,36 @@ const generateCode = () => {
                                         required
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                         :class="{ 'border-red-500': form.errors.name }"
-                                        placeholder="e.g., VIP Members, Wholesale"
+                                        :placeholder="$t('e.g., VIP Members, Wholesale')"
                                     />
                                     <div v-if="form.errors.name" class="text-red-600 text-sm mt-1">{{ form.errors.name }}</div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Group Code
-                                        <span class="text-gray-500 font-normal">(auto-generated)</span>
+                                        {{ $t('Group Code') }}
+                                        <span class="text-gray-500 font-normal">{{ $t('(auto-generated)') }}</span>
                                     </label>
                                     <input
                                         v-model="form.code"
                                         type="text"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                         :class="{ 'border-red-500': form.errors.code }"
-                                        placeholder="e.g., vip-members"
+                                        :placeholder="$t('e.g., vip-members')"
                                     />
                                     <div v-if="form.errors.code" class="text-red-600 text-sm mt-1">{{ form.errors.code }}</div>
-                                    <p class="text-xs text-gray-500 mt-1">Lowercase letters, numbers, and dashes only</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Lowercase letters, numbers, and dashes only') }}</p>
                                 </div>
                             </div>
 
                             <!-- Description -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Description') }}</label>
                                 <textarea
                                     v-model="form.description"
                                     rows="3"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                     :class="{ 'border-red-500': form.errors.description }"
-                                    placeholder="Brief description of this customer group..."
+                                    :placeholder="$t('Brief description of this customer group...')"
                                 ></textarea>
                                 <div v-if="form.errors.description" class="text-red-600 text-sm mt-1">{{ form.errors.description }}</div>
                             </div>
@@ -111,7 +111,7 @@ const generateCode = () => {
                             <!-- Color and Discount -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Group Color</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Group Color') }}</label>
                                     <div class="flex items-center space-x-3">
                                         <input
                                             v-model="form.color"
@@ -123,13 +123,13 @@ const generateCode = () => {
                                             type="text"
                                             class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                             :class="{ 'border-red-500': form.errors.color }"
-                                            placeholder="#3B82F6"
+                                            :placeholder="$t('#3B82F6')"
                                         />
                                     </div>
                                     <div v-if="form.errors.color" class="text-red-600 text-sm mt-1">{{ form.errors.color }}</div>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Discount Percentage</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Discount Percentage') }}</label>
                                     <div class="relative">
                                         <input
                                             v-model.number="form.discount_percentage"
@@ -144,7 +144,7 @@ const generateCode = () => {
                                         <span class="absolute right-3 top-2 text-gray-500">%</span>
                                     </div>
                                     <div v-if="form.errors.discount_percentage" class="text-red-600 text-sm mt-1">{{ form.errors.discount_percentage }}</div>
-                                    <p class="text-xs text-gray-500 mt-1">Group-based discount (0-100%)</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Group-based discount (0-100%)') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -152,49 +152,49 @@ const generateCode = () => {
 
                     <!-- Auto-Assignment Rules -->
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">Auto-Assignment Rules</h2>
-                        <p class="text-sm text-gray-600 mb-4">Automatically assign customers to this group based on their purchase behavior.</p>
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Auto-Assignment Rules') }}</h2>
+                        <p class="text-sm text-gray-600 mb-4">{{ $t('Automatically assign customers to this group based on their purchase behavior.') }}</p>
                         <div class="space-y-4">
                             <div class="grid grid-cols-3 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Orders</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum Orders') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_orders"
                                         type="number"
                                         min="0"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                        placeholder="e.g., 10"
+                                        :placeholder="$t('e.g., 10')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">Total orders placed</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Total orders placed') }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Spent ($)</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum Spent ($)') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_spent"
                                         type="number"
                                         min="0"
                                         step="0.01"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                        placeholder="e.g., 1000.00"
+                                        :placeholder="$t('e.g., 1000.00')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">Total amount spent</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Total amount spent') }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimum AOV ($)</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum AOV ($)') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_aov"
                                         type="number"
                                         min="0"
                                         step="0.01"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                        placeholder="e.g., 100.00"
+                                        :placeholder="$t('e.g., 100.00')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">Average order value</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Average order value') }}</p>
                                 </div>
                             </div>
                             <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
                                 <p class="text-sm text-blue-800">
-                                    <strong>Note:</strong> Customers must meet ALL configured rules to be auto-assigned. Leave fields empty to ignore that criteria.
+                                    <strong>{{ $t('Note:') }}</strong> {{ $t("Customers must meet ALL configured rules to be auto-assigned. Leave fields empty to ignore that criteria.") }}
                                 </p>
                             </div>
                         </div>
@@ -202,7 +202,7 @@ const generateCode = () => {
 
                     <!-- Settings -->
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">Settings</h2>
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Settings') }}</h2>
                         <div class="space-y-3">
                             <div class="flex items-center">
                                 <input
@@ -212,10 +212,10 @@ const generateCode = () => {
                                     class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                 />
                                 <label for="is_default" class="ml-2 text-sm font-medium text-gray-700">
-                                    Set as Default Group
+                                    {{ $t('Set as Default Group') }}
                                 </label>
                             </div>
-                            <p class="text-xs text-gray-500 ml-6">New customers will be automatically assigned to this group</p>
+                            <p class="text-xs text-gray-500 ml-6">{{ $t('New customers will be automatically assigned to this group') }}</p>
 
                             <div class="flex items-center mt-4">
                                 <input
@@ -225,10 +225,10 @@ const generateCode = () => {
                                     class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                 />
                                 <label for="status" class="ml-2 text-sm font-medium text-gray-700">
-                                    Active
+                                    {{ $t('Active') }}
                                 </label>
                             </div>
-                            <p class="text-xs text-gray-500 ml-6">Inactive groups won't be available for selection</p>
+                            <p class="text-xs text-gray-500 ml-6">{{ $t('Inactive groups won\'t be available for selection') }}</p>
                         </div>
                     </div>
 
@@ -239,15 +239,15 @@ const generateCode = () => {
                             @click="router.visit('/admin/customers/groups')"
                             class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                         >
-                            Cancel
+                            {{ $t('Cancel') }}
                         </button>
                         <button
                             type="submit"
                             :disabled="form.processing"
                             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            <span v-if="form.processing">Creating...</span>
-                            <span v-else>Create Group</span>
+                            <span v-if="form.processing">{{ $t('Creating...') }}</span>
+                            <span v-else>{{ $t('Create Group') }}</span>
                         </button>
                     </div>
                 </form>

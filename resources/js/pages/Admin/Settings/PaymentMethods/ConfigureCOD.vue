@@ -50,16 +50,16 @@ const save = () => {
 </script>
 
 <template>
-  <AdminLayout title="Payment Methods - Cash on Delivery">
-    <Head title="Configure Cash on Delivery" />
+  <AdminLayout :title="$t('Payment Methods - Cash on Delivery')">
+    <Head :title="$t('Configure Cash on Delivery')" />
 
     <div>
       <!-- Page Header -->
       <div class="mb-6">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">Cash on Delivery Configuration</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Configure payment settings for cash on delivery method</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">{{ $t('Cash on Delivery Configuration') }}</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Configure payment settings for cash on delivery method') }}</p>
           </div>
           <Link 
             href="/admin/settings/payment-methods"
@@ -68,7 +68,7 @@ const save = () => {
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Payment Methods
+            {{ $t('Back to Payment Methods') }}
           </Link>
         </div>
       </div>
@@ -77,42 +77,42 @@ const save = () => {
       <form @submit.prevent="save" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <!-- Basic Information Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Basic Information') }}</h2>
 
           <div class="space-y-4">
             <!-- Name -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Method Name <span class="text-red-500">*</span>
+                {{ $t('Method Name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.name"
                 type="text"
                 :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent', errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                placeholder="Cash on Delivery"
+                :placeholder="$t('Cash on Delivery')"
               />
               <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
             </div>
 
             <!-- Description -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Description') }}</label>
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Describe this payment method..."
+                :placeholder="$t('Describe this payment method...')"
               ></textarea>
             </div>
 
             <!-- Instructions -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Instructions</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Customer Instructions') }}</label>
               <textarea
                 v-model="form.instructions"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Instructions shown to customers at checkout..."
+                :placeholder="$t('Instructions shown to customers at checkout...')"
               ></textarea>
             </div>
           </div>
@@ -120,12 +120,12 @@ const save = () => {
 
         <!-- Order Amount Limits Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Order Amount Limits</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Order Amount Limits') }}</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Minimum Order Amount -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Minimum Order Amount</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Minimum Order Amount') }}</label>
               <input
                 v-model.number="form.configuration.min_order_amount"
                 type="number"
@@ -133,12 +133,12 @@ const save = () => {
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="0.00"
               />
-              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Leave at 0 for no minimum</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Leave at 0 for no minimum') }}</p>
             </div>
 
             <!-- Maximum Order Amount -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Maximum Order Amount</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Maximum Order Amount') }}</label>
               <input
                 v-model.number="form.configuration.max_order_amount"
                 type="number"
@@ -146,19 +146,19 @@ const save = () => {
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="10000.00"
               />
-              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Leave at 0 for no maximum</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Leave at 0 for no maximum') }}</p>
             </div>
           </div>
         </div>
 
         <!-- Handling Fee Section -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Handling Fee</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Handling Fee') }}</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Handling Fee Amount -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Handling Fee Amount</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Handling Fee Amount') }}</label>
               <input
                 v-model.number="form.configuration.handling_fee"
                 type="number"
@@ -170,19 +170,19 @@ const save = () => {
 
             <!-- Fee Type -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Fee Type</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Fee Type') }}</label>
               <select
                 v-model="form.configuration.handling_fee_type"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="fixed">Fixed Amount</option>
-                <option value="percentage">Percentage</option>
+                <option value="fixed">{{ $t('Fixed Amount') }}</option>
+                <option value="percentage">{{ $t('Percentage') }}</option>
               </select>
             </div>
 
             <!-- Fee Maximum -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Maximum Fee</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Maximum Fee') }}</label>
               <input
                 v-model.number="form.configuration.handling_fee_maximum"
                 type="number"
@@ -201,7 +201,7 @@ const save = () => {
             :disabled="form.processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+            {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
           </button>
         </div>
       </form>

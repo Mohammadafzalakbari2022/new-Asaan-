@@ -64,7 +64,7 @@ const getStatusBadgeClass = (isActive: boolean) => {
 
 <template>
   <AdminLayout>
-    <Head title="User Management" />
+    <Head :title="$t('User Management')" />
 
     <div class="py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,9 +72,9 @@ const getStatusBadgeClass = (isActive: boolean) => {
         <div class="mb-8">
           <div class="flex items-center gap-3 mb-2">
             <Users class="w-8 h-8 text-primary" />
-            <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
+            <h1 class="text-3xl font-bold text-gray-900">{{ $t('User Management') }}</h1>
           </div>
-          <p class="text-gray-600">Manage user accounts and permissions</p>
+          <p class="text-gray-600">{{ $t('Manage user accounts and permissions') }}</p>
         </div>
 
         <!-- Search Bar -->
@@ -85,13 +85,13 @@ const getStatusBadgeClass = (isActive: boolean) => {
               <Input
                 v-model="search"
                 type="text"
-                placeholder="Search by name or email..."
+                :placeholder="$t('Search by name or email...')"
                 class="pl-10"
                 @keyup.enter="searchUsers"
               />
             </div>
             <Button @click="searchUsers">
-              Search
+              {{ $t('Search') }}
             </Button>
           </div>
         </div>
@@ -102,22 +102,22 @@ const getStatusBadgeClass = (isActive: boolean) => {
             <thead class="bg-gray-50">
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  User
+                  {{ $t('User') }}
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role
+                  {{ $t('Role') }}
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                  {{ $t('Status') }}
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email Verified
+                  {{ $t('Email Verified') }}
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Joined
+                  {{ $t('Joined') }}
                 </th>
                 <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -155,11 +155,11 @@ const getStatusBadgeClass = (isActive: boolean) => {
                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                     :class="getStatusBadgeClass(user.is_active)"
                   >
-                    {{ user.is_active ? 'Active' : 'Inactive' }}
+                    {{ user.is_active ? $t('Active') : $t('Inactive') }}
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ user.email_verified_at || 'Not verified' }}
+                  {{ user.email_verified_at || $t('Not verified') }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ user.created_at }}
@@ -170,14 +170,14 @@ const getStatusBadgeClass = (isActive: boolean) => {
                     class="text-primary hover:text-primary/80 mr-3 inline-flex items-center"
                   >
                     <Edit class="w-4 h-4 mr-1" />
-                    Edit
+                    {{ $t('Edit') }}
                   </Link>
                   <button
                     @click="deleteUser(user)"
                     class="text-red-600 hover:text-red-900 inline-flex items-center"
                   >
                     <Trash2 class="w-4 h-4 mr-1" />
-                    Delete
+                    {{ $t('Delete') }}
                   </button>
                 </td>
               </tr>
@@ -192,26 +192,26 @@ const getStatusBadgeClass = (isActive: boolean) => {
                 :href="userRoutes.index.url({ query: { page: props.users.current_page - 1 } })"
                 class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
-                Previous
+                {{ $t('Previous') }}
               </Link>
               <Link
                 v-if="props.users.current_page < props.users.last_page"
                 :href="userRoutes.index.url({ query: { page: props.users.current_page + 1 } })"
                 class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
-                Next
+                {{ $t('Next') }}
               </Link>
             </div>
             <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
                 <p class="text-sm text-gray-700">
-                  Showing
+                  {{ $t('Showing') }}
                   <span class="font-medium">{{ (props.users.current_page - 1) * props.users.per_page + 1 }}</span>
-                  to
+                  {{ $t('to') }}
                   <span class="font-medium">{{ Math.min(props.users.current_page * props.users.per_page, props.users.total) }}</span>
-                  of
+                  {{ $t('of') }}
                   <span class="font-medium">{{ props.users.total }}</span>
-                  results
+                  {{ $t('results') }}
                 </p>
               </div>
             </div>

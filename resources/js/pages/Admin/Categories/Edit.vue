@@ -146,8 +146,8 @@ const deleteCategory = () => {
 </script>
 
 <template>
-  <AdminLayout title="Edit Category">
-    <Head :title="`Edit ${category.name}`" />
+  <AdminLayout :title="$t('Edit Category')">
+    <Head :title="$t('Edit {name}', { name: category.name })" />
 
     <div class="py-6">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -155,8 +155,8 @@ const deleteCategory = () => {
         <div class="mb-6">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-semibold text-gray-900">Edit Category</h1>
-              <p class="mt-1 text-sm text-gray-600">Update category information and settings</p>
+              <h1 class="text-2xl font-semibold text-gray-900">{{ $t('Edit Category') }}</h1>
+              <p class="mt-1 text-sm text-gray-600">{{ $t('Update category information and settings') }}</p>
             </div>
             <div class="flex items-center space-x-3">
               <button
@@ -167,7 +167,7 @@ const deleteCategory = () => {
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
-                Delete Category
+                {{ $t('Delete Category') }}
               </button>
               <Link
                 :href="categoryRoutes.index().url"
@@ -176,7 +176,7 @@ const deleteCategory = () => {
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                Back to Categories
+                {{ $t('Back to Categories') }}
               </Link>
             </div>
           </div>
@@ -187,7 +187,7 @@ const deleteCategory = () => {
           <div class="bg-white rounded-lg shadow">
             <!-- Tabs -->
             <div class="border-b border-gray-200">
-              <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
+              <nav class="-mb-px flex space-x-8 px-6" :aria-label="$t('Tabs')">
                 <button
                   type="button"
                   @click="activeTab = 'general'"
@@ -198,7 +198,7 @@ const deleteCategory = () => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  General Information
+                  {{ $t('General Information') }}
                 </button>
                 <button
                   type="button"
@@ -210,7 +210,7 @@ const deleteCategory = () => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  SEO Settings
+                  {{ $t('SEO Settings') }}
                 </button>
               </nav>
             </div>
@@ -222,7 +222,7 @@ const deleteCategory = () => {
                 <!-- Name -->
                 <div>
                   <label for="name" class="block text-sm font-medium text-gray-700">
-                    Category Name <span class="text-red-500">*</span>
+                    {{ $t('Category Name') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     id="name"
@@ -231,7 +231,7 @@ const deleteCategory = () => {
                     @input="generateSlug"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': form.errors.name }"
-                    placeholder="e.g., Electronics, Clothing, Books"
+                    :placeholder="$t('e.g., Electronics, Clothing, Books')"
                     required
                   />
                   <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
@@ -240,7 +240,7 @@ const deleteCategory = () => {
                 <!-- Slug -->
                 <div>
                   <label for="slug" class="block text-sm font-medium text-gray-700">
-                    URL Slug
+                    {{ $t('URL Slug') }}
                   </label>
                   <input
                     id="slug"
@@ -248,16 +248,16 @@ const deleteCategory = () => {
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': form.errors.slug }"
-                    placeholder="auto-generated-from-name"
+                    :placeholder="$t('auto-generated-from-name')"
                   />
-                  <p class="mt-1 text-sm text-gray-500">URL-friendly version of the category name</p>
+                  <p class="mt-1 text-sm text-gray-500">{{ $t('URL-friendly version of the category name') }}</p>
                   <p v-if="form.errors.slug" class="mt-1 text-sm text-red-600">{{ form.errors.slug }}</p>
                 </div>
 
                 <!-- Description -->
                 <div>
                   <label for="description" class="block text-sm font-medium text-gray-700">
-                    Description
+                    {{ $t('Description') }}
                   </label>
                   <textarea
                     id="description"
@@ -265,7 +265,7 @@ const deleteCategory = () => {
                     rows="4"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': form.errors.description }"
-                    placeholder="Brief description of this category"
+                    :placeholder="$t('Brief description of this category')"
                   ></textarea>
                   <p v-if="form.errors.description" class="mt-1 text-sm text-red-600">{{ form.errors.description }}</p>
                 </div>
@@ -273,7 +273,7 @@ const deleteCategory = () => {
                 <!-- Parent Category -->
                 <div>
                   <label for="parent_id" class="block text-sm font-medium text-gray-700">
-                    Parent Category
+                    {{ $t('Parent Category') }}
                   </label>
                   <select
                     id="parent_id"
@@ -281,28 +281,28 @@ const deleteCategory = () => {
                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': form.errors.parent_id }"
                   >
-                    <option :value="null">None (Root Category)</option>
+                    <option :value="null">{{ $t('None (Root Category)') }}</option>
                     <option v-for="parent in parentCategories" :key="parent.id" :value="parent.id">
                       {{ parent.name }}
                     </option>
                   </select>
-                  <p class="mt-1 text-sm text-gray-500">Select a parent to make this a sub-category</p>
+                  <p class="mt-1 text-sm text-gray-500">{{ $t('Select a parent to make this a sub-category') }}</p>
                   <p v-if="form.errors.parent_id" class="mt-1 text-sm text-red-600">{{ form.errors.parent_id }}</p>
                 </div>
 
                 <!-- Image Upload -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Category Image
+                    {{ $t('Category Image') }}
                   </label>
                   
                   <!-- Current Image -->
                   <div v-if="category.image" class="mb-4">
-                    <p class="text-xs font-medium text-gray-500 mb-2">Current Image:</p>
+                    <p class="text-xs font-medium text-gray-500 mb-2">{{ $t('Current Image:') }}</p>
                     <div class="relative inline-block">
                       <img 
                         :src="category.image_url" 
-                        alt="Category" 
+                        :alt="$t('Category')" 
                         class="h-32 w-32 object-cover rounded-lg border-2 border-gray-200 shadow-sm" 
                       />
                     </div>
@@ -311,7 +311,7 @@ const deleteCategory = () => {
                   <!-- Upload New Image -->
                   <div>
                     <p class="text-sm font-medium text-gray-700 mb-2">
-                      {{ category.image ? 'Replace Image' : 'Upload Image' }}
+                      {{ $t(category.image ? 'Replace Image' : 'Upload Image') }}
                     </p>
                     <ImageUploader 
                       v-model="images" 
@@ -320,7 +320,7 @@ const deleteCategory = () => {
                       accept="image/*"
                     />
                     <p v-if="images.length > 0" class="mt-2 text-xs text-green-600">
-                      ✓ {{ images.length }} image selected (will be uploaded on save)
+                      {{ $t('✓ {count} image selected (will be uploaded on save)', { count: images.length }) }}
                     </p>
                   </div>
                   
@@ -330,7 +330,7 @@ const deleteCategory = () => {
                 <!-- Sort Order -->
                 <div>
                   <label for="sort_order" class="block text-sm font-medium text-gray-700">
-                    Sort Order
+                    {{ $t('Sort Order') }}
                   </label>
                   <input
                     id="sort_order"
@@ -341,7 +341,7 @@ const deleteCategory = () => {
                     placeholder="0"
                     min="0"
                   />
-                  <p class="mt-1 text-sm text-gray-500">Lower numbers appear first</p>
+                  <p class="mt-1 text-sm text-gray-500">{{ $t('Lower numbers appear first') }}</p>
                   <p v-if="form.errors.sort_order" class="mt-1 text-sm text-red-600">{{ form.errors.sort_order }}</p>
                 </div>
 
@@ -357,8 +357,8 @@ const deleteCategory = () => {
                     />
                   </div>
                   <div class="ml-3 text-sm">
-                    <label for="status" class="font-medium text-gray-700">Active Status</label>
-                    <p class="text-gray-500">This category is enabled and visible on the storefront</p>
+                    <label for="status" class="font-medium text-gray-700">{{ $t('Active Status') }}</label>
+                    <p class="text-gray-500">{{ $t('This category is enabled and visible on the storefront') }}</p>
                     <p v-if="form.errors.status" class="mt-1 text-sm text-red-600">{{ form.errors.status }}</p>
                   </div>
                 </div>
@@ -375,8 +375,8 @@ const deleteCategory = () => {
                     />
                   </div>
                   <div class="ml-3 text-sm">
-                    <label for="show_in_menu" class="font-medium text-gray-700">Show in Navigation Menu</label>
-                    <p class="text-gray-500">Display this category in the main navigation menu</p>
+                    <label for="show_in_menu" class="font-medium text-gray-700">{{ $t('Show in Navigation Menu') }}</label>
+                    <p class="text-gray-500">{{ $t('Display this category in the main navigation menu') }}</p>
                     <p v-if="form.errors.show_in_menu" class="mt-1 text-sm text-red-600">{{ form.errors.show_in_menu }}</p>
                   </div>
                 </div>
@@ -387,7 +387,7 @@ const deleteCategory = () => {
                 <!-- Meta Title -->
                 <div>
                   <label for="meta_title" class="block text-sm font-medium text-gray-700">
-                    Meta Title
+                    {{ $t('Meta Title') }}
                   </label>
                   <input
                     id="meta_title"
@@ -395,11 +395,11 @@ const deleteCategory = () => {
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': form.errors.meta_title }"
-                    placeholder="SEO-optimized title for search engines"
+                    :placeholder="$t('SEO-optimized title for search engines')"
                     maxlength="60"
                   />
                   <p class="mt-1 text-sm text-gray-500">
-                    Recommended: 50-60 characters. {{ form.meta_title.length }}/60
+                    {{ $t('Recommended: 50-60 characters. {count}/60', { count: form.meta_title.length }) }}
                   </p>
                   <p v-if="form.errors.meta_title" class="mt-1 text-sm text-red-600">{{ form.errors.meta_title }}</p>
                 </div>
@@ -407,7 +407,7 @@ const deleteCategory = () => {
                 <!-- Meta Description -->
                 <div>
                   <label for="meta_description" class="block text-sm font-medium text-gray-700">
-                    Meta Description
+                    {{ $t('Meta Description') }}
                   </label>
                   <textarea
                     id="meta_description"
@@ -415,11 +415,11 @@ const deleteCategory = () => {
                     rows="3"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': form.errors.meta_description }"
-                    placeholder="Brief description for search engine results"
+                    :placeholder="$t('Brief description for search engine results')"
                     maxlength="160"
                   ></textarea>
                   <p class="mt-1 text-sm text-gray-500">
-                    Recommended: 150-160 characters. {{ form.meta_description.length }}/160
+                    {{ $t('Recommended: 150-160 characters. {count}/160', { count: form.meta_description.length }) }}
                   </p>
                   <p v-if="form.errors.meta_description" class="mt-1 text-sm text-red-600">{{ form.errors.meta_description }}</p>
                 </div>
@@ -427,7 +427,7 @@ const deleteCategory = () => {
                 <!-- Meta Keywords -->
                 <div>
                   <label for="meta_keywords" class="block text-sm font-medium text-gray-700">
-                    Meta Keywords
+                    {{ $t('Meta Keywords') }}
                   </label>
                   <input
                     id="meta_keywords"
@@ -435,19 +435,19 @@ const deleteCategory = () => {
                     type="text"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     :class="{ 'border-red-500': form.errors.meta_keywords }"
-                    placeholder="keyword1, keyword2, keyword3"
+                    :placeholder="$t('keyword1, keyword2, keyword3')"
                   />
-                  <p class="mt-1 text-sm text-gray-500">Comma-separated keywords (less important for modern SEO)</p>
+                  <p class="mt-1 text-sm text-gray-500">{{ $t('Comma-separated keywords (less important for modern SEO)') }}</p>
                   <p v-if="form.errors.meta_keywords" class="mt-1 text-sm text-red-600">{{ form.errors.meta_keywords }}</p>
                 </div>
 
                 <!-- SEO Preview -->
                 <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
-                  <h4 class="text-sm font-medium text-gray-900 mb-2">Search Engine Preview</h4>
+                  <h4 class="text-sm font-medium text-gray-900 mb-2">{{ $t('Search Engine Preview') }}</h4>
                   <div class="space-y-1">
-                    <div class="text-blue-600 text-lg">{{ form.meta_title || form.name || 'Category Title' }}</div>
+                    <div class="text-blue-600 text-lg">{{ form.meta_title || form.name || $t('Category Title') }}</div>
                     <div class="text-green-700 text-sm">yourstore.com/category/{{ form.slug || 'category-slug' }}</div>
-                    <div class="text-gray-600 text-sm">{{ form.meta_description || form.description || 'Category description will appear here...' }}</div>
+                    <div class="text-gray-600 text-sm">{{ form.meta_description || form.description || $t('Category description will appear here...') }}</div>
                   </div>
                 </div>
               </div>
@@ -459,7 +459,7 @@ const deleteCategory = () => {
                 :href="categoryRoutes.index().url"
                 class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </Link>
               <button
                 type="submit"
@@ -470,7 +470,7 @@ const deleteCategory = () => {
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                {{ form.processing ? 'Updating...' : 'Update Category' }}
+                {{ $t(form.processing ? 'Updating...' : 'Update Category') }}
               </button>
             </div>
           </div>
@@ -482,7 +482,7 @@ const deleteCategory = () => {
     <ConfirmDeleteModal
       v-model:show="showDeleteModal"
       :title="category.name"
-      :message="`Are you sure you want to delete '${category.name}'? This action cannot be undone.`"
+      :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: category.name })"
       @confirm="deleteCategory"
     />
   </AdminLayout>

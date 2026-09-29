@@ -2,6 +2,10 @@
 import { Head, useForm } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import admin from '@/routes/admin'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import { useI18nStore } from '@/Stores/i18n'
+
+const { t } = useI18nStore()
 
 const props = defineProps<{
     adminLogo: string
@@ -40,9 +44,13 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Admin Login - Akbari Development Group" />
+  <Head :title="`${t('Admin Login')} - Akbari Development Group`" />
 
   <div class="min-h-screen relative overflow-hidden bg-gray-50 dark:bg-transparent flex items-center justify-center">
+
+    <div class="absolute top-4 right-4 z-20">
+      <LanguageSwitcher />
+    </div>
 
     <!-- ============================================ -->
     <!-- BACKGROUND: LIGHT MODE                       -->
@@ -90,11 +98,11 @@ const submit = () => {
       <div>
         <div class="max-w-lg space-y-6">
           <h1 class="text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight text-gray-900 dark:text-white">
-            Your store,<br />
-            <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">simplified.</span>
+            {{ $t('Your store,') }}<br />
+            <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">{{ $t('simplified.') }}</span>
           </h1>
           <p class="text-lg leading-relaxed max-w-md text-gray-500 dark:text-slate-400">
-            The all-in-one commerce platform that puts you in control. Manage products, orders, and customers from a single, elegant dashboard with unlimited custom agent creation for agentic commerce.
+            {{ $t('The all-in-one commerce platform that puts you in control. Manage products, orders, and customers from a single, elegant dashboard with unlimited custom agent creation for agentic commerce.') }}
           </p>
         </div>
 
@@ -108,7 +116,7 @@ const submit = () => {
             </div>
             <div>
               <div class="text-xl font-bold text-gray-900 dark:text-white">10K+</div>
-              <div class="text-xs text-gray-400 dark:text-slate-500">Products</div>
+              <div class="text-xs text-gray-400 dark:text-slate-500">{{ $t('Products') }}</div>
             </div>
           </div>
           <div class="w-px h-10 bg-gray-200 dark:bg-slate-800"></div>
@@ -120,7 +128,7 @@ const submit = () => {
             </div>
             <div>
               <div class="text-xl font-bold text-gray-900 dark:text-white">99.9%</div>
-              <div class="text-xs text-gray-400 dark:text-slate-500">Uptime</div>
+              <div class="text-xs text-gray-400 dark:text-slate-500">{{ $t('Uptime') }}</div>
             </div>
           </div>
           <div class="w-px h-10 bg-gray-200 dark:bg-slate-800"></div>
@@ -132,7 +140,7 @@ const submit = () => {
             </div>
             <div>
               <div class="text-xl font-bold text-gray-900 dark:text-white">24/7</div>
-              <div class="text-xs text-gray-400 dark:text-slate-500">Support</div>
+              <div class="text-xs text-gray-400 dark:text-slate-500">{{ $t('Support') }}</div>
             </div>
           </div>
         </div>
@@ -140,7 +148,7 @@ const submit = () => {
 
       <!-- Bottom: Copyright -->
       <div>
-        <p class="text-sm text-gray-400 dark:text-slate-600">&copy; {{ currentYear }} Akbari Development Group. All rights reserved.</p>
+        <p class="text-sm text-gray-400 dark:text-slate-600">&copy; {{ currentYear }} Akbari Development Group. {{ $t('All rights reserved.') }}</p>
       </div>
     </div>
 
@@ -179,7 +187,7 @@ const submit = () => {
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                Admin
+                {{ $t('Admin') }}
               </button>
               <button
                 type="button"
@@ -192,7 +200,7 @@ const submit = () => {
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h11v13H3zM14 13h6l-2 5h-4zM6.5 17a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm7 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
                 </svg>
-                Delivery Person
+                {{ $t('Delivery Person') }}
               </button>
             </div>
           </div>
@@ -200,13 +208,13 @@ const submit = () => {
           <!-- Header -->
           <div class="mb-8">
             <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-              {{ activeTab === 'delivery' ? 'Delivery portal' : 'Welcome back' }}
+              {{ activeTab === 'delivery' ? $t('Delivery portal') : $t('Welcome back') }}
             </h2>
             <p v-if="activeTab === 'delivery'" class="text-sm text-gray-500 dark:text-slate-400">
-              Sign in to view your assigned packages and start delivering
+              {{ $t('Sign in to view your assigned packages and start delivering') }}
             </p>
             <p v-else class="text-sm text-gray-500 dark:text-slate-400">
-              Sign in to your admin account to continue
+              {{ $t('Sign in to your admin account to continue') }}
             </p>
           </div>
 
@@ -214,7 +222,7 @@ const submit = () => {
 
             <!-- Email Field -->
             <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Email</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t('Email') }}</label>
               <div class="relative group">
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                   <svg class="w-[18px] h-[18px] text-gray-400 dark:text-slate-500 group-focus-within:text-blue-500 dark:group-focus-within:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,7 +255,7 @@ const submit = () => {
 
             <!-- Password Field -->
             <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Password</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t('Password') }}</label>
               <div class="relative group">
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                   <svg class="w-[18px] h-[18px] text-gray-400 dark:text-slate-500 group-focus-within:text-blue-500 dark:group-focus-within:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,7 +275,7 @@ const submit = () => {
                   :class="{ 
                     'border-red-400 focus:border-red-500 focus:ring-red-500/20 dark:border-red-500/50 dark:focus:border-red-500/50 dark:focus:ring-red-500/30': form.errors.password 
                   }"
-                  placeholder="Enter your password"
+                  :placeholder="$t('Enter your password')"
                   required
                 />
                 <button
@@ -310,7 +318,7 @@ const submit = () => {
                     </svg>
                   </div>
                 </div>
-                <span class="text-sm select-none text-gray-500 group-hover:text-gray-700 dark:text-slate-400 dark:group-hover:text-slate-300 transition-colors">Remember me</span>
+                <span class="text-sm select-none text-gray-500 group-hover:text-gray-700 dark:text-slate-400 dark:group-hover:text-slate-300 transition-colors">{{ $t('Remember me') }}</span>
               </label>
             </div>
 
@@ -332,7 +340,7 @@ const submit = () => {
               <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/15 dark:via-white/10 to-transparent"></div>
               
               <span v-if="!form.processing" class="relative flex items-center justify-center gap-2">
-                <span>{{ activeTab === 'delivery' ? 'Start Delivering' : 'Sign In' }}</span>
+                <span>{{ activeTab === 'delivery' ? $t('Start Delivering') : $t('Sign In') }}</span>
                 <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
@@ -342,7 +350,7 @@ const submit = () => {
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <span>Signing in...</span>
+                <span>{{ $t('Signing in...') }}</span>
               </span>
             </button>
           </form>
@@ -353,13 +361,13 @@ const submit = () => {
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
-              <span>Secured by Akbari Development Group</span>
+              <span>{{ $t('Secured by Akbari Development Group') }}</span>
             </div>
           </div>
 
           <!-- Footer (mobile only) -->
           <div class="lg:hidden mt-4 text-center">
-            <p class="text-xs text-gray-400 dark:text-slate-600">&copy; {{ currentYear }} Akbari Development Group. All rights reserved.</p>
+            <p class="text-xs text-gray-400 dark:text-slate-600">&copy; {{ currentYear }} Akbari Development Group. {{ $t('All rights reserved.') }}</p>
           </div>
         </div>
       </div>

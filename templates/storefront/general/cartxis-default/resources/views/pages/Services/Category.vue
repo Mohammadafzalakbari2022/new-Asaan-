@@ -3,6 +3,9 @@ import { ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
 import ServiceCard from '../../components/ServiceCard.vue';
+import { useI18nStore } from '@/Stores/i18n';
+
+const { t } = useI18nStore();
 
 
 interface Service {
@@ -64,9 +67,9 @@ watch(search, () => {
         <div class="bg-gray-50 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <nav class="flex items-center space-x-2 text-sm text-gray-500">
-                    <Link href="/" class="hover:text-gray-700">{{ 'Home' }}</Link>
+                    <Link href="/" class="hover:text-gray-700">{{ $t('Home') }}</Link>
                     <span>/</span>
-                    <Link href="/services" class="hover:text-gray-700">{{ 'Services' }}</Link>
+                    <Link href="/services" class="hover:text-gray-700">{{ $t('Services') }}</Link>
                     <span>/</span>
                     <span class="text-gray-700">{{ category.name }}</span>
                 </nav>
@@ -80,16 +83,16 @@ watch(search, () => {
             </p>
 
             <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
-                <p class="text-sm text-gray-600">{{ services.total }} {{ services.total === 1 ? 'service' : 'services' }}</p>
+                <p class="text-sm text-gray-600">{{ services.total }} {{ services.total === 1 ? $t('service') : $t('services') }}</p>
 
                 <div>
-                    <label for="category-search" class="sr-only">{{ 'Search' }}</label>
+                    <label for="category-search" class="sr-only">{{ $t('Search') }}</label>
                     <input
                         id="category-search"
                         v-model="search"
                         type="search"
                         class="rounded-md border-gray-300 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
-                        placeholder="Search"
+                        :placeholder="$t('Search')"
                     />
                 </div>
             </div>
@@ -102,7 +105,7 @@ watch(search, () => {
             </div>
 
             <div v-else class="mt-6 rounded-lg border border-dashed border-gray-300 p-10 text-center">
-                <p class="text-gray-600">{{ 'No services in this category yet.' }}</p>
+                <p class="text-gray-600">{{ $t('No services in this category yet.') }}</p>
             </div>
 
             <nav v-if="services.last_page > 1" class="mt-8 flex flex-wrap gap-2">

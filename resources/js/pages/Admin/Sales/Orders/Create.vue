@@ -168,9 +168,9 @@ function submit() {
 
 
 <template>
-  <Head title="Create Order" />
+  <Head :title="$t('Create Order')" />
 
-  <AdminLayout title="Create Order">
+  <AdminLayout :title="$t('Create Order')">
     <div class="p-6">
       <!-- Back Button -->
       <div class="mb-4">
@@ -182,7 +182,7 @@ function submit() {
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Back to Orders
+          {{ $t('Back to Orders') }}
         </button>
       </div>
 
@@ -190,10 +190,10 @@ function submit() {
         <form @submit.prevent="submit" class="space-y-6">
           <!-- Customer Information -->
           <div>
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Customer Information</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Customer Information') }}</h2>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Customer Email *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Customer Email *') }}</label>
                 <input
                   v-model="form.customer_email"
                   type="email"
@@ -203,7 +203,7 @@ function submit() {
                 <div v-if="form.errors.customer_email" class="text-red-600 text-sm mt-1">{{ form.errors.customer_email }}</div>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Phone') }}</label>
                 <input
                   v-model="form.customer_phone"
                   type="tel"
@@ -215,35 +215,35 @@ function submit() {
 
           <!-- Products Selection -->
           <div>
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Products</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Products') }}</h2>
             
             <!-- Add Product Form -->
             <div class="bg-gray-50 p-4 rounded-lg mb-4">
               <div class="grid grid-cols-12 gap-4 items-end">
                 <div class="col-span-6">
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Search Product</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Search Product') }}</label>
                   <input
                     v-model="searchQuery"
                     type="text"
-                    placeholder="Search by name..."
+                    :placeholder="$t('Search by name...')"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                   <select
                     v-model="selectedProductId"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mt-2"
                   >
-                    <option :value="null">Select a product...</option>
+                    <option :value="null">{{ $t('Select a product...') }}</option>
                     <option 
                       v-for="product in filteredProducts" 
                       :key="product.id" 
                       :value="product.id"
                     >
-                      {{ product.name }} - {{ formatPrice(parseFloat(product.price)) }} (Stock: {{ product.quantity }})
+                      {{ product.name }} - {{ formatPrice(parseFloat(product.price)) }} ({{ $t('Stock') }}: {{ product.quantity }})
                     </option>
                   </select>
                 </div>
                 <div class="col-span-3">
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Quantity') }}</label>
                   <input
                     v-model.number="selectedQuantity"
                     type="number"
@@ -259,7 +259,7 @@ function submit() {
                     :disabled="!selectedProductId"
                     class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Add to Order
+                    {{ $t('Add to Order') }}
                   </button>
                 </div>
               </div>
@@ -270,11 +270,11 @@ function submit() {
               <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50">
                   <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Product') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Price') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Quantity') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Total') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -304,7 +304,7 @@ function submit() {
                         @click="removeItem(index)"
                         class="text-red-600 hover:text-red-900"
                       >
-                        Remove
+                        {{ $t('Remove') }}
                       </button>
                     </td>
                   </tr>
@@ -312,38 +312,38 @@ function submit() {
               </table>
             </div>
             <div v-else class="text-center py-8 text-gray-500 border border-gray-300 rounded-lg border-dashed">
-              No products added yet. Use the form above to add products to this order.
+              {{ $t('No products added yet. Use the form above to add products to this order.') }}
             </div>
           </div>
 
           <!-- Order Details -->
           <div>
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Order Details</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Order Details') }}</h2>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Payment Method *') }}</label>
                 <select
                   v-model="form.payment_method"
                   required
                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 >
-                  <option value="">Select payment method...</option>
+                  <option value="">{{ $t('Select payment method...') }}</option>
                   <option value="stripe">Stripe</option>
-                  <option value="cod">Cash on Delivery</option>
-                  <option value="bank_transfer">Bank Transfer</option>
+                  <option value="cod">{{ $t('Cash on Delivery') }}</option>
+                  <option value="bank_transfer">{{ $t('Bank Transfer') }}</option>
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Shipping Method *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Shipping Method *') }}</label>
                 <select
                   v-model="form.shipping_method"
                   required
                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 >
-                  <option value="">Select shipping method...</option>
-                  <option value="standard">Standard Shipping ({{ formatPrice(5.00) }})</option>
-                  <option value="express">Express Shipping ({{ formatPrice(15.00) }})</option>
-                  <option value="pickup">Local Pickup (Free)</option>
+                  <option value="">{{ $t('Select shipping method...') }}</option>
+                  <option value="standard">{{ $t('Standard Shipping ({price})', { price: formatPrice(5.00) }) }}</option>
+                  <option value="express">{{ $t('Express Shipping ({price})', { price: formatPrice(15.00) }) }}</option>
+                  <option value="pickup">{{ $t('Local Pickup (Free)') }}</option>
                 </select>
               </div>
             </div>
@@ -351,10 +351,10 @@ function submit() {
 
           <!-- Shipping Address -->
           <div>
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Shipping Address</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Shipping Address') }}</h2>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('First Name *') }}</label>
                 <input
                   v-model="form.shipping_address.first_name"
                   type="text"
@@ -363,7 +363,7 @@ function submit() {
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Last Name *') }}</label>
                 <input
                   v-model="form.shipping_address.last_name"
                   type="text"
@@ -372,7 +372,7 @@ function submit() {
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Phone *') }}</label>
                 <input
                   v-model="form.shipping_address.phone"
                   type="tel"
@@ -381,7 +381,7 @@ function submit() {
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Address Line 1 *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Address Line 1 *') }}</label>
                 <input
                   v-model="form.shipping_address.address_line1"
                   type="text"
@@ -390,7 +390,7 @@ function submit() {
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">City *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('City *') }}</label>
                 <input
                   v-model="form.shipping_address.city"
                   type="text"
@@ -399,7 +399,7 @@ function submit() {
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">State *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('State *') }}</label>
                 <input
                   v-model="form.shipping_address.state"
                   type="text"
@@ -408,7 +408,7 @@ function submit() {
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Postal Code *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Postal Code *') }}</label>
                 <input
                   v-model="form.shipping_address.postal_code"
                   type="text"
@@ -421,22 +421,22 @@ function submit() {
 
           <!-- Order Summary -->
           <div class="bg-gray-50 p-4 rounded-lg">
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Order Summary') }}</h2>
             <div class="space-y-2">
               <div class="flex justify-between text-sm">
-                <span class="text-gray-600">Subtotal:</span>
+                <span class="text-gray-600">{{ $t('Subtotal:') }}</span>
                 <span class="font-medium">{{ formatPrice(form.subtotal) }}</span>
               </div>
               <div class="flex justify-between text-sm">
-                <span class="text-gray-600">Tax (10%):</span>
+                <span class="text-gray-600">{{ $t('Tax (10%):') }}</span>
                 <span class="font-medium">{{ formatPrice(form.tax) }}</span>
               </div>
               <div class="flex justify-between text-sm">
-                <span class="text-gray-600">Shipping:</span>
+                <span class="text-gray-600">{{ $t('Shipping:') }}</span>
                 <span class="font-medium">{{ formatPrice(form.shipping_cost) }}</span>
               </div>
               <div class="flex justify-between text-sm">
-                <label class="text-gray-600">Discount:</label>
+                <label class="text-gray-600">{{ $t('Discount:') }}</label>
                 <input
                   v-model.number="form.discount"
                   type="number"
@@ -448,7 +448,7 @@ function submit() {
               </div>
               <div class="border-t border-gray-300 pt-2 mt-2">
                 <div class="flex justify-between text-lg font-bold">
-                  <span>Total:</span>
+                  <span>{{ $t('Total:') }}</span>
                   <span class="text-blue-600">{{ formatPrice(form.total) }}</span>
                 </div>
               </div>
@@ -457,12 +457,12 @@ function submit() {
 
           <!-- Notes -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Notes') }}</label>
             <textarea
               v-model="form.notes"
               rows="3"
               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="Optional notes about this order..."
+              :placeholder="$t('Optional notes about this order...')"
             ></textarea>
           </div>
 
@@ -473,14 +473,14 @@ function submit() {
               @click="router.visit('/admin/sales/orders')"
               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </button>
             <button
               type="submit"
               :disabled="form.processing || form.items.length === 0"
               class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {{ form.processing ? 'Creating...' : 'Create Order' }}
+              {{ form.processing ? $t('Creating...') : $t('Create Order') }}
             </button>
           </div>
         </form>

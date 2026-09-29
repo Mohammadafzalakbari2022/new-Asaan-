@@ -81,7 +81,7 @@ onUnmounted(() => {
             type="button"
             class="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
             style="background-color: var(--theme-primary)"
-            aria-label="Back to top"
+            :aria-label="$t('Back to top')"
             @click="scrollToTop"
         >
             <ChevronUp class="h-5 w-5" />

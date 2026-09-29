@@ -5,6 +5,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useI18nStore } from '@/Stores/i18n';
 import { RefreshCw, Link2, Wifi, WifiOff, Smartphone } from 'lucide-vue-next';
 
 interface ApiSyncStatus {
@@ -21,6 +22,8 @@ const props = defineProps<{
 }>();
 
 const page = usePage();
+
+const { t } = useI18nStore();
 
 const liveStatus = ref<ApiSyncStatus>({ ...props.status });
 const pollIntervalMs = 10000;
@@ -69,23 +72,23 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <AdminLayout title="API Sync">
-    <Head title="API Sync" />
+  <AdminLayout :title="$t('API Sync')">
+    <Head :title="$t('API Sync')" />
 
     <div class="space-y-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            API Sync
+            {{ $t('API Sync') }}
           </h1>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Monitor and control mobile app synchronization
+            {{ $t('Monitor and control mobile app synchronization') }}
           </p>
         </div>
         <Button @click="refreshSync" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white shadow-sm border-transparent rounded-xl transition-all duration-200">
           <RefreshCw class="h-4 w-4" />
-          Refresh / Sync Now
+          {{ $t('Refresh / Sync Now') }}
         </Button>
       </div>
 
@@ -97,18 +100,18 @@ onUnmounted(() => {
               <CardHeader>
                 <CardTitle class="flex items-center gap-2">
                   <Link2 class="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  Connection Status
+                  {{ $t('Connection Status') }}
                 </CardTitle>
-                <CardDescription>Indicates if the mobile app is connected.</CardDescription>
+                <CardDescription>{{ $t('Indicates if the mobile app is connected.') }}</CardDescription>
               </CardHeader>
               <CardContent class="space-y-4">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
                     <Badge :variant="liveStatus.connected ? 'success' : 'destructive'">
-                      {{ liveStatus.connected ? 'Connected' : 'Disconnected' }}
+                      {{ liveStatus.connected ? $t('Connected') : $t('Disconnected') }}
                     </Badge>
                     <span class="text-sm text-gray-500 dark:text-gray-300">
-                      Last checked: {{ liveStatus.last_checked_at || 'Never' }}
+                      {{ $t('Last checked:') }} {{ liveStatus.last_checked_at || $t('Never') }}
                     </span>
                   </div>
                 </div>
@@ -119,18 +122,18 @@ onUnmounted(() => {
               <CardHeader>
                 <CardTitle class="flex items-center gap-2">
                   <Wifi class="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  Sync Status
+                  {{ $t('Sync Status') }}
                 </CardTitle>
-                <CardDescription>Controls whether automatic sync is enabled.</CardDescription>
+                <CardDescription>{{ $t('Controls whether automatic sync is enabled.') }}</CardDescription>
               </CardHeader>
               <CardContent class="space-y-4">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
                     <Badge :variant="liveStatus.sync_enabled ? 'success' : 'secondary'">
-                      {{ liveStatus.sync_enabled ? 'Enabled' : 'Disabled' }}
+                      {{ liveStatus.sync_enabled ? $t('Enabled') : $t('Disabled') }}
                     </Badge>
                     <span class="text-sm text-gray-500 dark:text-gray-300">
-                      Last sync: {{ liveStatus.last_sync_at || 'Never' }}
+                      {{ $t('Last sync:') }} {{ liveStatus.last_sync_at || $t('Never') }}
                     </span>
                   </div>
                 </div>
@@ -142,17 +145,17 @@ onUnmounted(() => {
             <CardHeader>
               <CardTitle class="flex items-center gap-2">
                 <WifiOff class="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                Last Sync Result
+                {{ $t('Last Sync Result') }}
               </CardTitle>
-              <CardDescription>Latest API sync outcome and message.</CardDescription>
+              <CardDescription>{{ $t('Latest API sync outcome and message.') }}</CardDescription>
             </CardHeader>
             <CardContent class="space-y-3">
               <div class="flex items-center gap-2">
-                <span class="text-sm text-gray-500 dark:text-gray-300">Status:</span>
+                <span class="text-sm text-gray-500 dark:text-gray-300">{{ $t('Status:') }}</span>
                 <Badge :variant="statusBadge">{{ liveStatus.last_status }}</Badge>
               </div>
               <div class="text-sm text-gray-700 dark:text-gray-200">
-                {{ liveStatus.last_message || 'No sync message available.' }}
+                {{ liveStatus.last_message || $t('No sync message available.') }}
               </div>
             </CardContent>
           </Card>

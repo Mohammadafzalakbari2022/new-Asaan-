@@ -24,6 +24,9 @@ import {
   Eye
 } from 'lucide-vue-next';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
+
+const { t } = useI18nStore();
 
 interface Coupon {
   id: number;
@@ -179,11 +182,11 @@ const bulkDelete = () => {
 
 const getTypeLabel = (type: string) => {
   const types: Record<string, string> = {
-    percentage: 'Percentage',
-    fixed_amount: 'Fixed Amount',
-    free_shipping: 'Free Shipping',
-    buy_x_get_y: 'Buy X Get Y',
-    fixed_price: 'Fixed Price',
+    percentage: t('Percentage'),
+    fixed_amount: t('Fixed Amount'),
+    free_shipping: t('Free Shipping'),
+    buy_x_get_y: t('Buy X Get Y'),
+    fixed_price: t('Fixed Price'),
   };
   return types[type] || type;
 };
@@ -206,7 +209,7 @@ const formatDiscount = (coupon: Coupon) => {
     case 'fixed_amount':
       return `$${coupon.value}`;
     case 'free_shipping':
-      return 'Free';
+      return t('Free');
     case 'fixed_price':
       return `$${coupon.value}`;
     default:
@@ -215,7 +218,7 @@ const formatDiscount = (coupon: Coupon) => {
 };
 
 const formatDate = (date: string | null) => {
-  if (!date) return 'No expiry';
+  if (!date) return t('No expiry');
   return new Date(date).toLocaleDateString();
 };
 
@@ -233,22 +236,22 @@ const isExpired = (endDate: string | null) => {
 </script>
 
 <template>
-  <Head title="Coupons" />
+  <Head :title="$t('Coupons')" />
 
-  <AdminLayout title="Coupons">
+  <AdminLayout :title="$t('Coupons')">
     <div class="p-6 space-y-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Coupons</h1>
-          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage discount coupons and promotional codes</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Coupons') }}</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Manage discount coupons and promotional codes') }}</p>
         </div>
         <Link
           href="/admin/marketing/coupons/create"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <PlusCircle class="w-4 h-4 mr-2" />
-          Create Coupon
+          {{ $t('Create Coupon') }}
         </Link>
       </div>
 
@@ -257,7 +260,7 @@ const isExpired = (endDate: string | null) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Coupons</p>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Total Coupons') }}</p>
               <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ stats.total }}</p>
             </div>
             <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
@@ -269,7 +272,7 @@ const isExpired = (endDate: string | null) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active</p>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Active') }}</p>
               <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ stats.active }}</p>
             </div>
             <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg group-hover:bg-green-100 dark:group-hover:bg-green-900/40 transition-colors">
@@ -281,7 +284,7 @@ const isExpired = (endDate: string | null) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Used Today</p>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Used Today') }}</p>
               <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ stats.used_today }}</p>
             </div>
             <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg group-hover:bg-purple-100 dark:group-hover:bg-purple-900/40 transition-colors">
@@ -293,7 +296,7 @@ const isExpired = (endDate: string | null) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-orange-200 dark:hover:border-orange-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Discounts</p>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Total Discounts') }}</p>
               <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ formatPrice(stats.total_discount) }}</p>
             </div>
             <div class="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg group-hover:bg-orange-100 dark:group-hover:bg-orange-900/40 transition-colors">
@@ -310,13 +313,13 @@ const isExpired = (endDate: string | null) => {
           <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
             <!-- Search -->
             <div class="md:col-span-6 lg:col-span-4">
-              <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+              <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
               <div class="relative">
                 <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
                   v-model="searchQuery"
-                  placeholder="Code, name..."
+                  :placeholder="$t('Code, name...')"
                   class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
                   @keyup.enter="applyFilters"
                 />
@@ -325,7 +328,7 @@ const isExpired = (endDate: string | null) => {
 
             <!-- Status Filter -->
             <div class="md:col-span-3 lg:col-span-2">
-              <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+              <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
               <div class="relative">
                 <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <select
@@ -333,9 +336,9 @@ const isExpired = (endDate: string | null) => {
                   @change="applyFilters"
                   class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                 >
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="all">{{ $t('All Status') }}</option>
+                  <option value="active">{{ $t('Active') }}</option>
+                  <option value="inactive">{{ $t('Inactive') }}</option>
                 </select>
                 <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                   <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -345,7 +348,7 @@ const isExpired = (endDate: string | null) => {
 
             <!-- Type Filter -->
             <div class="md:col-span-3 lg:col-span-2">
-              <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Type</label>
+              <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Type') }}</label>
               <div class="relative">
                 <Ticket class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <select
@@ -353,11 +356,11 @@ const isExpired = (endDate: string | null) => {
                   @change="applyFilters"
                   class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                 >
-                  <option value="all">All Types</option>
-                  <option value="percentage">Percentage</option>
-                  <option value="fixed_amount">Fixed Amount</option>
-                  <option value="free_shipping">Free Shipping</option>
-                  <option value="buy_x_get_y">Buy X Get Y</option>
+                  <option value="all">{{ $t('All Types') }}</option>
+                  <option value="percentage">{{ $t('Percentage') }}</option>
+                  <option value="fixed_amount">{{ $t('Fixed Amount') }}</option>
+                  <option value="free_shipping">{{ $t('Free Shipping') }}</option>
+                  <option value="buy_x_get_y">{{ $t('Buy X Get Y') }}</option>
                 </select>
                 <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                   <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -373,7 +376,7 @@ const isExpired = (endDate: string | null) => {
               class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
             >
               <X class="w-4 h-4" />
-              Clear Filters
+              {{ $t('Clear Filters') }}
             </button>
           </div>
         </div>
@@ -385,7 +388,7 @@ const isExpired = (endDate: string | null) => {
         >
           <div class="flex items-center gap-2">
             <span class="text-sm font-medium text-blue-700 dark:text-blue-300">
-              {{ selectedCoupons.length }} selected
+              {{ $t('{count} selected', { count: selectedCoupons.length }) }}
             </span>
           </div>
           <div class="flex items-center gap-2">
@@ -394,21 +397,21 @@ const isExpired = (endDate: string | null) => {
               class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-900/40 dark:text-blue-300 dark:hover:bg-blue-900/60"
             >
               <CheckCircle class="w-4 h-4 mr-1.5" />
-              Activate
+              {{ $t('Activate') }}
             </button>
             <button
               @click="bulkDeactivate"
               class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-orange-700 bg-orange-100 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-orange-900/40 dark:text-orange-300 dark:hover:bg-orange-900/60"
             >
               <X class="w-4 h-4 mr-1.5" />
-              Deactivate
+              {{ $t('Deactivate') }}
             </button>
             <button
               @click="bulkDelete"
               class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:bg-red-900/40 dark:text-red-300 dark:hover:bg-red-900/60"
             >
               <Trash2 class="w-4 h-4 mr-1.5" />
-              Delete Selected
+              {{ $t('Delete Selected') }}
             </button>
           </div>
         </div>
@@ -432,25 +435,25 @@ const isExpired = (endDate: string | null) => {
                   </div>
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Details
+                  {{ $t('Details') }}
                 </th>
                 <th scope="col" class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Type
+                  {{ $t('Type') }}
                 </th>
                 <th scope="col" class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Discount
+                  {{ $t('Discount') }}
                 </th>
                 <th scope="col" class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Usage
+                  {{ $t('Usage') }}
                 </th>
                  <th scope="col" class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Valid Until
+                  {{ $t('Valid Until') }}
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
+                  {{ $t('Status') }}
                 </th>
                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -503,9 +506,9 @@ const isExpired = (endDate: string | null) => {
                   <!-- Usage -->
                   <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                     <div class="flex flex-col">
-                      <span>{{ coupon.usage_count }} used</span>
+                      <span>{{ $t('{count} used', { count: coupon.usage_count }) }}</span>
                       <span class="text-xs text-gray-400" v-if="coupon.usage_limit_total">
-                        of {{ coupon.usage_limit_total }} limit
+                        {{ $t('of {limit} limit', { limit: coupon.usage_limit_total }) }}
                       </span>
                     </div>
                   </td>
@@ -514,7 +517,7 @@ const isExpired = (endDate: string | null) => {
                   <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                     <div :class="{'text-red-500 font-medium': isExpired(coupon.end_date)}">
                        {{ formatDate(coupon.end_date) }}
-                       <span v-if="isExpired(coupon.end_date)" class="block text-xs text-red-500">Expired</span>
+                       <span v-if="isExpired(coupon.end_date)" class="block text-xs text-red-500">{{ $t('Expired') }}</span>
                     </div>
                   </td>
 
@@ -526,7 +529,7 @@ const isExpired = (endDate: string | null) => {
                         ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
                         : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'"
                     >
-                      {{ coupon.is_active ? 'Active' : 'Inactive' }}
+                                {{ coupon.is_active ? $t('Active') : $t('Inactive') }}
                     </span>
                   </td>
 
@@ -554,37 +557,37 @@ const isExpired = (endDate: string | null) => {
                     <td colspan="7" class="px-6 py-4 space-y-3">
                        <div class="grid grid-cols-2 gap-4 text-sm">
                           <div>
-                            <span class="block text-xs font-medium text-gray-500 uppercase">Type</span>
+                            <span class="block text-xs font-medium text-gray-500 uppercase">{{ $t('Type') }}</span>
                             <span class="inline-flex mt-1 px-2 py-1 text-xs font-medium rounded-md" :class="getTypeColor(coupon.type)">
                               {{ getTypeLabel(coupon.type) }}
                             </span>
                           </div>
                           <div>
-                            <span class="block text-xs font-medium text-gray-500 uppercase">Discount</span>
+                            <span class="block text-xs font-medium text-gray-500 uppercase">{{ $t('Discount') }}</span>
                             <span class="block mt-1 text-gray-900 dark:text-white font-medium">{{ formatDiscount(coupon) }}</span>
                           </div>
                           <div>
-                            <span class="block text-xs font-medium text-gray-500 uppercase">Usage</span>
+                            <span class="block text-xs font-medium text-gray-500 uppercase">{{ $t('Usage') }}</span>
                              <div class="mt-1 text-gray-500 dark:text-gray-400">
-                                <span>{{ coupon.usage_count }} used</span>
+                                <span>{{ $t('{count} used', { count: coupon.usage_count }) }}</span>
                                 <span class="text-xs text-gray-400" v-if="coupon.usage_limit_total">
-                                  of {{ coupon.usage_limit_total }} limit
+                                  {{ $t('of {limit} limit', { limit: coupon.usage_limit_total }) }}
                                 </span>
                              </div>
                           </div>
                           <div>
-                             <span class="block text-xs font-medium text-gray-500 uppercase">Status</span>
+                             <span class="block text-xs font-medium text-gray-500 uppercase">{{ $t('Status') }}</span>
                              <span
                                 class="inline-flex mt-1 px-2 py-1 text-xs font-medium rounded-full"
                                 :class="coupon.is_active
                                   ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
                                   : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'"
                               >
-                                {{ coupon.is_active ? 'Active' : 'Inactive' }}
+                      {{ coupon.is_active ? $t('Active') : $t('Inactive') }}
                               </span>
                           </div>
                            <div class="col-span-2">
-                             <span class="block text-xs font-medium text-gray-500 uppercase">Valid Until</span>
+                             <span class="block text-xs font-medium text-gray-500 uppercase">{{ $t('Valid Until') }}</span>
                               <div class="mt-1" :class="{'text-red-500 font-medium': isExpired(coupon.end_date)}">
                                  {{ formatDate(coupon.end_date) }}
                               </div>
@@ -601,7 +604,7 @@ const isExpired = (endDate: string | null) => {
         <div class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
           <div class="flex items-center justify-between">
              <div class="text-sm text-gray-500 dark:text-gray-400">
-               Showing {{ coupons.from }} to {{ coupons.to }} of {{ coupons.total }} results
+               {{ $t('Showing {from} to {to} of {total} results', { from: coupons.from, to: coupons.to, total: coupons.total }) }}
              </div>
              <div class="flex gap-2">
                 <Link
@@ -609,14 +612,14 @@ const isExpired = (endDate: string | null) => {
                   :href="coupons.prev_page_url"
                   class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 >
-                  Previous
+                  {{ $t('Previous') }}
                 </Link>
                 <Link
                   v-if="coupons.next_page_url"
                   :href="coupons.next_page_url"
                   class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 >
-                  Next
+                  {{ $t('Next') }}
                 </Link>
              </div>
           </div>

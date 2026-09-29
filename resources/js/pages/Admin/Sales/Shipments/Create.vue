@@ -111,26 +111,26 @@ function cancel() {
 </script>
 
 <template>
-  <Head title="Create Shipment" />
+  <Head :title="$t('Create Shipment')" />
 
-  <AdminLayout title="Create Shipment">
+  <AdminLayout :title="$t('Create Shipment')">
     <div class="space-y-6">
       <!-- Header -->
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Create Shipment</h1>
-        <p class="text-gray-600 mt-1">Create a new shipment for an order</p>
+        <h1 class="text-2xl font-bold text-gray-900">{{ $t('Create Shipment') }}</h1>
+        <p class="text-gray-600 mt-1">{{ $t('Create a new shipment for an order') }}</p>
       </div>
 
       <form @submit.prevent="submit" class="space-y-6">
         <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Shipment Method</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Shipment Method') }}</h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <label class="border rounded-lg p-4 cursor-pointer" :class="form.shipment_mode === 'manual' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'">
               <div class="flex items-start gap-3">
                 <input v-model="form.shipment_mode" type="radio" value="manual" class="mt-1" />
                 <div>
-                  <p class="font-medium text-gray-900">Manual Shipment</p>
-                  <p class="text-sm text-gray-600 mt-1">You enter carrier/tracking details manually.</p>
+                  <p class="font-medium text-gray-900">{{ $t('Manual Shipment') }}</p>
+                  <p class="text-sm text-gray-600 mt-1">{{ $t('You enter carrier/tracking details manually.') }}</p>
                 </div>
               </div>
             </label>
@@ -148,9 +148,9 @@ function cancel() {
                   :disabled="!props.shiprocket_available"
                 />
                 <div>
-                  <p class="font-medium text-gray-900">Shiprocket Shipment</p>
-                  <p class="text-sm text-gray-600 mt-1">System creates shipment and sends it to Shiprocket automatically.</p>
-                  <p v-if="!props.shiprocket_available" class="text-xs text-red-600 mt-2">Enable/configure Shiprocket in Settings to use this option.</p>
+                  <p class="font-medium text-gray-900">{{ $t('Shiprocket Shipment') }}</p>
+                  <p class="text-sm text-gray-600 mt-1">{{ $t('System creates shipment and sends it to Shiprocket automatically.') }}</p>
+                  <p v-if="!props.shiprocket_available" class="text-xs text-red-600 mt-2">{{ $t('Enable/configure Shiprocket in Settings to use this option.') }}</p>
                 </div>
               </div>
             </label>
@@ -168,9 +168,9 @@ function cancel() {
                   :disabled="!props.delivery_available"
                 />
                 <div>
-                  <p class="font-medium text-gray-900">Delivery Shipment</p>
-                  <p class="text-sm text-gray-600 mt-1">System creates shipment and sends it to Delivery extension automatically.</p>
-                  <p v-if="!props.delivery_available" class="text-xs text-red-600 mt-2">Enable/configure Delivery in Settings to use this option.</p>
+                  <p class="font-medium text-gray-900">{{ $t('Delivery Shipment') }}</p>
+                  <p class="text-sm text-gray-600 mt-1">{{ $t('System creates shipment and sends it to Delivery extension automatically.') }}</p>
+                  <p v-if="!props.delivery_available" class="text-xs text-red-600 mt-2">{{ $t('Enable/configure Delivery in Settings to use this option.') }}</p>
                 </div>
               </div>
             </label>
@@ -179,18 +179,18 @@ function cancel() {
 
         <!-- Order Information (if provided) -->
         <div v-if="order" class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Information</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Order Information') }}</h3>
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <div class="text-sm text-gray-600">Order Number</div>
+              <div class="text-sm text-gray-600">{{ $t('Order Number') }}</div>
               <div class="mt-1 font-medium text-gray-900">{{ order.order_number }}</div>
             </div>
             <div>
-              <div class="text-sm text-gray-600">Customer</div>
-              <div class="mt-1 font-medium text-gray-900">{{ order.user?.name || 'Guest' }}</div>
+              <div class="text-sm text-gray-600">{{ $t('Customer') }}</div>
+              <div class="mt-1 font-medium text-gray-900">{{ order.user?.name || $t('Guest') }}</div>
             </div>
             <div>
-              <div class="text-sm text-gray-600">Email</div>
+              <div class="text-sm text-gray-600">{{ $t('Email') }}</div>
               <div class="mt-1 font-medium text-gray-900">{{ order.customer_email }}</div>
             </div>
           </div>
@@ -198,14 +198,14 @@ function cancel() {
 
         <!-- Tracking Information -->
         <div v-if="form.shipment_mode === 'manual'" class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Tracking Information</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Tracking Information') }}</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Carrier</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Carrier') }}</label>
               <input
                 v-model="form.carrier"
                 type="text"
-                placeholder="e.g., FedEx, UPS, DHL"
+                :placeholder="$t('e.g., FedEx, UPS, DHL')"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 :class="{ 'border-red-500': form.errors.carrier }"
               />
@@ -213,11 +213,11 @@ function cancel() {
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Tracking Number</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Tracking Number') }}</label>
               <input
                 v-model="form.tracking_number"
                 type="text"
-                placeholder="Enter tracking number"
+                :placeholder="$t('Enter tracking number')"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 :class="{ 'border-red-500': form.errors.tracking_number }"
               />
@@ -225,11 +225,11 @@ function cancel() {
             </div>
 
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Tracking URL</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Tracking URL') }}</label>
               <input
                 v-model="form.tracking_url"
                 type="url"
-                placeholder="https://..."
+                :placeholder="$t('https://...')"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 :class="{ 'border-red-500': form.errors.tracking_url }"
               />
@@ -239,46 +239,46 @@ function cancel() {
         </div>
 
         <div v-else-if="form.shipment_mode === 'shiprocket'" class="bg-cyan-50 border border-cyan-200 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-cyan-900 mb-2">Shiprocket Flow Selected</h3>
-          <p class="text-sm text-cyan-800">After clicking create, this shipment will be sent to Shiprocket automatically and AWB/tracking will be filled when available.</p>
+          <h3 class="text-lg font-semibold text-cyan-900 mb-2">{{ $t('Shiprocket Flow Selected') }}</h3>
+          <p class="text-sm text-cyan-800">{{ $t('After clicking create, this shipment will be sent to Shiprocket automatically and AWB/tracking will be filled when available.') }}</p>
         </div>
 
         <div v-else class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-indigo-900 mb-2">Delivery Flow Selected</h3>
-          <p class="text-sm text-indigo-800">After clicking create, this shipment will be sent to Delivery extension automatically and AWB/tracking will be filled when available.</p>
+          <h3 class="text-lg font-semibold text-indigo-900 mb-2">{{ $t('Delivery Flow Selected') }}</h3>
+          <p class="text-sm text-indigo-800">{{ $t('After clicking create, this shipment will be sent to Delivery extension automatically and AWB/tracking will be filled when available.') }}</p>
         </div>
 
         <!-- Items to Ship -->
         <div v-if="order" class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Items to Ship</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Items to Ship') }}</h3>
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Product
+                    {{ $t('Product') }}
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    SKU
+                    {{ $t('SKU') }}
                   </th>
                   <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ordered
+                    {{ $t('Ordered') }}
                   </th>
                   <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Remaining
+                    {{ $t('Remaining') }}
                   </th>
                   <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ship Qty
+                    {{ $t('Ship Qty') }}
                   </th>
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
                 <tr v-for="(item, index) in order.items" :key="item.id">
                   <td class="px-6 py-4">
-                    <div class="text-sm font-medium text-gray-900">{{ item.product?.name || item.product_name || `Item #${item.id}` }}</div>
+                    <div class="text-sm font-medium text-gray-900">{{ item.product?.name || item.product_name || $t('Item #{id}', { id: item.id }) }}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">{{ item.product?.sku || 'N/A' }}</div>
+                    <div class="text-sm text-gray-500">{{ item.product?.sku || $t('N/A') }}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right">
                     <div class="text-sm text-gray-900">{{ item.quantity }}</div>
@@ -304,11 +304,11 @@ function cancel() {
 
         <!-- Notes -->
         <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Notes (Optional)</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Notes (Optional)') }}</h3>
           <textarea
             v-model="form.notes"
             rows="4"
-            placeholder="Add any additional notes about this shipment..."
+            :placeholder="$t('Add any additional notes about this shipment...')"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             :class="{ 'border-red-500': form.errors.notes }"
           ></textarea>
@@ -318,11 +318,13 @@ function cancel() {
         <!-- Actions -->
         <div class="flex items-center justify-between">
           <p class="text-sm text-gray-600">
-            {{ form.shipment_mode === 'shiprocket'
-              ? 'Shipment will be created and pushed to Shiprocket in one step.'
-              : form.shipment_mode === 'delivery'
-                ? 'Shipment will be created and pushed to Delivery in one step.'
-                : 'Shipment will be created using manual flow.' }}
+            {{ $t(
+              form.shipment_mode === 'shiprocket'
+                ? 'Shipment will be created and pushed to Shiprocket in one step.'
+                : form.shipment_mode === 'delivery'
+                  ? 'Shipment will be created and pushed to Delivery in one step.'
+                  : 'Shipment will be created using manual flow.'
+            ) }}
           </p>
           <div class="flex space-x-3">
             <button
@@ -330,20 +332,22 @@ function cancel() {
               @click="cancel"
               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </button>
             <button
               type="submit"
               :disabled="!canSubmit || form.processing"
               class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {{ form.processing
-                ? 'Creating...'
-                : form.shipment_mode === 'shiprocket'
-                  ? 'Create & Send to Shiprocket'
-                  : form.shipment_mode === 'delivery'
-                    ? 'Create & Send to Delivery'
-                    : 'Create Manual Shipment' }}
+              {{ $t(
+                form.processing
+                  ? 'Creating...'
+                  : form.shipment_mode === 'shiprocket'
+                    ? 'Create & Send to Shiprocket'
+                    : form.shipment_mode === 'delivery'
+                      ? 'Create & Send to Delivery'
+                      : 'Create Manual Shipment'
+              ) }}
             </button>
           </div>
         </div>

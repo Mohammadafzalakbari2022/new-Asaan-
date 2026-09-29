@@ -128,7 +128,7 @@ const submit = () => {
                         <!-- Header -->
                         <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700">
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ isEditMode ? 'Edit Menu Item' : 'Add Menu Item' }}
+                                {{ $t(isEditMode ? 'Edit Menu Item' : 'Add Menu Item') }}
                             </h2>
                             <button
                                 @click="close"
@@ -143,7 +143,7 @@ const submit = () => {
                             <!-- Title -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Title <span class="text-red-500">*</span>
+                                    {{ $t('Title') }} <span class="text-red-500">*</span>
                                 </label>
                                 <input
                                     v-model="form.title"
@@ -158,21 +158,21 @@ const submit = () => {
                             <!-- Key -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Key (Optional)
+                                    {{ $t('Key (Optional)') }}
                                 </label>
                                 <input
                                     v-model="form.key"
                                     type="text"
                                     class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                                    placeholder="e.g., dashboard, catalog, settings"
+                                    :placeholder="$t('e.g., dashboard, catalog, settings')"
                                 />
-                                <p class="mt-1 text-xs text-gray-500">Unique identifier for programmatic access</p>
+                                <p class="mt-1 text-xs text-gray-500">{{ $t('Unique identifier for programmatic access') }}</p>
                             </div>
 
                             <!-- Icon -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Icon
+                                    {{ $t('Icon') }}
                                 </label>
                                 <IconPicker v-model="form.icon" />
                             </div>
@@ -205,18 +205,18 @@ const submit = () => {
                                     />
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-500">Provide either Route or URL</p>
+                            <p class="text-xs text-gray-500">{{ $t('Provide either Route or URL') }}</p>
 
                             <!-- Parent -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Parent Menu
+                                    {{ $t('Parent Menu') }}
                                 </label>
                                 <select
                                     v-model="form.parent_id"
                                     class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                                 >
-                                    <option :value="null">None (Top Level)</option>
+                                    <option :value="null">{{ $t('None (Top Level)') }}</option>
                                     <option
                                         v-for="option in parentOptions.filter(p => !menuItem || p.id !== menuItem.id)"
                                         :key="option.id"
@@ -231,7 +231,7 @@ const submit = () => {
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        Order
+                                        {{ $t('Order') }}
                                     </label>
                                     <input
                                         v-model.number="form.order"
@@ -242,7 +242,7 @@ const submit = () => {
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        Permission (Optional)
+                                        {{ $t('Permission (Optional)') }}
                                     </label>
                                     <input
                                         v-model="form.permission"
@@ -261,7 +261,7 @@ const submit = () => {
                                     class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                                 />
                                 <label class="ml-2 text-sm text-gray-700 dark:text-gray-300">
-                                    Active
+                                    {{ $t('Active') }}
                                 </label>
                             </div>
                         </form>
@@ -273,7 +273,7 @@ const submit = () => {
                                 @click="close"
                                 class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                             >
-                                Cancel
+                                {{ $t('Cancel') }}
                             </button>
                             <button
                                 type="submit"
@@ -281,7 +281,7 @@ const submit = () => {
                                 :disabled="isSubmitting"
                                 class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
                             >
-                                {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update' : 'Create') }}
+                                {{ $t(isSubmitting ? 'Saving...' : (isEditMode ? 'Update' : 'Create')) }}
                             </button>
                         </div>
                     </div>

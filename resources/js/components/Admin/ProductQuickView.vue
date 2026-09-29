@@ -171,7 +171,7 @@ const deleteProduct = () => {
           >
             <!-- Header -->
             <div class="sticky top-0 z-10 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Product Quick View</h2>
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $t('Product Quick View') }}</h2>
               <button
                 @click="close"
                 class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
@@ -262,7 +262,7 @@ const deleteProduct = () => {
                   <!-- Title & SKU -->
                   <div>
                     <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{{ product.name }}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">SKU: {{ product.sku }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('SKU: {sku}', { sku: product.sku }) }}</p>
                   </div>
 
                   <!-- Categories -->
@@ -289,9 +289,9 @@ const deleteProduct = () => {
                     <span
                       :class="`px-4 py-2 rounded-full text-sm font-medium bg-${stockStatusColor}-100 dark:bg-${stockStatusColor}-900/30 text-${stockStatusColor}-800 dark:text-${stockStatusColor}-300`"
                     >
-                      {{ stockStatusText }}
+                      {{ $t(stockStatusText) }}
                     </span>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">{{ product.quantity }} units available</span>
+                    <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('{quantity} units available', { quantity: product.quantity }) }}</span>
                   </div>
 
                   <!-- Short Description -->
@@ -301,7 +301,7 @@ const deleteProduct = () => {
 
                   <!-- Description -->
                   <div v-if="product.description" class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Description</h4>
+                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">{{ $t('Description') }}</h4>
                     <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed max-h-40 overflow-y-auto" v-html="product.description"></div>
                   </div>
 
@@ -311,24 +311,24 @@ const deleteProduct = () => {
                       @click="editProduct"
                       class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer font-medium"
                     >
-                      Edit Product
+                      {{ $t('Edit Product') }}
                     </button>
                     <button
                       @click="deleteProduct"
                       class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer font-medium"
                     >
-                      Delete
+                      {{ $t('Delete') }}
                     </button>
                   </div>
 
                   <!-- Additional Info -->
                   <div class="grid grid-cols-2 gap-4 text-sm">
                     <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
-                      <p class="text-gray-500 dark:text-gray-400 mb-1">Views</p>
+                      <p class="text-gray-500 dark:text-gray-400 mb-1">{{ $t('Views') }}</p>
                       <p class="text-gray-900 dark:text-white font-semibold">0</p>
                     </div>
                     <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
-                      <p class="text-gray-500 dark:text-gray-400 mb-1">Sales</p>
+                      <p class="text-gray-500 dark:text-gray-400 mb-1">{{ $t('Sales') }}</p>
                       <p class="text-gray-900 dark:text-white font-semibold">0</p>
                     </div>
                   </div>

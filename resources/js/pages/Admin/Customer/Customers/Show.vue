@@ -107,7 +107,7 @@ const formatDateTime = (dateString: string) => {
 </script>
 
 <template>
-    <Head :title="`Customer: ${customer.full_name}`" />
+    <Head :title="$t('Customer: {name}', { name: customer.full_name })" />
 
     <AdminLayout :title="customer.full_name">
         <div class="p-6">
@@ -123,22 +123,22 @@ const formatDateTime = (dateString: string) => {
                                     customer.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                 ]"
                             >
-                                {{ customer.is_active ? 'Active' : 'Inactive' }}
+                                {{ customer.is_active ? $t('Active') : $t('Inactive') }}
                             </span>
                             <span
                                 v-if="customer.is_guest"
                                 class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
                             >
-                                Guest
+                                {{ $t('Guest') }}
                             </span>
                             <span
                                 v-if="customer.is_verified"
                                 class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
                             >
-                                Verified
+                                {{ $t('Verified') }}
                             </span>
                         </div>
-                        <p class="mt-1 text-sm text-gray-600">Customer ID: #{{ customer.id }}</p>
+                        <p class="mt-1 text-sm text-gray-600">{{ $t('Customer ID: #{id}', { id: customer.id }) }}</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button
@@ -146,19 +146,19 @@ const formatDateTime = (dateString: string) => {
                             @click="router.visit('/admin/customers')"
                             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
                         >
-                            Back to List
+                            {{ $t('Back to List') }}
                         </button>
                         <a
                             :href="`/admin/customers/${customer.id}/edit`"
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
                         >
-                            Edit Customer
+                            {{ $t('Edit Customer') }}
                         </a>
                         <button
                             @click="showDeleteModal = true"
                             class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
                         >
-                            Delete
+                            {{ $t('Delete') }}
                         </button>
                     </div>
                 </div>
@@ -166,19 +166,19 @@ const formatDateTime = (dateString: string) => {
                 <!-- Statistics Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-white rounded-lg shadow-sm p-6">
-                        <div class="text-sm font-medium text-gray-600">Total Orders</div>
+                        <div class="text-sm font-medium text-gray-600">{{ $t('Total Orders') }}</div>
                         <div class="mt-2 text-3xl font-semibold text-gray-900">
                             {{ customer.total_orders }}
                         </div>
                     </div>
                     <div class="bg-white rounded-lg shadow-sm p-6">
-                        <div class="text-sm font-medium text-gray-600">Total Spent</div>
+                        <div class="text-sm font-medium text-gray-600">{{ $t('Total Spent') }}</div>
                         <div class="mt-2 text-3xl font-semibold text-gray-900">
                             {{ formatCurrency(customer.total_spent) }}
                         </div>
                     </div>
                     <div class="bg-white rounded-lg shadow-sm p-6">
-                        <div class="text-sm font-medium text-gray-600">Customer Group</div>
+                        <div class="text-sm font-medium text-gray-600">{{ $t('Customer Group') }}</div>
                         <div class="mt-2">
                             <span
                                 v-if="customer.customer_group && customer.customer_group.id"
@@ -191,7 +191,7 @@ const formatDateTime = (dateString: string) => {
                                 v-else
                                 class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600"
                             >
-                                No Group
+                                {{ $t('No Group') }}
                             </span>
                         </div>
                     </div>
@@ -201,7 +201,7 @@ const formatDateTime = (dateString: string) => {
             <!-- Tabs -->
             <div class="bg-white rounded-lg shadow-sm">
                 <div class="border-b border-gray-200">
-                    <nav class="flex gap-6 px-6" aria-label="Tabs">
+                    <nav class="flex gap-6 px-6" :aria-label="$t('Tabs')">
                         <button
                             @click="activeTab = 'info'"
                             :class="[
@@ -211,7 +211,7 @@ const formatDateTime = (dateString: string) => {
                                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                             ]"
                         >
-                            Customer Information
+                            {{ $t('Customer Information') }}
                         </button>
                         <button
                             @click="activeTab = 'addresses'"
@@ -222,7 +222,7 @@ const formatDateTime = (dateString: string) => {
                                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                             ]"
                         >
-                            Addresses ({{ customer.addresses?.length || 0 }})
+                            {{ $t('Addresses ({count})', { count: customer.addresses?.length || 0 }) }}
                         </button>
                         <button
                             @click="activeTab = 'notes'"
@@ -233,7 +233,7 @@ const formatDateTime = (dateString: string) => {
                                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                             ]"
                         >
-                            Notes ({{ customer.customer_notes?.length || 0 }})
+                            {{ $t('Notes ({count})', { count: customer.customer_notes?.length || 0 }) }}
                         </button>
                     </nav>
                 </div>
@@ -244,38 +244,38 @@ const formatDateTime = (dateString: string) => {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Contact Information -->
                             <div class="space-y-4">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Contact Information</h3>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Contact Information') }}</h3>
                                 <div>
-                                    <dt class="text-sm font-medium text-gray-500">Email</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Email') }}</dt>
                                     <dd class="mt-1 text-sm text-gray-900">{{ customer.email }}</dd>
                                 </div>
                                 <div v-if="customer.phone">
-                                    <dt class="text-sm font-medium text-gray-500">Phone</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Phone') }}</dt>
                                     <dd class="mt-1 text-sm text-gray-900">{{ customer.phone }}</dd>
                                 </div>
                                 <div v-if="customer.company_name">
-                                    <dt class="text-sm font-medium text-gray-500">Company</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Company') }}</dt>
                                     <dd class="mt-1 text-sm text-gray-900">{{ customer.company_name }}</dd>
                                 </div>
                                 <div v-if="customer.tax_id">
-                                    <dt class="text-sm font-medium text-gray-500">Tax ID</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Tax ID') }}</dt>
                                     <dd class="mt-1 text-sm text-gray-900">{{ customer.tax_id }}</dd>
                                 </div>
                             </div>
 
                             <!-- Personal Information -->
                             <div class="space-y-4">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Personal Information') }}</h3>
                                 <div v-if="customer.date_of_birth">
-                                    <dt class="text-sm font-medium text-gray-500">Date of Birth</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Date of Birth') }}</dt>
                                     <dd class="mt-1 text-sm text-gray-900">{{ formatDate(customer.date_of_birth) }}</dd>
                                 </div>
                                 <div v-if="customer.gender">
-                                    <dt class="text-sm font-medium text-gray-500">Gender</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Gender') }}</dt>
                                     <dd class="mt-1 text-sm text-gray-900 capitalize">{{ customer.gender }}</dd>
                                 </div>
                                 <div>
-                                    <dt class="text-sm font-medium text-gray-500">Newsletter</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Newsletter') }}</dt>
                                     <dd class="mt-1 text-sm">
                                         <span
                                             :class="[
@@ -283,12 +283,12 @@ const formatDateTime = (dateString: string) => {
                                                 customer.newsletter_subscribed ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                                             ]"
                                         >
-                                            {{ customer.newsletter_subscribed ? 'Subscribed' : 'Not Subscribed' }}
+                                            {{ customer.newsletter_subscribed ? $t('Subscribed') : $t('Not Subscribed') }}
                                         </span>
                                     </dd>
                                 </div>
                                 <div>
-                                    <dt class="text-sm font-medium text-gray-500">Member Since</dt>
+                                    <dt class="text-sm font-medium text-gray-500">{{ $t('Member Since') }}</dt>
                                     <dd class="mt-1 text-sm text-gray-900">{{ formatDate(customer.created_at) }}</dd>
                                 </div>
                             </div>
@@ -296,7 +296,7 @@ const formatDateTime = (dateString: string) => {
 
                         <!-- Notes Section -->
                         <div v-if="customer.notes" class="mt-6 pt-6 border-t border-gray-200">
-                            <h3 class="text-lg font-medium text-gray-900 mb-4">Notes</h3>
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Notes') }}</h3>
                             <div class="bg-gray-50 rounded-lg p-4">
                                 <p class="text-sm text-gray-700 whitespace-pre-wrap">{{ customer.notes }}</p>
                             </div>
@@ -313,7 +313,7 @@ const formatDateTime = (dateString: string) => {
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                                 </svg>
-                                Manage All Addresses
+                                {{ $t('Manage All Addresses') }}
                             </Link>
                             <Link
                                 :href="`/admin/customers/${customer.id}/addresses/create`"
@@ -322,7 +322,7 @@ const formatDateTime = (dateString: string) => {
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                 </svg>
-                                Add Address
+                                {{ $t('Add Address') }}
                             </Link>
                         </div>
                         <div v-if="customer.addresses && customer.addresses.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -338,13 +338,13 @@ const formatDateTime = (dateString: string) => {
                                             v-if="address.is_default_shipping"
                                             class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded"
                                         >
-                                            Default Shipping
+                                            {{ $t('Default Shipping') }}
                                         </span>
                                         <span
                                             v-if="address.is_default_billing"
                                             class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded"
                                         >
-                                            Default Billing
+                                            {{ $t('Default Billing') }}
                                         </span>
                                     </div>
                                 </div>
@@ -364,8 +364,8 @@ const formatDateTime = (dateString: string) => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900">No addresses</h3>
-                            <p class="mt-1 text-sm text-gray-500">This customer hasn't added any addresses yet.</p>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">{{ $t('No addresses') }}</h3>
+                            <p class="mt-1 text-sm text-gray-500">{{ $t("This customer hasn't added any addresses yet.") }}</p>
                         </div>
                     </div>
 
@@ -388,8 +388,8 @@ const formatDateTime = (dateString: string) => {
                             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900">No notes</h3>
-                            <p class="mt-1 text-sm text-gray-500">No notes have been added for this customer.</p>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">{{ $t('No notes') }}</h3>
+                            <p class="mt-1 text-sm text-gray-500">{{ $t('No notes have been added for this customer.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -400,7 +400,7 @@ const formatDateTime = (dateString: string) => {
         <ConfirmDeleteModal
             v-model:show="showDeleteModal"
             :title="customer.full_name"
-            :message="`Are you sure you want to delete '${customer.full_name}'? This action cannot be undone.`"
+            :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: customer.full_name })"
             @confirm="deleteCustomer"
         />
     </AdminLayout>

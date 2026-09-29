@@ -163,15 +163,15 @@ watch(() => form.store_email, (newEmail) => {
 </script>
 
 <template>
-  <AdminLayout title="Store Configuration">
-    <Head title="Store Configuration" />
+  <AdminLayout :title="$t('Store Configuration')">
+    <Head :title="$t('Store Configuration')" />
 
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Store Configuration</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Store Configuration') }}</h1>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Manage store details, contact information, social media links, and policies
+            {{ $t('Manage store details, contact information, social media links, and policies') }}
           </p>
         </div>
         <div>
@@ -185,7 +185,7 @@ watch(() => form.store_email, (newEmail) => {
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+                {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
             </button>
         </div>
       </div>
@@ -206,7 +206,7 @@ watch(() => form.store_email, (newEmail) => {
                 ]"
               >
                 <Store class="w-4 h-4 mr-2" :class="activeTab === 'details' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                Store Details
+                {{ $t('Store Details') }}
               </button>
               <button
                 type="button"
@@ -219,7 +219,7 @@ watch(() => form.store_email, (newEmail) => {
                 ]"
               >
                 <MapPin class="w-4 h-4 mr-2" :class="activeTab === 'contact' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                Contact & Address
+                {{ $t('Contact & Address') }}
               </button>
               <button
                 type="button"
@@ -232,7 +232,7 @@ watch(() => form.store_email, (newEmail) => {
                 ]"
               >
                 <Share2 class="w-4 h-4 mr-2" :class="activeTab === 'social' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                Social Media
+                {{ $t('Social Media') }}
               </button>
               <button
                 type="button"
@@ -245,7 +245,7 @@ watch(() => form.store_email, (newEmail) => {
                 ]"
               >
                 <ShoppingBag class="w-4 h-4 mr-2" :class="activeTab === 'checkout' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                Checkout
+                {{ $t('Checkout') }}
               </button>
               <button
                 type="button"
@@ -258,7 +258,7 @@ watch(() => form.store_email, (newEmail) => {
                 ]"
               >
                 <FileText class="w-4 h-4 mr-2" :class="activeTab === 'policies' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-                Policies
+                {{ $t('Policies') }}
               </button>
             </nav>
           </div>
@@ -269,12 +269,12 @@ watch(() => form.store_email, (newEmail) => {
               <div>
                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <Store class="w-5 h-5 text-gray-400" />
-                    Business Information
+                    {{ $t('Business Information') }}
                 </h3>
                   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
                       <label for="store_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        Business Name <span class="text-red-500">*</span>
+                        {{ $t('Business Name') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         id="store_name"
@@ -288,7 +288,7 @@ watch(() => form.store_email, (newEmail) => {
 
                     <div>
                       <label for="business_registration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        Business Registration Number
+                        {{ $t('Business Registration Number') }}
                       </label>
                       <input
                         id="business_registration"
@@ -304,7 +304,7 @@ watch(() => form.store_email, (newEmail) => {
               <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 pt-6 border-t border-gray-100 dark:border-gray-700">
                 <div>
                   <label for="vat_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    VAT Number
+                    {{ $t('VAT Number') }}
                   </label>
                   <input
                     id="vat_number"
@@ -317,7 +317,7 @@ watch(() => form.store_email, (newEmail) => {
 
                 <div>
                   <label for="store_license" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    License Number
+                    {{ $t('License Number') }}
                   </label>
                   <input
                     id="store_license"
@@ -330,7 +330,7 @@ watch(() => form.store_email, (newEmail) => {
 
                 <div>
                   <label for="store_timezone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    Store Timezone <span class="text-red-500">*</span>
+                    {{ $t('Store Timezone') }} <span class="text-red-500">*</span>
                   </label>
                   <div class="relative">
                       <div class="absolute inset-y-0 left-0 padding-l-3 flex items-center pl-3 pointer-events-none">
@@ -362,14 +362,14 @@ watch(() => form.store_email, (newEmail) => {
 
               <div>
                 <label for="store_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Business Description
+                  {{ $t('Business Description') }}
                 </label>
                 <textarea
                   id="store_description"
                   v-model="form.store_description"
                   rows="4"
                   class="block w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-200"
-                  placeholder="Brief description of your business for SEO purposes..."
+                  placeholder="{{ $t('Brief description of your business for SEO purposes...') }}"
                 ></textarea>
                 <p v-if="form.errors.store_description" class="mt-1 text-sm text-red-600">{{ form.errors.store_description }}</p>
               </div>
@@ -382,12 +382,12 @@ watch(() => form.store_email, (newEmail) => {
                <div>
                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <MapPin class="w-5 h-5 text-gray-400" />
-                    Contact Information
+                    {{ $t('Contact Information') }}
                 </h3>
                   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
                       <label for="store_email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        Primary Email <span class="text-red-500">*</span>
+                        {{ $t('Primary Email') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         id="store_email"
@@ -401,7 +401,7 @@ watch(() => form.store_email, (newEmail) => {
 
                     <div>
                       <label for="support_email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        Support Email
+                        {{ $t('Support Email') }}
                       </label>
                       <input
                         id="support_email"
@@ -416,7 +416,7 @@ watch(() => form.store_email, (newEmail) => {
                   <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 mt-6">
                     <div>
                       <label for="store_phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        Phone Number <span class="text-red-500">*</span>
+                        {{ $t('Phone Number') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         id="store_phone"
@@ -430,7 +430,7 @@ watch(() => form.store_email, (newEmail) => {
 
                     <div>
                       <label for="store_phone_alt" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        Alternate Phone
+                        {{ $t('Alternate Phone') }}
                       </label>
                       <input
                         id="store_phone_alt"
@@ -443,7 +443,7 @@ watch(() => form.store_email, (newEmail) => {
 
                     <div>
                       <label for="store_whatsapp" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        WhatsApp Number
+                        {{ $t('WhatsApp Number') }}
                       </label>
                       <input
                         id="store_whatsapp"
@@ -457,12 +457,12 @@ watch(() => form.store_email, (newEmail) => {
                </div>
 
               <div class="pt-6 border-t border-gray-100 dark:border-gray-700">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Store Address</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Store Address') }}</h3>
                 
                 <div class="space-y-6">
                   <div>
                     <label for="store_address_1" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                      Street Address <span class="text-red-500">*</span>
+                      {{ $t('Street Address') }} <span class="text-red-500">*</span>
                     </label>
                     <input
                       id="store_address_1"
@@ -476,7 +476,7 @@ watch(() => form.store_email, (newEmail) => {
 
                   <div>
                     <label for="store_address_2" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                      Address Line 2
+                      {{ $t('Address Line 2') }}
                     </label>
                     <input
                       id="store_address_2"
@@ -490,7 +490,7 @@ watch(() => form.store_email, (newEmail) => {
                   <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     <div>
                       <label for="store_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        City <span class="text-red-500">*</span>
+                        {{ $t('City') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         id="store_city"
@@ -504,7 +504,7 @@ watch(() => form.store_email, (newEmail) => {
 
                     <div>
                       <label for="store_state" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        State/Province <span class="text-red-500">*</span>
+                        {{ $t('State/Province') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         id="store_state"
@@ -518,7 +518,7 @@ watch(() => form.store_email, (newEmail) => {
 
                     <div>
                       <label for="store_postal_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                        Postal Code <span class="text-red-500">*</span>
+                        {{ $t('Postal Code') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         id="store_postal_code"
@@ -533,7 +533,7 @@ watch(() => form.store_email, (newEmail) => {
 
                   <div>
                     <label for="store_country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                      Country <span class="text-red-500">*</span>
+                      {{ $t('Country') }} <span class="text-red-500">*</span>
                     </label>
                     <select
                       id="store_country"
@@ -541,7 +541,7 @@ watch(() => form.store_email, (newEmail) => {
                       class="block w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-200"
                       required
                     >
-                      <option value="">Select a country...</option>
+                      <option value="">{{ $t('Select a country...') }}</option>
                       <option value="Afghanistan">Afghanistan</option>
                       <option value="Albania">Albania</option>
                       <option value="Algeria">Algeria</option>
@@ -750,12 +750,12 @@ watch(() => form.store_email, (newEmail) => {
             <div class="space-y-6">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <Share2 class="w-5 h-5 text-gray-400" />
-                    Social Media Profiles
+                    {{ $t('Social Media Profiles') }}
                 </h3>
               <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
                   <label for="social_facebook" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    Facebook
+                    {{ $t('Facebook') }}
                   </label>
                   <input
                     id="social_facebook"
@@ -769,7 +769,7 @@ watch(() => form.store_email, (newEmail) => {
 
                 <div>
                   <label for="social_instagram" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    Instagram
+                    {{ $t('Instagram') }}
                   </label>
                   <input
                     id="social_instagram"
@@ -783,7 +783,7 @@ watch(() => form.store_email, (newEmail) => {
 
                 <div>
                   <label for="social_twitter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    Twitter/X
+                    {{ $t('Twitter/X') }}
                   </label>
                   <input
                     id="social_twitter"
@@ -797,7 +797,7 @@ watch(() => form.store_email, (newEmail) => {
 
                 <div>
                     <label for="social_linkedin" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                      LinkedIn
+                      {{ $t('LinkedIn') }}
                     </label>
                     <input
                       id="social_linkedin"
@@ -811,7 +811,7 @@ watch(() => form.store_email, (newEmail) => {
     
                   <div>
                     <label for="social_youtube" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                      YouTube
+                      {{ $t('YouTube') }}
                     </label>
                     <input
                       id="social_youtube"
@@ -825,7 +825,7 @@ watch(() => form.store_email, (newEmail) => {
     
                   <div>
                     <label for="social_tiktok" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                      TikTok
+                      {{ $t('TikTok') }}
                     </label>
                     <input
                       id="social_tiktok"
@@ -839,7 +839,7 @@ watch(() => form.store_email, (newEmail) => {
     
                   <div>
                     <label for="social_pinterest" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                      Pinterest
+                      {{ $t('Pinterest') }}
                     </label>
                     <input
                       id="social_pinterest"
@@ -861,9 +861,9 @@ watch(() => form.store_email, (newEmail) => {
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                     <ShoppingCart class="w-5 h-5 text-gray-400" />
-                    Checkout Preferences
+                    {{ $t('Checkout Preferences') }}
                 </h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Configure checkout flow and account requirements used in your storefront</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Configure checkout flow and account requirements used in your storefront') }}</p>
               </div>
 
               <div class="space-y-6 border-t border-gray-100 dark:border-gray-700 pt-6">
@@ -879,10 +879,10 @@ watch(() => form.store_email, (newEmail) => {
                     </div>
                     <div class="ml-3 text-sm">
                       <label for="checkout_allow_guest" class="font-medium text-gray-700 dark:text-gray-300">
-                        Allow Guest Checkout
+                        {{ $t('Allow Guest Checkout') }}
                       </label>
                       <p class="text-gray-500 dark:text-gray-400 mt-1">
-                        Allow customers to complete checkout without creating an account. They can optionally create one during checkout.
+                        {{ $t('Allow customers to complete checkout without creating an account. They can optionally create one during checkout.') }}
                       </p>
                     </div>
                   </div>
@@ -900,10 +900,10 @@ watch(() => form.store_email, (newEmail) => {
                     </div>
                     <div class="ml-3 text-sm">
                       <label for="checkout_require_account" class="font-medium text-gray-700 dark:text-gray-300" :class="{ 'text-gray-400 dark:text-gray-600': !form.checkout_allow_guest }">
-                        Require Account Creation
+                        {{ $t('Require Account Creation') }}
                       </label>
                       <p class="text-gray-500 dark:text-gray-400 mt-1">
-                        When enabled, guests must create an account during checkout (cannot proceed without registration).
+                        {{ $t('When enabled, guests must create an account during checkout (cannot proceed without registration).') }}
                       </p>
                     </div>
                   </div>
@@ -914,12 +914,12 @@ watch(() => form.store_email, (newEmail) => {
                 <div class="flex">
                    <Info class="h-5 w-5 text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
                   <div>
-                    <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">Configuration Options</h3>
+                    <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">{{ $t('Configuration Options') }}</h3>
                     <div class="mt-2 text-sm text-blue-700 dark:text-blue-300">
                       <ul class="list-disc list-inside space-y-1">
-                        <li><strong>Both disabled:</strong> Customers must log in or register before checkout (no guest option)</li>
-                        <li><strong>Guest allowed only:</strong> Customers can checkout as guests or create an account (optional)</li>
-                        <li><strong>Both enabled:</strong> Customers can start as guest but must create account during checkout</li>
+                        <li><strong>{{ $t('Both disabled:') }}</strong> {{ $t('Customers must log in or register before checkout (no guest option)') }}</li>
+                        <li><strong>{{ $t('Guest allowed only:') }}</strong> {{ $t('Customers can checkout as guests or create an account (optional)') }}</li>
+                        <li><strong>{{ $t('Both enabled:') }}</strong> {{ $t('Customers can start as guest but must create account during checkout') }}</li>
                       </ul>
                     </div>
                   </div>
@@ -934,52 +934,52 @@ watch(() => form.store_email, (newEmail) => {
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                         <FileText class="w-5 h-5 text-gray-400" />
-                        Store Policies
+                        {{ $t('Store Policies') }}
                     </h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Define the legal policies for your store to ensure transparency with customers.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Define the legal policies for your store to ensure transparency with customers.') }}</p>
                 </div>
 
                 <div class="space-y-8 border-t border-gray-100 dark:border-gray-700 pt-6">
                   <div>
                     <label for="policy_privacy" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Privacy Policy
+                      {{ $t('Privacy Policy') }}
                     </label>
                     <TiptapEditor
                       v-model="form.policy_privacy"
-                      placeholder="Enter your privacy policy content..."
+                      placeholder="{{ $t('Enter your privacy policy content...') }}"
                     />
                     <p v-if="form.errors.policy_privacy" class="mt-1 text-sm text-red-600">{{ form.errors.policy_privacy }}</p>
                   </div>
 
                   <div>
                     <label for="policy_terms" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Terms & Conditions
+                      {{ $t('Terms & Conditions') }}
                     </label>
                     <TiptapEditor
                       v-model="form.policy_terms"
-                      placeholder="Enter your terms and conditions..."
+                      placeholder="{{ $t('Enter your terms and conditions...') }}"
                     />
                     <p v-if="form.errors.policy_terms" class="mt-1 text-sm text-red-600">{{ form.errors.policy_terms }}</p>
                   </div>
 
                   <div>
                     <label for="policy_return" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Return Policy
+                      {{ $t('Return Policy') }}
                     </label>
                     <TiptapEditor
                       v-model="form.policy_return"
-                      placeholder="Enter your return and refund policy..."
+                      placeholder="{{ $t('Enter your return and refund policy...') }}"
                     />
                     <p v-if="form.errors.policy_return" class="mt-1 text-sm text-red-600">{{ form.errors.policy_return }}</p>
                   </div>
 
                   <div>
                     <label for="policy_shipping" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Shipping Policy
+                      {{ $t('Shipping Policy') }}
                     </label>
                     <TiptapEditor
                       v-model="form.policy_shipping"
-                      placeholder="Enter your shipping terms and conditions..."
+                      placeholder="{{ $t('Enter your shipping terms and conditions...') }}"
                     />
                     <p v-if="form.errors.policy_shipping" class="mt-1 text-sm text-red-600">{{ form.errors.policy_shipping }}</p>
                   </div>
@@ -999,7 +999,7 @@ watch(() => form.store_email, (newEmail) => {
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+                {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
              </button>
           </div>
         </div>

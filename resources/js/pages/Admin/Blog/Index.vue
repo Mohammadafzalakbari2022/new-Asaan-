@@ -1,20 +1,20 @@
 <template>
-    <AdminLayout title="Blog Posts">
-        <Head title="Blog Posts" />
+    <AdminLayout :title="$t('Blog Posts')">
+        <Head :title="$t('Blog Posts')" />
 
         <div class="p-6 space-y-6">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Blog Posts</h1>
-                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage blog content for your store</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Blog Posts') }}</h1>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Manage blog content for your store') }}</p>
                 </div>
                 <Link
                     :href="blogRoutes.create().url"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     <PlusCircle class="w-4 h-4 mr-2" />
-                    Create Post
+                    {{ $t('Create Post') }}
                 </Link>
             </div>
 
@@ -23,7 +23,7 @@
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Posts</p>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total Posts') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.total }}</p>
                         </div>
                         <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
@@ -34,7 +34,7 @@
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Published</p>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Published') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.published }}</p>
                         </div>
                         <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -45,7 +45,7 @@
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-yellow-200 dark:hover:border-yellow-800 transition-colors">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Draft</p>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Draft') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.draft }}</p>
                         </div>
                         <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
@@ -56,7 +56,7 @@
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Scheduled</p>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Scheduled') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.scheduled }}</p>
                         </div>
                         <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
@@ -70,20 +70,20 @@
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                     <div class="md:col-span-5 lg:col-span-4">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
                         <div class="relative">
                             <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <input
                                 v-model="form.search"
                                 type="text"
-                                placeholder="Search by title or slug..."
+                                :placeholder="$t('Search by title or slug...')"
                                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
                                 @input="debouncedSearch"
                             />
                         </div>
                     </div>
                     <div class="md:col-span-3 lg:col-span-2">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
                         <div class="relative">
                             <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <select
@@ -91,10 +91,10 @@
                                 class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                                 @change="applyFilters"
                             >
-                                <option value="">All Status</option>
-                                <option value="published">Published</option>
-                                <option value="draft">Draft</option>
-                                <option value="scheduled">Scheduled</option>
+                                <option value="">{{ $t('All Status') }}</option>
+                                <option value="published">{{ $t('Published') }}</option>
+                                <option value="draft">{{ $t('Draft') }}</option>
+                                <option value="scheduled">{{ $t('Scheduled') }}</option>
                             </select>
                             <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div class="md:col-span-4 lg:col-span-3">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Category</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Category') }}</label>
                         <div class="relative">
                             <Folder class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <select
@@ -110,7 +110,7 @@
                                 class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                                 @change="applyFilters"
                             >
-                                <option value="">All Categories</option>
+                                <option value="">{{ $t('All Categories') }}</option>
                                 <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                             </select>
                             <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -125,7 +125,7 @@
                         class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
                     >
                         <X class="w-4 h-4" />
-                        Clear Filters
+                        {{ $t('Clear Filters') }}
                     </button>
                 </div>
             </div>
@@ -137,17 +137,17 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <CheckCircle class="w-4 h-4 mr-2 text-blue-600 dark:text-blue-400" />
-                            <span class="text-sm font-semibold text-blue-700 dark:text-blue-300">{{ selectedPosts.length }} post(s) selected</span>
+                            <span class="text-sm font-semibold text-blue-700 dark:text-blue-300">{{ $t('{count} post(s) selected', { count: selectedPosts.length }) }}</span>
                         </div>
                         <div class="flex gap-2">
                             <button @click="bulkAction('publish')" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded text-green-700 bg-green-100 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-300">
-                                <Check class="w-4 h-4 mr-1.5" />Publish
+                                <Check class="w-4 h-4 mr-1.5" />{{ $t('Publish') }}
                             </button>
                             <button @click="bulkAction('draft')" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded text-orange-700 bg-orange-100 hover:bg-orange-200 dark:bg-orange-900/40 dark:text-orange-300">
-                                <PenTool class="w-4 h-4 mr-1.5" />Draft
+                                <PenTool class="w-4 h-4 mr-1.5" />{{ $t('Draft') }}
                             </button>
                             <button @click="bulkAction('delete')" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200 dark:bg-red-900/40 dark:text-red-300">
-                                <Trash2 class="w-4 h-4 mr-1.5" />Delete
+                                <Trash2 class="w-4 h-4 mr-1.5" />{{ $t('Delete') }}
                             </button>
                         </div>
                     </div>
@@ -160,11 +160,11 @@
                                 <th class="px-6 py-3 text-left w-12">
                                     <input type="checkbox" :checked="allSelected" @change="toggleAll" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-white dark:bg-gray-700 w-4 h-4" />
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Title</th>
-                                <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Category</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                <th class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Published</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Title') }}</th>
+                                <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Category') }}</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                                <th class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Published') }}</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -201,13 +201,13 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                                        <a :href="`/blog/${post.slug}`" target="_blank" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Preview Post">
+                                        <a :href="`/blog/${post.slug}`" target="_blank" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" :title="$t('Preview Post')">
                                             <ExternalLink class="w-4 h-4" />
                                         </a>
-                                        <Link :href="blogRoutes.edit({ post: post.slug }).url" class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors" title="Edit Post">
+                                        <Link :href="blogRoutes.edit({ post: post.slug }).url" class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors" :title="$t('Edit Post')">
                                             <Edit class="w-4 h-4" />
                                         </Link>
-                                        <button @click="deletePost(post)" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Delete Post">
+                                        <button @click="deletePost(post)" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" :title="$t('Delete Post')">
                                             <Trash2 class="w-4 h-4" />
                                         </button>
                                     </div>
@@ -222,10 +222,10 @@
                         <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                             <Newspaper class="w-8 h-8" />
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">No posts found</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Get started by creating your first blog post.</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{{ $t('No posts found') }}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{{ $t('Get started by creating your first blog post.') }}</p>
                         <Link :href="blogRoutes.create().url" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 transition ease-in-out duration-150">
-                            <PlusCircle class="w-4 h-4 mr-2" />Create Post
+                            <PlusCircle class="w-4 h-4 mr-2" />{{ $t('Create Post') }}
                         </Link>
                     </div>
                 </div>

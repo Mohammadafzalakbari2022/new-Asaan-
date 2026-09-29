@@ -44,32 +44,32 @@ const submit = () => {
 
 <template>
   <ThemeLayout>
-    <Head title="Track Your Order" />
+    <Head :title="$t('Track Your Order')" />
 
     <!-- UIEditor hero/banner renders above the tracking form when published -->
     <UIBlockRenderer v-if="hasLayout" :layout="layoutData" :editor-mode="false" />
 
     <div class="container mx-auto px-4 py-8 max-w-2xl">
-      <h1 class="text-2xl font-bold mb-2">Track Guest Order</h1>
-      <p class="text-gray-600 mb-6">Enter your order ID to check order status.</p>
+      <h1 class="text-2xl font-bold mb-2">{{ $t('Track Guest Order') }}</h1>
+      <p class="text-gray-600 mb-6">{{ $t('Enter your order ID to check order status.') }}</p>
 
       <div class="bg-white rounded-lg shadow p-5">
-        <label class="block text-sm font-medium mb-2">Order ID</label>
+        <label class="block text-sm font-medium mb-2">{{ $t('Order ID') }}</label>
         <div class="flex gap-2">
-          <input v-model="orderNumber" type="text" class="flex-1 border rounded px-3 py-2" placeholder="ORD-..." />
-          <button @click="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Track</button>
+          <input v-model="orderNumber" type="text" class="flex-1 border rounded px-3 py-2" :placeholder="$t('ORD-...')" />
+          <button @click="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">{{ $t('Track') }}</button>
         </div>
         <p v-if="error" class="mt-3 text-sm text-red-600">{{ error }}</p>
       </div>
 
       <div v-if="trackedOrder" class="bg-white rounded-lg shadow p-5 mt-6">
-        <h2 class="text-lg font-semibold mb-3">Order #{{ trackedOrder.order_number }}</h2>
+        <h2 class="text-lg font-semibold mb-3">{{ $t('Order #') }}{{ trackedOrder.order_number }}</h2>
         <div class="space-y-2 text-sm">
-          <div class="flex justify-between"><span class="text-gray-600">Status</span><span class="font-medium">{{ trackedOrder.status }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">Payment Status</span><span>{{ trackedOrder.payment_status }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">Placed On</span><span>{{ trackedOrder.created_at }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">Items</span><span>{{ trackedOrder.items_count }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">Total</span><span class="font-semibold">{{ formatPrice(trackedOrder.total) }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Status') }}</span><span class="font-medium">{{ $t(trackedOrder.status.charAt(0).toUpperCase() + trackedOrder.status.slice(1)) }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Payment Status') }}</span><span>{{ $t(trackedOrder.payment_status.charAt(0).toUpperCase() + trackedOrder.payment_status.slice(1)) }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Placed On') }}</span><span>{{ trackedOrder.created_at }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Items') }}</span><span>{{ trackedOrder.items_count }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Total') }}</span><span class="font-semibold">{{ formatPrice(trackedOrder.total) }}</span></div>
         </div>
       </div>
     </div>

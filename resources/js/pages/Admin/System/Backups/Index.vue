@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { Download, Trash2, Plus, Database, HardDrive, FileArchive } from 'lucide-vue-next';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import { useI18nStore } from '@/Stores/i18n';
 import * as backupRoutes from '@/routes/admin/system/backups/index';
 
 interface Backup {
@@ -17,6 +18,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const { t } = useI18nStore();
 
 const isLoading = ref(false);
 const showCreateModal = ref(false);
@@ -62,18 +65,18 @@ const downloadBackup = (backup: Backup) => {
 </script>
 
 <template>
-    <Head title="System Backups" />
+    <Head :title="$t('System Backups')" />
 
-    <AdminLayout title="System Backups">
+    <AdminLayout :title="$t('System Backups')">
         <div class="space-y-6">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                      <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        System Backups
+                        {{ $t('System Backups') }}
                      </h1>
                      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        Create, download, and manage system backups
+                        {{ $t('Create, download, and manage system backups') }}
                      </p>
                 </div>
                 <button
@@ -86,7 +89,7 @@ const downloadBackup = (backup: Backup) => {
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span>{{ isLoading ? 'Creating...' : 'Create Backup' }}</span>
+                    <span>{{ isLoading ? $t('Creating...') : $t('Create Backup') }}</span>
                 </button>
             </div>
 
@@ -102,10 +105,10 @@ const downloadBackup = (backup: Backup) => {
                         </svg>
                         <div class="flex-1">
                             <p class="text-sm font-medium text-blue-900 dark:text-blue-100">
-                                Creating backup...
+                                {{ $t('Creating backup...') }}
                             </p>
                             <p class="text-xs text-blue-700 dark:text-blue-300 mt-1">
-                                Please wait while your backup is being created. This may take a few moments depending on the size of your data.
+                                {{ $t('Please wait while your backup is being created. This may take a few moments depending on the size of your data.') }}
                             </p>
                         </div>
                     </div>
@@ -119,10 +122,10 @@ const downloadBackup = (backup: Backup) => {
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-700/50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">File Name</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Size</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
-                                <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('File Name') }}</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Size') }}</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Date') }}</th>
+                                <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -148,14 +151,14 @@ const downloadBackup = (backup: Backup) => {
                                         <button
                                             @click="downloadBackup(backup)"
                                             class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                                            title="Download"
+                                            :title="$t('Download')"
                                         >
                                             <Download class="w-4 h-4" />
                                         </button>
                                         <button
                                             @click="deleteBackup(backup)"
                                             class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                                            title="Delete"
+                                            :title="$t('Delete')"
                                         >
                                             <Trash2 class="w-4 h-4" />
                                         </button>
@@ -166,8 +169,8 @@ const downloadBackup = (backup: Backup) => {
                                 <td colspan="4" class="px-6 py-12 text-center">
                                     <div class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400">
                                         <HardDrive class="w-12 h-12 mb-4 opacity-50" />
-                                        <p class="text-lg font-medium">No backups found</p>
-                                        <p class="text-sm mt-1">Create your first backup to keep your data safe.</p>
+                                        <p class="text-lg font-medium">{{ $t('No backups found') }}</p>
+                                        <p class="text-sm mt-1">{{ $t('Create your first backup to keep your data safe.') }}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -208,33 +211,33 @@ const downloadBackup = (backup: Backup) => {
                             <!-- Header -->
                             <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700">
                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    Create New Backup
+                                    {{ $t('Create New Backup') }}
                                 </h3>
                             </div>
 
                             <!-- Content -->
                             <div class="px-6 py-4">
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                                    Choose what you want to backup. Creating a full backup may take several minutes.
+                                    {{ $t('Choose what you want to backup. Creating a full backup may take several minutes.') }}
                                 </p>
                                 
                                 <div class="space-y-3">
                                     <div class="flex items-center">
                                         <input id="only-db" name="backup-option" type="radio" value="only-db" v-model="backupOption" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700">
                                         <label for="only-db" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Database Only (Fastest)
+                                            {{ $t('Database Only (Fastest)') }}
                                         </label>
                                     </div>
                                     <div class="flex items-center">
                                         <input id="only-files" name="backup-option" type="radio" value="only-files" v-model="backupOption" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700">
                                         <label for="only-files" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Files Only (Media & Uploads)
+                                            {{ $t('Files Only (Media & Uploads)') }}
                                         </label>
                                     </div>
                                     <div class="flex items-center">
                                         <input id="full" name="backup-option" type="radio" value="" v-model="backupOption" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700">
                                         <label for="full" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Full Backup (Database + Files)
+                                            {{ $t('Full Backup (Database + Files)') }}
                                         </label>
                                     </div>
                                 </div>
@@ -247,14 +250,14 @@ const downloadBackup = (backup: Backup) => {
                                     @click="showCreateModal = false" 
                                     class="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
                                 >
-                                    Cancel
+                                    {{ $t('Cancel') }}
                                 </button>
                                 <button 
                                     type="button" 
                                     @click="createBackup" 
                                     class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                 >
-                                    Create
+                                    {{ $t('Create') }}
                                 </button>
                             </div>
                         </div>

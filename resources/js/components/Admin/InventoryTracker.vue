@@ -159,12 +159,12 @@ const formatDate = (date: string) => {
     <!-- Inventory Overview -->
     <div class="p-6 border-b border-gray-200 dark:border-gray-700">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Inventory Management</h3>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Inventory Management') }}</h3>
         <button
           @click="openAdjustmentForm"
           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
         >
-          Adjust Stock
+          {{ $t('Adjust Stock') }}
         </button>
       </div>
 
@@ -174,7 +174,7 @@ const formatDate = (date: string) => {
         <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Current Stock</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ $t('Current Stock') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ currentStock }}</p>
             </div>
             <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
@@ -194,7 +194,7 @@ const formatDate = (date: string) => {
         <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Low Stock Alert</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ $t('Low Stock Alert') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ notifyStockQty }}</p>
             </div>
             <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center">
@@ -203,14 +203,14 @@ const formatDate = (date: string) => {
               </svg>
             </div>
           </div>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Alert when stock falls below this level</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">{{ $t('Alert when stock falls below this level') }}</p>
         </div>
 
         <!-- Minimum Quantity -->
         <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Min Quantity</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ $t('Min Quantity') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ minQuantity }}</p>
             </div>
             <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center">
@@ -219,16 +219,16 @@ const formatDate = (date: string) => {
               </svg>
             </div>
           </div>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Minimum purchase quantity</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">{{ $t('Minimum purchase quantity') }}</p>
         </div>
 
         <!-- Stock Status -->
         <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Management</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ $t('Management') }}</p>
               <p class="text-lg font-semibold text-gray-900 dark:text-white">
-                {{ manageStock ? 'Enabled' : 'Disabled' }}
+                {{ $t(manageStock ? 'Enabled' : 'Disabled') }}
               </p>
             </div>
             <div :class="`w-12 h-12 rounded-full flex items-center justify-center ${manageStock ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-200 dark:bg-gray-600'}`">
@@ -238,7 +238,7 @@ const formatDate = (date: string) => {
             </div>
           </div>
           <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-            {{ manageStock ? 'Stock tracking active' : 'No stock tracking' }}
+            {{ $t(manageStock ? 'Stock tracking active' : 'No stock tracking') }}
           </p>
         </div>
       </div>
@@ -246,7 +246,7 @@ const formatDate = (date: string) => {
 
     <!-- Warehouses (if multi-warehouse enabled) -->
     <div v-if="warehouses.length > 0" class="p-6 border-b border-gray-200 dark:border-gray-700">
-      <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">Stock by Warehouse</h4>
+      <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Stock by Warehouse') }}</h4>
       <div class="space-y-3">
         <div
           v-for="warehouse in warehouses"
@@ -259,25 +259,25 @@ const formatDate = (date: string) => {
             </div>
             <div>
               <p class="text-sm font-medium text-gray-900 dark:text-white">{{ warehouse.name }}</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Code: {{ warehouse.code }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">{{ $t('Code: {code}', { code: warehouse.code }) }}</p>
             </div>
           </div>
           <div class="text-right">
             <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ warehouse.quantity }}</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">units</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">{{ $t('units') }}</p>
           </div>
         </div>
         
         <div class="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-2 border-blue-200 dark:border-blue-800">
-          <p class="text-sm font-semibold text-blue-900 dark:text-blue-300">Total Stock</p>
-          <p class="text-lg font-bold text-blue-900 dark:text-blue-300">{{ totalWarehouseStock }} units</p>
+          <p class="text-sm font-semibold text-blue-900 dark:text-blue-300">{{ $t('Total Stock') }}</p>
+          <p class="text-lg font-bold text-blue-900 dark:text-blue-300">{{ $t('{total} units', { total: totalWarehouseStock }) }}</p>
         </div>
       </div>
     </div>
 
     <!-- Adjustment History -->
     <div class="p-6">
-      <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">Stock Adjustment History</h4>
+      <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Stock Adjustment History') }}</h4>
       
       <div v-if="adjustmentHistory.length > 0" class="space-y-3 max-h-96 overflow-y-auto">
         <div
@@ -313,17 +313,17 @@ const formatDate = (date: string) => {
                   {{ getAdjustmentTypeLabel(adjustment.type) }}
                 </p>
                 <p class="text-sm text-gray-900 dark:text-white font-semibold">
-                  {{ adjustment.type === 'addition' ? '+' : adjustment.type === 'subtraction' ? '-' : '' }}{{ adjustment.quantity }} units
+                  {{ adjustment.type === 'addition' ? '+' : adjustment.type === 'subtraction' ? '-' : '' }}{{ $t('{quantity} units', { quantity: adjustment.quantity }) }}
                 </p>
               </div>
               <span class="text-xs text-gray-500 dark:text-gray-400">
-                {{ adjustment.created_at ? formatDate(adjustment.created_at) : 'Just now' }}
+                {{ adjustment.created_at ? formatDate(adjustment.created_at) : $t('Just now') }}
               </span>
             </div>
             
             <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">{{ adjustment.reason }}</p>
             <p v-if="adjustment.notes" class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ adjustment.notes }}</p>
-            <p v-if="adjustment.user" class="text-xs text-gray-500 dark:text-gray-400 mt-1">By: {{ adjustment.user.name }}</p>
+            <p v-if="adjustment.user" class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('By: {name}', { name: adjustment.user.name }) }}</p>
           </div>
         </div>
       </div>
@@ -332,7 +332,7 @@ const formatDate = (date: string) => {
         <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
         </svg>
-        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">No stock adjustments recorded yet</p>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $t('No stock adjustments recorded yet') }}</p>
       </div>
     </div>
 
@@ -344,24 +344,24 @@ const formatDate = (date: string) => {
     >
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4">
         <div class="p-6">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Adjust Inventory</h3>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Adjust Inventory') }}</h3>
           
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Adjustment Type</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Adjustment Type') }}</label>
               <select
                 v-model="newAdjustment.type"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="addition">Add Stock</option>
-                <option value="subtraction">Remove Stock</option>
-                <option value="correction">Stock Correction</option>
+                <option value="addition">{{ $t('Add Stock') }}</option>
+                <option value="subtraction">{{ $t('Remove Stock') }}</option>
+                <option value="correction">{{ $t('Stock Correction') }}</option>
               </select>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                {{ newAdjustment.type === 'correction' ? 'New Stock Level' : 'Quantity' }}
+                {{ $t(newAdjustment.type === 'correction' ? 'New Stock Level' : 'Quantity') }}
               </label>
               <input
                 v-model.number="newAdjustment.quantity"
@@ -370,26 +370,26 @@ const formatDate = (date: string) => {
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <p v-if="newAdjustment.type !== 'correction'" class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                Current stock: {{ currentStock }} units
+                {{ $t('Current stock: {stock} units', { stock: currentStock }) }}
               </p>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Reason *</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Reason *') }}</label>
               <input
                 v-model="newAdjustment.reason"
                 type="text"
-                placeholder="e.g., New shipment, Damaged goods, Stock count"
+                :placeholder="$t('e.g., New shipment, Damaged goods, Stock count')"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes (Optional)</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Notes (Optional)') }}</label>
               <textarea
                 v-model="newAdjustment.notes"
                 rows="3"
-                placeholder="Additional details..."
+                :placeholder="$t('Additional details...')"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               ></textarea>
             </div>
@@ -401,14 +401,14 @@ const formatDate = (date: string) => {
               :disabled="isSubmitting"
               class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
             >
-              {{ isSubmitting ? 'Adjusting...' : 'Adjust Stock' }}
+              {{ $t(isSubmitting ? 'Adjusting...' : 'Adjust Stock') }}
             </button>
             <button
               @click="showAdjustmentForm = false"
               :disabled="isSubmitting"
               class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </button>
           </div>
         </div>

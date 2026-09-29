@@ -226,28 +226,28 @@ const getSegmentColor = (segment: string) => {
 </script>
 
 <template>
-    <Head title="Customer Reports" />
-    <AdminLayout title="Customer Reports">
+    <Head :title="$t('Customer Reports')" />
+    <AdminLayout :title="$t('Customer Reports')">
         <div class="space-y-6">
             <!-- Page Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Customer Reports</h1>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ $t('Customer Reports') }}</h1>
                     <p class="mt-1 text-sm text-gray-500">
-                        Analyze customer behavior, segments, and lifetime value
+                        {{ $t('Analyze customer behavior, segments, and lifetime value') }}
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
                     <button class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm transition-all duration-200">
                         <Download class="w-4 h-4" />
-                        Export Report
+                        {{ $t('Export Report') }}
                     </button>
                     <button
                         @click="applyFilters"
                         class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 border border-transparent rounded-xl text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm transition-all duration-200"
                     >
                         <Filter class="w-4 h-4" />
-                        Apply Filters
+                        {{ $t('Apply Filters') }}
                     </button>
                 </div>
             </div>
@@ -259,7 +259,7 @@ const getSegmentColor = (segment: string) => {
                     <div class="col-span-2 grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                                Start Date
+                                {{ $t('Start Date') }}
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -274,7 +274,7 @@ const getSegmentColor = (segment: string) => {
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                                End Date
+                                {{ $t('                                {{ $t('End Date') }}') }}
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -297,7 +297,7 @@ const getSegmentColor = (segment: string) => {
                         class="text-sm text-red-600 hover:text-red-700 font-medium flex items-center gap-2"
                     >
                         <RefreshCcw class="w-4 h-4" />
-                        Reset Filters
+                        {{ $t('Reset Filters') }}
                     </button>
                 </div>
             </div>
@@ -308,11 +308,11 @@ const getSegmentColor = (segment: string) => {
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-200 hover:shadow-md">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Customers</p>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('Total Customers') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900">{{ formatNumber(statistics.total_customers) }}</p>
                             <div class="mt-2 flex items-center text-xs text-green-600 bg-green-50 w-fit px-2 py-1 rounded-full">
                                 <ArrowUpRight class="w-3 h-3 mr-1" />
-                                <span class="font-medium">Active Base</span>
+                                <span class="font-medium">{{ $t('Active Base') }}</span>
                             </div>
                         </div>
                         <div class="p-3 bg-blue-50 rounded-xl border border-blue-100">
@@ -325,11 +325,11 @@ const getSegmentColor = (segment: string) => {
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-200 hover:shadow-md">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">New Customers</p>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('New Customers') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900">{{ formatNumber(statistics.new_customers) }}</p>
                             <div class="mt-2 flex items-center text-xs text-blue-600 bg-blue-50 w-fit px-2 py-1 rounded-full">
                                 <UserPlus class="w-3 h-3 mr-1" />
-                                <span class="font-medium">Recently Joined</span>
+                                <span class="font-medium">{{ $t('Recently Joined') }}</span>
                             </div>
                         </div>
                         <div class="p-3 bg-green-50 rounded-xl border border-green-100">
@@ -342,11 +342,11 @@ const getSegmentColor = (segment: string) => {
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-200 hover:shadow-md">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Avg LTV</p>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('Avg LTV') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900">{{ formatCurrency(statistics.avg_lifetime_value) }}</p>
                             <div class="mt-2 flex items-center text-xs text-purple-600 bg-purple-50 w-fit px-2 py-1 rounded-full">
                                 <TrendingUp class="w-3 h-3 mr-1" />
-                                <span class="font-medium">Per Customer</span>
+                                <span class="font-medium">{{ $t('Per Customer') }}</span>
                             </div>
                         </div>
                         <div class="p-3 bg-purple-50 rounded-xl border border-purple-100">
@@ -359,11 +359,11 @@ const getSegmentColor = (segment: string) => {
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-200 hover:shadow-md">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Repeat Rate</p>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('Repeat Rate') }}</p>
                             <p class="mt-2 text-2xl font-bold text-gray-900">{{ formatPercentage(statistics.repeat_rate) }}</p>
                             <div class="mt-2 flex items-center text-xs text-orange-600 bg-orange-50 w-fit px-2 py-1 rounded-full">
                                 <RefreshCcw class="w-3 h-3 mr-1" />
-                                <span class="font-medium">Retention</span>
+                                <span class="font-medium">{{ $t('Retention') }}</span>
                             </div>
                         </div>
                         <div class="p-3 bg-orange-50 rounded-xl border border-orange-100">
@@ -383,8 +383,8 @@ const getSegmentColor = (segment: string) => {
                                 <UserPlus class="w-5 h-5 text-blue-600" />
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Customer Acquisition</h2>
-                                <p class="text-xs text-gray-500">New customer signups over time</p>
+                                <h2 class="text-lg font-bold text-gray-900">{{ $t('Customer Acquisition') }}</h2>
+                                <p class="text-xs text-gray-500">{{ $t('New customer signups over time') }}</p>
                             </div>
                         </div>
                     </div>
@@ -401,8 +401,8 @@ const getSegmentColor = (segment: string) => {
                                 <PieChart class="w-5 h-5 text-purple-600" />
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Customer Segments</h2>
-                                <p class="text-xs text-gray-500">Distribution by customer type</p>
+                                <h2 class="text-lg font-bold text-gray-900">{{ $t('Customer Segments') }}</h2>
+                                <p class="text-xs text-gray-500">{{ $t('Distribution by customer type') }}</p>
                             </div>
                         </div>
                     </div>
@@ -419,8 +419,8 @@ const getSegmentColor = (segment: string) => {
                                 <Map class="w-5 h-5 text-green-600" />
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Revenue by Country</h2>
-                                <p class="text-xs text-gray-500">Sales performance by location</p>
+                                <h2 class="text-lg font-bold text-gray-900">{{ $t('Revenue by Country') }}</h2>
+                                <p class="text-xs text-gray-500">{{ $t('Sales performance by location') }}</p>
                             </div>
                         </div>
                     </div>
@@ -437,8 +437,8 @@ const getSegmentColor = (segment: string) => {
                                 <CreditCard class="w-5 h-5 text-orange-600" />
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">LTV Distribution</h2>
-                                <p class="text-xs text-gray-500">Customer value analysis</p>
+                                <h2 class="text-lg font-bold text-gray-900">{{ $t('LTV Distribution') }}</h2>
+                                <p class="text-xs text-gray-500">{{ $t('Customer value analysis') }}</p>
                             </div>
                         </div>
                     </div>
@@ -458,8 +458,8 @@ const getSegmentColor = (segment: string) => {
                                 <TrendingUp class="w-5 h-5 text-yellow-600" />
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Top Customers</h2>
-                                <p class="text-xs text-gray-500">Highest spending customers by value</p>
+                                <h2 class="text-lg font-bold text-gray-900">{{ $t('Top Customers') }}</h2>
+                                <p class="text-xs text-gray-500">{{ $t('Highest spending customers by value') }}</p>
                             </div>
                         </div>
                     </div>
@@ -468,9 +468,9 @@ const getSegmentColor = (segment: string) => {
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-100">
-                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer</th>
-                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Orders</th>
-                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Total Spent</th>
+                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('Customer') }}</th>
+                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">{{ $t('Orders') }}</th>
+                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">{{ $t('Total Spent') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
@@ -483,7 +483,7 @@ const getSegmentColor = (segment: string) => {
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                                            {{ customer.order_count }} orders
+                                            {{ $t('{count} orders', { count: customer.order_count }) }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 text-right">
@@ -492,7 +492,7 @@ const getSegmentColor = (segment: string) => {
                                 </tr>
                                 <tr v-if="topCustomers.length === 0">
                                     <td colspan="3" class="px-6 py-8 text-center text-sm text-gray-500">
-                                        No customer data available
+                                        {{ $t('No customer data available') }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -508,8 +508,8 @@ const getSegmentColor = (segment: string) => {
                                 <Users class="w-5 h-5 text-indigo-600" />
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Segment Analysis</h2>
-                                <p class="text-xs text-gray-500">Top 10 customers by RFM score</p>
+                                <h2 class="text-lg font-bold text-gray-900">{{ $t('Segment Analysis') }}</h2>
+                                <p class="text-xs text-gray-500">{{ $t('Top 10 customers by RFM score') }}</p>
                             </div>
                         </div>
                     </div>
@@ -518,9 +518,9 @@ const getSegmentColor = (segment: string) => {
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-100">
-                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer</th>
-                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">RFM Score</th>
-                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Segment</th>
+                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('Customer') }}</th>
+                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">{{ $t('RFM Score') }}</th>
+                                    <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">{{ $t('Segment') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
@@ -542,7 +542,7 @@ const getSegmentColor = (segment: string) => {
                                 </tr>
                                 <tr v-if="rfmSegmentation.length === 0">
                                     <td colspan="3" class="px-6 py-8 text-center text-sm text-gray-500">
-                                        No segmentation data available
+                                        {{ $t('No segmentation data available') }}
                                     </td>
                                 </tr>
                             </tbody>

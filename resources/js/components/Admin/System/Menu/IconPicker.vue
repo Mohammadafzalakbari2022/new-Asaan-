@@ -101,7 +101,7 @@ const clearIcon = () => {
                 />
                 <Menu v-else :size="20" class="text-gray-400" />
                 <span class="text-sm text-gray-700 dark:text-gray-300">
-                    {{ selectedIcon?.label || 'Select Icon' }}
+                    {{ $t(selectedIcon?.label || 'Select Icon') }}
                 </span>
             </button>
 
@@ -127,7 +127,7 @@ const clearIcon = () => {
                     <input
                         v-model="searchQuery"
                         type="text"
-                        placeholder="Search icons..."
+                        :placeholder="$t('Search icons...')"
                         class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                 </div>
@@ -149,7 +149,7 @@ const clearIcon = () => {
                         ]"
                     >
                         <component :is="icon.component" :size="24" />
-                        <span class="text-xs text-center leading-tight">{{ icon.label }}</span>
+                        <span class="text-xs text-center leading-tight">{{ $t(icon.label) }}</span>
                         <Check
                             v-if="modelValue === icon.name"
                             :size="14"
@@ -160,7 +160,7 @@ const clearIcon = () => {
 
                 <!-- No Results -->
                 <div v-if="filteredIcons.length === 0" class="text-center py-8 text-gray-500 dark:text-gray-400">
-                    No icons found
+                    {{ $t('No icons found') }}
                 </div>
             </div>
         </div>

@@ -152,16 +152,16 @@ function money(value: number | string) {
 </script>
 
 <template>
-  <Head :title="`Job ${booking.reference}`" />
+  <Head :title="$t('Job {reference}', { reference: booking.reference })" />
 
-  <AdminLayout :title="`Job ${booking.reference}`">
+  <AdminLayout :title="$t('Job {reference}', { reference: booking.reference })">
     <div class="p-6 space-y-6">
       <div>
         <Link
           href="/admin/services/bookings"
           class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400"
         >
-          <ArrowLeft class="mr-1 h-4 w-4" /> Back to jobs
+          <ArrowLeft class="mr-1 h-4 w-4" /> {{ $t('Back to jobs') }}
         </Link>
 
         <div class="mt-2 flex flex-wrap items-center justify-between gap-4">
@@ -173,7 +173,7 @@ function money(value: number | string) {
               </span>
             </div>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              {{ booking.service_name }} on {{ booking.scheduled_date }} ({{ booking.scheduled_slot }})
+              {{ $t('{service} on {date} ({slot})', { service: booking.service_name, date: booking.scheduled_date, slot: booking.scheduled_slot }) }}
             </p>
           </div>
 
@@ -185,7 +185,7 @@ function money(value: number | string) {
               class="inline-flex items-center rounded-lg bg-blue-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-blue-700 disabled:opacity-60"
               @click="start"
             >
-              <Play class="mr-1.5 h-3.5 w-3.5" /> Mark started
+              <Play class="mr-1.5 h-3.5 w-3.5" /> {{ $t('Mark started') }}
             </button>
 
             <button
@@ -194,7 +194,7 @@ function money(value: number | string) {
               class="inline-flex items-center rounded-lg bg-green-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-green-700"
               @click="showComplete = true"
             >
-              <CheckCircle2 class="mr-1.5 h-3.5 w-3.5" /> Finish job
+              <CheckCircle2 class="mr-1.5 h-3.5 w-3.5" /> {{ $t('Finish job') }}
             </button>
 
             <button
@@ -203,7 +203,7 @@ function money(value: number | string) {
               class="inline-flex items-center rounded-lg border border-red-200 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-red-600 transition hover:bg-red-50 dark:border-red-900"
               @click="showCancel = true"
             >
-              <XCircle class="mr-1.5 h-3.5 w-3.5" /> Cancel job
+              <XCircle class="mr-1.5 h-3.5 w-3.5" /> {{ $t('Cancel job') }}
             </button>
           </div>
         </div>
@@ -216,21 +216,21 @@ function money(value: number | string) {
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div class="space-y-6 lg:col-span-2">
           <section class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">Customer</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('Customer') }}</h2>
             <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div class="flex items-start gap-3">
                 <User class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Name</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Name') }}</p>
                   <p class="text-sm text-gray-900 dark:text-gray-100">{{ booking.customer_name }}</p>
-                  <p v-if="booking.user" class="text-xs text-gray-500">Signed in</p>
+                  <p v-if="booking.user" class="text-xs text-gray-500">{{ $t('Signed in') }}</p>
                 </div>
               </div>
 
               <div class="flex items-start gap-3">
                 <Phone class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Phone</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Phone') }}</p>
                   <a :href="`tel:${booking.customer_phone}`" class="text-sm text-blue-600 hover:underline">
                     {{ booking.customer_phone }}
                   </a>
@@ -240,7 +240,7 @@ function money(value: number | string) {
               <div v-if="booking.customer_email" class="flex items-start gap-3">
                 <Mail class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Email</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Email') }}</p>
                   <a :href="`mailto:${booking.customer_email}`" class="text-sm text-blue-600 hover:underline">
                     {{ booking.customer_email }}
                   </a>
@@ -250,7 +250,7 @@ function money(value: number | string) {
               <div v-if="booking.address || booking.city" class="flex items-start gap-3">
                 <MapPin class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Address</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Address') }}</p>
                   <p class="text-sm text-gray-900 dark:text-gray-100">
                     <span v-if="booking.address">{{ booking.address }}</span>
                     <span v-if="booking.address && booking.city">, </span>
@@ -261,13 +261,13 @@ function money(value: number | string) {
             </div>
 
             <div v-if="booking.notes" class="mt-5 border-t border-gray-100 pt-4 dark:border-gray-700">
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Customer notes</p>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Customer notes') }}</p>
               <p class="mt-1 whitespace-pre-line text-sm text-gray-700 dark:text-gray-300">{{ booking.notes }}</p>
             </div>
           </section>
 
           <section class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">History</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('History') }}</h2>
 
             <ol class="mt-4 space-y-4">
               <li v-for="event in booking.events" :key="event.id" class="flex gap-4">
@@ -281,10 +281,10 @@ function money(value: number | string) {
                 <div class="pb-1">
                   <p class="text-sm text-gray-900 dark:text-gray-100">
                     <span v-if="event.from_status && event.to_status">
-                      {{ statusLabels[event.from_status] }} to {{ statusLabels[event.to_status] }}
+                      {{ $t('{from} to {to}', { from: statusLabels[event.from_status], to: statusLabels[event.to_status] }) }}
                     </span>
                     <span v-else-if="event.to_status">{{ statusLabels[event.to_status] ?? event.to_status }}</span>
-                    <span v-else>Note added</span>
+                    <span v-else>{{ $t('Note added') }}</span>
                   </p>
                   <p class="text-xs text-gray-500">
                     {{ new Date(event.created_at).toLocaleString() }}
@@ -301,23 +301,23 @@ function money(value: number | string) {
 
         <div class="space-y-6">
           <section class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">Money</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('Money') }}</h2>
             <div class="mt-4 space-y-3 text-sm">
               <div class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-400">Promised</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Promised') }}</span>
                 <span class="font-medium text-gray-900 dark:text-gray-100">{{ money(booking.price_snapshot) }}</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-400">Collected</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Collected') }}</span>
                 <span class="font-medium text-gray-900 dark:text-gray-100">
-                  {{ booking.amount_collected !== null ? money(booking.amount_collected) : 'Not recorded' }}
+                  {{ booking.amount_collected !== null ? money(booking.amount_collected) : $t('Not recorded') }}
                 </span>
               </div>
               <div
                 v-if="booking.amount_collected !== null && booking.amountVariance !== 0"
                 class="flex items-center justify-between border-t border-gray-100 pt-3 dark:border-gray-700"
               >
-                <span class="text-gray-600 dark:text-gray-400">Difference</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Difference') }}</span>
                 <span
                   class="font-semibold"
                   :class="booking.amountVariance > 0 ? 'text-green-600' : 'text-red-600'"
@@ -331,48 +331,48 @@ function money(value: number | string) {
             <div v-if="booking.order" class="mt-4 flex items-center gap-2 border-t border-gray-100 pt-4 dark:border-gray-700">
               <FileText class="h-4 w-4 text-gray-400" />
               <p class="text-xs text-gray-600 dark:text-gray-400">
-                Order
+                {{ $t('Order') }}
                 <span class="font-mono font-medium text-gray-900 dark:text-gray-100">{{ booking.order.order_number }}</span>
               </p>
             </div>
           </section>
 
           <section class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">When</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('When') }}</h2>
             <div class="mt-4 space-y-3 text-sm">
               <div class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-400">Booked on</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Booked on') }}</span>
                 <span class="text-gray-900 dark:text-gray-100">{{ new Date(booking.created_at).toLocaleDateString() }}</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-400">Scheduled</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Scheduled') }}</span>
                 <span class="text-gray-900 dark:text-gray-100">{{ booking.scheduled_date }}</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-400">Slot</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Slot') }}</span>
                 <span class="text-gray-900 dark:text-gray-100">{{ booking.scheduled_slot }}</span>
               </div>
               <div v-if="booking.completed_at" class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-400">Finished</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Finished') }}</span>
                 <span class="text-gray-900 dark:text-gray-100">
                   {{ new Date(booking.completed_at).toLocaleString() }}
                 </span>
               </div>
               <div v-if="booking.cancel_reason" class="flex items-start justify-between gap-4">
-                <span class="text-gray-600 dark:text-gray-400">Cancelled because</span>
+                <span class="text-gray-600 dark:text-gray-400">{{ $t('Cancelled because') }}</span>
                 <span class="text-right text-red-600">{{ booking.cancel_reason }}</span>
               </div>
             </div>
           </section>
 
           <section class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">Worker</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('Worker') }}</h2>
 
             <div v-if="booking.worker" class="mt-4">
               <p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ booking.worker.name }}</p>
               <p v-if="booking.worker.phone" class="text-xs text-gray-500">{{ booking.worker.phone }}</p>
               <p v-if="booking.assignedBy" class="mt-1 text-xs text-gray-500">
-                Assigned by {{ booking.assignedBy.name }}
+                {{ $t('Assigned by {name}', { name: booking.assignedBy.name }) }}
               </p>
               <button
                 v-if="canCancel"
@@ -381,21 +381,21 @@ function money(value: number | string) {
                 class="mt-3 inline-flex items-center text-sm text-red-600 hover:underline disabled:opacity-60"
                 @click="unassign"
               >
-                <UserMinus class="mr-1.5 h-3.5 w-3.5" /> Take off this job
+                <UserMinus class="mr-1.5 h-3.5 w-3.5" /> {{ $t('Take off this job') }}
               </button>
             </div>
 
             <form v-else class="mt-4 space-y-3" novalidate @submit.prevent="assign">
               <div>
                 <label for="field-assigned_to" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Who is doing it?
+                  {{ $t('Who is doing it?') }}
                 </label>
                 <select
                   id="field-assigned_to"
                   v-model="assignForm.assigned_to"
                   class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
                 >
-                  <option :value="null">Choose a worker</option>
+                  <option :value="null">{{ $t('Choose a worker') }}</option>
                   <option v-for="worker in workers" :key="worker.id" :value="worker.id">
                     {{ worker.name }}{{ worker.phone ? ` (${worker.phone})` : '' }}
                   </option>
@@ -406,7 +406,7 @@ function money(value: number | string) {
               </div>
               <div>
                 <label for="field-assign-note" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Note for the worker
+                  {{ $t('Note for the worker') }}
                 </label>
                 <input
                   id="field-assign-note"
@@ -420,22 +420,22 @@ function money(value: number | string) {
                 :disabled="assignForm.processing"
                 class="w-full rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-blue-700 disabled:opacity-60"
               >
-                {{ assignForm.processing ? 'Assigning...' : 'Assign job' }}
+                {{ assignForm.processing ? $t('Assigning...') : $t('Assign job') }}
               </button>
             </form>
           </section>
 
           <section class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div class="flex items-center justify-between">
-              <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">Private notes</h2>
+              <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500">{{ $t('Private notes') }}</h2>
               <button type="button" class="text-sm text-blue-600 hover:underline" @click="showNote = true">
-                {{ booking.internal_notes ? 'Edit' : 'Add' }}
+                {{ booking.internal_notes ? $t('Edit') : $t('Add') }}
               </button>
             </div>
             <p v-if="booking.internal_notes" class="mt-3 whitespace-pre-line text-sm text-gray-700 dark:text-gray-300">
               {{ booking.internal_notes }}
             </p>
-            <p v-else class="mt-3 text-sm text-gray-500">Only your staff see this.</p>
+            <p v-else class="mt-3 text-sm text-gray-500">{{ $t('Only your staff see this.') }}</p>
           </section>
         </div>
       </div>
@@ -445,15 +445,15 @@ function money(value: number | string) {
          can never be marked done by accident. -->
     <div v-if="showComplete" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-800">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Finish this job</h3>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('Finish this job') }}</h3>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          How much did you take on the day? The customer was quoted {{ money(booking.price_snapshot) }}.
+          {{ $t('How much did you take on the day? The customer was quoted {amount}.', { amount: money(booking.price_snapshot) }) }}
         </p>
 
         <form class="mt-4 space-y-4" novalidate @submit.prevent="complete">
           <div>
             <label for="field-amount_collected" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Amount collected <span class="text-red-500">*</span>
+              {{ $t('Amount collected') }} <span class="text-red-500">*</span>
             </label>
             <input
               id="field-amount_collected"
@@ -471,7 +471,7 @@ function money(value: number | string) {
 
           <div>
             <label for="field-complete-note" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Note
+              {{ $t('Note') }}
             </label>
             <input
               id="field-complete-note"
@@ -487,14 +487,14 @@ function money(value: number | string) {
               :disabled="completeForm.processing"
               class="flex-1 rounded-lg bg-green-600 px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-white hover:bg-green-700 disabled:opacity-60"
             >
-              {{ completeForm.processing ? 'Saving...' : 'Confirm' }}
+              {{ completeForm.processing ? $t('Saving...') : $t('Confirm') }}
             </button>
             <button
               type="button"
               class="rounded-lg border border-gray-300 px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-gray-700 dark:border-gray-600 dark:text-gray-200"
               @click="showComplete = false"
             >
-              Back
+              {{ $t('Back') }}
             </button>
           </div>
         </form>
@@ -503,15 +503,15 @@ function money(value: number | string) {
 
     <div v-if="showCancel" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-800">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Cancel this job</h3>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('Cancel this job') }}</h3>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          The reason is kept on the record so nobody has to guess later.
+          {{ $t('The reason is kept on the record so nobody has to guess later.') }}
         </p>
 
         <form class="mt-4 space-y-4" novalidate @submit.prevent="cancel">
           <div>
             <label for="field-cancel_reason" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Why is it being cancelled? <span class="text-red-500">*</span>
+              {{ $t('Why is it being cancelled?') }} <span class="text-red-500">*</span>
             </label>
             <input
               id="field-cancel_reason"
@@ -531,14 +531,14 @@ function money(value: number | string) {
               :disabled="cancelForm.processing"
               class="flex-1 rounded-lg bg-red-600 px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-white hover:bg-red-700 disabled:opacity-60"
             >
-              {{ cancelForm.processing ? 'Cancelling...' : 'Yes, cancel it' }}
+              {{ cancelForm.processing ? $t('Cancelling...') : $t('Yes, cancel it') }}
             </button>
             <button
               type="button"
               class="rounded-lg border border-gray-300 px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-gray-700 dark:border-gray-600 dark:text-gray-200"
               @click="showCancel = false"
             >
-              Back
+              {{ $t('Back') }}
             </button>
           </div>
         </form>
@@ -548,13 +548,13 @@ function money(value: number | string) {
     <div v-if="showNote" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl dark:bg-gray-800">
         <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
-          <StickyNote class="h-5 w-5" /> Private note
+          <StickyNote class="h-5 w-5" /> {{ $t('Private note') }}
         </h3>
 
         <form class="mt-4 space-y-4" novalidate @submit.prevent="saveNote">
           <div>
             <label for="field-internal_notes" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              What should the office remember?
+              {{ $t('What should the office remember?') }}
             </label>
             <textarea
               id="field-internal_notes"
@@ -574,14 +574,14 @@ function money(value: number | string) {
               :disabled="noteForm.processing"
               class="flex-1 rounded-lg bg-blue-600 px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-white hover:bg-blue-700 disabled:opacity-60"
             >
-              {{ noteForm.processing ? 'Saving...' : 'Save note' }}
+              {{ noteForm.processing ? $t('Saving...') : $t('Save note') }}
             </button>
             <button
               type="button"
               class="rounded-lg border border-gray-300 px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-gray-700 dark:border-gray-600 dark:text-gray-200"
               @click="showNote = false"
             >
-              Back
+              {{ $t('Back') }}
             </button>
           </div>
         </form>

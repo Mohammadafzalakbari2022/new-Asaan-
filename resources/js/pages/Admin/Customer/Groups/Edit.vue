@@ -2,7 +2,8 @@
 import { Head, useForm, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import ConfirmDeleteModal from '@/components/Admin/ConfirmDeleteModal.vue';
-import { ref } from 'vue';
+import { useI18nStore } from '@/Stores/i18n';
+import { computed, ref } from 'vue';
 
 interface Customer {
     id: number;
@@ -40,7 +41,13 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const { t } = useI18nStore();
+
 const showDeleteModal = ref(false);
+
+const deleteMessage = computed(() =>
+    t("Are you sure you want to delete '{name}'? This action cannot be undone.", { name: props.group.name }),
+);
 
 const form = useForm({
     name: props.group?.name || '',
@@ -91,8 +98,8 @@ const applyAutoAssignment = () => {
 </script>
 
 <template>
-    <AdminLayout :title="`Edit ${group.name}`">
-        <Head :title="`Edit ${group.name}`" />
+    <AdminLayout :title="$t('Edit {name}', { name: group.name })">
+        <Head :title="$t('Edit {name}', { name: group.name })" />
 
         <div class="p-6">
             <!-- Back Button -->
@@ -105,7 +112,7 @@ const applyAutoAssignment = () => {
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    Back to Customer Groups
+                    {{ $t('Back to Customer Groups') }}
                 </button>
             </div>
 
@@ -113,21 +120,21 @@ const applyAutoAssignment = () => {
             <div class="mb-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">Edit Customer Group</h1>
-                        <p class="mt-1 text-sm text-gray-600">Update group settings and auto-assignment rules.</p>
+                        <h1 class="text-2xl font-bold text-gray-900">{{ $t('Edit Customer Group') }}</h1>
+                        <p class="mt-1 text-sm text-gray-600">{{ $t('Update group settings and auto-assignment rules.') }}</p>
                     </div>
                     <button
                         v-if="!group.is_default && customersCount === 0"
                         @click="confirmDelete"
                         class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                     >
-                        Delete Group
+                        {{ $t('Delete Group') }}
                     </button>
                     <div v-else-if="group.is_default" class="text-sm text-gray-500">
-                        Cannot delete default group
+                        {{ $t('Cannot delete default group') }}
                     </div>
                     <div v-else class="text-sm text-gray-500">
-                        Cannot delete (has {{ customersCount }} customers)
+                        {{ $t('Cannot delete (has {count} customers)', { count: customersCount }) }}
                     </div>
                 </div>
             </div>
@@ -135,15 +142,15 @@ const applyAutoAssignment = () => {
             <!-- Stats -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div class="bg-white rounded-lg shadow-sm p-4">
-                    <div class="text-sm text-gray-600">Total Customers</div>
+                    <div class="text-sm text-gray-600">{{ $t('Total Customers') }}</div>
                     <div class="text-2xl font-bold text-gray-900 mt-1">{{ customersCount }}</div>
                 </div>
                 <div class="bg-white rounded-lg shadow-sm p-4">
-                    <div class="text-sm text-gray-600">Discount Percentage</div>
+                    <div class="text-sm text-gray-600">{{ $t('Discount Percentage') }}</div>
                     <div class="text-2xl font-bold text-blue-600 mt-1">{{ group.discount_percentage }}%</div>
                 </div>
                 <div class="bg-white rounded-lg shadow-sm p-4">
-                    <div class="text-sm text-gray-600">Display Order</div>
+                    <div class="text-sm text-gray-600">{{ $t('Display Order') }}</div>
                     <div class="text-2xl font-bold text-gray-900 mt-1">#{{ group.order }}</div>
                 </div>
             </div>
@@ -153,12 +160,12 @@ const applyAutoAssignment = () => {
                 <form @submit.prevent="submit" class="space-y-6">
                     <!-- Basic Information -->
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">Basic Information</h2>
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Basic Information') }}</h2>
                         <div class="space-y-4">
                             <!-- Name and Code -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Group Name *</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Group Name *') }}</label>
                                     <input
                                         v-model="form.name"
                                         @blur="generateCode"
@@ -166,36 +173,36 @@ const applyAutoAssignment = () => {
                                         required
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                         :class="{ 'border-red-500': form.errors.name }"
-                                        placeholder="e.g., VIP Members, Wholesale"
+                                        :placeholder="$t('e.g., VIP Members, Wholesale')"
                                     />
                                     <div v-if="form.errors.name" class="text-red-600 text-sm mt-1">{{ form.errors.name }}</div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Group Code
-                                        <span class="text-gray-500 font-normal">(auto-generated)</span>
+                                        {{ $t('Group Code') }}
+                                        <span class="text-gray-500 font-normal">{{ $t('(auto-generated)') }}</span>
                                     </label>
                                     <input
                                         v-model="form.code"
                                         type="text"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                         :class="{ 'border-red-500': form.errors.code }"
-                                        placeholder="e.g., vip-members"
+                                        :placeholder="$t('e.g., vip-members')"
                                     />
                                     <div v-if="form.errors.code" class="text-red-600 text-sm mt-1">{{ form.errors.code }}</div>
-                                    <p class="text-xs text-gray-500 mt-1">Lowercase letters, numbers, and dashes only</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Lowercase letters, numbers, and dashes only') }}</p>
                                 </div>
                             </div>
 
                             <!-- Description -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Description') }}</label>
                                 <textarea
                                     v-model="form.description"
                                     rows="3"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                     :class="{ 'border-red-500': form.errors.description }"
-                                    placeholder="Brief description of this customer group..."
+                                    :placeholder="$t('Brief description of this customer group...')"
                                 ></textarea>
                                 <div v-if="form.errors.description" class="text-red-600 text-sm mt-1">{{ form.errors.description }}</div>
                             </div>
@@ -203,7 +210,7 @@ const applyAutoAssignment = () => {
                             <!-- Color and Discount -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Group Color</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Group Color') }}</label>
                                     <div class="flex items-center space-x-3">
                                         <input
                                             v-model="form.color"
@@ -215,13 +222,13 @@ const applyAutoAssignment = () => {
                                             type="text"
                                             class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                             :class="{ 'border-red-500': form.errors.color }"
-                                            placeholder="#3B82F6"
+                                            :placeholder="$t('#3B82F6')"
                                         />
                                     </div>
                                     <div v-if="form.errors.color" class="text-red-600 text-sm mt-1">{{ form.errors.color }}</div>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Discount Percentage</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Discount Percentage') }}</label>
                                     <div class="relative">
                                         <input
                                             v-model.number="form.discount_percentage"
@@ -236,7 +243,7 @@ const applyAutoAssignment = () => {
                                         <span class="absolute right-3 top-2 text-gray-500">%</span>
                                     </div>
                                     <div v-if="form.errors.discount_percentage" class="text-red-600 text-sm mt-1">{{ form.errors.discount_percentage }}</div>
-                                    <p class="text-xs text-gray-500 mt-1">Group-based discount (0-100%)</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Group-based discount (0-100%)') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -246,8 +253,8 @@ const applyAutoAssignment = () => {
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <h2 class="text-lg font-medium text-gray-900">Auto-Assignment Rules</h2>
-                                <p class="text-sm text-gray-600">Automatically assign customers to this group based on their purchase behavior.</p>
+                                <h2 class="text-lg font-medium text-gray-900">{{ $t('Auto-Assignment Rules') }}</h2>
+                                <p class="text-sm text-gray-600">{{ $t('Automatically assign customers to this group based on their purchase behavior.') }}</p>
                             </div>
                             <button
                                 type="button"
@@ -255,50 +262,50 @@ const applyAutoAssignment = () => {
                                 v-if="form.auto_assignment_rules.min_orders || form.auto_assignment_rules.min_spent || form.auto_assignment_rules.min_aov"
                                 class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
                             >
-                                Apply Rules Now
+                                {{ $t('Apply Rules Now') }}
                             </button>
                         </div>
                         <div class="space-y-4">
                             <div class="grid grid-cols-3 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Orders</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum Orders') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_orders"
                                         type="number"
                                         min="0"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                        placeholder="e.g., 10"
+                                        :placeholder="$t('e.g., 10')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">Total orders placed</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Total orders placed') }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Spent ($)</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum Spent ($)') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_spent"
                                         type="number"
                                         min="0"
                                         step="0.01"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                        placeholder="e.g., 1000.00"
+                                        :placeholder="$t('e.g., 1000.00')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">Total amount spent</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Total amount spent') }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimum AOV ($)</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum AOV ($)') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_aov"
                                         type="number"
                                         min="0"
                                         step="0.01"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                        placeholder="e.g., 100.00"
+                                        :placeholder="$t('e.g., 100.00')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">Average order value</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Average order value') }}</p>
                                 </div>
                             </div>
                             <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
                                 <p class="text-sm text-blue-800">
-                                    <strong>Note:</strong> Customers must meet ALL configured rules to be auto-assigned. Leave fields empty to ignore that criteria. Click "Apply Rules Now" to manually trigger the auto-assignment.
+                                    <strong>{{ $t('Note:') }}</strong> {{ $t("Customers must meet ALL configured rules to be auto-assigned. Leave fields empty to ignore that criteria. Click \"Apply Rules Now\" to manually trigger the auto-assignment.") }}
                                 </p>
                             </div>
                         </div>
@@ -306,7 +313,7 @@ const applyAutoAssignment = () => {
 
                     <!-- Settings -->
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">Settings</h2>
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Settings') }}</h2>
                         <div class="space-y-3">
                             <div class="flex items-center">
                                 <input
@@ -316,10 +323,10 @@ const applyAutoAssignment = () => {
                                     class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                 />
                                 <label for="is_default" class="ml-2 text-sm font-medium text-gray-700">
-                                    Set as Default Group
+                                    {{ $t('Set as Default Group') }}
                                 </label>
                             </div>
-                            <p class="text-xs text-gray-500 ml-6">New customers will be automatically assigned to this group</p>
+                            <p class="text-xs text-gray-500 ml-6">{{ $t('New customers will be automatically assigned to this group') }}</p>
 
                             <div class="flex items-center mt-4">
                                 <input
@@ -329,10 +336,10 @@ const applyAutoAssignment = () => {
                                     class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                 />
                                 <label for="status" class="ml-2 text-sm font-medium text-gray-700">
-                                    Active
+                                    {{ $t('Active') }}
                                 </label>
                             </div>
-                            <p class="text-xs text-gray-500 ml-6">Inactive groups won't be available for selection</p>
+                            <p class="text-xs text-gray-500 ml-6">{{ $t('Inactive groups won\'t be available for selection') }}</p>
                         </div>
                     </div>
 
@@ -343,15 +350,15 @@ const applyAutoAssignment = () => {
                             @click="router.visit('/admin/customers/groups')"
                             class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                         >
-                            Cancel
+                            {{ $t('Cancel') }}
                         </button>
                         <button
                             type="submit"
                             :disabled="form.processing"
                             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            <span v-if="form.processing">Saving...</span>
-                            <span v-else>Save Changes</span>
+                            <span v-if="form.processing">{{ $t('Saving...') }}</span>
+                            <span v-else>{{ $t('Save Changes') }}</span>
                         </button>
                     </div>
                 </form>
@@ -359,7 +366,7 @@ const applyAutoAssignment = () => {
 
             <!-- Recent Customers in Group -->
             <div v-if="group.customers && group.customers.length > 0" class="mt-6 bg-white rounded-lg shadow-sm p-6">
-                <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Customers ({{ customersCount }} total)</h2>
+                <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Recent Customers ({count} total)', { count: customersCount }) }}</h2>
                 <div class="space-y-2">
                     <div v-for="customer in group.customers" :key="customer.id" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div>
@@ -370,7 +377,7 @@ const applyAutoAssignment = () => {
                             :href="`/admin/customers/${customer.id}`"
                             class="text-blue-600 hover:text-blue-700 text-sm font-medium"
                         >
-                            View →
+                            {{ $t('View') }} →
                         </a>
                     </div>
                 </div>
@@ -379,7 +386,7 @@ const applyAutoAssignment = () => {
                         :href="`/admin/customers?customer_group_id=${group.id}`"
                         class="text-blue-600 hover:text-blue-700 text-sm font-medium"
                     >
-                        View all {{ customersCount }} customers →
+                        {{ $t('View all {count} customers', { count: customersCount }) }} →
                     </a>
                 </div>
             </div>
@@ -389,7 +396,7 @@ const applyAutoAssignment = () => {
         <ConfirmDeleteModal
             v-model:show="showDeleteModal"
             :title="group.name"
-            :message="`Are you sure you want to delete '${group.name}'? This action cannot be undone.`"
+            :message="deleteMessage"
             @confirm="deleteGroup"
         />
     </AdminLayout>

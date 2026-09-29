@@ -22,5 +22,6 @@ declare module 'vue' {
         $inertia: typeof Router;
         $page: Page;
         $headManager: ReturnType<typeof createHeadManager>;
+        $t: (key: string, params?: Record<string, string | number>) => string;
     }
 }

@@ -19,7 +19,7 @@ defineProps<{
 
 <template>
     <ThemeLayout>
-        <Head title="Verify Email" />
+        <Head :title="$t('Verify Email')" />
 
         <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
             <div class="w-full max-w-md">
@@ -41,10 +41,10 @@ defineProps<{
                     <!-- Header -->
                     <div class="text-center mb-6">
                         <h1 class="text-2xl font-bold text-gray-900 mb-2">
-                            Verify Your Email
+                            {{ $t('Verify Your Email') }}
                         </h1>
                         <p class="text-gray-600">
-                            Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you?
+                            {{ $t('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you?') }}
                         </p>
                     </div>
 
@@ -54,7 +54,7 @@ defineProps<{
                         class="mb-6 p-3 text-center text-sm font-medium text-green-700 bg-green-50 border border-green-200 rounded-md flex items-center justify-center"
                     >
                         <CheckCircle class="w-4 h-4 mr-2" />
-                        A new verification link has been sent to your email address.
+                        {{ $t('A new verification link has been sent to your email address.') }}
                     </div>
 
                     <!-- Resend Form -->
@@ -73,7 +73,7 @@ defineProps<{
                                 v-if="processing"
                                 class="h-5 w-5 animate-spin mr-2"
                             />
-                            {{ processing ? 'Sending...' : 'Resend Verification Email' }}
+                            {{ processing ? $t('Sending...') : $t('Resend Verification Email') }}
                         </Button>
                     </Form>
 
@@ -83,7 +83,7 @@ defineProps<{
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">or</span>
+                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@ defineProps<{
                             as="button"
                             class="text-sm text-gray-600 hover:underline"
                         >
-                            Log out
+                            {{ $t('Log out') }}
                         </Link>
                     </div>
                 </div>
@@ -109,19 +109,19 @@ defineProps<{
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
-                        Back to shop
+                        {{ $t('Back to shop') }}
                     </TextLink>
                 </div>
 
                 <!-- Email Tips -->
                 <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <h3 class="text-sm font-medium text-blue-900 mb-2">
-                        Didn't receive the email?
+                        {{ $t("Didn't receive the email?") }}
                     </h3>
-                    <ul class="text-xs text-blue-800 space-y-1">
-                        <li>• Check your spam or junk folder</li>
-                        <li>• Make sure you entered the correct email address</li>
-                        <li>• Click the "Resend" button above if needed</li>
+                    <ul class="text-xs text-blue-800 space-y-1 list-disc list-inside">
+                        <li>{{ $t('Check your spam or junk folder') }}</li>
+                        <li>{{ $t('Make sure you entered the correct email address') }}</li>
+                        <li>{{ $t('Click the "Resend" button above if needed') }}</li>
                     </ul>
                 </div>
             </div>

@@ -62,6 +62,8 @@ class HandleInertiaRequests extends Middleware
             return array_merge(parent::share($request), [
                 'name' => config('app.name'),
                 'appVersion' => config('app.version'),
+                'locale' => config('app.locale', 'fa'),
+                'locales' => [],
                 'quote' => ['message' => trim($message), 'author' => trim($author)],
                 'auth' => [
                     'user' => null,
@@ -109,6 +111,26 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'name' => config('app.name'),
             'appVersion' => config('app.version'),
+            'locale' => app()->getLocale(),
+            'locales' => function () {
+                try {
+                    return \Cartxis\Core\Models\Locale::query()
+                        ->where('is_active', true)
+                        ->orderBy('sort_order')
+                        ->get(['code', 'name', 'native_name', 'direction', 'is_default'])
+                        ->toArray();
+                } catch (\Exception $e) {
+                    return [
+                        [
+                            'code' => app()->getLocale(),
+                            'name' => 'Dari',
+                            'native_name' => 'دری',
+                            'direction' => 'rtl',
+                            'is_default' => true,
+                        ],
+                    ];
+                }
+            },
             'csrf_token' => csrf_token(),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [

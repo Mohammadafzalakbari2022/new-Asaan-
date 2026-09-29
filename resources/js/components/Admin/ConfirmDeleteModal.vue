@@ -57,7 +57,7 @@ const confirm = () => {
                             </div>
                             <div class="flex-1">
                                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                    Delete {{ title }}
+                                    {{ $t('Delete {title}', { title }) }}
                                 </h2>
                             </div>
                             <button
@@ -82,14 +82,14 @@ const confirm = () => {
                                 @click="close"
                                 class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                             >
-                                Cancel
+                                {{ $t('Cancel') }}
                             </button>
                             <button
                                 type="button"
                                 @click="confirm"
                                 class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
                             >
-                                Delete
+                                {{ $t('Delete') }}
                             </button>
                         </div>
                     </div>

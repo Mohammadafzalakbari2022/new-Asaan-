@@ -123,31 +123,31 @@ function cancel() {
 </script>
 
 <template>
-  <Head :title="`Edit Shipment ${shipment.shipment_number}`" />
+  <Head :title="$t('Edit Shipment {number}', { number: shipment.shipment_number })" />
 
-  <AdminLayout :title="`Edit Shipment ${shipment.shipment_number}`">
+  <AdminLayout :title="$t('Edit Shipment {number}', { number: shipment.shipment_number })">
     <div class="space-y-6">
       <!-- Header -->
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Edit Shipment {{ shipment.shipment_number }}</h1>
-        <p class="text-gray-600 mt-1">Update shipment details and items</p>
+        <h1 class="text-2xl font-bold text-gray-900">{{ $t('Edit Shipment {number}', { number: shipment.shipment_number }) }}</h1>
+        <p class="text-gray-600 mt-1">{{ $t('Update shipment details and items') }}</p>
       </div>
 
       <form @submit.prevent="submit" class="space-y-6">
         <!-- Order Information -->
         <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Information</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Order Information') }}</h3>
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <div class="text-sm text-gray-600">Order Number</div>
+              <div class="text-sm text-gray-600">{{ $t('Order Number') }}</div>
               <div class="mt-1 font-medium text-gray-900">{{ shipment.order.order_number }}</div>
             </div>
             <div>
-              <div class="text-sm text-gray-600">Customer</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.order.user?.name || 'Guest' }}</div>
+              <div class="text-sm text-gray-600">{{ $t('Customer') }}</div>
+              <div class="mt-1 font-medium text-gray-900">{{ shipment.order.user?.name || $t('Guest') }}</div>
             </div>
             <div>
-              <div class="text-sm text-gray-600">Email</div>
+              <div class="text-sm text-gray-600">{{ $t('Email') }}</div>
               <div class="mt-1 font-medium text-gray-900">{{ shipment.order.customer_email }}</div>
             </div>
           </div>
@@ -155,14 +155,14 @@ function cancel() {
 
         <!-- Tracking Information -->
         <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Tracking Information</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Tracking Information') }}</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Carrier</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Carrier') }}</label>
               <input
                 v-model="form.carrier"
                 type="text"
-                placeholder="e.g., FedEx, UPS, DHL"
+                :placeholder="$t('e.g., FedEx, UPS, DHL')"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 :class="{ 'border-red-500': form.errors.carrier }"
               />
@@ -170,11 +170,11 @@ function cancel() {
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Tracking Number</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Tracking Number') }}</label>
               <input
                 v-model="form.tracking_number"
                 type="text"
-                placeholder="Enter tracking number"
+                :placeholder="$t('Enter tracking number')"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 :class="{ 'border-red-500': form.errors.tracking_number }"
               />
@@ -182,11 +182,11 @@ function cancel() {
             </div>
 
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Tracking URL</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Tracking URL') }}</label>
               <input
                 v-model="form.tracking_url"
                 type="url"
-                placeholder="https://..."
+                :placeholder="$t('https://...')"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 :class="{ 'border-red-500': form.errors.tracking_url }"
               />
@@ -197,25 +197,25 @@ function cancel() {
 
         <!-- Items to Ship -->
         <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Items to Ship</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Items to Ship') }}</h3>
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Product
+                    {{ $t('Product') }}
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    SKU
+                    {{ $t('SKU') }}
                   </th>
                   <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ordered
+                    {{ $t('Ordered') }}
                   </th>
                   <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Available
+                    {{ $t('Available') }}
                   </th>
                   <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ship Qty
+                    {{ $t('Ship Qty') }}
                   </th>
                 </tr>
               </thead>
@@ -251,11 +251,11 @@ function cancel() {
 
         <!-- Notes -->
         <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Notes (Optional)</h3>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Notes (Optional)') }}</h3>
           <textarea
             v-model="form.notes"
             rows="4"
-            placeholder="Add any additional notes about this shipment..."
+            :placeholder="$t('Add any additional notes about this shipment...')"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             :class="{ 'border-red-500': form.errors.notes }"
           ></textarea>
@@ -269,14 +269,14 @@ function cancel() {
             @click="cancel"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </button>
           <button
             type="submit"
             :disabled="!canSubmit || form.processing"
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ form.processing ? 'Updating...' : 'Update Shipment' }}
+            {{ $t(form.processing ? 'Updating...' : 'Update Shipment') }}
           </button>
         </div>
       </form>

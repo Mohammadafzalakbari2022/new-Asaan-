@@ -102,7 +102,7 @@
                                             </span>
                                         </div>
                                         <span class="text-sm text-gray-600">
-                                            ({{ product.reviews_count }} reviews)
+                                            ({{ $t('{count} reviews', { count: product.reviews_count }) }})
                                         </span>
                                     </div>
 
@@ -115,7 +115,7 @@
                                             {{ formatPrice(product.price) }}
                                         </span>
                                         <span v-if="product.special_price" class="px-3 py-1 bg-red-100 text-red-700 text-sm font-semibold rounded-full">
-                                            Save {{ formatPrice(product.price - product.special_price) }}
+                                            {{ $t('Save {price}', { price: formatPrice(product.price - product.special_price) }) }}
                                         </span>
                                     </div>
 
@@ -128,7 +128,7 @@
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                             </svg>
-                                            In Stock
+                                            {{ $t('In Stock') }}
                                         </span>
                                         <span
                                             v-else
@@ -137,7 +137,7 @@
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                             </svg>
-                                            Out of Stock
+                                            {{ $t('Out of Stock') }}
                                         </span>
                                     </div>
 
@@ -197,7 +197,7 @@
                                                 
                                                 <!-- Selected Color Display -->
                                                 <div v-if="selectedAttributes[attribute.id]" class="text-sm text-gray-600">
-                                                    Selected: <span class="font-semibold text-gray-900">
+                                                    {{ $t('Selected:') }} <span class="font-semibold text-gray-900">
                                                         {{ attribute.options.find(opt => opt.id === selectedAttributes[attribute.id])?.value }}
                                                     </span>
                                                 </div>
@@ -263,7 +263,7 @@
                                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                             </svg>
-                                            <span v-else>Add to Cart</span>
+                                            <span v-else>{{ $t('Add to Cart') }}</span>
                                         </button>
                                     </div>
 
@@ -273,7 +273,7 @@
                                             :href="`/products/${product.slug}`"
                                             class="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium cursor-pointer"
                                         >
-                                            View Full Details
+                                            {{ $t('View Full Details') }}
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                             </svg>
@@ -283,10 +283,10 @@
                                     <!-- Product Meta -->
                                     <div class="pt-4 border-t border-gray-200 space-y-2 text-sm text-gray-600">
                                         <div v-if="product.sku">
-                                            <span class="font-medium">SKU:</span> {{ product.sku }}
+                                            <span>{{ $t('SKU:') }}</span> {{ product.sku }}
                                         </div>
                                         <div v-if="product.categories && product.categories.length">
-                                            <span class="font-medium">Categories:</span>
+                                            <span class="font-medium">{{ $t('Categories:') }}</span>
                                             <span v-for="(category, index) in product.categories" :key="category.id">
                                                 {{ category.name }}<span v-if="index < product.categories.length - 1">, </span>
                                             </span>
@@ -309,7 +309,7 @@
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                 </svg>
-                <span>Added to cart successfully!</span>
+                <span>{{ $t('Added to cart successfully!') }}</span>
             </div>
         </Transition>
     </Teleport>
@@ -320,8 +320,11 @@ import { ref, watch, computed } from 'vue';
 import axios from 'axios';
 import { useCartStore } from '@/Stores/cartStore';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 
 const { formatPrice } = useCurrency();
+const i18n = useI18nStore();
+const t = i18n.t;
 
 interface AttributeOption {
     id: number;
@@ -473,7 +476,7 @@ const addToCart = async () => {
 
     // Check if all attributes are selected for configurable products
     if (product.value.has_configurable_attributes && !canAddToCart.value) {
-        attributeError.value = 'Please select all required options';
+        attributeError.value = t('Please select all required options');
         return;
     }
 
@@ -495,11 +498,11 @@ const addToCart = async () => {
                 close();
             }, 1500);
         } else {
-            attributeError.value = result.message || 'Failed to add to cart. Please try again.';
+            attributeError.value = result.message || t('Failed to add to cart. Please try again.');
         }
     } catch (error) {
         console.error('Failed to add to cart:', error);
-        attributeError.value = 'Failed to add to cart. Please try again.';
+        attributeError.value = t('Failed to add to cart. Please try again.');
     } finally {
         addingToCart.value = false;
     }

@@ -8,6 +8,7 @@ import {
   ShoppingCart, ExternalLink, LayoutTemplate, Wand2, Monitor,
   ChevronRight, Eye, Settings2, Layers,
 } from 'lucide-vue-next'
+import { useI18nStore } from '@/Stores/i18n'
 
 interface Theme {
   id: number
@@ -64,6 +65,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const page = usePage()
+const { t } = useI18nStore()
 const processing = ref(false)
 const importing = ref(false)
 const importingLayout = ref(false)
@@ -127,10 +129,10 @@ const importThemeData = () => {
 }
 
 const tabDefs: Record<string, { icon: any; label: string; sections: string[] }> = {
-  contact: { icon: Phone, label: 'Contact & Social', sections: ['contact', 'social'] },
-  colors: { icon: Paintbrush, label: 'Colors & Typography', sections: ['colors', 'typography'] },
-  layout: { icon: Layout, label: 'Layout', sections: ['layout'] },
-  features: { icon: ToggleLeft, label: 'Features', sections: ['features', 'homepage'] },
+  contact: { icon: Phone, label: t('Contact & Social'), sections: ['contact', 'social'] },
+  colors: { icon: Paintbrush, label: t('Colors & Typography'), sections: ['colors', 'typography'] },
+  layout: { icon: Layout, label: t('Layout'), sections: ['layout'] },
+  features: { icon: ToggleLeft, label: t('Features'), sections: ['features', 'homepage'] },
 }
 
 const tabs = computed(() =>
@@ -176,17 +178,17 @@ const saveSettings = () => {
 </script>
 
 <template>
-  <AdminLayout title="Appearance">
-    <Head title="Appearance" />
+  <AdminLayout :title="$t('Appearance')">
+    <Head :title="$t('Appearance')" />
 
     <div class="space-y-5">
 
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Appearance</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Appearance') }}</h1>
           <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
-            Customize your store's look, feel and homepage layout
+            {{ $t("Customize your store's look, feel and homepage layout") }}
           </p>
         </div>
         <div class="flex items-center gap-2.5">
@@ -196,7 +198,7 @@ const saveSettings = () => {
             class="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             <Eye class="w-4 h-4" />
-            Preview
+            {{ $t('Preview') }}
           </a>
           <button
             @click="saveSettings"
@@ -208,7 +210,7 @@ const saveSettings = () => {
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            {{ processing ? 'Saving\u2026' : 'Save Changes' }}
+            {{ processing ? $t('Saving…') : $t('Save Changes') }}
           </button>
         </div>
       </div>
@@ -235,7 +237,7 @@ const saveSettings = () => {
             class="relative sm:w-52 lg:w-60 flex-shrink-0 cursor-pointer group overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900/60 dark:to-gray-800/60"
             style="min-height: 168px"
             @click="triggerScreenshotUpload"
-            title="Click to upload a screenshot"
+            :title="$t('Click to upload a screenshot')"
           >
             <img
               v-if="screenshotUrl"
@@ -255,7 +257,7 @@ const saveSettings = () => {
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              <span class="text-[11px] text-white font-medium">Upload screenshot</span>
+              <span class="text-[11px] text-white font-medium">{{ $t('Upload screenshot') }}</span>
             </div>
           </div>
           <input ref="screenshotInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="uploadScreenshot" />
@@ -267,14 +269,14 @@ const saveSettings = () => {
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white leading-snug">{{ theme.name }}</h3>
                 <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 ring-1 ring-inset ring-green-600/20">
                   <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                  Active
+                  {{ $t('Active') }}
                 </span>
               </div>
               <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{{ theme.description }}</p>
               <div class="flex items-center gap-3 mt-2 text-xs text-gray-400 dark:text-gray-500">
                 <span>v{{ theme.version }}</span>
                 <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
-                <span>by {{ theme.author }}</span>
+                <span>{{ $t('by {author}', { author: theme.author }) }}</span>
               </div>
             </div>
 
@@ -284,7 +286,7 @@ const saveSettings = () => {
                 class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
                 <Settings2 class="w-3.5 h-3.5" />
-                Manage Themes
+                {{ $t('Manage Themes') }}
               </a>
               <a
                 href="/"
@@ -292,7 +294,7 @@ const saveSettings = () => {
                 class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
                 <ExternalLink class="w-3.5 h-3.5" />
-                Preview Storefront
+                {{ $t('Preview Storefront') }}
               </a>
               <button
                 v-if="hasThemeData"
@@ -301,7 +303,7 @@ const saveSettings = () => {
                 class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
                 <Download class="w-3.5 h-3.5" />
-                Import Demo Data
+                {{ $t('Import Demo Data') }}
               </button>
             </div>
           </div>
@@ -357,9 +359,9 @@ const saveSettings = () => {
               <LayoutTemplate class="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <p class="text-sm font-semibold text-amber-900 dark:text-amber-200">No Homepage Layout</p>
+              <p class="text-sm font-semibold text-amber-900 dark:text-amber-200">{{ $t('No Homepage Layout') }}</p>
               <p class="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
-                Your homepage has no published layout. Import the demo layout to get started instantly.
+                {{ $t('Your homepage has no published layout. Import the demo layout to get started instantly.') }}
               </p>
             </div>
           </div>
@@ -373,7 +375,7 @@ const saveSettings = () => {
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
             <Layers v-else class="w-4 h-4" />
-            {{ importingLayout ? 'Importing\u2026' : 'Import Demo Layout' }}
+            {{ importingLayout ? $t('Importing…') : $t('Import Demo Layout') }}
           </button>
         </div>
       </div>
@@ -383,7 +385,7 @@ const saveSettings = () => {
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           <!-- Tab nav -->
           <div class="border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex overflow-x-auto scrollbar-none px-4 sm:px-6" aria-label="Settings tabs">
+                            <nav class="flex overflow-x-auto scrollbar-none px-4 sm:px-6" :aria-label="$t('Settings tabs')">
               <button
                 v-for="tab in tabs"
                 :key="tab.id"
@@ -410,7 +412,7 @@ const saveSettings = () => {
           <div class="p-6 sm:p-8">
             <div v-if="tabs.length === 0 || sectionsForTab.length === 0" class="py-16 text-center">
               <Palette class="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-              <p class="text-sm text-gray-400 dark:text-gray-500">No settings available for this tab.</p>
+              <p class="text-sm text-gray-400 dark:text-gray-500">{{ $t('No settings available for this tab.') }}</p>
             </div>
             <div v-else class="space-y-10">
               <template v-for="(section, si) in sectionsForTab" :key="section.id">
@@ -493,7 +495,7 @@ const saveSettings = () => {
                             />
                           </button>
                           <span class="text-sm text-gray-500 dark:text-gray-400 select-none">
-                            {{ form[`${section.id}.${field.id}`] ? 'Enabled' : 'Disabled' }}
+                            {{ form[`${section.id}.${field.id}`] ? $t('Enabled') : $t('Disabled') }}
                           </span>
                         </div>
                         <!-- Text -->
@@ -516,7 +518,7 @@ const saveSettings = () => {
           <!-- Save bar -->
           <div class="px-6 py-4 bg-gray-50/80 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between gap-4">
             <p class="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">
-              Settings are saved per-theme and won't affect other themes.
+              {{ $t("Settings are saved per-theme and won't affect other themes.") }}
             </p>
             <button
               type="submit"
@@ -528,7 +530,7 @@ const saveSettings = () => {
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              {{ processing ? 'Saving\u2026' : 'Save Changes' }}
+              {{ processing ? $t('Saving…') : $t('Save Changes') }}
             </button>
           </div>
         </div>
@@ -546,16 +548,16 @@ const saveSettings = () => {
                 <div class="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
                   <Download class="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 class="text-base font-semibold text-gray-900 dark:text-white">Import Theme Data</h3>
+                <h3 class="text-base font-semibold text-gray-900 dark:text-white">{{ $t('Import Theme Data') }}</h3>
               </div>
               <button @click="showImportDialog = false" class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg transition-colors">
                 <X class="w-5 h-5" />
               </button>
             </div>
             <div class="px-6 py-5 space-y-3.5">
-              <p class="text-sm text-gray-600 dark:text-gray-400">Import demo content from this theme's data file:</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{ $t("Import demo content from this theme's data file:") }}</p>
               <ul class="space-y-1.5 text-sm text-gray-500 dark:text-gray-400">
-                <li v-for="item in ['CMS Blocks (banners, sliders, hero sections)', 'Navigation Menus (header & footer)', 'Theme Settings (colors, layout, features)']" :key="item" class="flex items-center gap-2">
+                <li v-for="item in [$t('CMS Blocks (banners, sliders, hero sections)'), $t('Navigation Menus (header & footer)'), $t('Theme Settings (colors, layout, features)')]" :key="item" class="flex items-center gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
                   {{ item }}
                 </li>
@@ -563,8 +565,8 @@ const saveSettings = () => {
               <label class="flex items-start gap-3 p-3.5 rounded-xl cursor-pointer border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition-colors">
                 <input v-model="importFresh" type="checkbox" class="mt-0.5 h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500" />
                 <div>
-                  <p class="text-sm font-medium text-amber-800 dark:text-amber-300">Fresh Import</p>
-                  <p class="text-xs text-amber-600 dark:text-amber-400 mt-0.5">Remove existing blocks, menus &amp; settings before importing.</p>
+                  <p class="text-sm font-medium text-amber-800 dark:text-amber-300">{{ $t('Fresh Import') }}</p>
+                  <p class="text-xs text-amber-600 dark:text-amber-400 mt-0.5">{{ $t('Remove existing blocks, menus & settings before importing.') }}</p>
                 </div>
               </label>
               <label
@@ -578,15 +580,15 @@ const saveSettings = () => {
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-medium" :class="importProducts ? 'text-red-800 dark:text-red-300' : 'text-gray-700 dark:text-gray-300'">
                     <ShoppingCart class="w-3.5 h-3.5 inline -mt-0.5 mr-1" />
-                    Include Products &amp; Categories
+                    {{ $t('Include Products & Categories') }}
                   </p>
                   <p class="text-xs mt-0.5" :class="importProducts ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'">
-                    Import demo products from the theme data.
+                    {{ $t('Import demo products from the theme data.') }}
                   </p>
                   <div v-if="importProducts" class="mt-2.5 flex items-start gap-2 p-2.5 rounded-lg bg-red-100 dark:bg-red-900/40 border border-red-200 dark:border-red-700/50">
                     <AlertTriangle class="w-3.5 h-3.5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                     <p class="text-xs font-medium text-red-700 dark:text-red-300">
-                      This will <strong>delete all existing products and categories</strong>. Cannot be undone.
+                      {{ $t('This will') }} <strong>{{ $t('delete all existing products and categories') }}</strong>. {{ $t('Cannot be undone.') }}
                     </p>
                   </div>
                 </div>
@@ -594,7 +596,7 @@ const saveSettings = () => {
             </div>
             <div class="flex items-center justify-end gap-2.5 px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
               <button @click="showImportDialog = false" :disabled="importing" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50">
-                Cancel
+                {{ $t('Cancel') }}
               </button>
               <button
                 @click="importThemeData"
@@ -607,7 +609,7 @@ const saveSettings = () => {
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
                 <Download v-else class="w-4 h-4" />
-                {{ importing ? 'Importing\u2026' : (importProducts ? 'Import with Products' : importFresh ? 'Fresh Import' : 'Import Data') }}
+                {{ importing ? $t('Importing…') : (importProducts ? $t('Import with Products') : importFresh ? $t('Fresh Import') : $t('Import Data')) }}
               </button>
             </div>
           </div>

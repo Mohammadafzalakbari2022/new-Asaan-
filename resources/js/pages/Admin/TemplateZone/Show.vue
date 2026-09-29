@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import ConfirmModal from '@/components/Admin/ConfirmModal.vue'
+import { useI18nStore } from '@/Stores/i18n'
 import { Download, LayoutTemplate, CheckCircle2, ArrowLeft, Wand2, Settings2, Power } from 'lucide-vue-next'
 
 interface Category {
@@ -43,6 +44,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const { t } = useI18nStore()
+
 const installing = ref(false)
 const activating = ref(false)
 
@@ -50,7 +54,7 @@ const confirmModal = ref({
   show: false,
   title: '',
   message: '',
-  confirmText: 'Confirm',
+  confirmText: t('Confirm'),
   variant: 'primary' as 'primary' | 'warning' | 'danger',
   onConfirm: () => {},
 })
@@ -66,7 +70,7 @@ const openConfirm = (options: {
     show: true,
     title: options.title,
     message: options.message,
-    confirmText: options.confirmText ?? 'Confirm',
+    confirmText: options.confirmText ?? t('Confirm'),
     variant: options.variant ?? 'primary',
     onConfirm: options.onConfirm,
   }
@@ -110,9 +114,9 @@ const installTemplate = () => {
 
   if (isRemoteTheme() && props.remoteInstallEnabled === false) {
     openConfirm({
-      title: 'API key required',
-      message: 'Set CARTXIS_THEME_API_KEY in your .env file to install themes from the Cartxis directory. It is auto-generated when you run php artisan cartxis:install.',
-      confirmText: 'Got it',
+      title: t('API key required'),
+      message: t('Set CARTXIS_THEME_API_KEY in your .env file to install themes from the Cartxis directory. It is auto-generated when you run php artisan cartxis:install.'),
+      confirmText: t('Got it'),
       variant: 'warning',
       onConfirm: () => {},
     })
@@ -120,11 +124,11 @@ const installTemplate = () => {
   }
 
   openConfirm({
-    title: isRemoteTheme() ? 'Install from Cartxis Directory' : 'Install theme',
+    title: isRemoteTheme() ? t('Install from Cartxis Directory') : t('Install theme'),
     message: isRemoteTheme()
-      ? `Install "${props.template.name}" from the Cartxis theme directory? The package will be downloaded securely and activated on your store.`
-      : `Install "${props.template.name}" and activate it as the storefront theme?`,
-    confirmText: 'Install & Activate',
+      ? t('Install "{name}" from the Cartxis theme directory? The package will be downloaded securely and activated on your store.', { name: props.template.name })
+      : t('Install "{name}" and activate it as the storefront theme?', { name: props.template.name }),
+    confirmText: t('Install & Activate'),
     variant: 'primary',
     onConfirm: runInstall,
   })
@@ -138,9 +142,9 @@ const activateTemplate = () => {
   if (activating.value) return
 
   openConfirm({
-    title: 'Activate theme',
-    message: `Activate "${props.template.name}" as your storefront theme? Your live store appearance will switch to this theme.`,
-    confirmText: 'Activate',
+    title: t('Activate theme'),
+    message: t('Activate "{name}" as your storefront theme? Your live store appearance will switch to this theme.', { name: props.template.name }),
+    confirmText: t('Activate'),
     variant: 'primary',
     onConfirm: runActivate,
   })
@@ -157,7 +161,7 @@ const activateTemplate = () => {
         class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900"
       >
         <ArrowLeft class="w-4 h-4" />
-        Back to Browse Themes
+        {{ $t('Back to Browse Themes') }}
       </Link>
 
       <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
@@ -180,7 +184,7 @@ const activateTemplate = () => {
               <h1 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ template.name }}</h1>
               <p class="text-sm text-gray-500 mt-1">
                 v{{ template.version }} · {{ template.author }}
-                <span v-if="template.updated_at"> · Updated {{ new Date(template.updated_at).toLocaleDateString() }}</span>
+                <span v-if="template.updated_at"> · {{ $t('Updated') }} {{ new Date(template.updated_at).toLocaleDateString() }}</span>
               </p>
             </div>
             <div class="flex flex-wrap gap-2">
@@ -188,20 +192,20 @@ const activateTemplate = () => {
                 v-if="isRemoteTheme()"
                 class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700"
               >
-                Cartxis Directory
+                {{ $t('Cartxis Directory') }}
               </span>
               <span
                 v-if="template.is_active"
                 class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700"
               >
-                Active
+                {{ $t('Active') }}
               </span>
               <span
                 v-else-if="template.installed"
                 class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700"
               >
                 <CheckCircle2 class="w-4 h-4" />
-                Installed<span v-if="template.installed_version"> (v{{ template.installed_version }})</span>
+                {{ $t('Installed') }}<span v-if="template.installed_version"> (v{{ template.installed_version }})</span>
               </span>
             </div>
           </div>
@@ -237,7 +241,7 @@ const activateTemplate = () => {
                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
               >
                 <Power class="w-4 h-4" />
-                {{ activating ? 'Activating…' : 'Activate Theme' }}
+                {{ activating ? $t('Activating…') : $t('Activate Theme') }}
               </button>
               <Link
                 v-if="template.is_active"
@@ -245,7 +249,7 @@ const activateTemplate = () => {
                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
               >
                 <Settings2 class="w-4 h-4" />
-                Customize
+                {{ $t('Customize') }}
               </Link>
               <Link
                 v-if="template.is_active"
@@ -253,7 +257,7 @@ const activateTemplate = () => {
                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-green-700 bg-green-50 border border-green-200 hover:bg-green-100"
               >
                 <Wand2 class="w-4 h-4" />
-                Open Page Builder
+                {{ $t('Open Page Builder') }}
               </Link>
             </template>
 
@@ -263,7 +267,7 @@ const activateTemplate = () => {
               :disabled="installing || (isRemoteTheme() && remoteInstallEnabled === false)"
               class="inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
             >
-              {{ template.installed && template.update_available ? 'Update Theme' : 'Install Now' }}
+              {{ template.installed && template.update_available ? $t('Update Theme') : $t('Install Now') }}
             </button>
             <button
               v-if="!isRemoteTheme()"
@@ -271,7 +275,7 @@ const activateTemplate = () => {
               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50"
             >
               <Download class="w-4 h-4" />
-              Download Zip
+              {{ $t('Download Zip') }}
             </button>
           </div>
         </div>

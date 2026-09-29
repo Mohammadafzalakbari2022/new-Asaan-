@@ -40,16 +40,16 @@ const formatDate = (date: string) =>
 <template>
     <ThemeLayout>
         <Head>
-            <title>Blog</title>
-            <meta name="description" content="Read our latest articles and news" />
+            <title>{{ $t('Blog') }}</title>
+            <meta name="description" :content="$t('Read our latest articles and news')" />
         </Head>
 
         <div class="bg-gray-50 min-h-screen">
             <!-- Blog Header -->
             <div class="bg-white border-b border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <h1 class="text-4xl font-bold text-gray-900">Blog</h1>
-                    <p class="mt-2 text-gray-600">Latest articles and news from our team</p>
+                    <h1 class="text-4xl font-bold text-gray-900">{{ $t('Blog') }}</h1>
+                    <p class="mt-2 text-gray-600">{{ $t('Latest articles and news from our team') }}</p>
                 </div>
             </div>
 
@@ -100,7 +100,7 @@ const formatDate = (date: string) =>
                                     <div class="flex items-center justify-between text-xs text-gray-500">
                                         <span>{{ formatDate(post.published_at) }}</span>
                                         <Link :href="`/blog/${post.slug}`" class="text-blue-600 hover:text-blue-800 font-medium">
-                                            Read more →
+                                            {{ $t('Read more →') }}
                                         </Link>
                                     </div>
                                 </div>
@@ -112,8 +112,8 @@ const formatDate = (date: string) =>
                             <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1M19 20a2 2 0 002-2V8a2 2 0 00-2-2h-5" />
                             </svg>
-                            <h3 class="text-lg font-medium text-gray-900 mb-1">No posts yet</h3>
-                            <p class="text-gray-500">Check back soon for new articles.</p>
+                            <h3 class="text-lg font-medium text-gray-900 mb-1">{{ $t('No posts yet') }}</h3>
+                            <p class="text-gray-500">{{ $t('Check back soon for new articles.') }}</p>
                         </div>
 
                         <!-- Pagination -->
@@ -138,11 +138,11 @@ const formatDate = (date: string) =>
                     <!-- Sidebar: Categories -->
                     <div class="lg:col-span-1">
                         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sticky top-4">
-                            <h3 class="text-base font-semibold text-gray-900 mb-4">Categories</h3>
+                            <h3 class="text-base font-semibold text-gray-900 mb-4">{{ $t('Categories') }}</h3>
                             <ul class="space-y-2">
                                 <li>
                                     <Link href="/blog" class="flex items-center justify-between text-sm text-gray-700 hover:text-blue-600 transition-colors py-1">
-                                        <span>All Posts</span>
+                                        <span>{{ $t('All Posts') }}</span>
                                         <span class="text-gray-400 text-xs">{{ posts.total }}</span>
                                     </Link>
                                 </li>

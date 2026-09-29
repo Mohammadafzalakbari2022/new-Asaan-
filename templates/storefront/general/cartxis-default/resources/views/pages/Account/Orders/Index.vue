@@ -45,14 +45,14 @@ const formatPrice = (price: number) => {
 
 <template>
   <ThemeLayout>
-    <Head title="My Orders" />
+    <Head :title="$t('My Orders')" />
 
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-6xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
-          <h1 class="text-3xl font-bold mb-2">My Orders</h1>
-          <p class="text-gray-600">View and track your orders</p>
+          <h1 class="text-3xl font-bold mb-2">{{ $t('My Orders') }}</h1>
+          <p class="text-gray-600">{{ $t('View and track your orders') }}</p>
         </div>
 
         <!-- Orders List -->
@@ -67,19 +67,19 @@ const formatPrice = (price: number) => {
                 <!-- Order Info -->
                 <div class="flex-1">
                   <div class="flex items-center gap-3 mb-2">
-                    <h3 class="text-lg font-semibold">Order #{{ order.order_number }}</h3>
+                    <h3 class="text-lg font-semibold">{{ $t('Order #{number}', { number: order.order_number }) }}</h3>
                     <span
                       :class="[
                         'px-3 py-1 rounded-full text-xs font-medium',
                         getStatusColor(order.status)
                       ]"
                     >
-                      {{ order.status.charAt(0).toUpperCase() + order.status.slice(1) }}
+                      {{ $t(order.status.charAt(0).toUpperCase() + order.status.slice(1)) }}
                     </span>
                   </div>
                   <div class="flex flex-wrap gap-4 text-sm text-gray-600">
                     <span>{{ order.created_at }}</span>
-                    <span>{{ order.items_count }} {{ order.items_count === 1 ? 'item' : 'items' }}</span>
+                    <span>{{ $t(order.items_count === 1 ? '{count} item' : '{count} items', { count: order.items_count }) }}</span>
                     <span class="font-semibold text-gray-900">{{ formatPrice(order.total) }}</span>
                   </div>
                 </div>
@@ -90,7 +90,7 @@ const formatPrice = (price: number) => {
                     :href="`/account/orders/${order.id}`"
                     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    View Details
+                    {{ $t('View Details') }}
                   </Link>
                 </div>
               </div>
@@ -113,13 +113,13 @@ const formatPrice = (price: number) => {
               d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
             />
           </svg>
-          <h3 class="text-xl font-semibold mb-2">No orders yet</h3>
-          <p class="text-gray-600 mb-6">Start shopping to see your orders here</p>
+          <h3 class="text-xl font-semibold mb-2">{{ $t('No orders yet') }}</h3>
+          <p class="text-gray-600 mb-6">{{ $t('Start shopping to see your orders here') }}</p>
           <Link
             href="/products"
             class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Continue Shopping
+            {{ $t('Continue Shopping') }}
           </Link>
         </div>
 

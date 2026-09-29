@@ -196,22 +196,22 @@ function toggleRow(id: number) {
 </script>
 
 <template>
-  <Head title="Categories" />
+  <Head :title="$t('Categories')" />
 
-  <AdminLayout title="Categories">
+  <AdminLayout :title="$t('Categories')">
     <div class="space-y-6">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Categories</h1>
-          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Manage your product categories structure.</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $t('Categories') }}</h1>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Manage your product categories structure.') }}</p>
         </div>
         <Link
           :href="categoryRoutes.create().url"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <Plus class="w-4 h-4 mr-2" />
-          Add Category
+          {{ $t('Add Category') }}
         </Link>
       </div>
 
@@ -219,7 +219,7 @@ function toggleRow(id: number) {
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
         <div class="flex items-center gap-2 mb-4 text-gray-900 dark:text-white font-medium">
           <Filter class="w-4 h-4 text-gray-500" />
-          Filters & Search
+          {{ $t('Filters & Search') }}
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -232,7 +232,7 @@ function toggleRow(id: number) {
               v-model="search"
               @input="performSearch"
               type="text"
-              placeholder="Search by name or slug..."
+              :placeholder="$t('Search by name or slug...')"
               class="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm"
             />
           </div>
@@ -245,9 +245,9 @@ function toggleRow(id: number) {
                 @change="applyFilters"
                 class="appearance-none block w-full pl-3 pr-10 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm cursor-pointer"
               >
-                <option value="">All Status</option>
-                <option value="enabled">Enabled</option>
-                <option value="disabled">Disabled</option>
+                <option value="">{{ $t('All Status') }}</option>
+                <option value="enabled">{{ $t('Enabled') }}</option>
+                <option value="disabled">{{ $t('Disabled') }}</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                 <ChevronDown class="h-4 w-4" />
@@ -263,8 +263,8 @@ function toggleRow(id: number) {
                 @change="applyFilters"
                 class="appearance-none block w-full pl-3 pr-10 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all sm:text-sm cursor-pointer"
               >
-                <option value="">All Categories</option>
-                <option value="null">Root Categories</option>
+                <option value="">{{ $t('All Categories') }}</option>
+                <option value="null">{{ $t('Root Categories') }}</option>
                 <option v-for="parent in parentCategories" :key="parent.id" :value="parent.id">
                   {{ parent.name }}
                 </option>
@@ -285,15 +285,15 @@ function toggleRow(id: number) {
         <div v-if="search || statusFilter || parentFilter" class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <div class="flex flex-wrap gap-2">
             <span v-if="search" class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
-              Search: {{ search }}
+              {{ $t('Search:') }} {{ search }}
               <button @click="search = ''; performSearch()" class="ml-1.5 hover:text-blue-900 dark:hover:text-blue-100"><X class="w-3 h-3" /></button>
             </span>
             <span v-if="statusFilter" class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
-              Status: {{ statusFilter }}
+              {{ $t('Status:') }} {{ statusFilter }}
               <button @click="statusFilter = ''; applyFilters()" class="ml-1.5 hover:text-gray-900 dark:hover:text-white"><X class="w-3 h-3" /></button>
             </span>
              <span v-if="parentFilter" class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
-              Parent: {{ parentFilter === 'null' ? 'Root' : parentCategories.find(p => p.id == parentFilter)?.name || parentFilter }}
+              {{ $t('Parent:') }} {{ parentFilter === 'null' ? $t('Root') : parentCategories.find(p => p.id == parentFilter)?.name || parentFilter }}
               <button @click="parentFilter = ''; applyFilters()" class="ml-1.5 hover:text-gray-900 dark:hover:text-white"><X class="w-3 h-3" /></button>
             </span>
           </div>
@@ -302,7 +302,7 @@ function toggleRow(id: number) {
             class="text-sm text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 font-medium flex items-center transition-colors"
           >
             <X class="w-4 h-4 mr-1" />
-            Clear All
+            {{ $t('Clear All') }}
           </button>
         </div>
       </div>
@@ -312,20 +312,20 @@ function toggleRow(id: number) {
         <div v-if="selectedCategories.length > 0" class="bg-blue-600 rounded-xl shadow-lg p-3 text-white flex items-center justify-between sticky top-4 z-10 px-6">
           <span class="text-sm font-semibold flex items-center">
             <CheckCircle class="w-4 h-4 mr-2" />
-            {{ selectedCategories.length }} {{ selectedCategories.length === 1 ? 'category' : 'categories' }} selected
+            {{ selectedCategories.length }} {{ $t(selectedCategories.length === 1 ? 'category' : 'categories') }} {{ $t('selected') }}
           </span>
           <div class="flex gap-2">
             <button
               @click="bulkUpdateStatus('enabled')"
               class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide"
             >
-              Enable
+              {{ $t('Enable') }}
             </button>
             <button
               @click="bulkUpdateStatus('disabled')"
               class="px-3 py-1.5 text-xs font-bold text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors uppercase tracking-wide"
             >
-              Disable
+              {{ $t('Disable') }}
             </button>
             <div class="w-px h-6 bg-blue-400 mx-1"></div>
             <button
@@ -333,7 +333,7 @@ function toggleRow(id: number) {
               class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors flex items-center uppercase tracking-wide"
             >
               <Trash2 class="w-3 h-3 mr-1.5" />
-              Delete
+              {{ $t('Delete') }}
             </button>
           </div>
         </div>
@@ -355,14 +355,14 @@ function toggleRow(id: number) {
                   />
                 </th>
                 <th class="w-20 px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Image
+                  {{ $t('Image') }}
                 </th>
                 <th
                   @click="sortTable('name')"
                   class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer group hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <div class="flex items-center gap-1">
-                    Name & Slug
+                    {{ $t('Name & Slug') }}
                     <span v-if="sortBy === 'name'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -371,14 +371,14 @@ function toggleRow(id: number) {
                   </div>
                 </th>
                 <th class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Parent
+                  {{ $t('Parent') }}
                 </th>
                 <th
                   @click="sortTable('status')"
                   class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer group hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <div class="flex items-center gap-1">
-                    Status
+                    {{ $t('Status') }}
                     <span v-if="sortBy === 'status'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -391,7 +391,7 @@ function toggleRow(id: number) {
                   class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer group hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <div class="flex items-center gap-1">
-                    Order
+                    {{ $t('Order') }}
                     <span v-if="sortBy === 'sort_order'" class="text-blue-600 dark:text-blue-400">
                        <ArrowUp v-if="sortOrder === 'asc'" class="w-3 h-3" />
                        <ArrowDown v-else class="w-3 h-3" />
@@ -400,10 +400,10 @@ function toggleRow(id: number) {
                   </div>
                 </th>
                 <th class="hidden lg:table-cell px-6 py-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Menu
+                  {{ $t('Menu') }}
                 </th>
                 <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -414,9 +414,9 @@ function toggleRow(id: number) {
                     <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                       <Layers class="w-8 h-8" />
                     </div>
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white">No categories found</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">No categories matched your search criteria. Try adjusting your filters or add a new category.</p>
-                     <button @click="clearFilters" v-if="search || statusFilter || parentFilter" class="mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm">Clear all filters</button>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No categories found') }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('No categories matched your search criteria. Try adjusting your filters or add a new category.') }}</p>
+                     <button @click="clearFilters" v-if="search || statusFilter || parentFilter" class="mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm">{{ $t('Clear all filters') }}</button>
                   </div>
                 </td>
               </tr>
@@ -458,7 +458,7 @@ function toggleRow(id: number) {
                       <Layers class="w-3 h-3 mr-1.5 opacity-70" />
                       {{ category.parent.name }}
                    </span>
-                   <span v-else class="text-xs text-gray-400 dark:text-gray-500 italic">Root Category</span>
+                    <span v-else class="text-xs text-gray-400 dark:text-gray-500 italic">{{ $t('Root Category') }}</span>
                 </td>
                 <td class="px-6 py-4">
                   <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border shadow-sm" :class="{
@@ -467,7 +467,7 @@ function toggleRow(id: number) {
                   }">
                     <CheckCircle v-if="category.status === 'enabled'" class="w-3 h-3 mr-1" />
                     <XCircle v-else class="w-3 h-3 mr-1" />
-                    {{ category.status.charAt(0).toUpperCase() + category.status.slice(1) }}
+                    {{ $t(category.status.charAt(0).toUpperCase() + category.status.slice(1)) }}
                   </span>
                 </td>
                 <td class="hidden lg:table-cell px-6 py-4 text-sm text-gray-500 dark:text-gray-400 font-mono">
@@ -486,14 +486,14 @@ function toggleRow(id: number) {
                     <Link
                       :href="categoryRoutes.edit(category.id).url"
                       class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                      title="Edit"
+                      :title="$t('Edit')"
                     >
                       <Edit class="w-4 h-4" />
                     </Link>
                     <button
                       @click="confirmDelete(category.id)"
                       class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                      title="Delete"
+                      :title="$t('Delete')"
                     >
                       <Trash2 class="w-4 h-4" />
                     </button>
@@ -505,26 +505,26 @@ function toggleRow(id: number) {
                 <td colspan="100%" class="px-6 py-4">
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
                     <div class="md:hidden">
-                      <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1.5">Parent</span>
+                      <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1.5">{{ $t('Parent') }}</span>
                        <span v-if="category.parent" class="inline-flex items-center text-gray-700 dark:text-gray-300">
                           <Layers class="w-3.5 h-3.5 mr-1.5 opacity-70" />
                           {{ category.parent.name }}
                        </span>
-                       <span v-else class="text-gray-400 dark:text-gray-500 italic">Root Category</span>
+                       <span v-else class="text-gray-400 dark:text-gray-500 italic">{{ $t('Root Category') }}</span>
                     </div>
 
                     <div>
-                      <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1.5">Order</span>
+                      <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1.5">{{ $t('Order') }}</span>
                       <span class="font-mono text-gray-700 dark:text-gray-300">{{ category.sort_order }}</span>
                     </div>
                     
                     <div>
-                      <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1.5">Show in Menu</span>
+                      <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1.5">{{ $t('Show in Menu') }}</span>
                       <span v-if="category.show_in_menu" class="inline-flex items-center text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-md text-xs font-medium border border-green-200 dark:border-green-800">
-                        <CheckCircle class="w-3 h-3 mr-1" /> Yes
+                        <CheckCircle class="w-3 h-3 mr-1" /> {{ $t('Yes') }}
                       </span>
                       <span v-else class="inline-flex items-center text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-md text-xs font-medium border border-gray-200 dark:border-gray-700">
-                        <X class="w-3 h-3 mr-1" /> No
+                        <X class="w-3 h-3 mr-1" /> {{ $t('No') }}
                       </span>
                     </div>
                   </div>
@@ -536,22 +536,22 @@ function toggleRow(id: number) {
         </div>
 
         <!-- Pagination -->
-        <Pagination :data="categories" resource-name="categories" />
+        <Pagination :data="categories" :resource-name="$t('categories')" />
       </div>
 
     <!-- Delete Confirmation Modal -->
     <ConfirmDeleteModal
       v-model:show="showDeleteModal"
       :title="deletingCategory?.name ?? ''"
-      :message="`Are you sure you want to delete '${deletingCategory?.name}'? This action cannot be undone.`"
+      :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: deletingCategory?.name })"
       @confirm="deleteCategory"
     />
 
     <!-- Bulk Delete Modal -->
     <ConfirmDeleteModal
       v-model:show="showBulkDeleteModal"
-      title="Multiple Categories"
-      :message="`Are you sure you want to delete ${selectedCategories.length} ${selectedCategories.length === 1 ? 'category' : 'categories'}? This action cannot be undone.`"
+      :title="$t('Multiple Categories')"
+      :message="$t('Are you sure you want to delete {count} {noun}? This action cannot be undone.', { count: selectedCategories.length, noun: $t(selectedCategories.length === 1 ? 'category' : 'categories') })"
       @confirm="bulkDelete"
     />
     </div>

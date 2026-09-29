@@ -188,11 +188,11 @@ const formatFileSize = (bytes: number): string => {
             <Upload :size="48" class="mx-auto text-gray-400 mb-4" />
             
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Drop files here or click to browse
+                {{ $t('Drop files here or click to browse') }}
             </h3>
             
             <p class="text-sm text-gray-500 dark:text-gray-400">
-                Maximum file size: {{ maxFileSize }}MB
+                {{ $t('Maximum file size: {size}MB', { size: maxFileSize }) }}
             </p>
         </div>
         
@@ -212,14 +212,14 @@ const formatFileSize = (bytes: number): string => {
         <div v-if="selectedFiles.length > 0" class="space-y-3">
             <div class="flex items-center justify-between">
                 <h4 class="text-sm font-medium text-gray-900 dark:text-white">
-                    {{ selectedFiles.length }} file(s) selected
+                    {{ $t('{count} file(s) selected', { count: selectedFiles.length }) }}
                 </h4>
                 <button
                     @click="clearFiles"
                     type="button"
                     class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                 >
-                    Clear all
+                    {{ $t('Clear all') }}
                 </button>
             </div>
             
@@ -253,7 +253,7 @@ const formatFileSize = (bytes: number): string => {
             <!-- Upload Progress -->
             <div v-if="isUploading" class="space-y-2">
                 <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-600 dark:text-gray-400">Uploading...</span>
+                    <span class="text-gray-600 dark:text-gray-400">{{ $t('Uploading...') }}</span>
                     <span class="font-medium text-gray-900 dark:text-white">{{ Math.round(uploadProgress) }}%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -272,7 +272,7 @@ const formatFileSize = (bytes: number): string => {
                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 <Upload :size="16" class="mr-2" />
-                {{ isUploading ? 'Uploading...' : 'Upload Files' }}
+                {{ $t(isUploading ? 'Uploading...' : 'Upload Files') }}
             </button>
         </div>
     </div>

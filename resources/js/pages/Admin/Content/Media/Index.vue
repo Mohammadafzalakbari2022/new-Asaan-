@@ -8,6 +8,9 @@ import UploadDropzone from '@/components/Admin/Media/UploadDropzone.vue';
 import * as mediaRoutes from '@/routes/admin/content/media/index';
 import * as folderRoutes from '@/routes/admin/content/folders/index';
 import type { MediaFile, MediaFolder, MediaStatistics, MediaFilters, PaginatedMedia, MediaViewMode } from '@/types/media';
+import { useI18nStore } from '@/Stores/i18n';
+
+const { t } = useI18nStore();
 
 // Simple debounce function
 const debounce = <T extends (...args: any[]) => any>(
@@ -88,16 +91,20 @@ const copyUrlFeedback = ref(false);
 // Computed properties for delete modal
 const deleteModalTitle = computed(() => {
     if (deleteTarget.value?.type === 'bulk') {
-        return 'Delete Multiple Files';
+        return t('Delete Multiple Files');
     }
     return deleteTarget.value?.file?.original_filename ?? '';
 });
 
 const deleteModalMessage = computed(() => {
     if (deleteTarget.value?.type === 'bulk') {
-        return `Are you sure you want to delete ${deleteTarget.value.count} file(s)? This action cannot be undone.`;
+        return t('Are you sure you want to delete {count} file(s)? This action cannot be undone.', {
+            count: deleteTarget.value.count ?? 0,
+        });
     }
-    return `Are you sure you want to delete '${deleteTarget.value?.file?.original_filename}'? This action cannot be undone.`;
+    return t("Are you sure you want to delete '{filename}'? This action cannot be undone.", {
+        filename: deleteTarget.value?.file?.original_filename ?? '',
+    });
 });
 
 // Toggle folder expansion
@@ -335,18 +342,18 @@ const copyUrlToClipboard = async (url: string) => {
 </script>
 
 <template>
-    <Head title="Media Library" />
+    <Head :title="$t('Media Library')" />
 
-    <AdminLayout title="Media Library">
+    <AdminLayout :title="$t('Media Library')">
         <div class="p-6 space-y-6">
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Media Library</h1>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $t('Media Library') }}</h1>
                     <div class="flex items-center gap-2 mt-1 text-sm text-gray-500">
-                        <Link href="/admin/dashboard" class="hover:text-blue-600 transition-colors">Dashboard</Link>
+                        <Link href="/admin/dashboard" class="hover:text-blue-600 transition-colors">{{ $t('Dashboard') }}</Link>
                         <ChevronRight :size="14" />
-                        <span class="text-gray-900 dark:text-gray-300 font-medium">Media</span>
+                        <span class="text-gray-900 dark:text-gray-300 font-medium">{{ $t('Media') }}</span>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
@@ -359,7 +366,7 @@ const copyUrlToClipboard = async (url: string) => {
                                     ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 shadow-sm'
                                     : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                             ]"
-                            title="Grid view"
+                            :title="$t('Grid view')"
                         >
                             <Grid3x3 :size="18" />
                         </button>
@@ -371,7 +378,7 @@ const copyUrlToClipboard = async (url: string) => {
                                     ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 shadow-sm'
                                     : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                             ]"
-                            title="List view"
+                            :title="$t('List view')"
                         >
                             <List :size="18" />
                         </button>
@@ -382,7 +389,7 @@ const copyUrlToClipboard = async (url: string) => {
                         class="flex items-center px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-100 transition-all shadow-sm"
                     >
                         <Upload :size="16" class="mr-2" />
-                        Upload Files
+                        {{ $t('Upload Files') }}
                     </button>
                 </div>
             </div>
@@ -403,18 +410,18 @@ const copyUrlToClipboard = async (url: string) => {
                         ]"
                     >
                         <Home :size="18" />
-                        <span class="font-medium">All Files</span>
+                        <span class="font-medium">{{ $t('All Files') }}</span>
                     </button>
                 </div>
 
                     <!-- Folders -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
                         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-700/20">
-                            <h3 class="font-medium text-gray-900 dark:text-white">Folders</h3>
+                            <h3 class="font-medium text-gray-900 dark:text-white">{{ $t('Folders') }}</h3>
                             <button
                                 @click="showNewFolderModal = true"
                                 class="p-1.5 hover:bg-white dark:hover:bg-gray-600 rounded-lg transition-colors border border-transparent hover:border-gray-200 shadow-sm"
-                                title="Create folder"
+                                :title="$t('Create folder')"
                             >
                                 <FolderPlus :size="16" class="text-gray-600 dark:text-gray-400" />
                             </button>
@@ -435,7 +442,7 @@ const copyUrlToClipboard = async (url: string) => {
                         <!-- Empty state -->
                         <div v-if="folderTree.length === 0" class="py-8 text-center">
                             <Folder :size="32" class="mx-auto text-gray-300 dark:text-gray-600 mb-2" />
-                            <p class="text-sm text-gray-500 dark:text-gray-400">No folders yet</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('No folders yet') }}</p>
                         </div>
                     </div>
                 </div>
@@ -448,7 +455,7 @@ const copyUrlToClipboard = async (url: string) => {
                     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Files</p>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total Files') }}</p>
                                 <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.total_files }}</p>
                             </div>
                             <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800">
@@ -460,7 +467,7 @@ const copyUrlToClipboard = async (url: string) => {
                     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Images</p>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Images') }}</p>
                                 <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.total_images }}</p>
                             </div>
                             <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800">
@@ -472,7 +479,7 @@ const copyUrlToClipboard = async (url: string) => {
                     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Videos</p>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Videos') }}</p>
                                 <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.total_videos }}</p>
                                 </div>
                                 <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
@@ -484,7 +491,7 @@ const copyUrlToClipboard = async (url: string) => {
                         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Storage</p>
+                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Storage') }}</p>
                                     <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ formatSize(statistics.total_size) }}</p>
                                 </div>
                                 <div class="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-100 dark:border-orange-800">
@@ -499,13 +506,13 @@ const copyUrlToClipboard = async (url: string) => {
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                             <!-- Search -->
                             <div class="md:col-span-6">
-                                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+                                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
                                 <div class="relative">
                                     <Search :size="18" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                                     <input
                                         v-model="form.search"
                                         type="text"
-                                        placeholder="Search files..."
+                                        :placeholder="$t('Search files...')"
                                         class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors"
                                     />
                                 </div>
@@ -513,17 +520,17 @@ const copyUrlToClipboard = async (url: string) => {
 
                             <!-- Type filter -->
                             <div class="md:col-span-3">
-                                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">File Type</label>
+                                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('File Type') }}</label>
                                 <div class="relative">
                                     <Filter :size="18" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                                     <select
                                         v-model="form.type"
                                         class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors appearance-none"
                                     >
-                                        <option value="all">All Files</option>
-                                        <option value="images">Images</option>
-                                        <option value="videos">Videos</option>
-                                        <option value="documents">Documents</option>
+                                        <option value="all">{{ $t('All Files') }}</option>
+                                        <option value="images">{{ $t('Images') }}</option>
+                                        <option value="videos">{{ $t('Videos') }}</option>
+                                        <option value="documents">{{ $t('Documents') }}</option>
                                     </select>
                                     <ChevronDown :size="16" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                                 </div>
@@ -531,7 +538,7 @@ const copyUrlToClipboard = async (url: string) => {
 
                             <!-- Sort -->
                             <div class="md:col-span-3">
-                                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Sort By</label>
+                                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Sort By') }}</label>
                                 <div class="relative">
                                     <ArrowUpDown :size="18" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                                     <select
@@ -539,9 +546,9 @@ const copyUrlToClipboard = async (url: string) => {
                                         @change="applyFilters"
                                         class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors appearance-none"
                                     >
-                                        <option value="created_at">Date Added</option>
-                                        <option value="original_filename">Name</option>
-                                        <option value="size">Size</option>
+                                        <option value="created_at">{{ $t('Date Added') }}</option>
+                                        <option value="original_filename">{{ $t('Name') }}</option>
+                                        <option value="size">{{ $t('Size') }}</option>
                                     </select>
                                     <ChevronDown :size="16" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                                 </div>
@@ -552,20 +559,20 @@ const copyUrlToClipboard = async (url: string) => {
                         <div v-if="selectedFiles.length > 0" class="mt-4 flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800">
                             <span class="text-sm font-medium text-blue-900 dark:text-blue-100 flex items-center gap-2">
                                 <div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                                {{ selectedFiles.length }} file(s) selected
+                                {{ $t('{count} file(s) selected', { count: selectedFiles.length }) }}
                             </span>
                             <div class="flex items-center gap-2">
                                 <button
                                     @click="bulkDelete"
                                     class="px-3 py-1.5 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
                                 >
-                                    Delete Selected
+                                    {{ $t('Delete Selected') }}
                                 </button>
                                 <button
                                     @click="clearSelection"
                                     class="px-3 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
                                 >
-                                    Clear
+                                    {{ $t('Clear') }}
                                 </button>
                             </div>
                         </div>
@@ -576,9 +583,9 @@ const copyUrlToClipboard = async (url: string) => {
                 <!-- Empty state -->
                 <div v-if="media.data.length === 0" class="text-center py-12">
                     <Image :size="48" class="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No files found</h3>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">{{ $t('No files found') }}</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                        Upload files to get started
+                        {{ $t('Upload files to get started') }}
                     </p>
                 </div>
 
@@ -609,7 +616,7 @@ const copyUrlToClipboard = async (url: string) => {
                         <button
                             @click="viewFileDetails(file)"
                             class="absolute top-2 right-2 z-10 p-1.5 bg-white dark:bg-gray-800 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-100 dark:hover:bg-gray-700"
-                            title="View details"
+                            :title="$t('View details')"
                         >
                             <Info :size="16" class="text-gray-600 dark:text-gray-400" />
                         </button>
@@ -658,22 +665,22 @@ const copyUrlToClipboard = async (url: string) => {
                                     />
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Preview
+                                    {{ $t('Preview') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Name
+                                    {{ $t('Name') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Size
+                                    {{ $t('Size') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Type
+                                    {{ $t('Type') }}
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Uploaded
+                                    {{ $t('Uploaded') }}
                                 </th>
                                 <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    Actions
+                                    {{ $t('Actions') }}
                                 </th>
                             </tr>
                         </thead>
@@ -719,7 +726,7 @@ const copyUrlToClipboard = async (url: string) => {
                                     {{ file.formatted_size }}
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    {{ file.extension?.toUpperCase() || 'Unknown' }}
+                                    {{ file.extension?.toUpperCase() || $t('Unknown') }}
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                     {{ formatDate(file.created_at) }}
@@ -730,13 +737,13 @@ const copyUrlToClipboard = async (url: string) => {
                                             @click="viewFileDetails(file)"
                                             class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                                         >
-                                            View
+                                            {{ $t('View') }}
                                         </button>
                                         <button
                                             @click="deleteFile(file)"
                                             class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
                                         >
-                                            Delete
+                                            {{ $t('Delete') }}
                                         </button>
                                     </div>
                                 </td>
@@ -748,7 +755,7 @@ const copyUrlToClipboard = async (url: string) => {
                 <!-- Pagination -->
                 <div v-if="media.last_page > 1" class="mt-6 flex items-center justify-between">
                     <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Showing {{ media.from }} to {{ media.to }} of {{ media.total }} files
+                        {{ $t('Showing {from} to {to} of {total} files', { from: media.from, to: media.to, total: media.total }) }}
                     </div>
                     <div class="flex gap-2">
                         <button
@@ -789,7 +796,7 @@ const copyUrlToClipboard = async (url: string) => {
                     <!-- Header -->
                     <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                            Upload Files
+                            {{ $t('Upload Files') }}
                         </h3>
                         <button
                             @click="showUploadModal = false"
@@ -851,7 +858,7 @@ const copyUrlToClipboard = async (url: string) => {
                     <!-- Header -->
                     <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                            File Details
+                            {{ $t('File Details') }}
                         </h3>
                         <button
                             @click="showFileDetailsModal = false"
@@ -868,7 +875,7 @@ const copyUrlToClipboard = async (url: string) => {
                             <!-- Preview -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Preview
+                                    {{ $t('Preview') }}
                                 </label>
                                 <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-700">
                                     <img
@@ -888,7 +895,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- Filename -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Filename
+                                        {{ $t('Filename') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ selectedFileDetails.original_filename }}
@@ -898,7 +905,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- URL with Copy Button -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        File URL
+                                        {{ $t('File URL') }}
                                     </label>
                                     <div class="flex items-center gap-2">
                                         <input
@@ -913,7 +920,7 @@ const copyUrlToClipboard = async (url: string) => {
                                             :class="{ 'bg-green-600 hover:bg-green-700': copyUrlFeedback }"
                                         >
                                             <Copy :size="16" />
-                                            {{ copyUrlFeedback ? 'Copied!' : 'Copy' }}
+                                            {{ copyUrlFeedback ? $t('Copied!') : $t('Copy') }}
                                         </button>
                                     </div>
                                 </div>
@@ -921,7 +928,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- Thumbnail URL (if image) -->
                                 <div v-if="selectedFileDetails.is_image && selectedFileDetails.thumbnail_url">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Thumbnail URL
+                                        {{ $t('Thumbnail URL') }}
                                     </label>
                                     <div class="flex items-center gap-2">
                                         <input
@@ -935,7 +942,7 @@ const copyUrlToClipboard = async (url: string) => {
                                             class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                                         >
                                             <Copy :size="16" />
-                                            Copy
+                                            {{ $t('Copy') }}
                                         </button>
                                     </div>
                                 </div>
@@ -943,7 +950,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- File Type -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        File Type
+                                        {{ $t('File Type') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ selectedFileDetails.mime_type }} ({{ selectedFileDetails.extension?.toUpperCase() }})
@@ -953,7 +960,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- File Size -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        File Size
+                                        {{ $t('File Size') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ selectedFileDetails.formatted_size }}
@@ -963,7 +970,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- Dimensions (if image) -->
                                 <div v-if="selectedFileDetails.width && selectedFileDetails.height">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Dimensions
+                                        {{ $t('Dimensions') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ selectedFileDetails.width }} × {{ selectedFileDetails.height }} px
@@ -973,7 +980,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- Alt Text -->
                                 <div v-if="selectedFileDetails.alt_text">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Alt Text
+                                        {{ $t('Alt Text') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ selectedFileDetails.alt_text }}
@@ -983,7 +990,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- Title -->
                                 <div v-if="selectedFileDetails.title">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Title
+                                        {{ $t('Title') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ selectedFileDetails.title }}
@@ -993,7 +1000,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- Description -->
                                 <div v-if="selectedFileDetails.description">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Description
+                                        {{ $t('Description') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ selectedFileDetails.description }}
@@ -1003,7 +1010,7 @@ const copyUrlToClipboard = async (url: string) => {
                                 <!-- Uploaded Date -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Uploaded
+                                        {{ $t('Uploaded') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
                                         {{ formatDate(selectedFileDetails.created_at) }}
@@ -1021,14 +1028,14 @@ const copyUrlToClipboard = async (url: string) => {
                             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
                         >
                             <ExternalLink :size="16" />
-                            Open in New Tab
+                            {{ $t('Open in New Tab') }}
                         </a>
                         <button
                             @click="showFileDetailsModal = false"
                             type="button"
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                         >
-                            Close
+                            {{ $t('Close') }}
                         </button>
                     </div>
                         </div>
@@ -1055,7 +1062,7 @@ const copyUrlToClipboard = async (url: string) => {
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                                Create New Folder
+                                {{ $t('Create New Folder') }}
                             </h3>
                             <button
                                 @click="cancelCreateFolder"
@@ -1071,13 +1078,13 @@ const copyUrlToClipboard = async (url: string) => {
                     <div class="px-6 py-4">
                         <div>
                             <label for="folder-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Folder Name
+                                {{ $t('Folder Name') }}
                             </label>
                             <input
                                 id="folder-name"
                                 v-model="newFolderName"
                                 type="text"
-                                placeholder="Enter folder name"
+                                :placeholder="$t('Enter folder name')"
                                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
                                 @keyup.enter="createFolder"
                             />
@@ -1091,7 +1098,7 @@ const copyUrlToClipboard = async (url: string) => {
                             type="button"
                             class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
                         >
-                            Cancel
+                            {{ $t('Cancel') }}
                         </button>
                         <button
                             @click="createFolder"
@@ -1099,7 +1106,7 @@ const copyUrlToClipboard = async (url: string) => {
                             :disabled="!newFolderName.trim()"
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
                         >
-                            Create Folder
+                            {{ $t('Create Folder') }}
                         </button>
                     </div>
                 </div>

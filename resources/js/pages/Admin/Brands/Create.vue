@@ -83,15 +83,15 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Create Brand" />
-  <AdminLayout title="Create Brand">
+  <Head :title="$t('Create Brand')" />
+  <AdminLayout :title="$t('Create Brand')">
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
       <!-- Header -->
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 font-bold">Create Brand</h1>
-            <p class="text-sm text-gray-600 mt-1">Add a new brand to your catalog</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 font-bold">{{ $t('Create Brand') }}</h1>
+            <p class="text-sm text-gray-600 mt-1">{{ $t('Add a new brand to your catalog') }}</p>
           </div>
           <Link 
             :href="brandRoutes.index().url"
@@ -100,7 +100,7 @@ const submit = () => {
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Brands
+            {{ $t('Back to Brands') }}
           </Link>
         </div>
       </div>
@@ -113,7 +113,7 @@ const submit = () => {
             <!-- Tabs -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200">
               <div class="border-b border-gray-200">
-                <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
+                <nav class="-mb-px flex space-x-8 px-6" :aria-label="$t('Tabs')">
                   <button
                     type="button"
                     @click="activeTab = 'general'"
@@ -124,7 +124,7 @@ const submit = () => {
                       'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                     ]"
                   >
-                    General
+                    {{ $t('General') }}
                   </button>
                   <button
                     type="button"
@@ -136,7 +136,7 @@ const submit = () => {
                       'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                     ]"
                   >
-                    SEO
+                    {{ $t('SEO') }}
                   </button>
                 </nav>
               </div>
@@ -148,7 +148,7 @@ const submit = () => {
                   <!-- Name -->
                   <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
-                      Brand Name <span class="text-red-500">*</span>
+                      {{ $t('Brand Name') }} <span class="text-red-500">*</span>
                     </label>
                     <input
                       id="name"
@@ -158,7 +158,7 @@ const submit = () => {
                       required
                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors?.name }"
-                      placeholder="Enter brand name"
+                      :placeholder="$t('Enter brand name')"
                     />
                     <p v-if="form.errors?.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
                   </div>
@@ -166,7 +166,7 @@ const submit = () => {
                   <!-- Slug -->
                   <div>
                     <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">
-                      Slug
+                      {{ $t('Slug') }}
                     </label>
                     <input
                       id="slug"
@@ -174,16 +174,16 @@ const submit = () => {
                       type="text"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors?.slug }"
-                      placeholder="auto-generated-from-name"
+                      :placeholder="$t('auto-generated-from-name')"
                     />
                     <p v-if="form.errors?.slug" class="mt-1 text-sm text-red-600">{{ form.errors.slug }}</p>
-                    <p class="mt-1 text-xs text-gray-500">URL-friendly version of the name (auto-generated if left empty)</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('URL-friendly version of the name (auto-generated if left empty)') }}</p>
                   </div>
 
                   <!-- Description -->
                   <div>
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
-                      Description
+                      {{ $t('Description') }}
                     </label>
                     <textarea
                       id="description"
@@ -191,7 +191,7 @@ const submit = () => {
                       rows="4"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors?.description }"
-                      placeholder="Brand description..."
+                      :placeholder="$t('Brand description...')"
                     />
                     <p v-if="form.errors?.description" class="mt-1 text-sm text-red-600">{{ form.errors.description }}</p>
                   </div>
@@ -199,7 +199,7 @@ const submit = () => {
                   <!-- Website -->
                   <div>
                     <label for="website" class="block text-sm font-medium text-gray-700 mb-1">
-                      Website URL
+                      {{ $t('Website URL') }}
                     </label>
                     <input
                       id="website"
@@ -207,16 +207,16 @@ const submit = () => {
                       type="url"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors?.website }"
-                      placeholder="https://example.com"
+                      :placeholder="$t('https://example.com')"
                     />
                     <p v-if="form.errors?.website" class="mt-1 text-sm text-red-600">{{ form.errors.website }}</p>
-                    <p class="mt-1 text-xs text-gray-500">Full URL including https://</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Full URL including https://') }}</p>
                   </div>
 
                   <!-- Logo Upload with Dropzone -->
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                      Brand Logo
+                      {{ $t('Brand Logo') }}
                     </label>
                     <ImageUploader 
                       v-model="images" 
@@ -225,7 +225,7 @@ const submit = () => {
                       accept="image/*"
                     />
                     <p v-if="images.length > 0" class="mt-2 text-xs text-green-600">
-                      ✓ {{ images.length }} logo selected (will be uploaded on save)
+                      ✓ {{ $t('{count} logo selected (will be uploaded on save)', { count: images.length }) }}
                     </p>
                     <p v-if="form.errors?.logo" class="mt-2 text-sm text-red-600">{{ form.errors.logo }}</p>
                   </div>
@@ -235,7 +235,7 @@ const submit = () => {
                 <div v-show="activeTab === 'seo'" class="space-y-6">
                   <div>
                     <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-1">
-                      Meta Title
+                      {{ $t('Meta Title') }}
                     </label>
                     <input
                       id="meta_title"
@@ -244,15 +244,15 @@ const submit = () => {
                       maxlength="255"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors?.meta_title }"
-                      placeholder="SEO title for search engines"
+                      :placeholder="$t('SEO title for search engines')"
                     />
                     <p v-if="form.errors?.meta_title" class="mt-1 text-sm text-red-600">{{ form.errors.meta_title }}</p>
-                    <p class="mt-1 text-xs text-gray-500">Recommended: 50-60 characters</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Recommended: 50-60 characters') }}</p>
                   </div>
 
                   <div>
                     <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-1">
-                      Meta Description
+                      {{ $t('Meta Description') }}
                     </label>
                     <textarea
                       id="meta_description"
@@ -260,15 +260,15 @@ const submit = () => {
                       rows="3"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors?.meta_description }"
-                      placeholder="SEO description for search engines"
+                      :placeholder="$t('SEO description for search engines')"
                     />
                     <p v-if="form.errors?.meta_description" class="mt-1 text-sm text-red-600">{{ form.errors.meta_description }}</p>
-                    <p class="mt-1 text-xs text-gray-500">Recommended: 150-160 characters</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Recommended: 150-160 characters') }}</p>
                   </div>
 
                   <div>
                     <label for="meta_keywords" class="block text-sm font-medium text-gray-700 mb-1">
-                      Meta Keywords
+                      {{ $t('Meta Keywords') }}
                     </label>
                     <input
                       id="meta_keywords"
@@ -276,10 +276,10 @@ const submit = () => {
                       type="text"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       :class="{ 'border-red-500': form.errors?.meta_keywords }"
-                      placeholder="keyword1, keyword2, keyword3"
+                      :placeholder="$t('keyword1, keyword2, keyword3')"
                     />
                     <p v-if="form.errors?.meta_keywords" class="mt-1 text-sm text-red-600">{{ form.errors.meta_keywords }}</p>
-                    <p class="mt-1 text-xs text-gray-500">Separate keywords with commas</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Separate keywords with commas') }}</p>
                   </div>
                 </div>
               </div>
@@ -290,7 +290,7 @@ const submit = () => {
           <div class="space-y-6">
             <!-- Status Card -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 class="text-sm font-medium text-gray-900 mb-4">Status</h3>
+              <h3 class="text-sm font-medium text-gray-900 mb-4">{{ $t('Status') }}</h3>
               
               <div class="space-y-4">
                 <!-- Active Status -->
@@ -301,7 +301,7 @@ const submit = () => {
                     v-model="form.status"
                     class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label for="status" class="ml-2 block text-sm text-gray-900">Active</label>
+                  <label for="status" class="ml-2 block text-sm text-gray-900">{{ $t('Active') }}</label>
                 </div>
 
                 <!-- Featured -->
@@ -312,14 +312,14 @@ const submit = () => {
                     v-model="form.is_featured"
                     class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label for="is_featured" class="ml-2 block text-sm text-gray-900">Featured Brand</label>
+                  <label for="is_featured" class="ml-2 block text-sm text-gray-900">{{ $t('Featured Brand') }}</label>
                 </div>
               </div>
             </div>
 
             <!-- Actions Card -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 class="text-sm font-medium text-gray-900 mb-4">Actions</h3>
+              <h3 class="text-sm font-medium text-gray-900 mb-4">{{ $t('Actions') }}</h3>
               
               <div class="space-y-3">
                 <button
@@ -331,14 +331,14 @@ const submit = () => {
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  {{ form.processing ? 'Creating...' : 'Create Brand' }}
+                  {{ $t(form.processing ? 'Creating...' : 'Create Brand') }}
                 </button>
                 
                 <Link
                   :href="brandRoutes.index().url"
                   class="w-full inline-block text-center border border-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
                 >
-                  Cancel
+                  {{ $t('Cancel') }}
                 </Link>
               </div>
             </div>

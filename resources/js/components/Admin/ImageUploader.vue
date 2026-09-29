@@ -215,16 +215,16 @@ const remainingSlots = computed(() => props.maxFiles - props.modelValue.length);
       <!-- Instructions -->
       <div class="space-y-2">
         <p class="text-lg font-medium text-gray-700 dark:text-gray-200">
-          <span class="text-blue-600 dark:text-blue-400">Click to upload</span> or drag and drop
+          <span class="text-blue-600 dark:text-blue-400">{{ $t('Click to upload') }}</span> {{ $t('or drag and drop') }}
         </p>
         <p class="text-sm text-gray-500 dark:text-gray-400">
-          PNG, JPG, GIF up to {{ maxSize }}MB
+          {{ $t('PNG, JPG, GIF up to {size}MB', { size: maxSize }) }}
         </p>
         <p v-if="maxFiles > 1 && remainingSlots > 0" class="text-xs text-gray-400 dark:text-gray-500">
-          {{ remainingSlots }} of {{ maxFiles }} slots available
+          {{ $t('{remaining} of {max} slots available', { remaining: remainingSlots, max: maxFiles }) }}
         </p>
         <p v-else-if="maxFiles > 1 && remainingSlots <= 0" class="text-xs text-red-500 dark:text-red-400">
-          Maximum files reached
+          {{ $t('Maximum files reached') }}
         </p>
       </div>
     </div>
@@ -251,7 +251,7 @@ const remainingSlots = computed(() => props.maxFiles - props.modelValue.length);
                 type="button"
                 @click.stop="removeFile(index)"
                 class="opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition-all duration-200 bg-red-600 text-white rounded-full p-3 hover:bg-red-700 shadow-lg"
-                title="Remove image"
+                :title="$t('Remove image')"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -283,7 +283,7 @@ const remainingSlots = computed(() => props.maxFiles - props.modelValue.length);
       <svg class="mx-auto w-12 h-12 text-gray-300 dark:text-gray-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
-      <p class="text-sm text-gray-500 dark:text-gray-400">No images uploaded yet</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('No images uploaded yet') }}</p>
     </div>
   </div>
 </template>

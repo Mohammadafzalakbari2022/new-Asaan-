@@ -6,8 +6,11 @@ import ProductCard from '../../components/ProductCard.vue';
 import ProductSkeleton from '../../components/ProductSkeleton.vue';
 import QuickViewModal from '../../components/QuickViewModal.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 
 const { getSymbol } = useCurrency();
+const i18n = useI18nStore();
+const t = i18n.t;
 
 interface Product {
     id: number;
@@ -273,21 +276,21 @@ const activeFilterBadges = computed(() => {
     }
     
     if (props.activeFilters.search) {
-        badges.push({ type: 'search', label: `Search: "${props.activeFilters.search}"`, key: 'search' });
+        badges.push({ type: 'search', label: `${t('Search')}: "${props.activeFilters.search}"`, key: 'search' });
     }
     
     if (props.activeFilters.price_min || props.activeFilters.price_max) {
         const min = props.activeFilters.price_min || 0;
         const max = props.activeFilters.price_max || '∞';
-        badges.push({ type: 'price', label: `Price: ${getSymbol()}${min} - ${getSymbol()}${max}`, key: 'price_min' });
+        badges.push({ type: 'price', label: `${t('Price')}: ${getSymbol()}${min} - ${getSymbol()}${max}`, key: 'price_min' });
     }
     
     if (props.activeFilters.rating) {
-        badges.push({ type: 'rating', label: `${props.activeFilters.rating}+ Stars`, key: 'rating' });
+        badges.push({ type: 'rating', label: `${props.activeFilters.rating}+ ${t('Stars')}`, key: 'rating' });
     }
     
     if (props.activeFilters.in_stock) {
-        badges.push({ type: 'stock', label: 'In Stock', key: 'in_stock' });
+        badges.push({ type: 'stock', label: t('In Stock'), key: 'in_stock' });
     }
     
     return badges;
@@ -297,15 +300,15 @@ const activeFilterBadges = computed(() => {
 
 <template>
     <ThemeLayout>
-        <Head title="Shop All Products" />
+        <Head :title="$t('Shop All Products')" />
 
         <div class="bg-gray-50 min-h-screen py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
                 <div class="mb-8">
-                    <h1 class="text-4xl font-bold text-gray-900 mb-2">Shop All Products</h1>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ $t('Shop All Products') }}</h1>
                     <p class="text-gray-600">
-                        Showing {{ products.from }}-{{ products.to }} of {{ products.total }} products
+                        {{ $t('Showing {from}-{to} of {total} products', { from: products.from, to: products.to, total: products.total }) }}
                     </p>
                 </div>
 
@@ -314,7 +317,7 @@ const activeFilterBadges = computed(() => {
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
                         <div class="flex items-center justify-between flex-wrap gap-3">
                             <div class="flex items-center gap-2 flex-wrap">
-                                <span class="text-sm font-medium text-gray-700">Active Filters:</span>
+                                <span class="text-sm font-medium text-gray-700">{{ $t('Active Filters:') }}</span>
                                 <div
                                     v-for="badge in activeFilterBadges"
                                     :key="badge.key"
@@ -324,7 +327,7 @@ const activeFilterBadges = computed(() => {
                                     <button
                                         @click="removeFilter(badge.key, $event)"
                                         class="hover:bg-indigo-100 rounded-full p-0.5 transition-colors"
-                                        :title="`Remove ${badge.type} filter`"
+                                        :title="$t('Remove filter: {name}', { name: badge.label })"
                                     >
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -336,7 +339,7 @@ const activeFilterBadges = computed(() => {
                                 @click="clearAllFilters"
                                 class="text-sm font-medium text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
                             >
-                                Clear All
+                                {{ $t('Clear All') }}
                             </button>
                         </div>
                     </div>
@@ -346,11 +349,11 @@ const activeFilterBadges = computed(() => {
                     <!-- Filters Sidebar -->
                     <aside class="lg:w-64 flex-shrink-0">
                         <div class="bg-white rounded-2xl shadow-md p-6 sticky top-24">
-                            <h2 class="text-xl font-bold text-gray-900 mb-6">Filters</h2>
+                            <h2 class="text-xl font-bold text-gray-900 mb-6">{{ $t('Filters') }}</h2>
 
                             <!-- Categories -->
                             <div class="mb-6">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-3">Categories</h3>
+                                <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('Categories') }}</h3>
                                 <div class="space-y-2">
                                     <a
                                         v-for="category in filters.categories.slice(0, 6)"
@@ -368,7 +371,7 @@ const activeFilterBadges = computed(() => {
 
                             <!-- Brands -->
                             <div class="mb-6">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-3">Brands</h3>
+                                <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('Brands') }}</h3>
                                 <div class="space-y-2">
                                     <a
                                         v-for="brand in filters.brands.slice(0, 6)"
@@ -386,7 +389,7 @@ const activeFilterBadges = computed(() => {
 
                             <!-- Price Range -->
                             <div class="mb-6">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-3">Price Range</h3>
+                                <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('Price Range') }}</h3>
                                 <div class="space-y-2">
                                     <a
                                         href="#"
@@ -394,7 +397,7 @@ const activeFilterBadges = computed(() => {
                                         class="block text-sm text-gray-600 hover:text-indigo-600 transition-colors cursor-pointer"
                                         :class="{ 'text-indigo-600 font-semibold': activeFilters.price_min === 0 && activeFilters.price_max === 50 }"
                                     >
-                                        Under ₹50
+                                        {{ $t('Under {price}', { price: 50 }) }}
                                     </a>
                                     <a
                                         href="#"
@@ -402,7 +405,7 @@ const activeFilterBadges = computed(() => {
                                         class="block text-sm text-gray-600 hover:text-indigo-600 transition-colors cursor-pointer"
                                         :class="{ 'text-indigo-600 font-semibold': activeFilters.price_min === 50 && activeFilters.price_max === 100 }"
                                     >
-                                        ₹50 - ₹100
+                                        {{ $t('{min} - {max}', { min: 50, max: 100 }) }}
                                     </a>
                                     <a
                                         href="#"
@@ -410,7 +413,7 @@ const activeFilterBadges = computed(() => {
                                         class="block text-sm text-gray-600 hover:text-indigo-600 transition-colors cursor-pointer"
                                         :class="{ 'text-indigo-600 font-semibold': activeFilters.price_min === 100 && activeFilters.price_max === 200 }"
                                     >
-                                        ₹100 - ₹200
+                                        {{ $t('{min} - {max}', { min: 100, max: 200 }) }}
                                     </a>
                                     <a
                                         href="#"
@@ -418,14 +421,14 @@ const activeFilterBadges = computed(() => {
                                         class="block text-sm text-gray-600 hover:text-indigo-600 transition-colors cursor-pointer"
                                         :class="{ 'text-indigo-600 font-semibold': activeFilters.price_min === 200 && !activeFilters.price_max }"
                                     >
-                                        Over ₹200
+                                        {{ $t('Over {price}', { price: 200 }) }}
                                     </a>
                                 </div>
                             </div>
 
                             <!-- Rating -->
                             <div class="mb-6">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-3">Rating</h3>
+                                <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('Rating') }}</h3>
                                 <div class="space-y-2">
                                     <a
                                         v-for="rating in [4, 3, 2, 1]"
@@ -436,7 +439,7 @@ const activeFilterBadges = computed(() => {
                                         :class="{ 'text-indigo-600 font-semibold': activeFilters.rating === rating }"
                                     >
                                         <span class="text-yellow-400 mr-2">{{ '★'.repeat(rating) }}{{ '☆'.repeat(5 - rating) }}</span>
-                                        <span>& Up</span>
+                                        <span>{{ $t('& Up') }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -450,7 +453,7 @@ const activeFilterBadges = computed(() => {
                                         @change="handleCheckboxFilter('in_stock', ($event.target as HTMLInputElement).checked, $event)"
                                         class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                                     />
-                                    <span class="ml-2 text-sm text-gray-700">In Stock Only</span>
+                                    <span class="ml-2 text-sm text-gray-700">{{ $t('In Stock Only') }}</span>
                                 </label>
                             </div>
                         </div>
@@ -484,7 +487,7 @@ const activeFilterBadges = computed(() => {
 
                             <!-- Sort Dropdown -->
                             <div class="flex items-center gap-3">
-                                <label class="text-sm font-medium text-gray-700">Sort by:</label>
+                                <label class="text-sm font-medium text-gray-700">{{ $t('Sort by:') }}</label>
                                 <select
                                     :value="activeFilters.sort || 'newest'"
                                     @change="handleSortChange"
@@ -495,7 +498,7 @@ const activeFilterBadges = computed(() => {
                                         :key="option.value"
                                         :value="option.value"
                                     >
-                                        {{ option.label }}
+                                        {{ $t(option.label) }}
                                     </option>
                                 </select>
                             </div>
@@ -528,14 +531,14 @@ const activeFilterBadges = computed(() => {
                         <!-- Empty State -->
                         <div v-if="products.data.length === 0 && !isLoading" class="text-center py-16">
                             <div class="text-6xl mb-4">🔍</div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">No products found</h3>
-                            <p class="text-gray-600 mb-6">Try adjusting your filters or search terms</p>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $t('No products found') }}</h3>
+                            <p class="text-gray-600 mb-6">{{ $t('Try adjusting your filters or search terms') }}</p>
                             <a
                                 href="/products"
                                 @click="handleFilterClick('/products', $event)"
                                 class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
                             >
-                                Clear Filters
+                                {{ $t('Clear Filters') }}
                             </a>
                         </div>
 
@@ -548,7 +551,7 @@ const activeFilterBadges = computed(() => {
                                     @click="handlePageChange(products.current_page - 1, $event)"
                                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                                 >
-                                    Previous
+                                    {{ $t('Previous') }}
                                 </a>
 
                                 <template v-for="page in products.last_page" :key="page">
@@ -577,7 +580,7 @@ const activeFilterBadges = computed(() => {
                                     @click="handlePageChange(products.current_page + 1, $event)"
                                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                                 >
-                                    Next
+                                    {{ $t('Next') }}
                                 </a>
                             </nav>
                         </div>

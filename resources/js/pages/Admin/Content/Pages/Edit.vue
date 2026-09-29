@@ -1,13 +1,13 @@
 <template>
-    <Head :title="`Edit ${page.title}`" />
+    <Head :title="$t('Edit {title}', { title: page.title })" />
 
-    <AdminLayout :title="`Edit ${page.title}`">
+    <AdminLayout :title="$t('Edit {title}', { title: page.title })">
         <div class="p-6 space-y-6">
             <!-- Page Header -->
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Page</h1>
-                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Update "{{ page.title }}" content page</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Edit Page') }}</h1>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Update "{title}" content page', { title: page.title }) }}</p>
                 </div>
                 <div class="flex gap-2">
                     <!-- Block Editor button -->
@@ -16,7 +16,7 @@
                         class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
-                        Block Editor
+                        {{ $t('Block Editor') }}
                     </a>
                     <a
                         :href="page.url"
@@ -27,7 +27,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
-                        Preview
+                        {{ $t('Preview') }}
                     </a>
                     <Link
                         :href="pageRoutes.index().url"
@@ -36,7 +36,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                        Back to Pages
+                        {{ $t('Back to Pages') }}
                     </Link>
                 </div>
             </div>
@@ -48,10 +48,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
                     <div class="flex-1">
-                        <h4 class="text-sm font-medium text-indigo-900 dark:text-indigo-200">Homepage</h4>
+                        <h4 class="text-sm font-medium text-indigo-900 dark:text-indigo-200">{{ $t('Homepage') }}</h4>
                         <div class="mt-1 text-xs text-indigo-700 dark:text-indigo-300 space-y-1">
-                            <p>This is your store homepage. Use the <strong>Block Editor</strong> button above to design the page layout with drag-and-drop blocks.</p>
-                            <p>The URL key is fixed to <strong>home</strong> and cannot be changed.</p>
+                            <p>{{ $t('This is your store homepage. Use the') }} <strong>{{ $t('Block Editor') }}</strong> {{ $t('button above to design the page layout with drag-and-drop blocks.') }}</p>
+                            <p>{{ $t('The URL key is fixed to') }} <strong>home</strong> {{ $t('and cannot be changed.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -62,10 +62,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <div class="flex-1">
-                        <h4 class="text-sm font-medium text-blue-900 dark:text-blue-200">Page Information</h4>
+                        <h4 class="text-sm font-medium text-blue-900 dark:text-blue-200">{{ $t('Page Information') }}</h4>
                         <div class="mt-1 text-xs text-blue-700 dark:text-blue-300 space-y-1">
-                            <p>Created by <strong>{{ page.creator?.name }}</strong> on {{ formatDate(page.created_at) }}</p>
-                            <p v-if="page.updater">Last updated by <strong>{{ page.updater.name }}</strong> on {{ formatDate(page.updated_at) }}</p>
+                            <p>{{ $t('Created by') }} <strong>{{ page.creator?.name }}</strong> {{ $t('on {date}', { date: formatDate(page.created_at) }) }}</p>
+                            <p v-if="page.updater">{{ $t('Last updated by') }} <strong>{{ page.updater.name }}</strong> {{ $t('on {date}', { date: formatDate(page.updated_at) }) }}</p>
                         </div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                     <!-- Title -->
                     <div>
                         <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Title <span class="text-red-500">*</span>
+                            {{ $t('Title') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                             id="title"
@@ -87,7 +87,7 @@
                             required
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                             :class="{ 'border-red-500': form.errors.title }"
-                            placeholder="Enter page title"
+                            :placeholder="$t('Enter page title')"
                         />
                         <p v-if="form.errors.title" class="mt-1 text-sm text-red-600">{{ form.errors.title }}</p>
                     </div>
@@ -95,7 +95,7 @@
                     <!-- URL Key -->
                     <div>
                         <label for="url_key" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            URL Key <span class="text-red-500">*</span>
+                            {{ $t('URL Key') }} <span class="text-red-500">*</span>
                         </label>
                         <div v-if="page.is_homepage" class="flex gap-2">
                             <div class="flex-1">
@@ -118,31 +118,31 @@
                                     :class="{ 'border-red-500': form.errors.url_key || (!slugAvailable && form.url_key) }"
                                 />
                                 <p v-if="form.errors.url_key" class="mt-1 text-sm text-red-600">{{ form.errors.url_key }}</p>
-                                <p v-else-if="!slugAvailable && form.url_key" class="mt-1 text-sm text-red-600">This URL key is already taken</p>
-                                <p v-else-if="slugAvailable && form.url_key && slugChecked" class="mt-1 text-sm text-green-600">✓ URL key is available</p>
+                                <p v-else-if="!slugAvailable && form.url_key" class="mt-1 text-sm text-red-600">{{ $t('This URL key is already taken') }}</p>
+                                <p v-else-if="slugAvailable && form.url_key && slugChecked" class="mt-1 text-sm text-green-600">{{ $t('✓ URL key is available') }}</p>
                             </div>
                             <button
                                 type="button"
                                 @click="generateSlug"
                                 class="px-4 py-2 h-10 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 whitespace-nowrap"
                             >
-                                Regenerate
+                                {{ $t('Regenerate') }}
                             </button>
                         </div>
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            <span v-if="page.is_homepage">The homepage URL key is fixed and cannot be changed.</span>
-                            <span v-else>Lowercase letters, numbers, and hyphens only. Will be: {{ previewUrl }}</span>
+                            <span v-if="page.is_homepage">{{ $t('The homepage URL key is fixed and cannot be changed.') }}</span>
+                            <span v-else>{{ $t('Lowercase letters, numbers, and hyphens only. Will be: {url}', { url: previewUrl }) }}</span>
                         </p>
                     </div>
 
                     <!-- Content Editor -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Content <span class="text-red-500">*</span>
+                            {{ $t('Content') }} <span class="text-red-500">*</span>
                         </label>
                         <TipTapEditor
                             v-model="form.content"
-                            placeholder="Write your page content here..."
+                            :placeholder="$t('Write your page content here...')"
                             :show-character-count="true"
                         />
                         <p v-if="form.errors.content" class="mt-1 text-sm text-red-600">{{ form.errors.content }}</p>
@@ -150,12 +150,12 @@
 
                     <!-- SEO Meta Fields -->
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">SEO Settings</h3>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ $t('SEO Settings') }}</h3>
                         
                         <!-- Meta Title -->
                         <div class="mb-4">
                             <label for="meta_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Meta Title
+                                {{ $t('Meta Title') }}
                             </label>
                             <input
                                 id="meta_title"
@@ -164,18 +164,18 @@
                                 maxlength="255"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 :class="{ 'border-red-500': form.errors.meta_title }"
-                                placeholder="SEO title for search engines"
+                                :placeholder="$t('SEO title for search engines')"
                             />
                             <p v-if="form.errors.meta_title" class="mt-1 text-sm text-red-600">{{ form.errors.meta_title }}</p>
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                {{ form.meta_title?.length || 0 }}/255 characters. Leave empty to use page title.
+                                {{ $t('{count}/255 characters. Leave empty to use page title.', { count: form.meta_title?.length || 0 }) }}
                             </p>
                         </div>
 
                         <!-- Meta Description -->
                         <div class="mb-4">
                             <label for="meta_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Meta Description
+                                {{ $t('Meta Description') }}
                             </label>
                             <textarea
                                 id="meta_description"
@@ -184,18 +184,18 @@
                                 maxlength="500"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 :class="{ 'border-red-500': form.errors.meta_description }"
-                                placeholder="Brief description for search results"
+                                :placeholder="$t('Brief description for search results')"
                             ></textarea>
                             <p v-if="form.errors.meta_description" class="mt-1 text-sm text-red-600">{{ form.errors.meta_description }}</p>
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                {{ form.meta_description?.length || 0 }}/500 characters. Recommended: 150-160 characters.
+                                {{ $t('{count}/500 characters. Recommended: 150-160 characters.', { count: form.meta_description?.length || 0 }) }}
                             </p>
                         </div>
 
                         <!-- Meta Keywords -->
                         <div>
                             <label for="meta_keywords" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Meta Keywords
+                                {{ $t('Meta Keywords') }}
                             </label>
                             <input
                                 id="meta_keywords"
@@ -208,7 +208,7 @@
                             />
                             <p v-if="form.errors.meta_keywords" class="mt-1 text-sm text-red-600">{{ form.errors.meta_keywords }}</p>
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                Comma-separated keywords. Not widely used by search engines anymore.
+                                {{ $t('Comma-separated keywords. Not widely used by search engines anymore.') }}
                             </p>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                     <!-- Status -->
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                         <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Status <span class="text-red-500">*</span>
+                            {{ $t('Status') }} <span class="text-red-500">*</span>
                         </label>
                         <select
                             id="status"
@@ -225,13 +225,13 @@
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                             :class="{ 'border-red-500': form.errors.status }"
                         >
-                            <option value="draft">Draft</option>
-                            <option value="published">Published</option>
-                            <option value="disabled">Disabled</option>
+                            <option value="draft">{{ $t('Draft') }}</option>
+                            <option value="published">{{ $t('Published') }}</option>
+                            <option value="disabled">{{ $t('Disabled') }}</option>
                         </select>
                         <p v-if="form.errors.status" class="mt-1 text-sm text-red-600">{{ form.errors.status }}</p>
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            Draft pages are not visible on storefront. Published pages are live.
+                            {{ $t('Draft pages are not visible on storefront. Published pages are live.') }}
                         </p>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
                         :href="pageRoutes.index().url"
                         class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                     >
-                        Cancel
+                        {{ $t('Cancel') }}
                     </Link>
                     <div class="flex gap-3">
                         <button
@@ -252,15 +252,15 @@
                             class="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors dark:bg-gray-600 dark:border-red-500 dark:hover:bg-red-600 dark:hover:text-white"
                             :disabled="form.processing"
                         >
-                            Delete
+                            {{ $t('Delete') }}
                         </button>
                         <button
                             type="submit"
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             :disabled="form.processing || !slugAvailable"
                         >
-                            <span v-if="form.processing">Saving...</span>
-                            <span v-else>Update Page</span>
+                            <span v-if="form.processing">{{ $t('Saving...') }}</span>
+                            <span v-else>{{ $t('Update Page') }}</span>
                         </button>
                     </div>
                 </div>
@@ -278,6 +278,9 @@ import type { Page } from '@/types/cms';
 import { useDebounceFn } from '@vueuse/core';
 import * as pageRoutes from '@/routes/admin/content/pages';
 import axios from 'axios';
+import { useI18nStore } from '@/Stores/i18n';
+
+const { t } = useI18nStore();
 
 interface Props {
     page: Page;
@@ -300,7 +303,7 @@ const slugChecked = ref(false);
 const originalSlug = props.page.url_key;
 
 const previewUrl = computed(() => {
-    return form.url_key ? `${window.location.origin}/${form.url_key}` : 'Enter URL key to preview';
+    return form.url_key ? `${window.location.origin}/${form.url_key}` : t('Enter URL key to preview');
 });
 
 const generateSlug = () => {

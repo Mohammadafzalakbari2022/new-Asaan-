@@ -84,14 +84,14 @@ const copyCode = async (person: Person) => {
 </script>
 
 <template>
-  <Head title="Referral People" />
+  <Head :title="$t('Referral People')" />
 
-  <AdminLayout title="Referral People">
+  <AdminLayout :title="$t('Referral People')">
     <div class="p-6 space-y-6">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">People</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('People') }}</h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          Every customer taking part in the programme, with their code and balances.
+          {{ $t('Every customer taking part in the programme, with their code and balances.') }}
         </p>
       </div>
 
@@ -100,14 +100,14 @@ const copyCode = async (person: Person) => {
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
           <div class="md:col-span-8">
             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
-              Search
+              {{ $t('Search') }}
             </label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="searchQuery"
                 type="text"
-                placeholder="Name, email or code..."
+                :placeholder="$t('Name, email or code...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
                 @keyup.enter="applyFilters"
               />
@@ -116,7 +116,7 @@ const copyCode = async (person: Person) => {
 
           <div class="md:col-span-4">
             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
-              Invites
+              {{ $t('Invites') }}
             </label>
             <div class="relative">
               <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -125,10 +125,10 @@ const copyCode = async (person: Person) => {
                 @change="applyFilters"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="all">Everyone</option>
-                <option value="earned">Has earned a reward</option>
-                <option value="pending">Has a pending invite</option>
-                <option value="none">Has not invited anyone</option>
+                <option value="all">{{ $t('Everyone') }}</option>
+                <option value="earned">{{ $t('Has earned a reward') }}</option>
+                <option value="pending">{{ $t('Has a pending invite') }}</option>
+                <option value="none">{{ $t('Has not invited anyone') }}</option>
               </select>
             </div>
           </div>
@@ -140,7 +140,7 @@ const copyCode = async (person: Person) => {
             class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
           >
             <X class="w-4 h-4" />
-            Clear Filters
+            {{ $t('Clear Filters') }}
           </button>
         </div>
       </div>
@@ -150,7 +150,11 @@ const copyCode = async (person: Person) => {
         <div v-if="people.data.length === 0" class="px-6 py-12 text-center">
           <Users class="w-8 h-8 mx-auto text-gray-300 dark:text-gray-600" />
           <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
-            {{ searchQuery || statusFilter !== 'all' ? 'Nobody matches those filters.' : 'No customers have joined the programme yet.' }}
+            {{
+              searchQuery || statusFilter !== 'all'
+                ? $t('Nobody matches those filters.')
+                : $t('No customers have joined the programme yet.')
+            }}
           </p>
         </div>
 
@@ -158,12 +162,12 @@ const copyCode = async (person: Person) => {
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Code</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Invites</th>
-                <th class="hidden md:table-cell px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Clicks</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Available</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Locked</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Customer') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Code') }}</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Invites') }}</th>
+                <th class="hidden md:table-cell px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Clicks') }}</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Available') }}</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Locked') }}</th>
                 <th class="px-6 py-3"></th>
               </tr>
             </thead>
@@ -173,7 +177,7 @@ const copyCode = async (person: Person) => {
                   <div class="text-sm font-medium text-gray-900 dark:text-white">{{ person.name }}</div>
                   <div class="text-xs text-gray-500 dark:text-gray-400">{{ person.email }}</div>
                   <div v-if="person.invited_by" class="mt-0.5 text-[10px] text-purple-500 dark:text-purple-400">
-                    Invited by another member
+                    {{ $t('Invited by another member') }}
                   </div>
                 </td>
 
@@ -181,20 +185,20 @@ const copyCode = async (person: Person) => {
                   <button
                     @click="copyCode(person)"
                     class="inline-flex items-center gap-1.5 font-mono text-sm text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    :title="copied === person.id ? 'Copied' : 'Copy code'"
+                    :title="copied === person.id ? $t('Copied') : $t('Copy code')"
                   >
                     {{ person.code }}
                     <Check v-if="copied === person.id" class="w-3.5 h-3.5 text-green-600" />
                     <Copy v-else class="w-3.5 h-3.5 text-gray-400" />
                   </button>
                   <div v-if="person.code_status === 'disabled'" class="mt-0.5 text-[10px] text-red-500">
-                    Code disabled
+                    {{ $t('Code disabled') }}
                   </div>
                 </td>
 
                 <td class="px-6 py-4 text-right">
                   <div class="text-sm text-gray-900 dark:text-white">{{ person.referred_count }}</div>
-                  <div class="text-[10px] text-gray-500 dark:text-gray-400">{{ person.rewarded_count }} rewarded</div>
+                  <div class="text-[10px] text-gray-500 dark:text-gray-400">{{ $t('{count} rewarded', { count: person.rewarded_count }) }}</div>
                 </td>
 
                 <td class="hidden md:table-cell px-6 py-4 text-right text-sm text-gray-500 dark:text-gray-400">
@@ -217,7 +221,7 @@ const copyCode = async (person: Person) => {
                     :href="`/admin/marketing/referrals/people/${person.id}`"
                     class="text-blue-600 dark:text-blue-400 hover:underline text-xs font-semibold"
                   >
-                    Open
+                    {{ $t('Open') }}
                   </Link>
                 </td>
               </tr>
@@ -227,7 +231,7 @@ const copyCode = async (person: Person) => {
 
         <div v-if="people.data.length > 0" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <div class="text-sm text-gray-500 dark:text-gray-400">
-            Showing {{ people.from }} to {{ people.to }} of {{ people.total }} people
+            {{ $t('Showing {from} to {to} of {total} people', { from: people.from, to: people.to, total: people.total }) }}
           </div>
           <div class="flex gap-2">
             <Link
@@ -235,14 +239,14 @@ const copyCode = async (person: Person) => {
               :href="people.prev_page_url"
               class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
-              Previous
+              {{ $t('Previous') }}
             </Link>
             <Link
               v-if="people.next_page_url"
               :href="people.next_page_url"
               class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
-              Next
+              {{ $t('Next') }}
             </Link>
           </div>
         </div>

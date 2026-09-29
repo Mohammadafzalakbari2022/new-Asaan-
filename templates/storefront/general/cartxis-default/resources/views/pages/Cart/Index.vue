@@ -5,6 +5,10 @@ import ThemeLayout from '../../layouts/ThemeLayout.vue';
 import CartItemSkeleton from '../../components/CartItemSkeleton.vue';
 import { useCart } from '@/composables/useCart';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
+
+const i18n = useI18nStore();
+const t = i18n.t;
 
 // Define props
 interface CartSummary {
@@ -67,7 +71,7 @@ const handleApplyCoupon = async () => {
     couponError.value = '';
     const result = await applyCoupon(code);
     if (!result.success) {
-        couponError.value = result.message || 'Invalid coupon code';
+        couponError.value = result.message || t('Invalid coupon code');
     } else {
         couponInput.value = '';
         router.reload({ only: ['cartSummary'] });
@@ -115,7 +119,7 @@ const handleQuantityChange = async (itemId: string, newQuantity: number) => {
     updatingItems.value.delete(itemId);
 
     if (!result.success) {
-        alert('Failed to update quantity');
+        alert(t('Failed to update quantity'));
     } else {
         // Reload cart data without full page refresh using Inertia
         router.reload({ only: ['cartSummary'] });
@@ -133,7 +137,7 @@ const handleRemove = async (itemId: string) => {
     removingItems.value.delete(itemId);
 
     if (!result.success) {
-        alert('Failed to remove item');
+        alert(t('Failed to remove item'));
     } else {
         // Reload cart data without full page refresh using Inertia
         router.reload({ only: ['cartSummary'] });
@@ -142,14 +146,14 @@ const handleRemove = async (itemId: string) => {
 </script>
 
 <template>
-    <Head title="Shopping Cart" />
+    <Head :title="$t('Shopping Cart')" />
 
     <ThemeLayout>
         <div class="container mx-auto px-4 py-8 max-w-7xl">
             <!-- Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">Shopping Cart</h1>
-                <p class="mt-2 text-gray-600">{{ itemCount }} {{ itemCount === 1 ? 'item' : 'items' }} in your cart</p>
+                <h1 class="text-3xl font-bold text-gray-900">{{ $t('Shopping Cart') }}</h1>
+                <p class="mt-2 text-gray-600">{{ $t(itemCount === 1 ? '{count} item in your cart' : '{count} items in your cart', { count: itemCount }) }}</p>
             </div>
 
             <!-- Loading State with Skeletons (only on first load) -->
@@ -194,13 +198,13 @@ const handleRemove = async (itemId: string) => {
                 <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
-                <h2 class="mt-4 text-2xl font-semibold text-gray-900">Your cart is empty</h2>
-                <p class="mt-2 text-gray-600">Add some products to get started!</p>
+                <h2 class="mt-4 text-2xl font-semibold text-gray-900">{{ $t('Your cart is empty') }}</h2>
+                <p class="mt-2 text-gray-600">{{ $t('Add some products to get started!') }}</p>
                 <Link
                     href="/products"
                     class="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
                 >
-                    Continue Shopping
+                    {{ $t('Continue Shopping') }}
                 </Link>
             </div>
 
@@ -288,15 +292,15 @@ const handleRemove = async (itemId: string) => {
                                     class="text-red-600 hover:text-red-800 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                     :disabled="isItemUpdating(item.id) || isItemRemoving(item.id)"
                                 >
-                                    <span v-if="isItemRemoving(item.id)">Removing...</span>
-                                    <span v-else>Remove</span>
+                                    <span v-if="isItemRemoving(item.id)">{{ $t('Removing...') }}</span>
+                                    <span v-else>{{ $t('Remove') }}</span>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Item Subtotal -->
                         <div class="text-right">
-                            <p class="text-sm text-gray-600">Subtotal</p>
+                            <p class="text-sm text-gray-600">{{ $t('Subtotal') }}</p>
                             <p class="text-xl font-bold text-gray-900">
                                 {{ formatPrice(item.price * item.quantity) }}
                             </p>
@@ -307,16 +311,16 @@ const handleRemove = async (itemId: string) => {
                 <!-- Order Summary -->
                 <div class="lg:col-span-1">
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-4">
-                        <h2 class="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">{{ $t('Order Summary') }}</h2>
 
                         <!-- Coupon / Promo Code -->
                         <div v-if="!couponCode" class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Promo Code</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Promo Code') }}</label>
                             <div class="flex gap-2">
                                 <input
                                     v-model="couponInput"
                                     type="text"
-                                    placeholder="Enter code"
+                                    :placeholder="$t('Enter code')"
                                     class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     @keyup.enter="handleApplyCoupon"
                                 />
@@ -325,25 +329,25 @@ const handleRemove = async (itemId: string) => {
                                     :disabled="couponLoading || !couponInput.trim()"
                                     class="px-3 py-2 text-sm font-medium bg-gray-900 text-white rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
-                                    {{ couponLoading ? '...' : 'Apply' }}
+                                    {{ couponLoading ? '...' : $t('Apply') }}
                                 </button>
                             </div>
                             <p v-if="couponError" class="mt-1 text-xs text-red-600">{{ couponError }}</p>
                         </div>
                         <div v-else class="mb-4 flex items-center justify-between bg-green-50 border border-green-200 rounded-md px-3 py-2">
-                            <span class="text-sm text-green-700 font-medium">{{ couponCode }} applied</span>
+                            <span class="text-sm text-green-700 font-medium">{{ $t('{code} applied', { code: couponCode }) }}</span>
                             <button @click="handleRemoveCoupon" class="text-green-600 hover:text-green-800 text-lg leading-none">&times;</button>
                         </div>
 
                         <div class="space-y-3 mb-4">
                             <div class="flex justify-between text-gray-700">
-                                <span>Subtotal</span>
+                                <span>{{ $t('Subtotal') }}</span>
                                 <span>{{ formatPrice(cartSummary.subtotal) }}</span>
                             </div>
                             <div class="flex justify-between text-gray-700">
-                                <span>Shipping</span>
+                                <span>{{ $t('Shipping') }}</span>
                                 <span v-if="cartSummary.shipping.cost > 0">{{ formatPrice(cartSummary.shipping.cost) }}</span>
-                                <span v-else class="text-sm text-green-600 font-medium">Free (Digital Products)</span>
+                                <span v-else class="text-sm text-green-600 font-medium">{{ $t('Free (Digital Products)') }}</span>
                             </div>
                             
                             <!-- Tax Breakdown -->
@@ -354,19 +358,19 @@ const handleRemove = async (itemId: string) => {
                                 </div>
                             </div>
                             <div v-else class="flex justify-between text-gray-700">
-                                <span>Tax</span>
+                                <span>{{ $t('Tax') }}</span>
                                 <span>{{ formatPrice(cartSummary.taxes.total) }}</span>
                             </div>
 
                             <!-- Discount -->
                             <div v-if="discountAmount > 0" class="flex justify-between text-green-600">
-                                <span>Discount</span>
+                                <span>{{ $t('Discount') }}</span>
                                 <span>- {{ formatPrice(discountAmount) }}</span>
                             </div>
                             
                             <div class="border-t border-gray-200 pt-3">
                                 <div class="flex justify-between text-lg font-bold text-gray-900">
-                                    <span>Total</span>
+                                    <span>{{ $t('Total') }}</span>
                                     <span>{{ formatPrice(cartSummary.total) }}</span>
                                 </div>
                             </div>
@@ -376,14 +380,14 @@ const handleRemove = async (itemId: string) => {
                             href="/checkout"
                             class="w-full block text-center bg-blue-600 text-white py-3 px-4 rounded-md font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
                         >
-                            Proceed to Checkout
+                            {{ $t('Proceed to Checkout') }}
                         </Link>
 
                         <Link
                             href="/products"
                             class="mt-4 block w-full text-center bg-gray-100 text-gray-900 py-3 px-4 rounded-md font-semibold hover:bg-gray-200 transition-colors cursor-pointer"
                         >
-                            Continue Shopping
+                            {{ $t('Continue Shopping') }}
                         </Link>
                     </div>
                 </div>

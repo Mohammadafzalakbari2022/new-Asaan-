@@ -57,7 +57,7 @@ const changePassword = () => {
 
 <template>
   <AdminLayout>
-    <Head :title="`Edit User: ${props.user.name}`" />
+    <Head :title="$t('Edit User: {name}', { name: props.user.name })" />
 
     <div class="py-8">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,23 +68,23 @@ const changePassword = () => {
             class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
           >
             <ArrowLeft class="w-4 h-4 mr-2" />
-            Back to Users
+            {{ $t('Back to Users') }}
           </Link>
           <div class="flex items-center gap-3 mb-2">
             <User class="w-8 h-8 text-primary" />
-            <h1 class="text-3xl font-bold text-gray-900">Edit User</h1>
+            <h1 class="text-3xl font-bold text-gray-900">{{ $t('Edit User') }}</h1>
           </div>
-          <p class="text-gray-600">Update user information and manage permissions</p>
+          <p class="text-gray-600">{{ $t('Update user information and manage permissions') }}</p>
         </div>
 
         <!-- User Profile Form -->
         <div class="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">Profile Information</h2>
+          <h2 class="text-xl font-semibold text-gray-900 mb-6">{{ $t('Profile Information') }}</h2>
           
           <form @submit.prevent="updateProfile" class="space-y-6">
             <!-- Name -->
             <div>
-              <Label for="name">Name</Label>
+              <Label for="name">{{ $t('Name') }}</Label>
               <Input
                 id="name"
                 v-model="profileForm.name"
@@ -100,7 +100,7 @@ const changePassword = () => {
 
             <!-- Email -->
             <div>
-              <Label for="email">Email</Label>
+              <Label for="email">{{ $t('Email') }}</Label>
               <Input
                 id="email"
                 v-model="profileForm.email"
@@ -116,16 +116,16 @@ const changePassword = () => {
 
             <!-- Role -->
             <div>
-              <Label for="role">Role</Label>
+              <Label for="role">{{ $t('Role') }}</Label>
               <select
                 id="role"
                 v-model="profileForm.role"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
                 :class="{ 'border-red-500': profileForm.errors.role }"
               >
-                <option value="customer">Customer</option>
-                <option value="admin">Admin</option>
-                <option value="delivery">Delivery Person</option>
+                <option value="customer">{{ $t('Customer') }}</option>
+                <option value="admin">{{ $t('Admin') }}</option>
+                <option value="delivery">{{ $t('Delivery Person') }}</option>
               </select>
               <p v-if="profileForm.errors.role" class="mt-1 text-sm text-red-600">
                 {{ profileForm.errors.role }}
@@ -140,16 +140,16 @@ const changePassword = () => {
                 type="checkbox"
                 class="rounded border-gray-300 text-primary shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
               />
-              <Label for="is_active" class="ml-2 mb-0">Active Account</Label>
+              <Label for="is_active" class="ml-2 mb-0">{{ $t('Active Account') }}</Label>
             </div>
 
             <!-- Additional Info -->
             <div class="bg-gray-50 p-4 rounded-md space-y-2">
               <div class="text-sm text-gray-600">
-                <strong>Email Verified:</strong> {{ props.user.email_verified_at || 'Not verified' }}
+                <strong>{{ $t('Email Verified:') }}</strong> {{ props.user.email_verified_at || $t('Not verified') }}
               </div>
               <div class="text-sm text-gray-600">
-                <strong>Account Created:</strong> {{ props.user.created_at }}
+                <strong>{{ $t('Account Created:') }}</strong> {{ props.user.created_at }}
               </div>
             </div>
 
@@ -157,7 +157,7 @@ const changePassword = () => {
             <div class="flex justify-end">
               <Button type="submit" :disabled="profileForm.processing">
                 <Save class="w-4 h-4 mr-2" />
-                {{ profileForm.processing ? 'Saving...' : 'Save Changes' }}
+                {{ profileForm.processing ? $t('Saving...') : $t('Save Changes') }}
               </Button>
             </div>
           </form>
@@ -167,13 +167,13 @@ const changePassword = () => {
         <div class="bg-white rounded-lg shadow p-6">
           <div class="flex items-center gap-3 mb-6">
             <Key class="w-6 h-6 text-primary" />
-            <h2 class="text-xl font-semibold text-gray-900">Change Password</h2>
+            <h2 class="text-xl font-semibold text-gray-900">{{ $t('Change Password') }}</h2>
           </div>
           
           <form @submit.prevent="changePassword" class="space-y-6">
             <!-- Current Password -->
             <div>
-              <Label for="current_password">Current Password</Label>
+              <Label for="current_password">{{ $t('Current Password') }}</Label>
               <Input
                 id="current_password"
                 v-model="passwordForm.current_password"
@@ -189,7 +189,7 @@ const changePassword = () => {
 
             <!-- New Password -->
             <div>
-              <Label for="password">New Password</Label>
+              <Label for="password">{{ $t('New Password') }}</Label>
               <Input
                 id="password"
                 v-model="passwordForm.password"
@@ -205,7 +205,7 @@ const changePassword = () => {
 
             <!-- Confirm Password -->
             <div>
-              <Label for="password_confirmation">Confirm Password</Label>
+              <Label for="password_confirmation">{{ $t('Confirm Password') }}</Label>
               <Input
                 id="password_confirmation"
                 v-model="passwordForm.password_confirmation"
@@ -218,7 +218,7 @@ const changePassword = () => {
             <!-- Info -->
             <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4">
               <p class="text-sm text-yellow-800">
-                <strong>Note:</strong> This will change the user's password immediately. The user will need to use the new password on their next login.
+                <strong>{{ $t('Note:') }}</strong> {{ $t("This will change the user's password immediately. The user will need to use the new password on their next login.") }}
               </p>
             </div>
 
@@ -226,7 +226,7 @@ const changePassword = () => {
             <div class="flex justify-end">
               <Button type="submit" :disabled="passwordForm.processing">
                 <Key class="w-4 h-4 mr-2" />
-                {{ passwordForm.processing ? 'Changing...' : 'Change Password' }}
+                {{ passwordForm.processing ? $t('Changing...') : $t('Change Password') }}
               </Button>
             </div>
           </form>

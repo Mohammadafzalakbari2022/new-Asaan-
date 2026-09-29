@@ -78,13 +78,13 @@ const submit = () => {
 </script>
 
 <template>
-  <AdminLayout title="Edit Promotion">
+  <AdminLayout :title="$t('Edit Promotion')">
     <div class="py-6">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-6">
-          <h1 class="text-2xl font-bold text-gray-900">Edit Promotion</h1>
-          <p class="mt-1 text-sm text-gray-600">Update promotional campaign settings</p>
+          <h1 class="text-2xl font-bold text-gray-900">{{ $t('Edit Promotion') }}</h1>
+          <p class="mt-1 text-sm text-gray-600">{{ $t('Update promotional campaign settings') }}</p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
@@ -102,7 +102,7 @@ const submit = () => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  General Information
+                  {{ $t('General Information') }}
                 </button>
                 <button
                   type="button"
@@ -114,7 +114,7 @@ const submit = () => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  Badge Configuration
+                  {{ $t('Badge Configuration') }}
                 </button>
                 <button
                   type="button"
@@ -126,7 +126,7 @@ const submit = () => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  Conditions & Limits
+                  {{ $t('Conditions & Limits') }}
                 </button>
                 <button
                   type="button"
@@ -138,7 +138,7 @@ const submit = () => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  Schedule & Settings
+                  {{ $t('Schedule & Settings') }}
                 </button>
               </nav>
             </div>
@@ -150,7 +150,7 @@ const submit = () => {
                   <!-- Name -->
                   <div class="md:col-span-2">
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                      Promotion Name <span class="text-red-500">*</span>
+                      {{ $t('Promotion Name') }} <span class="text-red-500">*</span>
                     </label>
                     <input
                       id="name"
@@ -158,7 +158,7 @@ const submit = () => {
                       type="text"
                       required
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="e.g., Summer Sale 2025"
+                      :placeholder="$t('e.g., Summer Sale 2025')"
                     />
                     <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
                   </div>
@@ -166,7 +166,7 @@ const submit = () => {
                   <!-- Type -->
                   <div>
                     <label for="type" class="block text-sm font-medium text-gray-700 mb-2">
-                      Promotion Type <span class="text-red-500">*</span>
+                      {{ $t('Promotion Type') }} <span class="text-red-500">*</span>
                     </label>
                     <select
                       id="type"
@@ -184,7 +184,7 @@ const submit = () => {
                   <!-- Discount Type -->
                   <div>
                     <label for="discount_type" class="block text-sm font-medium text-gray-700 mb-2">
-                      Discount Type <span class="text-red-500">*</span>
+                      {{ $t('Discount Type') }} <span class="text-red-500">*</span>
                     </label>
                     <select
                       id="discount_type"
@@ -192,8 +192,8 @@ const submit = () => {
                       required
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      <option value="percentage">Percentage (%)</option>
-                      <option value="fixed_amount">Fixed Amount ($)</option>
+                      <option value="percentage">{{ $t('Percentage (%)') }}</option>
+                      <option value="fixed_amount">{{ $t('Fixed Amount ($)') }}</option>
                     </select>
                     <p v-if="form.errors.discount_type" class="mt-1 text-sm text-red-600">{{ form.errors.discount_type }}</p>
                   </div>
@@ -201,7 +201,7 @@ const submit = () => {
                   <!-- Discount Value -->
                   <div>
                     <label for="discount_value" class="block text-sm font-medium text-gray-700 mb-2">
-                      Discount Value <span class="text-red-500">*</span>
+                      {{ $t('Discount Value') }} <span class="text-red-500">*</span>
                     </label>
                     <input
                       id="discount_value"
@@ -219,7 +219,7 @@ const submit = () => {
                   <!-- Max Discount -->
                   <div>
                     <label for="max_discount" class="block text-sm font-medium text-gray-700 mb-2">
-                      Maximum Discount Amount
+                      {{ $t('Maximum Discount Amount') }}
                     </label>
                     <input
                       id="max_discount"
@@ -228,23 +228,23 @@ const submit = () => {
                       step="0.01"
                       min="0"
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Optional"
+                      :placeholder="$t('Optional')"
                     />
-                    <p class="mt-1 text-xs text-gray-500">Leave empty for no limit</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Leave empty for no limit') }}</p>
                     <p v-if="form.errors.max_discount" class="mt-1 text-sm text-red-600">{{ form.errors.max_discount }}</p>
                   </div>
 
                   <!-- Description -->
                   <div class="md:col-span-2">
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
-                      Description
+                      {{ $t('Description') }}
                     </label>
                     <textarea
                       id="description"
                       v-model="form.description"
                       rows="4"
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Describe this promotion..."
+                      :placeholder="$t('Describe this promotion...')"
                     ></textarea>
                     <p v-if="form.errors.description" class="mt-1 text-sm text-red-600">{{ form.errors.description }}</p>
                   </div>
@@ -252,7 +252,7 @@ const submit = () => {
                   <!-- Priority -->
                   <div>
                     <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">
-                      Priority
+                      {{ $t('Priority') }}
                     </label>
                     <input
                       id="priority"
@@ -262,21 +262,21 @@ const submit = () => {
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="0"
                     />
-                    <p class="mt-1 text-xs text-gray-500">Higher number = higher priority</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Higher number = higher priority') }}</p>
                     <p v-if="form.errors.priority" class="mt-1 text-sm text-red-600">{{ form.errors.priority }}</p>
                   </div>
 
                   <!-- Internal Notes -->
                   <div class="md:col-span-2">
                     <label for="internal_notes" class="block text-sm font-medium text-gray-700 mb-2">
-                      Internal Notes
+                      {{ $t('Internal Notes') }}
                     </label>
                     <textarea
                       id="internal_notes"
                       v-model="form.internal_notes"
                       rows="3"
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Notes for internal use only..."
+                      :placeholder="$t('Notes for internal use only...')"
                     ></textarea>
                     <p v-if="form.errors.internal_notes" class="mt-1 text-sm text-red-600">{{ form.errors.internal_notes }}</p>
                   </div>
@@ -294,16 +294,16 @@ const submit = () => {
                         type="checkbox"
                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span class="ml-2 text-sm font-medium text-gray-700">Show Badge on Products</span>
+                      <span class="ml-2 text-sm font-medium text-gray-700">{{ $t('Show Badge on Products') }}</span>
                     </label>
-                    <p class="mt-1 text-xs text-gray-500">Display a promotional badge on qualifying products</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Display a promotional badge on qualifying products') }}</p>
                   </div>
 
                   <template v-if="form.show_badge">
                     <!-- Badge Text -->
                     <div>
                       <label for="badge_text" class="block text-sm font-medium text-gray-700 mb-2">
-                        Badge Text
+                        {{ $t('Badge Text') }}
                       </label>
                       <input
                         id="badge_text"
@@ -311,7 +311,7 @@ const submit = () => {
                         type="text"
                         maxlength="50"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="e.g., 25% OFF"
+                        :placeholder="$t('e.g., 25% OFF')"
                       />
                       <p v-if="form.errors.badge_text" class="mt-1 text-sm text-red-600">{{ form.errors.badge_text }}</p>
                     </div>
@@ -319,7 +319,7 @@ const submit = () => {
                     <!-- Badge Position -->
                     <div>
                       <label for="badge_position" class="block text-sm font-medium text-gray-700 mb-2">
-                        Badge Position
+                        {{ $t('Badge Position') }}
                       </label>
                       <select
                         id="badge_position"
@@ -336,7 +336,7 @@ const submit = () => {
                     <!-- Badge Text Color -->
                     <div>
                       <label for="badge_color" class="block text-sm font-medium text-gray-700 mb-2">
-                        Badge Text Color
+                        {{ $t('Badge Text Color') }}
                       </label>
                       <div class="flex gap-2">
                         <input
@@ -359,7 +359,7 @@ const submit = () => {
                     <!-- Badge Background Color -->
                     <div>
                       <label for="badge_bg_color" class="block text-sm font-medium text-gray-700 mb-2">
-                        Badge Background Color
+                        {{ $t('Badge Background Color') }}
                       </label>
                       <div class="flex gap-2">
                         <input
@@ -381,7 +381,7 @@ const submit = () => {
 
                     <!-- Badge Preview -->
                     <div class="md:col-span-2">
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Badge Preview</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Badge Preview') }}</label>
                       <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
                         <div class="relative inline-block">
                           <div
@@ -391,7 +391,7 @@ const submit = () => {
                             }"
                             class="px-3 py-1 rounded text-sm font-bold shadow-md"
                           >
-                            {{ form.badge_text || 'Preview' }}
+                            {{ form.badge_text || $t('Preview') }}
                           </div>
                         </div>
                       </div>
@@ -406,9 +406,9 @@ const submit = () => {
                         type="checkbox"
                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span class="ml-2 text-sm font-medium text-gray-700">Show Countdown Timer</span>
+                      <span class="ml-2 text-sm font-medium text-gray-700">{{ $t('Show Countdown Timer') }}</span>
                     </label>
-                    <p class="mt-1 text-xs text-gray-500">Display a countdown timer for flash sales</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Display a countdown timer for flash sales') }}</p>
                   </div>
                 </div>
               </div>
@@ -419,7 +419,7 @@ const submit = () => {
                   <!-- Usage Limit -->
                   <div>
                     <label for="usage_limit" class="block text-sm font-medium text-gray-700 mb-2">
-                      Total Usage Limit
+                      {{ $t('Total Usage Limit') }}
                     </label>
                     <input
                       id="usage_limit"
@@ -427,16 +427,16 @@ const submit = () => {
                       type="number"
                       min="1"
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Unlimited"
+                      :placeholder="$t('Unlimited')"
                     />
-                    <p class="mt-1 text-xs text-gray-500">Leave empty for unlimited uses</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Leave empty for unlimited uses') }}</p>
                     <p v-if="form.errors.usage_limit" class="mt-1 text-sm text-red-600">{{ form.errors.usage_limit }}</p>
                   </div>
 
                   <!-- Usage Per Customer -->
                   <div>
                     <label for="usage_per_customer" class="block text-sm font-medium text-gray-700 mb-2">
-                      Per Customer Usage Limit
+                      {{ $t('Per Customer Usage Limit') }}
                     </label>
                     <input
                       id="usage_per_customer"
@@ -444,9 +444,9 @@ const submit = () => {
                       type="number"
                       min="1"
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Unlimited"
+                      :placeholder="$t('Unlimited')"
                     />
-                    <p class="mt-1 text-xs text-gray-500">Leave empty for unlimited per customer</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Leave empty for unlimited per customer') }}</p>
                     <p v-if="form.errors.usage_per_customer" class="mt-1 text-sm text-red-600">{{ form.errors.usage_per_customer }}</p>
                   </div>
 
@@ -458,9 +458,9 @@ const submit = () => {
                         type="checkbox"
                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span class="ml-2 text-sm font-medium text-gray-700">Stackable with Other Promotions</span>
+                      <span class="ml-2 text-sm font-medium text-gray-700">{{ $t('Stackable with Other Promotions') }}</span>
                     </label>
-                    <p class="mt-1 text-xs text-gray-500">Allow this promotion to be combined with other promotions</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Allow this promotion to be combined with other promotions') }}</p>
                   </div>
 
                   <!-- Stackable with Coupons -->
@@ -471,9 +471,9 @@ const submit = () => {
                         type="checkbox"
                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span class="ml-2 text-sm font-medium text-gray-700">Stackable with Coupons</span>
+                      <span class="ml-2 text-sm font-medium text-gray-700">{{ $t('Stackable with Coupons') }}</span>
                     </label>
-                    <p class="mt-1 text-xs text-gray-500">Allow customers to use coupons alongside this promotion</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Allow customers to use coupons alongside this promotion') }}</p>
                   </div>
 
                   <!-- Stop Rules Processing -->
@@ -484,9 +484,9 @@ const submit = () => {
                         type="checkbox"
                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span class="ml-2 text-sm font-medium text-gray-700">Stop Further Rules Processing</span>
+                      <span class="ml-2 text-sm font-medium text-gray-700">{{ $t('Stop Further Rules Processing') }}</span>
                     </label>
-                    <p class="mt-1 text-xs text-gray-500">Don't apply other promotions after this one</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t("Don't apply other promotions after this one") }}</p>
                   </div>
                 </div>
               </div>
@@ -497,7 +497,7 @@ const submit = () => {
                   <!-- Start Date -->
                   <div>
                     <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">
-                      Start Date & Time
+                      {{ $t('Start Date & Time') }}
                     </label>
                     <input
                       id="start_date"
@@ -511,7 +511,7 @@ const submit = () => {
                   <!-- End Date -->
                   <div>
                     <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">
-                      End Date & Time
+                      {{ $t('End Date & Time') }}
                     </label>
                     <input
                       id="end_date"
@@ -530,9 +530,9 @@ const submit = () => {
                         type="checkbox"
                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span class="ml-2 text-sm font-medium text-gray-700">Active</span>
+                      <span class="ml-2 text-sm font-medium text-gray-700">{{ $t('Active') }}</span>
                     </label>
-                    <p class="mt-1 text-xs text-gray-500">Enable or disable this promotion immediately</p>
+                    <p class="mt-1 text-xs text-gray-500">{{ $t('Enable or disable this promotion immediately') }}</p>
                   </div>
                 </div>
               </div>
@@ -546,14 +546,14 @@ const submit = () => {
               @click="router.visit('/admin/marketing/promotions')"
               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </button>
             <button
               type="submit"
               :disabled="form.processing"
               class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {{ form.processing ? 'Updating...' : 'Update Promotion' }}
+              {{ form.processing ? $t('Updating...') : $t('Update Promotion') }}
             </button>
           </div>
         </form>

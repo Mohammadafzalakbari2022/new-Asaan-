@@ -5,9 +5,11 @@ const props = defineProps<{ settings: Record<string, unknown>; editorMode?: bool
 
 type AccordionItem = { title: string; content: string; open?: boolean }
 
+const items = (props.settings.items as AccordionItem[] | undefined) ?? []
+
 const openStates = ref<Record<number, boolean>>(
   Object.fromEntries(
-    ((props.settings.items as AccordionItem[]) ?? []).map((item, i) => [i, !!item.open])
+    items.map((item, i) => [i, !!item.open])
   )
 )
 
@@ -28,7 +30,7 @@ function toggle(index: number) {
 <template>
   <div class="w-full divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
     <div
-      v-for="(item, index) in (settings.items as { title: string; content: string }[])"
+      v-for="(item, index) in items"
       :key="index"
     >
       <button

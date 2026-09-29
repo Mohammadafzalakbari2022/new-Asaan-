@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import Icon from '@/components/Icon.vue';
+import { useI18nStore } from '@/Stores/i18n';
 import { Database } from 'lucide-vue-next';
 
 interface CacheStatistics {
@@ -27,6 +28,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const { t } = useI18nStore();
+
 const statistics = ref<CacheStatistics>(props.statistics);
 const selectedTypes = ref<string[]>([]);
 const isLoading = ref(false);
@@ -36,32 +39,32 @@ let refreshInterval: number | null = null;
 const cacheTypes = [
     { 
         value: 'application', 
-        label: 'Application Cache', 
-        description: 'General application cache store',
+        label: t('Application Cache'), 
+        description: t('General application cache store'),
         icon: 'database'
     },
     { 
         value: 'config', 
-        label: 'Configuration', 
-        description: 'Bootstrap configuration cache',
+        label: t('Configuration'), 
+        description: t('Bootstrap configuration cache'),
         icon: 'settings'
     },
     { 
         value: 'route', 
-        label: 'Routes', 
-        description: 'Compiled route definitions',
+        label: t('Routes'), 
+        description: t('Compiled route definitions'),
         icon: 'signpost'
     },
     { 
         value: 'view', 
-        label: 'Views', 
-        description: 'Compiled Blade templates',
+        label: t('Views'), 
+        description: t('Compiled Blade templates'),
         icon: 'eye'
     },
     { 
         value: 'event', 
-        label: 'Events', 
-        description: 'Event listener mappings',
+        label: t('Events'), 
+        description: t('Event listener mappings'),
         icon: 'zap'
     },
 ];
@@ -115,7 +118,7 @@ function rebuildCache(types: string[]) {
         if (invalidTypes.length > 0) {
             window.dispatchEvent(new CustomEvent('show-toast', {
                 detail: {
-                    message: `Cannot rebuild ${invalidTypes.join(', ')} cache. Only Config, Route, and Event caches can be rebuilt.`,
+                    message: t('Cannot rebuild {types} cache. Only Config, Route, and Event caches can be rebuilt.', { types: invalidTypes.join(', ') }),
                     type: 'error'
                 }
             }));
@@ -159,17 +162,17 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <Head title="Cache Management" />
-    <AdminLayout title="Cache Management">
+    <Head :title="$t('Cache Management')" />
+    <AdminLayout :title="$t('Cache Management')">
         <div class="space-y-6">
             <!-- Page Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        Cache Management
+                        {{ $t('Cache Management') }}
                     </h1>
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        Manage and monitor application cache performance and storage.
+                        {{ $t('Manage and monitor application cache performance and storage.') }}
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -179,7 +182,7 @@ onUnmounted(() => {
                                 type="checkbox"
                                 class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                             />
-                            Auto-refresh
+                            {{ $t('Auto-refresh') }}
                         </label>
                         <button
                             @click="fetchStatistics"
@@ -189,7 +192,7 @@ onUnmounted(() => {
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
-                            Refresh
+                            {{ $t('Refresh') }}
                         </button>
                     </div>
             </div>
@@ -200,19 +203,19 @@ onUnmounted(() => {
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Cache Driver</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Cache Driver') }}</div>
                     <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.driver }}</div>
                 </div>
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Size</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Total Size') }}</div>
                     <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.total_size }}</div>
                 </div>
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Keys</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Total Keys') }}</div>
                     <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ statistics.total_keys?.toLocaleString() ?? '0' }}</div>
                 </div>
                 <div v-if="statistics.hit_rate" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Hit Rate</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Hit Rate') }}</div>
                     <div class="mt-2 text-2xl font-bold text-green-600 dark:text-green-400">{{ statistics.hit_rate }}</div>
                 </div>
             </div>
@@ -220,11 +223,11 @@ onUnmounted(() => {
             <!-- Additional Stats (Redis only) -->
             <div v-if="statistics.memory_usage || statistics.uptime" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div v-if="statistics.memory_usage" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Memory Usage</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Memory Usage') }}</div>
                     <div class="mt-2 text-lg font-semibold text-gray-900 dark:text-white">{{ statistics.memory_usage }}</div>
                 </div>
                 <div v-if="statistics.uptime" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Cache Uptime</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Cache Uptime') }}</div>
                     <div class="mt-2 text-lg font-semibold text-gray-900 dark:text-white">{{ statistics.uptime }}</div>
                 </div>
             </div>
@@ -233,7 +236,7 @@ onUnmounted(() => {
             <div>
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        Cache Types
+                        {{ $t('Cache Types') }}
                         <span class="px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-xs font-medium text-gray-600 dark:text-gray-400">
                             {{ cacheTypes.length }}
                         </span>
@@ -243,7 +246,7 @@ onUnmounted(() => {
                             @click="toggleSelectAll"
                             class="flex-1 sm:flex-none inline-flex justify-center items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                         >
-                            {{ selectedTypes.length === cacheTypes.length ? 'Deselect All' : 'Select All' }}
+                            {{ selectedTypes.length === cacheTypes.length ? $t('Deselect All') : $t('Select All') }}
                         </button>
                         <button
                             @click="clearCache(selectedTypes)"
@@ -253,7 +256,7 @@ onUnmounted(() => {
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
-                            Clear Selected
+                            {{ $t('Clear Selected') }}
                         </button>
                         <button
                             @click="rebuildCache(selectedTypes)"
@@ -263,7 +266,7 @@ onUnmounted(() => {
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
-                            Rebuild Selected
+                            {{ $t('Rebuild Selected') }}
                         </button>
                     </div>
                 </div>
@@ -294,11 +297,11 @@ onUnmounted(() => {
 
                         <div class="grid grid-cols-2 gap-4 py-4 border-t border-gray-100 dark:border-gray-700 mb-4 bg-gray-50/50 dark:bg-gray-900/20 -mx-6 px-6">
                             <div>
-                                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Size</div>
+                                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Size') }}</div>
                                 <div class="font-semibold text-gray-900 dark:text-white">{{ statistics.cache_types?.[type.value]?.size || '0 B' }}</div>
                             </div>
                             <div class="text-right">
-                                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Keys</div>
+                                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{{ $t('Keys') }}</div>
                                 <div class="font-semibold text-gray-900 dark:text-white">{{ statistics.cache_types?.[type.value]?.keys || 0 }}</div>
                             </div>
                         </div>
@@ -309,7 +312,7 @@ onUnmounted(() => {
                                 :disabled="isLoading"
                                 class="flex-1 inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-transparent rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
-                                Clear
+                                {{ $t('Clear') }}
                             </button>
                             <button
                                 v-if="rebuildableTypes.includes(type.value)"
@@ -317,7 +320,7 @@ onUnmounted(() => {
                                 :disabled="isLoading"
                                 class="flex-1 inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-transparent rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
-                                Rebuild
+                                {{ $t('Rebuild') }}
                             </button>
                             <div v-else class="flex-1"></div>
                         </div>

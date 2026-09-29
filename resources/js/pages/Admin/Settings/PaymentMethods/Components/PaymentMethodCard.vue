@@ -79,7 +79,7 @@ const iconComponent = computed(() => {
 
       <!-- Description -->
       <p class="text-sm text-gray-600 dark:text-gray-400 pl-3 mb-6 flex-1 text-pretty group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors">
-        {{ paymentMethod.description || 'No description provided.' }}
+        {{ paymentMethod.description || $t('No description provided.') }}
       </p>
 
       <!-- Status Badges -->
@@ -88,7 +88,7 @@ const iconComponent = computed(() => {
           :class="['px-2.5 py-1 text-xs font-semibold rounded-full flex items-center space-x-1.5', statusBadgeClass]"
         >
           <span class="w-1.5 h-1.5 rounded-full" :class="paymentMethod.is_active ? 'bg-green-500' : 'bg-gray-400'"></span>
-          <span>{{ paymentMethod.is_active ? 'Active' : 'Inactive' }}</span>
+          <span>{{ paymentMethod.is_active ? $t('Active') : $t('Inactive') }}</span>
         </span>
         
         <span 
@@ -96,7 +96,7 @@ const iconComponent = computed(() => {
           :class="['px-2.5 py-1 text-xs font-semibold rounded-full flex items-center space-x-1.5', defaultBadgeClass]"
         >
           <Check class="w-3 h-3" />
-          <span>Default Method</span>
+          <span>{{ $t('Default Method') }}</span>
         </span>
       </div>
 
@@ -108,7 +108,7 @@ const iconComponent = computed(() => {
           class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Settings class="w-4 h-4 mr-2" />
-          Configure
+          {{ $t('Configure') }}
         </button>
         
         <button
@@ -120,7 +120,7 @@ const iconComponent = computed(() => {
               ? 'border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-red-50 hover:text-red-600 hover:border-red-100 dark:hover:bg-red-900/20 dark:hover:text-red-400 dark:hover:border-red-900/30'
               : 'border-green-200 dark:border-green-800 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/40'
           ]"
-          :title="paymentMethod.is_active ? 'Deactivate' : 'Activate'"
+          :title="paymentMethod.is_active ? $t('Deactivate') : $t('Activate')"
         >
           <Power class="w-4 h-4" />
         </button>
@@ -130,7 +130,7 @@ const iconComponent = computed(() => {
           @click="$emit('setDefault')"
           :disabled="processing"
           class="p-2 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100 dark:hover:bg-blue-900/20 dark:hover:text-blue-400 dark:hover:border-blue-900/30 transition-all disabled:opacity-50 hover:shadow-sm"
-          title="Set as Default"
+          :title="$t('Set as Default')"
         >
           <Check class="w-4 h-4" />
         </button>

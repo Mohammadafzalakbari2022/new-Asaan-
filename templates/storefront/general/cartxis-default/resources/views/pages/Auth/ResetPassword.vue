@@ -23,17 +23,17 @@ defineProps<{
 
 <template>
     <ThemeLayout>
-        <Head title="Reset Password" />
+        <Head :title="$t('Reset Password')" />
 
         <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
             <div class="w-full max-w-md">
                 <!-- Header -->
                 <div class="text-center mb-8">
                     <h1 class="text-3xl font-bold text-gray-900 mb-2">
-                        Reset Password
+                        {{ $t('Reset Password') }}
                     </h1>
                     <p class="text-gray-600">
-                        Enter your new password below
+                        {{ $t('Enter your new password below') }}
                     </p>
                 </div>
 
@@ -53,7 +53,7 @@ defineProps<{
                         <!-- Email Field (Readonly) -->
                         <div class="space-y-2">
                             <Label for="email" class="text-sm font-medium text-gray-700">
-                                Email Address
+                                {{ $t('Email Address') }}
                             </Label>
                             <Input
                                 id="email"
@@ -68,7 +68,7 @@ defineProps<{
                         <!-- New Password Field -->
                         <div class="space-y-2">
                             <Label for="password" class="text-sm font-medium text-gray-700">
-                                New Password
+                                {{ $t('New Password') }}
                             </Label>
                             <Input
                                 id="password"
@@ -79,14 +79,14 @@ defineProps<{
                                 autocomplete="new-password"
                                 class="w-full"
                             />
-                            <p class="text-xs text-gray-500">Must be at least 8 characters</p>
+                            <p class="text-xs text-gray-500">{{ $t('Must be at least 8 characters') }}</p>
                             <InputError :message="errors.password" />
                         </div>
 
                         <!-- Confirm Password Field -->
                         <div class="space-y-2">
                             <Label for="password_confirmation" class="text-sm font-medium text-gray-700">
-                                Confirm New Password
+                                {{ $t('Confirm New Password') }}
                             </Label>
                             <Input
                                 id="password_confirmation"
@@ -111,7 +111,7 @@ defineProps<{
                                 v-if="processing"
                                 class="h-5 w-5 animate-spin mr-2"
                             />
-                            {{ processing ? 'Resetting Password...' : 'Reset Password' }}
+                            {{ processing ? $t('Resetting Password...') : $t('Reset Password') }}
                         </Button>
                     </Form>
 
@@ -121,21 +121,21 @@ defineProps<{
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">or</span>
+                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
                         </div>
                     </div>
 
                     <!-- Back to Login -->
                     <div class="text-center">
                         <p class="text-sm text-gray-600">
-                            Remember your password?
+                            {{ $t('Remember your password?') }}
                             <TextLink
                                 href="/login"
                                 class="font-medium hover:underline"
                                 :style="{ color: primaryColor }"
                                 :tabindex="4"
                             >
-                                Back to login
+                                {{ $t('Back to login') }}
                             </TextLink>
                         </p>
                     </div>
@@ -151,7 +151,7 @@ defineProps<{
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
-                        Back to shop
+                        {{ $t('Back to shop') }}
                     </TextLink>
                 </div>
             </div>

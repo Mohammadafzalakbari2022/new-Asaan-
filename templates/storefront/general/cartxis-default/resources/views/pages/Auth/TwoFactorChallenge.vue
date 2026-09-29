@@ -33,7 +33,7 @@ const submit = () => {
 
 <template>
     <ThemeLayout>
-        <Head title="Two-Factor Authentication" />
+        <Head :title="$t('Two-Factor Authentication')" />
 
         <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
             <div class="w-full max-w-md">
@@ -56,14 +56,14 @@ const submit = () => {
                     <!-- Header -->
                     <div class="text-center mb-6">
                         <h1 class="text-2xl font-bold text-gray-900 mb-2">
-                            Two-Factor Authentication
+                            {{ $t('Two-Factor Authentication') }}
                         </h1>
                         <p class="text-gray-600">
                             <template v-if="!recovery">
-                                Please confirm access to your account by entering the authentication code provided by your authenticator application.
+                                {{ $t('Please confirm access to your account by entering the authentication code provided by your authenticator application.') }}
                             </template>
                             <template v-else>
-                                Please confirm access to your account by entering one of your emergency recovery codes.
+                                {{ $t('Please confirm access to your account by entering one of your emergency recovery codes.') }}
                             </template>
                         </p>
                     </div>
@@ -73,7 +73,7 @@ const submit = () => {
                         <!-- Code Input -->
                         <div v-if="!recovery" class="space-y-2">
                             <Label for="code" class="text-sm font-medium text-gray-700">
-                                Authentication Code
+                                {{ $t('Authentication Code') }}
                             </Label>
                             <Input
                                 id="code"
@@ -93,7 +93,7 @@ const submit = () => {
                         <!-- Recovery Code Input -->
                         <div v-else class="space-y-2">
                             <Label for="recovery_code" class="text-sm font-medium text-gray-700">
-                                Recovery Code
+                                {{ $t('Recovery Code') }}
                             </Label>
                                           <Input
                 id="recovery_code"
@@ -117,7 +117,7 @@ const submit = () => {
                                 v-if="form.processing"
                                 class="h-5 w-5 animate-spin mr-2"
                             />
-                            {{ form.processing ? 'Verifying...' : 'Verify' }}
+                            {{ form.processing ? $t('Verifying...') : $t('Verify') }}
                         </Button>
                     </form>
 
@@ -127,7 +127,7 @@ const submit = () => {
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">or</span>
+                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
                         </div>
                     </div>
 
@@ -140,10 +140,10 @@ const submit = () => {
                             :style="{ color: primaryColor }"
                         >
                             <template v-if="!recovery">
-                                Use a recovery code
+                                {{ $t('Use a recovery code') }}
                             </template>
                             <template v-else>
-                                Use an authentication code
+                                {{ $t('Use an authentication code') }}
                             </template>
                         </button>
                     </div>
@@ -152,10 +152,10 @@ const submit = () => {
                 <!-- Help Text -->
                 <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <h3 class="text-sm font-medium text-blue-900 mb-2">
-                        Need help?
+                        {{ $t('Need help?') }}
                     </h3>
                     <p class="text-xs text-blue-800">
-                        If you've lost access to your authenticator device, use one of your recovery codes to log in. Recovery codes can be found in your account security settings.
+                        {{ $t("If you've lost access to your authenticator device, use one of your recovery codes to log in. Recovery codes can be found in your account security settings.") }}
                     </p>
                 </div>
             </div>

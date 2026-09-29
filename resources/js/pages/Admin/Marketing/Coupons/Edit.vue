@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { router, useForm, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useI18nStore } from '@/Stores/i18n';
 
 interface Coupon {
   id: number;
@@ -62,6 +63,7 @@ const props = defineProps<{
 const activeTab = ref('general');
 
 const { formatPrice } = useCurrency();
+const { t } = useI18nStore();
 
 const form = useForm({
   code: props.coupon.code,
@@ -94,13 +96,13 @@ const form = useForm({
 });
 
 const daysOfWeek = [
-  { value: 'monday', label: 'Monday' },
-  { value: 'tuesday', label: 'Tuesday' },
-  { value: 'wednesday', label: 'Wednesday' },
-  { value: 'thursday', label: 'Thursday' },
-  { value: 'friday', label: 'Friday' },
-  { value: 'saturday', label: 'Saturday' },
-  { value: 'sunday', label: 'Sunday' },
+  { value: 'monday', label: t('Monday') },
+  { value: 'tuesday', label: t('Tuesday') },
+  { value: 'wednesday', label: t('Wednesday') },
+  { value: 'thursday', label: t('Thursday') },
+  { value: 'friday', label: t('Friday') },
+  { value: 'saturday', label: t('Saturday') },
+  { value: 'sunday', label: t('Sunday') },
 ];
 
 const showBuyXGetY = computed(() => form.type === 'buy_x_get_y');
@@ -141,27 +143,27 @@ const formatDate = (date: string) => {
 </script>
 
 <template>
-  <AdminLayout title="Edit Coupon">
+  <AdminLayout :title="$t('Edit Coupon')">
     <div class="p-6 space-y-6">
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Edit Coupon</h1>
-          <p class="mt-1 text-sm text-gray-600">Update coupon "{{ coupon.code }}"</p>
+          <h1 class="text-2xl font-bold text-gray-900">{{ $t('Edit Coupon') }}</h1>
+          <p class="mt-1 text-sm text-gray-600">{{ $t('Update coupon "{code}"', { code: coupon.code }) }}</p>
         </div>
         <div class="flex gap-3">
           <Link
             href="/admin/marketing/coupons"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </Link>
           <button
             @click="submit"
             :disabled="form.processing"
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Save Changes
+            {{ $t('Save Changes') }}
           </button>
         </div>
       </div>
@@ -170,7 +172,7 @@ const formatDate = (date: string) => {
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white rounded-lg shadow-sm p-4">
           <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-600">Total Uses</p>
+            <p class="text-sm text-gray-600">{{ $t('Total Uses') }}</p>
             <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
             </svg>
@@ -180,7 +182,7 @@ const formatDate = (date: string) => {
         
         <div class="bg-white rounded-lg shadow-sm p-4">
           <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-600">Unique Customers</p>
+            <p class="text-sm text-gray-600">{{ $t('Unique Customers') }}</p>
             <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
             </svg>
@@ -190,7 +192,7 @@ const formatDate = (date: string) => {
         
         <div class="bg-white rounded-lg shadow-sm p-4">
           <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-600">Total Discount</p>
+            <p class="text-sm text-gray-600">{{ $t('Total Discount') }}</p>
             <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -200,7 +202,7 @@ const formatDate = (date: string) => {
         
         <div class="bg-white rounded-lg shadow-sm p-4">
           <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-600">Avg Order Value</p>
+            <p class="text-sm text-gray-600">{{ $t('Avg Order Value') }}</p>
             <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
@@ -224,7 +226,7 @@ const formatDate = (date: string) => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  General
+                  {{ $t('General') }}
                 </button>
                 <button
                   @click="activeTab = 'conditions'"
@@ -235,7 +237,7 @@ const formatDate = (date: string) => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  Conditions
+                  {{ $t('Conditions') }}
                 </button>
                 <button
                   @click="activeTab = 'limits'"
@@ -246,7 +248,7 @@ const formatDate = (date: string) => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  Usage Limits
+                  {{ $t('Usage Limits') }}
                 </button>
                 <button
                   @click="activeTab = 'restrictions'"
@@ -257,7 +259,7 @@ const formatDate = (date: string) => {
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   ]"
                 >
-                  Restrictions
+                  {{ $t('Restrictions') }}
                 </button>
               </nav>
             </div>
@@ -266,12 +268,12 @@ const formatDate = (date: string) => {
               <!-- General Tab -->
               <div v-show="activeTab === 'general'" class="space-y-6">
                 <div>
-                  <h3 class="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Basic Information') }}</h3>
                   <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                       <div>
                         <label for="code" class="block text-sm font-medium text-gray-700 mb-1">
-                          Coupon Code <span class="text-red-500">*</span>
+                          {{ $t('Coupon Code') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                           id="code"
@@ -285,7 +287,7 @@ const formatDate = (date: string) => {
 
                       <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
-                          Display Name <span class="text-red-500">*</span>
+                          {{ $t('Display Name') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                           id="name"
@@ -299,7 +301,7 @@ const formatDate = (date: string) => {
                     </div>
 
                     <div>
-                      <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                      <label for="description" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Description') }}</label>
                       <textarea
                         id="description"
                         v-model="form.description"
@@ -311,7 +313,7 @@ const formatDate = (date: string) => {
                     <div class="grid grid-cols-3 gap-4">
                       <div>
                         <label for="type" class="block text-sm font-medium text-gray-700 mb-1">
-                          Discount Type <span class="text-red-500">*</span>
+                          {{ $t('Discount Type') }} <span class="text-red-500">*</span>
                         </label>
                         <select
                           id="type"
@@ -319,18 +321,18 @@ const formatDate = (date: string) => {
                           class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           :class="{ 'border-red-500': form.errors.type }"
                         >
-                          <option value="percentage">Percentage Discount</option>
-                          <option value="fixed_amount">Fixed Amount</option>
-                          <option value="free_shipping">Free Shipping</option>
-                          <option value="buy_x_get_y">Buy X Get Y</option>
-                          <option value="fixed_price">Fixed Price</option>
+                          <option value="percentage">{{ $t('Percentage Discount') }}</option>
+                          <option value="fixed_amount">{{ $t('Fixed Amount') }}</option>
+                          <option value="free_shipping">{{ $t('Free Shipping') }}</option>
+                          <option value="buy_x_get_y">{{ $t('Buy X Get Y') }}</option>
+                          <option value="fixed_price">{{ $t('Fixed Price') }}</option>
                         </select>
                         <p v-if="form.errors.type" class="mt-1 text-sm text-red-600">{{ form.errors.type }}</p>
                       </div>
 
                       <div v-if="showValue">
                         <label for="value" class="block text-sm font-medium text-gray-700 mb-1">
-                          {{ form.type === 'percentage' ? 'Percentage (%)' : 'Amount ($)' }} <span class="text-red-500">*</span>
+                          {{ form.type === 'percentage' ? $t('Percentage (%)') : $t('Amount ($)') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                           id="value"
@@ -345,7 +347,7 @@ const formatDate = (date: string) => {
                       </div>
 
                       <div v-if="showMaxDiscount">
-                        <label for="max_discount" class="block text-sm font-medium text-gray-700 mb-1">Max Discount ($)</label>
+                        <label for="max_discount" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Max Discount ($)') }}</label>
                         <input
                           id="max_discount"
                           v-model.number="form.max_discount"
@@ -360,7 +362,7 @@ const formatDate = (date: string) => {
                     <div v-if="showBuyXGetY" class="grid grid-cols-2 gap-4">
                       <div>
                         <label for="buy_quantity" class="block text-sm font-medium text-gray-700 mb-1">
-                          Buy Quantity <span class="text-red-500">*</span>
+                          {{ $t('Buy Quantity') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                           id="buy_quantity"
@@ -372,7 +374,7 @@ const formatDate = (date: string) => {
                       </div>
                       <div>
                         <label for="get_quantity" class="block text-sm font-medium text-gray-700 mb-1">
-                          Get Quantity <span class="text-red-500">*</span>
+                          {{ $t('Get Quantity') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                           id="get_quantity"
@@ -387,7 +389,7 @@ const formatDate = (date: string) => {
                     <div class="grid grid-cols-2 gap-4">
                       <div>
                         <label for="start_date" class="block text-sm font-medium text-gray-700 mb-1">
-                          Start Date <span class="text-red-500">*</span>
+                          {{ $t('Start Date') }} <span class="text-red-500">*</span>
                         </label>
                         <input
                           id="start_date"
@@ -399,14 +401,14 @@ const formatDate = (date: string) => {
                         <p v-if="form.errors.start_date" class="mt-1 text-sm text-red-600">{{ form.errors.start_date }}</p>
                       </div>
                       <div>
-                        <label for="end_date" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                        <label for="end_date" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('End Date') }}</label>
                         <input
                           id="end_date"
                           v-model="form.end_date"
                           type="datetime-local"
                           class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <p class="mt-1 text-xs text-gray-500">Leave empty for no expiration</p>
+                        <p class="mt-1 text-xs text-gray-500">{{ $t('Leave empty for no expiration') }}</p>
                       </div>
                     </div>
 
@@ -417,7 +419,7 @@ const formatDate = (date: string) => {
                           v-model="form.is_active"
                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                         />
-                        <span class="ml-2 text-sm text-gray-700">Active</span>
+                        <span class="ml-2 text-sm text-gray-700">{{ $t('Active') }}</span>
                       </label>
                       <label class="flex items-center">
                         <input
@@ -425,7 +427,7 @@ const formatDate = (date: string) => {
                           v-model="form.is_public"
                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                         />
-                        <span class="ml-2 text-sm text-gray-700">Public</span>
+                        <span class="ml-2 text-sm text-gray-700">{{ $t('Public') }}</span>
                       </label>
                       <label class="flex items-center">
                         <input
@@ -433,7 +435,7 @@ const formatDate = (date: string) => {
                           v-model="form.auto_apply"
                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                         />
-                        <span class="ml-2 text-sm text-gray-700">Auto Apply</span>
+                        <span class="ml-2 text-sm text-gray-700">{{ $t('Auto Apply') }}</span>
                       </label>
                     </div>
                   </div>
@@ -443,12 +445,12 @@ const formatDate = (date: string) => {
               <!-- Conditions Tab -->
               <div v-show="activeTab === 'conditions'" class="space-y-6">
                 <div>
-                  <h3 class="text-lg font-medium text-gray-900 mb-4">Order Conditions</h3>
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Order Conditions') }}</h3>
                   <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                       <div>
                         <label for="min_order_amount" class="block text-sm font-medium text-gray-700 mb-1">
-                          Minimum Order Amount ($)
+                          {{ $t('Minimum Order Amount ($)') }}
                         </label>
                         <input
                           id="min_order_amount"
@@ -460,7 +462,7 @@ const formatDate = (date: string) => {
                         />
                       </div>
                       <div>
-                        <label for="priority" class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                        <label for="priority" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Priority') }}</label>
                         <input
                           id="priority"
                           v-model.number="form.priority"
@@ -478,7 +480,7 @@ const formatDate = (date: string) => {
                           v-model="form.first_order_only"
                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                         />
-                        <span class="ml-2 text-sm text-gray-700">First Order Only</span>
+                        <span class="ml-2 text-sm text-gray-700">{{ $t('First Order Only') }}</span>
                       </label>
                       <label class="flex items-center">
                         <input
@@ -486,7 +488,7 @@ const formatDate = (date: string) => {
                           v-model="form.stackable"
                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                         />
-                        <span class="ml-2 text-sm text-gray-700">Can Stack with Other Coupons</span>
+                        <span class="ml-2 text-sm text-gray-700">{{ $t('Can Stack with Other Coupons') }}</span>
                       </label>
                     </div>
                   </div>
@@ -496,12 +498,12 @@ const formatDate = (date: string) => {
               <!-- Usage Limits Tab -->
               <div v-show="activeTab === 'limits'" class="space-y-6">
                 <div>
-                  <h3 class="text-lg font-medium text-gray-900 mb-4">Usage Limits</h3>
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Usage Limits') }}</h3>
                   <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                       <div>
                         <label for="usage_limit_total" class="block text-sm font-medium text-gray-700 mb-1">
-                          Total Usage Limit
+                          {{ $t('Total Usage Limit') }}
                         </label>
                         <input
                           id="usage_limit_total"
@@ -513,7 +515,7 @@ const formatDate = (date: string) => {
                       </div>
                       <div>
                         <label for="usage_limit_per_customer" class="block text-sm font-medium text-gray-700 mb-1">
-                          Usage Limit Per Customer
+                          {{ $t('Usage Limit Per Customer') }}
                         </label>
                         <input
                           id="usage_limit_per_customer"
@@ -531,10 +533,10 @@ const formatDate = (date: string) => {
               <!-- Restrictions Tab -->
               <div v-show="activeTab === 'restrictions'" class="space-y-6">
                 <div>
-                  <h3 class="text-lg font-medium text-gray-900 mb-4">Time Restrictions</h3>
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Time Restrictions') }}</h3>
                   <div class="space-y-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Days of Week</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Days of Week') }}</label>
                       <div class="grid grid-cols-4 gap-3">
                         <label
                           v-for="day in daysOfWeek"
@@ -554,7 +556,7 @@ const formatDate = (date: string) => {
 
                     <div class="grid grid-cols-2 gap-4">
                       <div>
-                        <label for="time_start" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                        <label for="time_start" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Start Time') }}</label>
                         <input
                           id="time_start"
                           v-model="form.time_restrictions.start"
@@ -563,7 +565,7 @@ const formatDate = (date: string) => {
                         />
                       </div>
                       <div>
-                        <label for="time_end" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                        <label for="time_end" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('End Time') }}</label>
                         <input
                           id="time_end"
                           v-model="form.time_restrictions.end"
@@ -576,10 +578,10 @@ const formatDate = (date: string) => {
                 </div>
 
                 <div>
-                  <h3 class="text-lg font-medium text-gray-900 mb-4">Customer Restrictions</h3>
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Customer Restrictions') }}</h3>
                   <div>
                     <label for="min_account_age_days" class="block text-sm font-medium text-gray-700 mb-1">
-                      Minimum Account Age (Days)
+                      {{ $t('Minimum Account Age (Days)') }}
                     </label>
                     <input
                       id="min_account_age_days"
@@ -598,11 +600,11 @@ const formatDate = (date: string) => {
         <!-- Sidebar: Recent Usage -->
         <div>
           <div class="bg-white rounded-lg shadow-sm p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Recent Usage</h3>
-            <p class="text-sm text-gray-600 mb-4">Last 10 uses of this coupon</p>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">{{ $t('Recent Usage') }}</h3>
+            <p class="text-sm text-gray-600 mb-4">{{ $t('Last 10 uses of this coupon') }}</p>
 
             <div v-if="analytics.recent_uses.length === 0" class="text-center py-8 text-gray-500">
-              No usage yet
+              {{ $t('No usage yet') }}
             </div>
             
             <div v-else class="space-y-4">
@@ -616,11 +618,11 @@ const formatDate = (date: string) => {
                   <span class="text-xs text-gray-500">{{ formatDate(use.used_at) }}</span>
                 </div>
                 <div class="flex items-center justify-between text-sm mb-1">
-                  <span class="text-gray-600">Order #{{ use.order_id }}</span>
+                  <span class="text-gray-600">{{ $t('Order #{id}', { id: use.order_id }) }}</span>
                   <span class="font-medium text-green-600">-{{ formatPrice(use.discount_amount) }}</span>
                 </div>
                 <div class="text-xs text-gray-500">
-                  Order Total: {{ formatPrice(use.order_total) }}
+                  {{ $t('Order Total: {total}', { total: formatPrice(use.order_total) }) }}
                 </div>
               </div>
             </div>

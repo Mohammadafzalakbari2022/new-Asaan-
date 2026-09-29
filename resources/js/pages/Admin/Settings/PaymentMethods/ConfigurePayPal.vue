@@ -57,15 +57,15 @@ const save = () => {
 </script>
 
 <template>
-  <AdminLayout title="Payment Methods - PayPal">
-    <Head title="Configure PayPal" />
+  <AdminLayout :title="$t('Payment Methods - PayPal')">
+    <Head :title="$t('Configure PayPal')" />
 
     <div>
       <div class="mb-6">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">PayPal Configuration</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Configure PayPal payment gateway settings</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-white font-bold">{{ $t('PayPal Configuration') }}</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Configure PayPal payment gateway settings') }}</p>
           </div>
           <Link
             href="/admin/settings/payment-methods"
@@ -74,7 +74,7 @@ const save = () => {
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Payment Methods
+            {{ $t('Back to Payment Methods') }}
           </Link>
         </div>
       </div>
@@ -83,10 +83,10 @@ const save = () => {
 
         <!-- Basic Information -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Basic Information') }}</h2>
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Method Name <span class="text-red-500">*</span></label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Method Name') }} <span class="text-red-500">*</span></label>
               <input
                 v-model="form.name"
                 type="text"
@@ -96,21 +96,21 @@ const save = () => {
               <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Description') }}</label>
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Describe this payment method..."
+                :placeholder="$t('Describe this payment method...')"
               ></textarea>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Instructions</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Customer Instructions') }}</label>
               <textarea
                 v-model="form.instructions"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Instructions shown to customers at checkout..."
+                :placeholder="$t('Instructions shown to customers at checkout...')"
               ></textarea>
             </div>
           </div>
@@ -118,7 +118,7 @@ const save = () => {
 
         <!-- Environment Mode Toggle -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Environment Mode</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Environment Mode') }}</h2>
 
           <div class="flex items-center gap-4 mb-6">
             <!-- Sandbox Mode -->
@@ -131,8 +131,8 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'sandbox'" class="w-2 h-2 rounded-full bg-amber-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'sandbox' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">Sandbox Mode</div>
-                <div class="text-xs text-gray-500">No real charges</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'sandbox' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Sandbox Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('No real charges') }}</div>
               </div>
             </label>
 
@@ -146,20 +146,20 @@ const save = () => {
                 <div v-if="form.configuration.mode === 'live'" class="w-2 h-2 rounded-full bg-green-500"></div>
               </div>
               <div>
-                <div class="text-sm font-semibold" :class="form.configuration.mode === 'live' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">Live Mode</div>
-                <div class="text-xs text-gray-500">Real transactions</div>
+                <div class="text-sm font-semibold" :class="form.configuration.mode === 'live' ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'">{{ $t('Live Mode') }}</div>
+                <div class="text-xs text-gray-500">{{ $t('Real transactions') }}</div>
               </div>
             </label>
           </div>
 
           <div v-if="form.configuration.mode === 'sandbox'" class="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
             <p class="text-sm text-amber-800 dark:text-amber-200">
-              <strong>&#9888; Sandbox Mode Active:</strong> No real charges will be made. Use your PayPal sandbox app credentials from the Developer Dashboard.
+              <strong>&#9888; {{ $t('Sandbox Mode Active:') }}</strong> {{ $t('No real charges will be made. Use your PayPal sandbox app credentials from the Developer Dashboard.') }}
             </p>
           </div>
           <div v-if="form.configuration.mode === 'live'" class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <p class="text-sm text-green-800 dark:text-green-200">
-              <strong>&#10003; Live Mode:</strong> Real charges will be processed via PayPal's production environment.
+              <strong>&#10003; {{ $t('Live Mode:') }}</strong> {{ $t("Real charges will be processed via PayPal's production environment.") }}
             </p>
           </div>
         </div>
@@ -167,14 +167,14 @@ const save = () => {
         <!-- API Credentials -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            {{ form.configuration.mode === 'sandbox' ? 'Sandbox' : 'Live' }} API Credentials
+            {{ form.configuration.mode === 'sandbox' ? $t('Sandbox') : $t('Live') }} {{ $t('API Credentials') }}
           </h2>
 
           <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900 dark:text-blue-200">
-              <strong>Get your credentials:</strong> Log in to your
+              <strong>{{ $t('Get your credentials:') }}</strong> Log in to your
               <a href="https://developer.paypal.com/dashboard/applications" target="_blank" class="underline">PayPal Developer Dashboard</a>
-              → Apps &amp; Credentials
+              {{ $t('→ Apps & Credentials') }}
             </p>
           </div>
 
@@ -183,32 +183,32 @@ const save = () => {
             <!-- Sandbox credentials -->
             <template v-if="form.configuration.mode === 'sandbox'">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Sandbox Client ID <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Sandbox Client ID') }} <span class="text-red-500">*</span></label>
                 <input
                   v-model="form.configuration.sandbox_client_id"
                   type="text"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.sandbox_client_id'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Sandbox Client ID"
+                  :placeholder="$t('Sandbox Client ID')"
                 />
                 <p v-if="errors['configuration.sandbox_client_id']" class="mt-1 text-sm text-red-600">{{ errors['configuration.sandbox_client_id'] }}</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Sandbox Client Secret <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Sandbox Client Secret') }} <span class="text-red-500">*</span></label>
                 <input
                   v-model="form.configuration.sandbox_client_secret"
                   type="password"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.sandbox_client_secret'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Sandbox Client Secret"
+                  :placeholder="$t('Sandbox Client Secret')"
                 />
                 <p v-if="errors['configuration.sandbox_client_secret']" class="mt-1 text-sm text-red-600">{{ errors['configuration.sandbox_client_secret'] }}</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Sandbox Webhook ID <span class="text-gray-400 text-xs">(Optional)</span></label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Sandbox Webhook ID') }} <span class="text-gray-400 text-xs">({{ $t('Optional') }})</span></label>
                 <input
                   v-model="form.configuration.sandbox_webhook_id"
                   type="text"
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
-                  placeholder="Sandbox Webhook ID"
+                  :placeholder="$t('Sandbox Webhook ID')"
                 />
               </div>
             </template>
@@ -216,32 +216,32 @@ const save = () => {
             <!-- Live credentials -->
             <template v-else>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Live Client ID <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Live Client ID') }} <span class="text-red-500">*</span></label>
                 <input
                   v-model="form.configuration.client_id"
                   type="text"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.client_id'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Live Client ID"
+                  :placeholder="$t('Live Client ID')"
                 />
                 <p v-if="errors['configuration.client_id']" class="mt-1 text-sm text-red-600">{{ errors['configuration.client_id'] }}</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Live Client Secret <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Live Client Secret') }} <span class="text-red-500">*</span></label>
                 <input
                   v-model="form.configuration.client_secret"
                   type="password"
                   :class="['w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.client_secret'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
-                  placeholder="Live Client Secret"
+                  :placeholder="$t('Live Client Secret')"
                 />
                 <p v-if="errors['configuration.client_secret']" class="mt-1 text-sm text-red-600">{{ errors['configuration.client_secret'] }}</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Live Webhook ID <span class="text-gray-400 text-xs">(Optional)</span></label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Live Webhook ID') }} <span class="text-gray-400 text-xs">({{ $t('Optional') }})</span></label>
                 <input
                   v-model="form.configuration.webhook_id"
                   type="text"
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
-                  placeholder="Live Webhook ID"
+                  :placeholder="$t('Live Webhook ID')"
                 />
               </div>
             </template>
@@ -251,15 +251,15 @@ const save = () => {
 
         <!-- Webhook URL Info -->
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Webhook Configuration</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Webhook Configuration') }}</h2>
           <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <p class="text-sm text-green-900 dark:text-green-200 mb-2">
-              <strong>Webhook URL:</strong> Add this URL in your PayPal app → Webhooks
+              <strong>{{ $t('Webhook URL:') }}</strong> {{ $t('Add this URL in your PayPal app → Webhooks') }}
             </p>
             <div class="bg-white dark:bg-gray-800 border border-green-300 dark:border-green-700 rounded px-3 py-2">
               <code class="text-sm text-green-800 dark:text-green-300 break-all">{{ webhookUrl }}</code>
             </div>
-            <p class="mt-2 text-xs text-green-700 dark:text-green-400">PayPal will send payment events to this URL for real-time order updates.</p>
+            <p class="mt-2 text-xs text-green-700 dark:text-green-400">{{ $t('PayPal will send payment events to this URL for real-time order updates.') }}</p>
           </div>
         </div>
 
@@ -270,7 +270,7 @@ const save = () => {
             :disabled="form.processing"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+            {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
           </button>
         </div>
       </form>

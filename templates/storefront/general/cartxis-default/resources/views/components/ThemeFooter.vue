@@ -73,26 +73,26 @@ const footerSections = computed(() => {
 
                 <template v-else>
                     <div>
-                        <h4 class="font-semibold text-white mb-4">Company</h4>
+                        <h4 class="font-semibold text-white mb-4">{{ $t('Company') }}</h4>
                         <ul class="space-y-2 text-sm">
-                            <li><Link href="/about-us" class="hover:text-white transition-colors">About Us</Link></li>
-                            <li><Link href="/careers" class="hover:text-white transition-colors">Careers</Link></li>
-                            <li><Link href="/contact-us" class="hover:text-white transition-colors">Contact</Link></li>
+                            <li><Link href="/about-us" class="hover:text-white transition-colors">{{ $t('About Us') }}</Link></li>
+                            <li><Link href="/careers" class="hover:text-white transition-colors">{{ $t('Careers') }}</Link></li>
+                            <li><Link href="/contact-us" class="hover:text-white transition-colors">{{ $t('Contact') }}</Link></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-white mb-4">Customer Service</h4>
+                        <h4 class="font-semibold text-white mb-4">{{ $t('Customer Service') }}</h4>
                         <ul class="space-y-2 text-sm">
-                            <li><Link href="/help" class="hover:text-white transition-colors">Help Center</Link></li>
-                            <li><Link href="/shipping-and-returns" class="hover:text-white transition-colors">Shipping & Returns</Link></li>
-                            <li><Link href="/checkout/track-order" class="hover:text-white transition-colors">Track Order</Link></li>
+                            <li><Link href="/help" class="hover:text-white transition-colors">{{ $t('Help Center') }}</Link></li>
+                            <li><Link href="/shipping-and-returns" class="hover:text-white transition-colors">{{ $t('Shipping & Returns') }}</Link></li>
+                            <li><Link href="/checkout/track-order" class="hover:text-white transition-colors">{{ $t('Track Order') }}</Link></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-white mb-4">Legal</h4>
+                        <h4 class="font-semibold text-white mb-4">{{ $t('Legal') }}</h4>
                         <ul class="space-y-2 text-sm">
-                            <li><Link href="/privacy-policy" class="hover:text-white transition-colors">Privacy Policy</Link></li>
-                            <li><Link href="/terms-and-conditions" class="hover:text-white transition-colors">Terms of Service</Link></li>
+                            <li><Link href="/privacy-policy" class="hover:text-white transition-colors">{{ $t('Privacy Policy') }}</Link></li>
+                            <li><Link href="/terms-and-conditions" class="hover:text-white transition-colors">{{ $t('Terms of Service') }}</Link></li>
                         </ul>
                     </div>
                 </template>
@@ -104,9 +104,9 @@ const footerSections = computed(() => {
                     <span class="text-xs">Visa · Mastercard · PayPal · Stripe</span>
                 </div>
                 <div class="text-center text-sm">
-                    <p>&copy; {{ currentYear }} {{ siteConfig.name }}. All rights reserved.</p>
+                    <p>&copy; {{ $t('{year} {site}. All rights reserved.', { year: currentYear, site: siteConfig.name }) }}</p>
                     <p v-if="showPlatformBranding" class="mt-1 text-slate-500">
-                        Powered by <span class="text-slate-400 font-medium">Akbari Development Group</span>
+                        {{ $t('Powered by') }} <span class="text-slate-400 font-medium">Akbari Development Group</span>
                     </p>
                 </div>
             </div>

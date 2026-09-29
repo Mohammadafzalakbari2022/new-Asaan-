@@ -132,17 +132,17 @@ const uploadTheme = (event: Event) => {
 </script>
 
 <template>
-  <AdminLayout title="Themes">
-    <Head title="Themes" />
+  <AdminLayout :title="$t('Themes')">
+    <Head :title="$t('Themes')" />
 
     <div class="py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Themes</h1>
+            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">{{ $t('Themes') }}</h1>
             <p class="mt-1 text-sm text-gray-500">
-              Manage installed themes — browse the catalog to add new storefront templates
+              {{ $t('Manage installed themes — browse the catalog to add new storefront templates') }}
             </p>
           </div>
           <div class="flex flex-wrap gap-2">
@@ -151,14 +151,14 @@ const uploadTheme = (event: Event) => {
               class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
             >
               <LayoutTemplate class="w-4 h-4" />
-              Browse Template Zone
+              {{ $t('Browse Template Zone') }}
             </a>
             <button
               @click="triggerThemeUpload"
               class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50"
             >
               <Plus class="w-4 h-4" />
-              Upload Zip
+              {{ $t('Upload Zip') }}
             </button>
           </div>
           <input
@@ -191,7 +191,7 @@ const uploadTheme = (event: Event) => {
 
         <!-- Active Theme -->
         <div v-if="activeTheme" class="mb-12">
-          <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Current Theme</h2>
+          <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">{{ $t('Current Theme') }}</h2>
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row">
             <!-- Screenshot -->
             <div class="md:w-1/2 lg:w-2/5 aspect-video bg-gray-100 relative group overflow-hidden">
@@ -210,7 +210,7 @@ const uploadTheme = (event: Event) => {
                 <div class="absolute top-4 left-4">
                   <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white shadow-sm ring-2 ring-white">
                     <CheckCircle class="w-3.5 h-3.5 mr-1" />
-                    Active
+                    {{ $t('Active') }}
                   </span>
                 </div>
             </div>
@@ -223,11 +223,11 @@ const uploadTheme = (event: Event) => {
                   <p class="text-gray-500 mb-4 text-base leading-relaxed">{{ activeTheme.description }}</p>
                   <div class="flex items-center gap-4 text-sm text-gray-500">
                     <div class="flex items-center">
-                      <span class="font-medium text-gray-900 mr-1">Version:</span> {{ activeTheme.version }}
+                      <span class="font-medium text-gray-900 mr-1">{{ $t('Version:') }}</span> {{ activeTheme.version }}
                     </div>
                     <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
                     <div class="flex items-center">
-                      <span class="font-medium text-gray-900 mr-1">Author:</span> {{ activeTheme.author }}
+                      <span class="font-medium text-gray-900 mr-1">{{ $t('Author:') }}</span> {{ activeTheme.author }}
                     </div>
                   </div>
                 </div>
@@ -239,17 +239,17 @@ const uploadTheme = (event: Event) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center px-5 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors"
-                  title="Preview active theme"
+                  :title="$t('Preview active theme')"
                 >
                   <Eye class="w-4 h-4 mr-2" />
-                  Preview
+                  {{ $t('Preview') }}
                 </a>
                 <button
                   @click="goToSettings(activeTheme.slug)"
                   class="inline-flex items-center px-5 py-2.5 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                 >
                   <Settings class="w-4 h-4 mr-2" />
-                  Customize
+                  {{ $t('Customize') }}
                 </button>
                 <!-- Layout is live → link to page builder -->
                 <a
@@ -267,14 +267,14 @@ const uploadTheme = (event: Event) => {
                   @click="importDemoLayout(activeTheme.slug)"
                   :disabled="importingLayout[activeTheme.slug]"
                   class="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Import pre-built homepage layout"
+                  :title="$t('Import pre-built homepage layout')"
                 >
                   <svg v-if="importingLayout[activeTheme.slug]" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                   </svg>
                   <LayoutTemplate v-else class="w-4 h-4" />
-                  {{ importingLayout[activeTheme.slug] ? 'Importing…' : 'Import Demo Layout' }}
+                  {{ importingLayout[activeTheme.slug] ? $t('Importing…') : $t('Import Demo Layout') }}
                 </button>
               </div>
             </div>
@@ -283,7 +283,7 @@ const uploadTheme = (event: Event) => {
 
         <!-- Installed Themes -->
         <div v-if="otherThemes.length > 0">
-          <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Installed Themes</h2>
+          <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">{{ $t('Installed Themes') }}</h2>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <div
               v-for="theme in otherThemes"
@@ -315,7 +315,7 @@ const uploadTheme = (event: Event) => {
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                         <Power v-else class="w-4 h-4 mr-2" />
-                        Activate
+                        {{ $t('Activate') }}
                     </button>
                 </div>
               </div>
@@ -327,7 +327,7 @@ const uploadTheme = (event: Event) => {
                     <h3 class="text-lg font-bold text-gray-900 leading-tight">{{ theme.name }}</h3>
                     <div class="text-xs text-gray-500 mt-1">v{{ theme.version }} by {{ theme.author }}</div>
                   </div>
-                  <span v-if="theme.is_default" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">Default</span>
+                  <span v-if="theme.is_default" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">{{ $t('Default') }}</span>
                 </div>
                 
                 <p class="text-sm text-gray-500 mb-4 line-clamp-2">{{ theme.description }}</p>
@@ -335,10 +335,10 @@ const uploadTheme = (event: Event) => {
                 <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
                    <div v-if="!theme.exists" class="flex items-center text-xs text-amber-600 font-medium">
                        <AlertTriangle class="w-3.5 h-3.5 mr-1" />
-                       Files missing
+                       {{ $t('Files missing') }}
                    </div>
                    <div v-else class="text-xs text-gray-400 font-medium">
-                        {{ theme.exists ? 'Ready to use' : 'Not installed' }}
+                        {{ theme.exists ? $t('Ready to use') : $t('Not installed') }}
                    </div>
 
                    <div class="flex items-center gap-1">
@@ -346,15 +346,15 @@ const uploadTheme = (event: Event) => {
                        v-if="theme.exists"
                        @click="downloadTheme(theme.slug)"
                        class="text-gray-400 hover:text-blue-600 transition-colors p-1"
-                       title="Download Theme"
-                     >
+                        :title="$t('Download Theme')"
+                      >
                        <Download class="w-4 h-4" />
                      </button>
                      <button
                       v-if="!theme.is_active && !theme.is_default"
                       @click="deleteTheme(theme.slug, theme.name)"
                       class="text-gray-400 hover:text-red-600 transition-colors p-1"
-                      title="Delete Theme"
+                       :title="$t('Delete Theme')"
                      >
                        <Trash2 class="w-4 h-4" />
                      </button>

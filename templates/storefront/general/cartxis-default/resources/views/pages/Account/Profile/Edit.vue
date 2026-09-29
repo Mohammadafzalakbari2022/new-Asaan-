@@ -84,25 +84,25 @@ const confirmDelete = () => {
 
 <template>
   <ThemeLayout>
-    <Head title="My Profile" />
+    <Head :title="$t('My Profile')" />
 
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-4xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
-          <h1 class="text-3xl font-bold mb-2">My Profile</h1>
-          <p class="text-gray-600">Manage your account settings and preferences</p>
+          <h1 class="text-3xl font-bold mb-2">{{ $t('My Profile') }}</h1>
+          <p class="text-gray-600">{{ $t('Manage your account settings and preferences') }}</p>
         </div>
 
         <div class="space-y-6">
           <!-- Personal Information -->
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 class="text-xl font-semibold mb-6">Personal Information</h2>
+            <h2 class="text-xl font-semibold mb-6">{{ $t('Personal Information') }}</h2>
             
             <form @submit.prevent="updateProfile" class="space-y-4">
               <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name <span class="text-red-500">*</span>
+                  {{ $t('Full Name') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   id="name"
@@ -119,7 +119,7 @@ const confirmDelete = () => {
 
               <div>
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address <span class="text-red-500">*</span>
+                  {{ $t('Email Address') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   id="email"
@@ -133,7 +133,7 @@ const confirmDelete = () => {
                   {{ profileForm.errors.email }}
                 </p>
                 <p v-if="!user.email_verified_at" class="mt-1 text-sm text-yellow-600">
-                  Your email address is not verified. Please check your inbox for a verification link.
+                  {{ $t('Your email address is not verified. Please check your inbox for a verification link.') }}
                 </p>
               </div>
 
@@ -143,10 +143,10 @@ const confirmDelete = () => {
                   :disabled="profileForm.processing"
                   class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  {{ profileForm.processing ? 'Saving...' : 'Save Changes' }}
+                  {{ profileForm.processing ? $t('Saving...') : $t('Save Changes') }}
                 </button>
                 <span v-if="profileForm.recentlySuccessful" class="text-sm text-green-600">
-                  ✓ Saved successfully
+                  {{ $t('✓ Saved successfully') }}
                 </span>
               </div>
             </form>
@@ -154,12 +154,12 @@ const confirmDelete = () => {
 
           <!-- Change Password -->
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 class="text-xl font-semibold mb-6">Change Password</h2>
+            <h2 class="text-xl font-semibold mb-6">{{ $t('Change Password') }}</h2>
             
             <form @submit.prevent="updatePassword" class="space-y-4">
               <div>
                 <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">
-                  Current Password <span class="text-red-500">*</span>
+                  {{ $t('Current Password') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   id="current_password"
@@ -176,7 +176,7 @@ const confirmDelete = () => {
 
               <div>
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
-                  New Password <span class="text-red-500">*</span>
+                  {{ $t('New Password') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   id="password"
@@ -196,7 +196,7 @@ const confirmDelete = () => {
 
               <div>
                 <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">
-                  Confirm New Password <span class="text-red-500">*</span>
+                  {{ $t('Confirm New Password') }} <span class="text-red-500">*</span>
                 </label>
                 <input
                   id="password_confirmation"
@@ -213,10 +213,10 @@ const confirmDelete = () => {
                   :disabled="passwordForm.processing"
                   class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  {{ passwordForm.processing ? 'Updating...' : 'Update Password' }}
+                  {{ passwordForm.processing ? $t('Updating...') : $t('Update Password') }}
                 </button>
                 <span v-if="passwordForm.recentlySuccessful" class="text-sm text-green-600">
-                  ✓ Password updated
+                  {{ $t('✓ Password updated') }}
                 </span>
               </div>
             </form>
@@ -224,7 +224,7 @@ const confirmDelete = () => {
 
           <!-- Email Preferences -->
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 class="text-xl font-semibold mb-6">Email Preferences</h2>
+            <h2 class="text-xl font-semibold mb-6">{{ $t('Email Preferences') }}</h2>
             
             <form @submit.prevent="updatePreferences" class="space-y-4">
               <div class="space-y-3">
@@ -235,8 +235,8 @@ const confirmDelete = () => {
                     class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
                   <div>
-                    <div class="font-medium">Order Status Updates</div>
-                    <div class="text-sm text-gray-600">Get notified about your order status changes</div>
+                    <div class="font-medium">{{ $t('Order Status Updates') }}</div>
+                    <div class="text-sm text-gray-600">{{ $t('Get notified about your order status changes') }}</div>
                   </div>
                 </label>
 
@@ -247,8 +247,8 @@ const confirmDelete = () => {
                     class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
                   <div>
-                    <div class="font-medium">Newsletter Subscription</div>
-                    <div class="text-sm text-gray-600">Receive our weekly newsletter with product updates</div>
+                    <div class="font-medium">{{ $t('Newsletter Subscription') }}</div>
+                    <div class="text-sm text-gray-600">{{ $t('Receive our weekly newsletter with product updates') }}</div>
                   </div>
                 </label>
 
@@ -259,8 +259,8 @@ const confirmDelete = () => {
                     class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
                   <div>
-                    <div class="font-medium">Promotional Offers</div>
-                    <div class="text-sm text-gray-600">Get exclusive deals and special promotions</div>
+                    <div class="font-medium">{{ $t('Promotional Offers') }}</div>
+                    <div class="text-sm text-gray-600">{{ $t('Get exclusive deals and special promotions') }}</div>
                   </div>
                 </label>
               </div>
@@ -271,10 +271,10 @@ const confirmDelete = () => {
                   :disabled="preferencesForm.processing"
                   class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  {{ preferencesForm.processing ? 'Saving...' : 'Save Preferences' }}
+                  {{ preferencesForm.processing ? $t('Saving...') : $t('Save Preferences') }}
                 </button>
                 <span v-if="preferencesForm.recentlySuccessful" class="text-sm text-green-600">
-                  ✓ Preferences saved
+                  {{ $t('✓ Preferences saved') }}
                 </span>
               </div>
             </form>
@@ -282,17 +282,17 @@ const confirmDelete = () => {
 
           <!-- Danger Zone -->
           <div class="bg-red-50 rounded-lg border border-red-200 p-6">
-            <h2 class="text-xl font-semibold text-red-900 mb-4">Danger Zone</h2>
+            <h2 class="text-xl font-semibold text-red-900 mb-4">{{ $t('Danger Zone') }}</h2>
             <p class="text-sm text-red-800 mb-4">
-              Once you delete your account, all your personal data will be permanently removed.
-              Your order history will be anonymized but retained for our records.
+              {{ $t('Once you delete your account, all your personal data will be permanently removed.') }}
+              {{ $t('Your order history will be anonymized but retained for our records.') }}
             </p>
             
             <button
               @click="deleteAccount"
               class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
-              Delete Account
+              {{ $t('Delete Account') }}
             </button>
           </div>
         </div>
@@ -307,15 +307,15 @@ const confirmDelete = () => {
         @click.self="cancelDelete"
       >
         <div class="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 p-6">
-          <h3 class="text-xl font-bold text-red-700 mb-2">Delete Your Account</h3>
+          <h3 class="text-xl font-bold text-red-700 mb-2">{{ $t('Delete Your Account') }}</h3>
           <p class="text-sm text-gray-700 mb-4">
-            This action is <strong>permanent and irreversible</strong>. Your account, cart,
-            addresses, and wishlist will be deleted. Orders will be anonymized.
+            {{ $t('This action is') }} <strong>{{ $t('permanent and irreversible') }}</strong>. {{ $t('Your account, cart,') }}
+            {{ $t('addresses, and wishlist will be deleted. Orders will be anonymized.') }}
           </p>
 
           <div class="mb-4">
             <label for="delete-password" class="block text-sm font-medium text-gray-700 mb-1">
-              Confirm your password
+              {{ $t('Confirm your password') }}
             </label>
             <input
               id="delete-password"
@@ -337,7 +337,7 @@ const confirmDelete = () => {
               @click="cancelDelete"
               class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </button>
             <button
               type="button"
@@ -345,7 +345,7 @@ const confirmDelete = () => {
               @click="confirmDelete"
               class="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {{ deleteForm.processing ? 'Deleting...' : 'Yes, Delete My Account' }}
+              {{ deleteForm.processing ? $t('Deleting...') : $t('Yes, Delete My Account') }}
             </button>
           </div>
         </div>

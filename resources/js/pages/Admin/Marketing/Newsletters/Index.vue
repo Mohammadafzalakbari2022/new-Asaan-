@@ -145,14 +145,14 @@ const formatDate = (iso: string) =>
 
 <template>
   <AdminLayout>
-    <Head title="Newsletter Subscribers" />
+    <Head :title="$t('Newsletter Subscribers')" />
 
     <div class="space-y-6">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Newsletter Subscribers</h1>
-          <p class="mt-1 text-sm text-gray-500">Manage all email newsletter subscribers</p>
+          <h1 class="text-2xl font-bold text-gray-900">{{ $t('Newsletter Subscribers') }}</h1>
+          <p class="mt-1 text-sm text-gray-500">{{ $t('Manage all email newsletter subscribers') }}</p>
         </div>
         <div class="flex items-center gap-3">
           <a
@@ -160,7 +160,7 @@ const formatDate = (iso: string) =>
             class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <Download class="w-4 h-4" />
-            Export CSV
+            {{ $t('Export CSV') }}
           </a>
         </div>
       </div>
@@ -172,7 +172,7 @@ const formatDate = (iso: string) =>
             <Mail class="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <p class="text-sm text-gray-500">Total Subscribers</p>
+            <p class="text-sm text-gray-500">{{ $t('Total Subscribers') }}</p>
             <p class="text-2xl font-bold text-gray-900">{{ stats.total.toLocaleString() }}</p>
           </div>
         </div>
@@ -181,7 +181,7 @@ const formatDate = (iso: string) =>
             <UserCheck class="w-5 h-5 text-green-600" />
           </div>
           <div>
-            <p class="text-sm text-gray-500">Registered</p>
+            <p class="text-sm text-gray-500">{{ $t('Registered') }}</p>
             <p class="text-2xl font-bold text-gray-900">{{ stats.registered.toLocaleString() }}</p>
           </div>
         </div>
@@ -190,7 +190,7 @@ const formatDate = (iso: string) =>
             <Users class="w-5 h-5 text-orange-600" />
           </div>
           <div>
-            <p class="text-sm text-gray-500">Guest</p>
+            <p class="text-sm text-gray-500">{{ $t('Guest') }}</p>
             <p class="text-2xl font-bold text-gray-900">{{ stats.guest.toLocaleString() }}</p>
           </div>
         </div>
@@ -205,7 +205,7 @@ const formatDate = (iso: string) =>
             <input
               v-model="search"
               type="text"
-              placeholder="Search by name or email…"
+              :placeholder="$t('Search by name or email…')"
               class="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               @keyup.enter="applyFilters"
             />
@@ -220,7 +220,7 @@ const formatDate = (iso: string) =>
               @click="showFilters = !showFilters"
             >
               <Filter class="w-4 h-4" />
-              Filters
+              {{ $t('Filters') }}
               <span v-if="hasActiveFilters" class="w-2 h-2 rounded-full bg-blue-500" />
             </button>
 
@@ -228,7 +228,7 @@ const formatDate = (iso: string) =>
               class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 transition-colors"
               @click="applyFilters"
             >
-              Search
+              {{ $t('Search') }}
             </button>
           </div>
         </div>
@@ -236,15 +236,15 @@ const formatDate = (iso: string) =>
         <!-- Expanded Filters -->
         <div v-if="showFilters" class="px-4 pb-4 flex flex-wrap gap-4 border-t border-gray-100 pt-4">
           <div>
-            <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
+            <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Type') }}</label>
             <select
               v-model="typeFilter"
               class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               @change="applyFilters"
             >
-              <option value="">All</option>
-              <option value="registered">Registered</option>
-              <option value="guest">Guest</option>
+              <option value="">{{ $t('All') }}</option>
+              <option value="registered">{{ $t('Registered') }}</option>
+              <option value="guest">{{ $t('Guest') }}</option>
             </select>
           </div>
 
@@ -254,7 +254,7 @@ const formatDate = (iso: string) =>
               @click="clearFilters"
             >
               <X class="w-3 h-3" />
-              Clear
+              {{ $t('Clear') }}
             </button>
           </div>
         </div>
@@ -264,13 +264,13 @@ const formatDate = (iso: string) =>
           v-if="selectedIds.length"
           class="px-4 py-3 bg-blue-50 border-t border-blue-100 flex items-center justify-between"
         >
-          <span class="text-sm text-blue-700 font-medium">{{ selectedIds.length }} selected</span>
+          <span class="text-sm text-blue-700 font-medium">{{ $t('{count} selected', { count: selectedIds.length }) }}</span>
           <button
             class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-red-700 bg-white border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
             @click="bulkUnsubscribe"
           >
             <UserX class="w-4 h-4" />
-            Unsubscribe Selected
+            {{ $t('Unsubscribe Selected') }}
           </button>
         </div>
 
@@ -289,32 +289,32 @@ const formatDate = (iso: string) =>
                 </th>
                 <th class="px-4 py-3 text-left font-medium text-gray-700">
                   <button class="inline-flex items-center gap-1 hover:text-gray-900" @click="toggleSort('first_name')">
-                    Name
+                    {{ $t('Name') }}
                     <ArrowUpDown class="w-3 h-3" />
                   </button>
                 </th>
                 <th class="px-4 py-3 text-left font-medium text-gray-700">
                   <button class="inline-flex items-center gap-1 hover:text-gray-900" @click="toggleSort('email')">
-                    Email
+                    {{ $t('Email') }}
                     <ArrowUpDown class="w-3 h-3" />
                   </button>
                 </th>
-                <th class="px-4 py-3 text-left font-medium text-gray-700">Type</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">{{ $t('Type') }}</th>
                 <th class="px-4 py-3 text-left font-medium text-gray-700">
                   <button class="inline-flex items-center gap-1 hover:text-gray-900" @click="toggleSort('updated_at')">
-                    Subscribed
+                    {{ $t('Subscribed') }}
                     <ArrowUpDown class="w-3 h-3" />
                   </button>
                 </th>
-                <th class="px-4 py-3 text-right font-medium text-gray-700">Actions</th>
+                <th class="px-4 py-3 text-right font-medium text-gray-700">{{ $t('Actions') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
               <tr v-if="!subscribers.data.length">
                 <td colspan="6" class="px-4 py-16 text-center text-gray-400">
                   <Mail class="w-10 h-10 mx-auto mb-3 text-gray-300" />
-                  <p class="font-medium">No subscribers found</p>
-                  <p class="text-sm mt-1">Try adjusting your search or filters.</p>
+                  <p class="font-medium">{{ $t('No subscribers found') }}</p>
+                  <p class="text-sm mt-1">{{ $t('Try adjusting your search or filters.') }}</p>
                 </td>
               </tr>
               <tr
@@ -341,7 +341,7 @@ const formatDate = (iso: string) =>
                       ? 'bg-orange-100 text-orange-700'
                       : 'bg-green-100 text-green-700'"
                   >
-                    {{ sub.is_guest ? 'Guest' : 'Registered' }}
+                    {{ sub.is_guest ? $t('Guest') : $t('Registered') }}
                   </span>
                 </td>
                 <td class="px-4 py-3 text-gray-500">{{ formatDate(sub.updated_at) }}</td>
@@ -351,7 +351,7 @@ const formatDate = (iso: string) =>
                     @click="unsubscribe(sub.id)"
                   >
                     <Trash2 class="w-3 h-3" />
-                    Unsubscribe
+                    {{ $t('Unsubscribe') }}
                   </button>
                 </td>
               </tr>
@@ -365,7 +365,7 @@ const formatDate = (iso: string) =>
           class="px-4 py-4 border-t border-gray-200 flex items-center justify-between"
         >
           <p class="text-sm text-gray-500">
-            Showing {{ subscribers.from }}–{{ subscribers.to }} of {{ subscribers.total }} subscribers
+            {{ $t('Showing {from}–{to} of {total} subscribers', { from: subscribers.from, to: subscribers.to, total: subscribers.total }) }}
           </p>
           <div class="flex items-center gap-1">
             <button

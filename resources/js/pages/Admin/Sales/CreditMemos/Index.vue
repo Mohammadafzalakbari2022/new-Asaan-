@@ -161,22 +161,22 @@ const cancelCreditMemo = (id: number) => {
 </script>
 
 <template>
-  <Head title="Credit Memos" />
+  <Head :title="$t('Credit Memos')" />
 
-  <AdminLayout title="Credit Memos">
+  <AdminLayout :title="$t('Credit Memos')">
     <div class="p-6 space-y-6">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Credit Memos</h1>
-          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage refunds and credit memos</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Credit Memos') }}</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Manage refunds and credit memos') }}</p>
         </div>
         <Link
           href="/admin/sales/orders"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <PlusCircle class="w-4 h-4 mr-2" />
-          Create Credit Memo
+          {{ $t('Create Credit Memo') }}
         </Link>
       </div>
 
@@ -185,7 +185,7 @@ const cancelCreditMemo = (id: number) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</p>
+               <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.total }}</p>
             </div>
             <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-colors">
@@ -197,7 +197,7 @@ const cancelCreditMemo = (id: number) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-yellow-200 dark:hover:border-yellow-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pending</p>
+               <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Pending') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.pending }}</p>
             </div>
             <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
@@ -209,7 +209,7 @@ const cancelCreditMemo = (id: number) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Refunded</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Refunded') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.refunded }}</p>
             </div>
             <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -221,7 +221,7 @@ const cancelCreditMemo = (id: number) => {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Amount</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total Amount') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ formatPrice(statistics.total_amount) }}</p>
             </div>
             <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
@@ -236,14 +236,14 @@ const cancelCreditMemo = (id: number) => {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Search -->
           <div class="lg:col-span-1">
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="search"
                 @input="performSearch"
                 type="text"
-                placeholder="Credit Memo #, Order #..."
+                 :placeholder="$t('Credit Memo #, Order #...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -251,7 +251,7 @@ const cancelCreditMemo = (id: number) => {
 
           <!-- Status Filter -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Filter class="h-4 w-4 text-gray-400" />
@@ -261,7 +261,7 @@ const cancelCreditMemo = (id: number) => {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Statuses</option>
+                <option value="">{{ $t('All Statuses') }}</option>
                 <option v-for="status in statuses" :key="status.value" :value="status.value">
                   {{ status.label }}
                 </option>
@@ -274,7 +274,7 @@ const cancelCreditMemo = (id: number) => {
 
           <!-- Refund Method -->
           <div>
-             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Refund Method</label>
+             <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Refund Method') }}</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <CreditCard class="h-4 w-4 text-gray-400" />
@@ -284,9 +284,9 @@ const cancelCreditMemo = (id: number) => {
                 @change="applyFilters"
                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Methods</option>
-                <option value="online">Online</option>
-                <option value="offline">Offline</option>
+                <option value="">{{ $t('All Methods') }}</option>
+                <option value="online">{{ $t('Online') }}</option>
+                <option value="offline">{{ $t('Offline') }}</option>
               </select>
                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -296,7 +296,7 @@ const cancelCreditMemo = (id: number) => {
 
           <!-- Date From -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">From Date</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('From Date') }}</label>
             <div class="relative">
               <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -316,7 +316,7 @@ const cancelCreditMemo = (id: number) => {
              class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
           >
             <X class="w-4 h-4" />
-            Clear Filters
+            {{ $t('Clear Filters') }}
           </button>
         </div>
       </div>
@@ -326,7 +326,7 @@ const cancelCreditMemo = (id: number) => {
         <div v-if="selectedIds.length > 0" class="bg-blue-600 rounded-xl shadow-lg p-3 text-white flex items-center justify-between sticky top-4 z-10 px-6">
           <span class="text-sm font-semibold flex items-center">
             <CheckCircle class="w-4 h-4 mr-2" />
-             {{ selectedIds.length }} selected
+             {{ $t('{count} selected', { count: selectedIds.length }) }}
           </span>
           <div class="flex gap-2">
             <!-- Add bulk actions here -->
@@ -349,28 +349,28 @@ const cancelCreditMemo = (id: number) => {
                   />
                 </th>
                 <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Credit Memo
+                  {{ $t('Credit Memo') }}
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Order
+                  {{ $t('Order') }}
                 </th>
                 <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Customer
+                  {{ $t('Customer') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
+                  {{ $t('Status') }}
                 </th>
                 <th scope="col" class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Method
+                  {{ $t('Method') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Amount
+                  {{ $t('Amount') }}
                 </th>
                 <th scope="col" class="hidden xl:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Date
+                  {{ $t('Date') }}
                 </th>
                 <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -411,14 +411,14 @@ const cancelCreditMemo = (id: number) => {
                     </div>
                     <div>
                       <div class="text-sm font-medium text-gray-900 dark:text-white">
-                        {{ creditMemo.order?.user?.name || 'Guest' }}
-                      </div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">{{ creditMemo.order?.customer_email }}</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span :class="['inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border shadow-sm', getStatusBadge(creditMemo.status)]">
+                         {{ creditMemo.order?.user?.name || $t('Guest') }}
+                       </div>
+                       <div class="text-xs text-gray-500 dark:text-gray-400">{{ creditMemo.order?.customer_email }}</div>
+                     </div>
+                   </div>
+                 </td>
+                 <td class="px-6 py-4 whitespace-nowrap">
+                   <span :class="['inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border shadow-sm', getStatusBadge(creditMemo.status)]">
                     {{ creditMemo.status }}
                   </span>
                 </td>
@@ -439,29 +439,29 @@ const cancelCreditMemo = (id: number) => {
                         v-if="creditMemo.status === 'pending'"
                         @click="processRefund(creditMemo.id)"
                         class="p-2 text-green-600 hover:text-green-800 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
-                        title="Process Refund"
-                      >
+                         :title="$t('Process Refund')"
+                       >
                          <RefreshCw class="w-4 h-4" />
                       </button>
                       <button
                         @click="downloadPdf(creditMemo.id)"
                         class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                        title="Download PDF"
-                      >
+                         :title="$t('Download PDF')"
+                       >
                         <Download class="w-4 h-4" />
                       </button>
                       <button
                         @click="sendEmail(creditMemo.id)"
                         class="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
-                        title="Send Email"
-                      >
+                         :title="$t('Send Email')"
+                       >
                          <Mail class="w-4 h-4" />
                       </button>
                       <Link
                         :href="`/admin/sales/credit-memos/${creditMemo.id}`"
                          class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                        title="View"
-                      >
+                         :title="$t('View')"
+                       >
                          <Eye class="w-4 h-4" />
                       </Link>
                    </div>
@@ -472,36 +472,36 @@ const cancelCreditMemo = (id: number) => {
                  <td colspan="9" class="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                         <div class="sm:hidden flex flex-col gap-2">
-                          <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Order Reference</span>
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Order Reference') }}</span>
                            <span class="text-sm text-gray-600 dark:text-gray-300">
                               {{ creditMemo.order?.order_number || '-' }}
                             </span>
                        </div>
                        <div class="md:hidden flex flex-col gap-2">
-                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Customer</span>
+                           <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Customer') }}</span>
                            <div class="flex items-center">
                                <div class="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-600 mr-3">
                                 <User class="w-4 h-4" />
                               </div>
                               <div>
-                                <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                  {{ creditMemo.order?.user?.name || 'Guest' }}
-                                </div>
+                                 <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                   {{ creditMemo.order?.user?.name || $t('Guest') }}
+                                 </div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">{{ creditMemo.order?.customer_email }}</div>
                               </div>
                            </div>
                         </div>
                         <div class="lg:hidden flex flex-col gap-2">
-                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Details</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Details') }}</span>
                             <div class="grid grid-cols-2 gap-4">
                                <div>
-                                  <span class="text-xs text-gray-500 block">Method</span>
+                                  <span class="text-xs text-gray-500 block">{{ $t('Method') }}</span>
                                   <span :class="['inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border shadow-sm mt-1', getRefundMethodBadge(creditMemo.refund_method)]">
                                     {{ creditMemo.refund_method }}
                                   </span>
                                </div>
                                <div>
-                                  <span class="text-xs text-gray-500 block">Date</span>
+                                  <span class="text-xs text-gray-500 block">{{ $t('Date') }}</span>
                                   <span class="text-gray-700 dark:text-gray-300 mt-1 block">{{ formatDate(creditMemo.created_at) }}</span>
                                </div>
                             </div>
@@ -517,8 +517,8 @@ const cancelCreditMemo = (id: number) => {
                     <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                       <FileText class="w-8 h-8" />
                     </div>
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white">No credit memos found</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">Try adjusting your filters or create a new one.</p>
+                     <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('No credit memos found') }}</p>
+                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">{{ $t('Try adjusting your filters or create a new one.') }}</p>
                   </div>
                 </td>
               </tr>
@@ -529,7 +529,7 @@ const cancelCreditMemo = (id: number) => {
         <!-- Pagination -->
         <div class="bg-gray-50/50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
           <div class="text-xs text-gray-500 dark:text-gray-400">
-            Showing <span class="font-medium">{{ creditMemos.from || 0 }}</span> to <span class="font-medium">{{ creditMemos.to || 0 }}</span> of <span class="font-medium">{{ creditMemos.total }}</span> results
+            {{ $t('Showing') }} <span class="font-medium">{{ creditMemos.from || 0 }}</span> {{ $t('to') }} <span class="font-medium">{{ creditMemos.to || 0 }}</span> {{ $t('of') }} <span class="font-medium">{{ creditMemos.total }}</span> {{ $t('results') }}
           </div>
           <div class="flex gap-2">
             <Link
@@ -538,14 +538,14 @@ const cancelCreditMemo = (id: number) => {
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
               <ChevronLeft class="w-3 h-3" />
-              Previous
+              {{ $t('Previous') }}
             </Link>
             <Link
               v-if="creditMemos.next_page_url"
               :href="creditMemos.next_page_url"
               class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
-              Next
+              {{ $t('Next') }}
               <ChevronRight class="w-3 h-3" />
             </Link>
           </div>

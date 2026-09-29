@@ -1,7 +1,8 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import { useCurrency } from '@/composables/useCurrency'
+import { useI18nStore } from '@/Stores/i18n'
 import {
   TrendingUp,
   TrendingDown,
@@ -100,6 +101,8 @@ const props = defineProps<{
 }>()
 
 const { formatPrice, getSymbol } = useCurrency()
+const i18n = useI18nStore()
+const t = i18n.t
 
 // ─── Dark-mode detection (reactive) ──────────────────────────────────────────
 
@@ -138,7 +141,7 @@ const chartTooltipBorder = computed(() => isDark.value ? 'rgba(99,102,241,0.3)' 
 const salesChartData = computed(() => ({
   labels: props.salesChart?.labels ?? [],
   datasets: [{
-    label: 'Revenue',
+    label: t('Revenue'),
     data: props.salesChart?.data ?? [],
     fill: true,
     backgroundColor: isDark.value ? 'rgba(99,102,241,0.15)' : 'rgba(99,102,241,0.08)',
@@ -187,7 +190,7 @@ const dualChartData = computed(() => ({
   labels: props.salesChart?.labels ?? [],
   datasets: [
     {
-      label: 'Revenue',
+      label: t('Revenue'),
       data: props.salesChart?.data ?? [],
       fill: false,
       borderColor: '#6366f1',
@@ -200,7 +203,7 @@ const dualChartData = computed(() => ({
       yAxisID: 'yRevenue',
     },
     {
-      label: 'Orders',
+      label: t('Orders'),
       data: props.salesChart?.orders ?? [],
       fill: false,
       borderColor: '#22d3ee',
@@ -291,8 +294,8 @@ const maxProductSales = computed(() =>
 </script>
 
 <template>
-  <Head title="Admin Dashboard" />
-  <AdminLayout title="Dashboard">
+  <Head :title="$t('Admin Dashboard')" />
+  <AdminLayout :title="$t('Dashboard')">
 
     <!--
       Light: clean white/gray card surfaces
@@ -316,10 +319,10 @@ const maxProductSales = computed(() =>
                     dark:bg-white/[0.04] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-none">
           <div>
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white tracking-tight">
-              Welcome back,
-              <span class="text-indigo-600 dark:text-indigo-400">{{ auth?.user?.name || 'Admin' }}</span>
+              {{ $t('Welcome back,') }}
+              <span class="text-indigo-600 dark:text-indigo-400">{{ auth?.user?.name || $t('Admin') }}</span>
             </h2>
-            <p class="text-xs text-gray-500 dark:text-slate-500 mt-0.5">Here's what's happening with your store today.</p>
+            <p class="text-xs text-gray-500 dark:text-slate-500 mt-0.5">{{ $t("Here's what's happening with your store today.") }}</p>
           </div>
           <div class="hidden md:flex items-center gap-2
                       bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5
@@ -356,7 +359,7 @@ const maxProductSales = computed(() =>
                 {{ stat.change }}
               </div>
             </div>
-            <p class="text-[11px] font-medium text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1">{{ stat.title }}</p>
+            <p class="text-[11px] font-medium text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1">{{ $t(stat.title) }}</p>
             <p class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{{ stat.value }}</p>
           </div>
         </div>
@@ -370,14 +373,14 @@ const maxProductSales = computed(() =>
                       dark:bg-white/[0.04] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-none">
             <div class="flex items-center justify-between mb-5">
               <div>
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">7-Day Revenue</h3>
-                <p class="text-xs text-gray-500 dark:text-slate-500 mt-0.5">Daily revenue over the past week</p>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('7-Day Revenue') }}</h3>
+                <p class="text-xs text-gray-500 dark:text-slate-500 mt-0.5">{{ $t('Daily revenue over the past week') }}</p>
               </div>
               <div class="flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 text-indigo-600
                           dark:bg-indigo-500/10 dark:border-indigo-500/20 dark:text-indigo-400
                           px-2.5 py-1.5 rounded-lg">
                 <Activity class="w-3.5 h-3.5" />
-                <span class="text-[11px] font-semibold">Revenue</span>
+                <span class="text-[11px] font-semibold">{{ $t('Revenue') }}</span>
               </div>
             </div>
             <div class="h-52">
@@ -390,7 +393,7 @@ const maxProductSales = computed(() =>
                                  text-gray-400 dark:text-slate-600
                                  border-2 border-dashed border-gray-200 dark:border-white/[0.06] rounded-xl">
                 <BarChart3 class="w-8 h-8 mb-2 opacity-30" />
-                <span class="text-xs">No data yet</span>
+                <span class="text-xs">{{ $t('No data yet') }}</span>
               </div>
             </div>
           </div>
@@ -401,15 +404,15 @@ const maxProductSales = computed(() =>
                       dark:bg-white/[0.04] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-none">
             <div class="flex items-center justify-between mb-5">
               <div>
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Revenue vs Orders</h3>
-                <p class="text-xs text-gray-500 dark:text-slate-500 mt-0.5">Dual-axis comparison this week</p>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Revenue vs Orders') }}</h3>
+                <p class="text-xs text-gray-500 dark:text-slate-500 mt-0.5">{{ $t('Dual-axis comparison this week') }}</p>
               </div>
               <div class="flex items-center gap-3 text-[11px] font-medium">
                 <span class="flex items-center gap-1 text-indigo-600 dark:text-indigo-400">
-                  <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span>Revenue
+                  <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span>{{ $t('Revenue') }}
                 </span>
                 <span class="flex items-center gap-1 text-cyan-600 dark:text-cyan-400">
-                  <span class="w-2 h-2 rounded-full bg-cyan-400 inline-block"></span>Orders
+                  <span class="w-2 h-2 rounded-full bg-cyan-400 inline-block"></span>{{ $t('Orders') }}
                 </span>
               </div>
             </div>
@@ -423,7 +426,7 @@ const maxProductSales = computed(() =>
                                  text-gray-400 dark:text-slate-600
                                  border-2 border-dashed border-gray-200 dark:border-white/[0.06] rounded-xl">
                 <BarChart3 class="w-8 h-8 mb-2 opacity-30" />
-                <span class="text-xs">No data yet</span>
+                <span class="text-xs">{{ $t('No data yet') }}</span>
               </div>
             </div>
           </div>
@@ -438,11 +441,11 @@ const maxProductSales = computed(() =>
                       dark:bg-white/[0.04] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-none">
             <div class="px-5 py-4 flex items-center justify-between
                         border-b border-gray-100 dark:border-white/[0.06]">
-              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Recent Orders</h3>
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Recent Orders') }}</h3>
               <Link href="/admin/sales/orders"
                 class="group flex items-center text-xs font-medium text-indigo-600 hover:text-indigo-700
                        dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">
-                View All
+                {{ $t('View All') }}
                 <ChevronRight class="w-3.5 h-3.5 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
@@ -450,18 +453,18 @@ const maxProductSales = computed(() =>
               <table class="w-full">
                 <thead>
                   <tr class="border-b border-gray-50 dark:border-white/[0.04]">
-                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Order</th>
-                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Customer</th>
-                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Amount</th>
-                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Status</th>
-                    <th class="px-5 py-3 text-right text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Time</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">{{ $t('Order') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">{{ $t('Customer') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">{{ $t('Amount') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">{{ $t('Status') }}</th>
+                    <th class="px-5 py-3 text-right text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">{{ $t('Time') }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-if="!props.recentOrders?.length">
                     <td colspan="5" class="px-5 py-12 text-center text-gray-400 dark:text-slate-600">
                       <Package class="w-10 h-10 mx-auto mb-2 opacity-20" />
-                      <p class="text-xs">No recent orders</p>
+                      <p class="text-xs">{{ $t('No recent orders') }}</p>
                     </td>
                   </tr>
                   <tr
@@ -503,7 +506,7 @@ const maxProductSales = computed(() =>
                           'bg-yellow-500': order.status === 'pending',
                           'bg-red-500': order.status === 'cancelled',
                         }"></span>
-                        {{ order.status.charAt(0).toUpperCase() + order.status.slice(1) }}
+                        {{ $t(order.status.charAt(0).toUpperCase() + order.status.slice(1)) }}
                       </span>
                     </td>
                     <td class="px-5 py-3.5 text-right">
@@ -520,12 +523,12 @@ const maxProductSales = computed(() =>
                       bg-white border border-gray-200 shadow-sm
                       dark:bg-white/[0.04] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-none">
             <div class="px-5 py-4 border-b border-gray-100 dark:border-white/[0.06]">
-              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Top Products</h3>
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Top Products') }}</h3>
             </div>
             <div class="p-5">
               <div v-if="!props.topProducts?.length" class="flex flex-col items-center justify-center py-10 text-gray-400 dark:text-slate-600">
                 <Package class="w-8 h-8 mb-2 opacity-20" />
-                <p class="text-xs">No data</p>
+                <p class="text-xs">{{ $t('No data') }}</p>
               </div>
               <div v-else class="space-y-4">
                 <div v-for="(product, index) in (props.topProducts ?? [])" :key="product.name">
@@ -557,7 +560,7 @@ const maxProductSales = computed(() =>
                     ></div>
                   </div>
                   <div class="flex items-center justify-between mt-1">
-                    <span class="text-[10px] text-gray-400 dark:text-slate-600">{{ product.sales }} sold</span>
+                    <span class="text-[10px] text-gray-400 dark:text-slate-600">{{ $t('{sales} sold', { sales: product.sales }) }}</span>
                     <div class="flex items-center gap-1">
                       <component
                         :is="product.trend === 'up' ? TrendingUp : TrendingDown"
@@ -584,12 +587,12 @@ const maxProductSales = computed(() =>
                       dark:bg-white/[0.04] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-none">
             <div class="px-5 py-4 border-b border-gray-100 dark:border-white/[0.06] flex items-center gap-2">
               <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Live Activity</h3>
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Live Activity') }}</h3>
             </div>
             <div class="p-5">
               <div v-if="!props.activityFeed?.length" class="flex flex-col items-center justify-center py-8 text-gray-400 dark:text-slate-600">
                 <Activity class="w-8 h-8 mb-2 opacity-20" />
-                <p class="text-xs">No recent activity</p>
+                <p class="text-xs">{{ $t('No recent activity') }}</p>
               </div>
               <div v-else class="space-y-3">
                 <div v-for="(event, i) in (props.activityFeed ?? [])" :key="i" class="flex items-start gap-3">
@@ -600,7 +603,7 @@ const maxProductSales = computed(() =>
                     <component :is="activityIconMap[event.icon] ?? Package" class="w-3.5 h-3.5" />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <p class="text-xs text-gray-700 dark:text-slate-300 leading-relaxed truncate">{{ event.message }}</p>
+                    <p class="text-xs text-gray-700 dark:text-slate-300 leading-relaxed truncate">{{ $t(event.message) }}</p>
                     <p class="text-[10px] text-gray-400 dark:text-slate-600 mt-0.5">{{ event.time }}</p>
                   </div>
                   <div class="w-1.5 h-1.5 rounded-full mt-2 shrink-0" :class="activityDot[event.color] ?? 'bg-gray-300 dark:bg-slate-600'"></div>
@@ -616,17 +619,17 @@ const maxProductSales = computed(() =>
             <div class="px-5 py-4 border-b border-gray-100 dark:border-white/[0.06] flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <AlertTriangle class="w-4 h-4 text-orange-500 dark:text-orange-400" />
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Stock Alerts</h3>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $t('Stock Alerts') }}</h3>
               </div>
               <Link href="/admin/catalog/products"
                 class="text-xs font-medium text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors">
-                Manage
+                {{ $t('Manage') }}
               </Link>
             </div>
             <div class="p-5">
               <div v-if="!props.lowStockProducts?.length" class="flex flex-col items-center justify-center py-8 text-gray-400 dark:text-slate-600">
                 <Package class="w-8 h-8 mb-2 opacity-20" />
-                <p class="text-xs">All products in stock</p>
+                <p class="text-xs">{{ $t('All products in stock') }}</p>
               </div>
               <div v-else class="space-y-2.5">
                 <div
@@ -638,7 +641,7 @@ const maxProductSales = computed(() =>
                 >
                   <div class="min-w-0">
                     <p class="text-xs font-semibold text-gray-800 dark:text-slate-200 truncate">{{ item.name }}</p>
-                    <p class="text-[10px] text-gray-400 dark:text-slate-600 mt-0.5">SKU: {{ item.sku }}</p>
+                    <p class="text-[10px] text-gray-400 dark:text-slate-600 mt-0.5">{{ $t('SKU: {sku}', { sku: item.sku }) }}</p>
                   </div>
                   <span
                     class="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full border"
@@ -646,7 +649,7 @@ const maxProductSales = computed(() =>
                       ? 'bg-red-50 text-red-700 border-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20'
                       : 'bg-yellow-50 text-yellow-700 border-yellow-100 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/20'"
                   >
-                    {{ item.stock_status === 'out_of_stock' ? 'Out of Stock' : 'Backorder' }}
+                    {{ $t(item.stock_status === 'out_of_stock' ? 'Out of Stock' : 'Backorder') }}
                   </span>
                 </div>
               </div>
@@ -658,7 +661,7 @@ const maxProductSales = computed(() =>
         <div class="rounded-2xl p-5
                     bg-white border border-gray-200 shadow-sm
                     dark:bg-white/[0.04] dark:backdrop-blur-xl dark:border-white/[0.08] dark:shadow-none">
-          <h3 class="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Quick Actions</h3>
+          <h3 class="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">{{ $t('Quick Actions') }}</h3>
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             <Link href="/admin/catalog/products/create"
               class="group flex flex-col items-center justify-center gap-2.5 p-4 rounded-xl transition-all duration-200
@@ -668,7 +671,7 @@ const maxProductSales = computed(() =>
                           bg-indigo-100 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
                 <Plus class="w-4 h-4" />
               </div>
-              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">Add Product</span>
+              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">{{ $t('Add Product') }}</span>
             </Link>
             <Link href="/admin/sales/orders"
               class="group flex flex-col items-center justify-center gap-2.5 p-4 rounded-xl transition-all duration-200
@@ -678,7 +681,7 @@ const maxProductSales = computed(() =>
                           bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
                 <ShoppingCart class="w-4 h-4" />
               </div>
-              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">Orders</span>
+              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">{{ $t('Orders') }}</span>
             </Link>
             <Link href="/admin/customers"
               class="group flex flex-col items-center justify-center gap-2.5 p-4 rounded-xl transition-all duration-200
@@ -688,7 +691,7 @@ const maxProductSales = computed(() =>
                           bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400">
                 <Users class="w-4 h-4" />
               </div>
-              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">Customers</span>
+              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">{{ $t('Customers') }}</span>
             </Link>
             <Link href="/admin/reports"
               class="group flex flex-col items-center justify-center gap-2.5 p-4 rounded-xl transition-all duration-200
@@ -698,7 +701,7 @@ const maxProductSales = computed(() =>
                           bg-cyan-100 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400">
                 <BarChart3 class="w-4 h-4" />
               </div>
-              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">Reports</span>
+              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">{{ $t('Reports') }}</span>
             </Link>
             <Link href="/admin/marketing"
               class="group flex flex-col items-center justify-center gap-2.5 p-4 rounded-xl transition-all duration-200
@@ -708,7 +711,7 @@ const maxProductSales = computed(() =>
                           bg-pink-100 text-pink-600 dark:bg-pink-500/10 dark:text-pink-400">
                 <Megaphone class="w-4 h-4" />
               </div>
-              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">Marketing</span>
+              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">{{ $t('Marketing') }}</span>
             </Link>
             <Link href="/admin/settings"
               class="group flex flex-col items-center justify-center gap-2.5 p-4 rounded-xl transition-all duration-200
@@ -718,7 +721,7 @@ const maxProductSales = computed(() =>
                           bg-slate-100 text-slate-600 dark:bg-slate-500/10 dark:text-slate-400">
                 <Settings class="w-4 h-4" />
               </div>
-              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">Settings</span>
+              <span class="text-[11px] font-medium text-gray-600 dark:text-slate-400">{{ $t('Settings') }}</span>
             </Link>
           </div>
         </div>

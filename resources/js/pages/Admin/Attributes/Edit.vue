@@ -135,8 +135,8 @@ const submit = () => {
 </script>
 
 <template>
-  <AdminLayout title="Edit Attribute">
-    <Head title="Edit Attribute" />
+  <AdminLayout :title="$t('Edit Attribute')">
+    <Head :title="$t('Edit Attribute')" />
 
     <div class="py-6">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -144,8 +144,8 @@ const submit = () => {
         <div class="mb-6">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-semibold text-gray-900">Edit Attribute</h1>
-              <p class="mt-1 text-sm text-gray-600">Update attribute: {{ attribute.name }}</p>
+              <h1 class="text-2xl font-semibold text-gray-900">{{ $t('Edit Attribute') }}</h1>
+              <p class="mt-1 text-sm text-gray-600">{{ $t('Update attribute: {name}', { name: attribute.name }) }}</p>
             </div>
             <Link
               :href="attributeRoutes.index().url"
@@ -154,7 +154,7 @@ const submit = () => {
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Back to Attributes
+              {{ $t('Back to Attributes') }}
             </Link>
           </div>
         </div>
@@ -164,13 +164,13 @@ const submit = () => {
           <!-- Main Information Card -->
           <div class="bg-white shadow rounded-lg overflow-hidden">
             <div class="px-4 py-5 sm:p-6">
-              <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Basic Information</h3>
+              <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">{{ $t('Basic Information') }}</h3>
               
               <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <!-- Name -->
                 <div>
                   <label for="name" class="block text-sm font-medium text-gray-700">
-                    Attribute Name <span class="text-red-500">*</span>
+                    {{ $t('Attribute Name') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     id="name"
@@ -180,7 +180,7 @@ const submit = () => {
                     name="name"
                     required
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="e.g., Color, Size, Material"
+                    :placeholder="$t('e.g., Color, Size, Material')"
                   />
                   <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
                 </div>
@@ -188,7 +188,7 @@ const submit = () => {
                 <!-- Code -->
                 <div>
                   <label for="code" class="block text-sm font-medium text-gray-700">
-                    Attribute Code <span class="text-red-500">*</span>
+                    {{ $t('Attribute Code') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     id="code"
@@ -197,16 +197,16 @@ const submit = () => {
                     name="code"
                     required
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="e.g., color, size, material"
+                    :placeholder="$t('e.g., color, size, material')"
                   />
-                  <p class="mt-1 text-xs text-gray-500">Use lowercase with underscores.</p>
+                  <p class="mt-1 text-xs text-gray-500">{{ $t('Use lowercase with underscores.') }}</p>
                   <p v-if="form.errors.code" class="mt-1 text-sm text-red-600">{{ form.errors.code }}</p>
                 </div>
 
                 <!-- Type -->
                 <div>
                   <label for="type" class="block text-sm font-medium text-gray-700">
-                    Input Type <span class="text-red-500">*</span>
+                    {{ $t('Input Type') }} <span class="text-red-500">*</span>
                   </label>
                   <select
                     id="type"
@@ -214,13 +214,13 @@ const submit = () => {
                     name="type"
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   >
-                    <option value="text">Text</option>
-                    <option value="textarea">Textarea</option>
-                    <option value="select">Select (Dropdown)</option>
-                    <option value="multiselect">Multi-select</option>
-                    <option value="boolean">Boolean (Yes/No)</option>
-                    <option value="date">Date</option>
-                    <option value="price">Price</option>
+                    <option value="text">{{ $t('Text') }}</option>
+                    <option value="textarea">{{ $t('Textarea') }}</option>
+                    <option value="select">{{ $t('Select (Dropdown)') }}</option>
+                    <option value="multiselect">{{ $t('Multi-select') }}</option>
+                    <option value="boolean">{{ $t('Boolean (Yes/No)') }}</option>
+                    <option value="date">{{ $t('Date') }}</option>
+                    <option value="price">{{ $t('Price') }}</option>
                   </select>
                   <p v-if="form.errors.type" class="mt-1 text-sm text-red-600">{{ form.errors.type }}</p>
                 </div>
@@ -228,7 +228,7 @@ const submit = () => {
                 <!-- Sort Order -->
                 <div>
                   <label for="sort_order" class="block text-sm font-medium text-gray-700">
-                    Sort Order
+                    {{ $t('Sort Order') }}
                   </label>
                   <input
                     id="sort_order"
@@ -237,9 +237,9 @@ const submit = () => {
                     name="sort_order"
                     min="0"
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="0"
+                    :placeholder="$t('0')"
                   />
-                  <p class="mt-1 text-xs text-gray-500">Controls display order. Lower numbers appear first.</p>
+                  <p class="mt-1 text-xs text-gray-500">{{ $t('Controls display order. Lower numbers appear first.') }}</p>
                   <p v-if="form.errors.sort_order" class="mt-1 text-sm text-red-600">{{ form.errors.sort_order }}</p>
                 </div>
               </div>
@@ -249,7 +249,7 @@ const submit = () => {
           <!-- Settings Card -->
           <div class="bg-white shadow rounded-lg overflow-hidden">
             <div class="px-4 py-5 sm:p-6">
-              <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Attribute Settings</h3>
+              <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">{{ $t('Attribute Settings') }}</h3>
               
               <div class="space-y-4">
                 <!-- Is Required -->
@@ -262,10 +262,10 @@ const submit = () => {
                     class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label for="is_required" class="ml-3 block text-sm font-medium text-gray-700">
-                    Required
+                    {{ $t('Required') }}
                   </label>
                 </div>
-                <p class="ml-7 text-xs text-gray-500">Customers must provide a value for this attribute</p>
+                <p class="ml-7 text-xs text-gray-500">{{ $t('Customers must provide a value for this attribute') }}</p>
 
                 <!-- Is Filterable -->
                 <div class="flex items-center">
@@ -277,10 +277,10 @@ const submit = () => {
                     class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label for="is_filterable" class="ml-3 block text-sm font-medium text-gray-700">
-                    Use in Filters
+                    {{ $t('Use in Filters') }}
                   </label>
                 </div>
-                <p class="ml-7 text-xs text-gray-500">Show this attribute in product listing filters</p>
+                <p class="ml-7 text-xs text-gray-500">{{ $t('Show this attribute in product listing filters') }}</p>
 
                 <!-- Is Configurable -->
                 <div class="flex items-center">
@@ -292,10 +292,10 @@ const submit = () => {
                     class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label for="is_configurable" class="ml-3 block text-sm font-medium text-gray-700">
-                    Use for Product Variants
+                    {{ $t('Use for Product Variants') }}
                   </label>
                 </div>
-                <p class="ml-7 text-xs text-gray-500">Use this attribute to create product variants (e.g., Size, Color)</p>
+                <p class="ml-7 text-xs text-gray-500">{{ $t('Use this attribute to create product variants (e.g., Size, Color)') }}</p>
               </div>
             </div>
           </div>
@@ -304,7 +304,7 @@ const submit = () => {
           <div v-if="supportsOptions" class="bg-white shadow rounded-lg overflow-hidden">
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Attribute Options</h3>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $t('Attribute Options') }}</h3>
                 <button
                   type="button"
                   @click="addOption"
@@ -313,12 +313,12 @@ const submit = () => {
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                   </svg>
-                  Add Option
+                  {{ $t('Add Option') }}
                 </button>
               </div>
 
               <div v-if="form.options.length === 0" class="text-center py-6 text-gray-500">
-                No options added yet. Click "Add Option" to create options.
+                {{ $t('No options added yet. Click "Add Option" to create options.') }}
               </div>
 
               <div v-else class="space-y-3">
@@ -334,7 +334,7 @@ const submit = () => {
                       @click="moveOptionUp(index)"
                       :disabled="index === 0"
                       class="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
-                      title="Move up"
+                      :title="$t('Move up')"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
@@ -345,7 +345,7 @@ const submit = () => {
                       @click="moveOptionDown(index)"
                       :disabled="index === form.options.length - 1"
                       class="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
-                      title="Move down"
+                      :title="$t('Move down')"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -357,35 +357,35 @@ const submit = () => {
                   <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
                     <!-- Label -->
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 mb-1">Label</label>
+                      <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Label') }}</label>
                       <input
                         v-model="option.label"
                         @input="generateOptionValue(index)"
                         type="text"
                         class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="e.g., Red"
+                        :placeholder="$t('e.g., Red')"
                       />
                     </div>
 
                     <!-- Value -->
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 mb-1">Value</label>
+                      <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Value') }}</label>
                       <input
                         v-model="option.value"
                         type="text"
                         class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="e.g., red"
+                        :placeholder="$t('e.g., red')"
                       />
                     </div>
 
                     <!-- Swatch Value (for colors) -->
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 mb-1">Swatch (optional)</label>
+                      <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Swatch (optional)') }}</label>
                       <input
                         v-model="option.swatch_value"
                         type="text"
-                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="e.g., #FF0000"
+                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:ring-blue-500"
+                        :placeholder="$t('e.g., #FF0000')"
                       />
                     </div>
                   </div>
@@ -395,7 +395,7 @@ const submit = () => {
                     type="button"
                     @click="removeOption(index)"
                     class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded"
-                    title="Remove option"
+                    :title="$t('Remove option')"
                   >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -414,7 +414,7 @@ const submit = () => {
               :href="attributeRoutes.index().url"
               class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </Link>
             <button
               type="submit"
@@ -425,7 +425,7 @@ const submit = () => {
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              {{ form.processing ? 'Updating...' : 'Update Attribute' }}
+              {{ $t(form.processing ? 'Updating...' : 'Update Attribute') }}
             </button>
           </div>
         </form>

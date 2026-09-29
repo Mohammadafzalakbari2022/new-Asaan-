@@ -176,15 +176,15 @@ function confirmBulkDelete() {
 </script>
 
 <template>
-    <Head title="Product Reviews" />
+    <Head :title="$t('Product Reviews')" />
     
-    <AdminLayout title="Product Reviews">
+    <AdminLayout :title="$t('Product Reviews')">
         <div class="p-6 space-y-6">
             <!-- Page Header -->
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Product Reviews</h1>
-                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage customer reviews and ratings</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Product Reviews') }}</h1>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Manage customer reviews and ratings') }}</p>
                 </div>
             </div>
 
@@ -194,7 +194,7 @@ function confirmBulkDelete() {
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Reviews</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ $t('Total Reviews') }}</p>
                             <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ stats.total }}</p>
                         </div>
                         <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
@@ -207,7 +207,7 @@ function confirmBulkDelete() {
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ $t('Pending') }}</p>
                             <p class="text-3xl font-bold text-yellow-600 dark:text-yellow-400 mt-1">{{ stats.pending }}</p>
                         </div>
                         <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl">
@@ -220,7 +220,7 @@ function confirmBulkDelete() {
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Approved</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ $t('Approved') }}</p>
                             <p class="text-3xl font-bold text-green-600 dark:text-green-400 mt-1">{{ stats.approved }}</p>
                         </div>
                         <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
@@ -233,7 +233,7 @@ function confirmBulkDelete() {
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Rejected</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ $t('Rejected') }}</p>
                             <p class="text-3xl font-bold text-red-600 dark:text-red-400 mt-1">{{ stats.rejected }}</p>
                         </div>
                         <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-xl">
@@ -248,14 +248,14 @@ function confirmBulkDelete() {
                 <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     <!-- Search -->
                     <div class="md:col-span-2">
-                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
                         <div class="relative">
                             <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <input
                                 v-model="search"
                                 @keyup.enter="applyFilters"
                                 type="text"
-                                placeholder="Search reviews..."
+                                :placeholder="$t('Search reviews...')"
                                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
                             />
                         </div>
@@ -263,7 +263,7 @@ function confirmBulkDelete() {
 
                     <!-- Status Filter -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
                         <div class="relative">
                             <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <select
@@ -271,10 +271,10 @@ function confirmBulkDelete() {
                                 @change="applyFilters"
                                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                             >
-                                <option value="">All Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="approved">Approved</option>
-                                <option value="rejected">Rejected</option>
+                                <option value="">{{ $t('All Status') }}</option>
+                                <option value="pending">{{ $t('Pending') }}</option>
+                                <option value="approved">{{ $t('Approved') }}</option>
+                                <option value="rejected">{{ $t('Rejected') }}</option>
                             </select>
                              <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -284,7 +284,7 @@ function confirmBulkDelete() {
 
                     <!-- Rating Filter -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Rating</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Rating') }}</label>
                          <div class="relative">
                             <Star class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <select
@@ -292,12 +292,12 @@ function confirmBulkDelete() {
                                 @change="applyFilters"
                                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                             >
-                                <option value="">All Ratings</option>
-                                <option value="5">5 Stars</option>
-                                <option value="4">4 Stars</option>
-                                <option value="3">3 Stars</option>
-                                <option value="2">2 Stars</option>
-                                <option value="1">1 Star</option>
+                                <option value="">{{ $t('All Ratings') }}</option>
+                                <option value="5">{{ $t('5 Stars') }}</option>
+                                <option value="4">{{ $t('4 Stars') }}</option>
+                                <option value="3">{{ $t('3 Stars') }}</option>
+                                <option value="2">{{ $t('2 Stars') }}</option>
+                                <option value="1">{{ $t('1 Star') }}</option>
                             </select>
                             <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -307,7 +307,7 @@ function confirmBulkDelete() {
 
                     <!-- Product Filter -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Product</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Product') }}</label>
                         <div class="relative">
                             <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <select
@@ -315,7 +315,7 @@ function confirmBulkDelete() {
                                 @change="applyFilters"
                                 class="w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                             >
-                                <option value="">All Products</option>
+                                <option value="">{{ $t('All Products') }}</option>
                                 <option v-for="product in products" :key="product.id" :value="product.id">
                                     {{ product.name }}
                                 </option>
@@ -334,7 +334,7 @@ function confirmBulkDelete() {
                          class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
                     >
                         <X class="w-4 h-4" />
-                        Clear Filters
+                        {{ $t('Clear Filters') }}
                     </button>
                 </div>
             </div>

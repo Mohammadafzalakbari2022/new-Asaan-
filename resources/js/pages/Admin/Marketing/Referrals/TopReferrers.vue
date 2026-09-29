@@ -49,9 +49,9 @@ const lifetimeAwards = computed(() =>
 </script>
 
 <template>
-  <Head title="Top Earners" />
+  <Head :title="$t('Top Earners')" />
 
-  <AdminLayout title="Top Earners">
+  <AdminLayout :title="$t('Top Earners')">
     <div class="p-6 space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -60,26 +60,26 @@ const lifetimeAwards = computed(() =>
             class="inline-flex items-center text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
           >
             <ArrowLeft class="w-3.5 h-3.5 mr-1" />
-            Back to overview
+            {{ $t('Back to overview') }}
           </Link>
-          <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">Top earners</h1>
+          <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Top earners') }}</h1>
           <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Everyone who has earned referral credit, best first.
+            {{ $t('Everyone who has earned referral credit, best first.') }}
           </p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Paid out in total</p>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Paid out in total') }}</p>
           <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ formatPrice(totalPaidOut) }}</p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Still locked</p>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Still locked') }}</p>
           <p class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">{{ formatPrice(stillLocked) }}</p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
-          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Rewards awarded</p>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Rewards awarded') }}</p>
           <p class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{{ lifetimeAwards }}</p>
         </div>
       </div>
@@ -87,20 +87,20 @@ const lifetimeAwards = computed(() =>
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
         <div v-if="topReferrers.length === 0" class="px-6 py-12 text-center">
           <Crown class="w-8 h-8 mx-auto text-gray-300 dark:text-gray-600" />
-          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">Nobody has earned a reward yet.</p>
+          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">{{ $t('Nobody has earned a reward yet.') }}</p>
         </div>
 
         <div v-else class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rank</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Earned</th>
-                <th class="hidden md:table-cell px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Awards</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Available</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Locked</th>
-                <th class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Last reward</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Rank') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Customer') }}</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Earned') }}</th>
+                <th class="hidden md:table-cell px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Awards') }}</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Available') }}</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Locked') }}</th>
+                <th class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Last reward') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -153,7 +153,7 @@ const lifetimeAwards = computed(() =>
 
       <p class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
         <Users class="w-3.5 h-3.5" />
-        Showing everyone with an active reward, capped at 100. A reward that was reversed does not count here.
+        {{ $t('Showing everyone with an active reward, capped at 100. A reward that was reversed does not count here.') }}
       </p>
     </div>
   </AdminLayout>

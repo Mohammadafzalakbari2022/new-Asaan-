@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import { Shield, Plus, Edit, Trash2 } from 'lucide-vue-next'
+import { useI18nStore } from '@/Stores/i18n'
 
 interface Permission {
   id: number
@@ -18,6 +19,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const { t } = useI18nStore()
 
 const deletePermission = (permission: Permission) => {
   if (confirm(`Are you sure you want to delete permission "${permission.display_name}"?`)) {
@@ -43,18 +46,18 @@ const getGroupColor = (group: string) => {
 </script>
 
 <template>
-  <Head title="Permissions Management" />
+  <Head :title="$t('Permissions Management')" />
   
-  <AdminLayout title="Permissions Management">
+  <AdminLayout :title="$t('Permissions Management')">
     <div class="space-y-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            Permissions Management
+            {{ $t('Permissions Management') }}
           </h1>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Manage system permissions and access controls
+            {{ $t('Manage system permissions and access controls') }}
           </p>
         </div>
         <Link
@@ -62,7 +65,7 @@ const getGroupColor = (group: string) => {
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <Plus class="w-4 h-4 mr-2" />
-          Add Permission
+          {{ $t('Add Permission') }}
         </Link>
       </div>
 
@@ -85,7 +88,7 @@ const getGroupColor = (group: string) => {
                   {{ group }}
                 </span>
                 <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {{ groupPermissions.length }} permission{{ groupPermissions.length !== 1 ? 's' : '' }}
+                  {{ $t(groupPermissions.length === 1 ? '{count} permission' : '{count} permissions', { count: groupPermissions.length }) }}
                 </span>
               </div>
             </div>
@@ -95,19 +98,19 @@ const getGroupColor = (group: string) => {
               <thead class="bg-gray-50 dark:bg-gray-700/50">
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Name
+                    {{ $t('Name') }}
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Display Name
+                    {{ $t('Display Name') }}
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Description
+                    {{ $t('Description') }}
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Created
+                    {{ $t('Created') }}
                   </th>
                   <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Actions
+                    {{ $t('Actions') }}
                   </th>
                 </tr>
               </thead>
@@ -125,7 +128,7 @@ const getGroupColor = (group: string) => {
                   </td>
                   <td class="px-6 py-4">
                     <div class="text-sm text-gray-500 dark:text-gray-400">
-                      {{ permission.description || 'No description' }}
+                      {{ permission.description || $t('No description') }}
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -136,14 +139,14 @@ const getGroupColor = (group: string) => {
                       <Link
                         :href="`/admin/system/permissions/${permission.id}/edit`"
                         class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                        title="Edit"
+                        :title="$t('Edit')"
                       >
                         <Edit class="w-4 h-4" />
                       </Link>
                       <button
                         @click="deletePermission(permission)"
                         class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                        title="Delete"
+                        :title="$t('Delete')"
                       >
                         <Trash2 class="w-4 h-4" />
                       </button>
@@ -161,14 +164,14 @@ const getGroupColor = (group: string) => {
           class="flex flex-col items-center justify-center p-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center"
         >
           <Shield class="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" />
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No permissions found</h3>
-          <p class="text-gray-500 dark:text-gray-400 mb-6">Get started by creating your first permission.</p>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">{{ $t('No permissions found') }}</h3>
+          <p class="text-gray-500 dark:text-gray-400 mb-6">{{ $t('Get started by creating your first permission.') }}</p>
           <Link
             href="/admin/system/permissions/create"
             class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
           >
             <Plus class="w-4 h-4" />
-            Add Permission
+            {{ $t('Add Permission') }}
           </Link>
         </div>
       </div>

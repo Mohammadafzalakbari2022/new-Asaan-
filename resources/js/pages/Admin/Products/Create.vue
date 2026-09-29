@@ -336,19 +336,19 @@ const saveDraft = () => {
 </script>
 
 <template>
-  <Head title="Create Product" />
-  
-  <AdminLayout title="Create Product">
+  <Head :title="$t('Create Product')" />
+
+  <AdminLayout :title="$t('Create Product')">
     <div class="p-6 max-w-7xl mx-auto space-y-6">
       
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Create Product</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Create Product') }}</h1>
           <div class="flex items-center gap-2 mt-1 text-sm text-gray-500 dark:text-gray-400">
-            <Link :href="productRoutes.index().url" class="hover:text-blue-600 transition-colors">Products</Link>
+            <Link :href="productRoutes.index().url" class="hover:text-blue-600 transition-colors">{{ $t('Products') }}</Link>
             <span class="text-gray-300 dark:text-gray-600">/</span>
-            <span>New Product</span>
+            <span>{{ $t('New Product') }}</span>
           </div>
         </div>
         
@@ -357,21 +357,21 @@ const saveDraft = () => {
             :href="productRoutes.index().url" 
             class="hidden sm:inline-flex px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </Link>
           <button 
             type="button" 
             @click="saveDraft"
             class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
           >
-            Save Draft
+            {{ $t('Save Draft') }}
           </button>
           <button 
             type="button" 
             @click="submit"
             class="px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
           >
-            Create Product
+            {{ $t('Create Product') }}
           </button>
         </div>
       </div>
@@ -383,142 +383,142 @@ const saveDraft = () => {
             <div class="border-b border-gray-200 dark:border-gray-700">
               <nav class="-mb-px flex space-x-8 overflow-x-auto">
                 <button type="button" @click="activeTab = 'general'" :class="[activeTab === 'general' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']">
-                  General
+                  {{ $t('General') }}
                 </button>
                 <button type="button" @click="activeTab = 'images'" :class="[activeTab === 'images' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']">
-                  Images
+                  {{ $t('Images') }}
                 </button>
                 <button type="button" @click="activeTab = 'attributes'" :class="[activeTab === 'attributes' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']">
-                  Attributes
+                  {{ $t('Attributes') }}
                 </button>
                 <button type="button" @click="activeTab = 'inventory'" :class="[activeTab === 'inventory' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']">
-                  Inventory & Pricing
+                  {{ $t('Inventory & Pricing') }}
                 </button>
                 <button v-if="form.type === 'downloadable'" type="button" @click="activeTab = 'downloads'" :class="[activeTab === 'downloads' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']">
-                  Downloads
+                  {{ $t('Downloads') }}
                 </button>
                 <button type="button" @click="activeTab = 'seo'" :class="[activeTab === 'seo' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']">
-                  SEO
+                  {{ $t('SEO') }}
                 </button>
               </nav>
             </div>
 
             <!-- General Tab -->
             <div v-show="activeTab === 'general'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">General Information</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ $t('General Information') }}</h3>
 
               <div class="space-y-6">
                 <!-- Product Name -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Product Name <span class="text-red-500">*</span>
+                    {{ $t('Product Name') }} <span class="text-red-500">*</span>
                   </label>
-                  <input v-model="form.name" type="text" @input="generateSlug" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.name }" placeholder="Enter product name" />
+                  <input v-model="form.name" type="text" @input="generateSlug" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.name }" :placeholder="$t('Enter product name')" />
                   <p v-if="errors?.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
                 </div>
 
                 <!-- Slug -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Slug <span class="text-red-500">*</span>
+                    {{ $t('Slug') }} <span class="text-red-500">*</span>
                   </label>
-                  <input v-model="form.slug" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.slug }" placeholder="product-slug" />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">URL-friendly version of the product name</p>
+                  <input v-model="form.slug" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.slug }" :placeholder="$t('product-slug')" />
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('URL-friendly version of the product name') }}</p>
                   <p v-if="errors?.slug" class="mt-1 text-sm text-red-600">{{ errors.slug }}</p>
                 </div>
 
                 <!-- SKU -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    SKU <span class="text-red-500">*</span>
+                    {{ $t('SKU') }} <span class="text-red-500">*</span>
                   </label>
-                  <input v-model="form.sku" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.sku }" placeholder="PROD-001" />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Stock Keeping Unit - Unique product identifier</p>
+                  <input v-model="form.sku" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.sku }" :placeholder="$t('PROD-001')" />
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Stock Keeping Unit - Unique product identifier') }}</p>
                   <p v-if="errors?.sku" class="mt-1 text-sm text-red-600">{{ errors.sku }}</p>
                 </div>
 
                 <!-- Product Type -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Product Type <span class="text-red-500">*</span>
+                    {{ $t('Product Type') }} <span class="text-red-500">*</span>
                   </label>
                   <select v-model="form.type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.type }">
-                    <option value="simple">Simple Product</option>
-                    <option value="configurable">Configurable Product (Variants)</option>
-                    <option value="virtual">Virtual Product (No Shipping)</option>
-                    <option value="downloadable">Downloadable Product (Digital)</option>
+                    <option value="simple">{{ $t('Simple Product') }}</option>
+                    <option value="configurable">{{ $t('Configurable Product (Variants)') }}</option>
+                    <option value="virtual">{{ $t('Virtual Product (No Shipping)') }}</option>
+                    <option value="downloadable">{{ $t('Downloadable Product (Digital)') }}</option>
                   </select>
                   <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    <span v-if="form.type === 'simple'">Physical product with no variants</span>
-                    <span v-else-if="form.type === 'configurable'">Product with options like size, color, etc.</span>
-                    <span v-else-if="form.type === 'virtual'">Non-physical product (no shipping required)</span>
-                    <span v-else-if="form.type === 'downloadable'">Digital file product with download links</span>
+                    <span v-if="form.type === 'simple'">{{ $t('Physical product with no variants') }}</span>
+                    <span v-else-if="form.type === 'configurable'">{{ $t('Product with options like size, color, etc.') }}</span>
+                    <span v-else-if="form.type === 'virtual'">{{ $t('Non-physical product (no shipping required)') }}</span>
+                    <span v-else-if="form.type === 'downloadable'">{{ $t('Digital file product with download links') }}</span>
                   </p>
                   <p v-if="errors?.type" class="mt-1 text-sm text-red-600">{{ errors.type }}</p>
                 </div>
 
                 <!-- Brand -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Brand</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Brand') }}</label>
                   <select v-model="form.brand_id" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option :value="null">Select Brand</option>
+                    <option :value="null">{{ $t('Select Brand') }}</option>
                     <option v-for="brand in brands" :key="brand.id" :value="brand.id">
                       {{ brand.name }}
                     </option>
                   </select>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Associate this product with a brand</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Associate this product with a brand') }}</p>
                 </div>
 
                 <!-- Short Description -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Short Description</label>
-                  <TiptapEditor v-model="form.short_description" placeholder="Brief product description" />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Displayed in product listings</p>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Short Description') }}</label>
+                  <TiptapEditor v-model="form.short_description" :placeholder="$t('Brief product description')" />
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Displayed in product listings') }}</p>
                 </div>
 
                 <!-- Full Description -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Description</label>
-                  <TiptapEditor v-model="form.description" placeholder="Detailed product description with formatting..." />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Complete product details and specifications</p>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Full Description') }}</label>
+                  <TiptapEditor v-model="form.description" :placeholder="$t('Detailed product description with formatting...')" />
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Complete product details and specifications') }}</p>
                 </div>
               </div>
             </div>
 
             <!-- Images Tab -->
             <div v-show="activeTab === 'images'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Product Images</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Product Images') }}</h3>
               <ImageUploader v-model="images" :maxFiles="10" :maxSize="5" accept="image/*" />
-              <p class="mt-4 text-xs text-gray-500 dark:text-gray-400">Note: Backend integration for image upload will be implemented in the next phase</p>
+              <p class="mt-4 text-xs text-gray-500 dark:text-gray-400">{{ $t('Note: Backend integration for image upload will be implemented in the next phase') }}</p>
             </div>
 
             <!-- Attributes Tab -->
             <div v-show="activeTab === 'attributes'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Product Attributes</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Add and specify product characteristics and specifications</p>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Product Attributes') }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Add and specify product characteristics and specifications') }}</p>
               </div>
               
               <!-- Attribute Selector -->
               <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Add Attribute
+                  {{ $t('Add Attribute') }}
                 </label>
                 <select 
                   @change="(e) => { addAttribute(Number((e.target as HTMLSelectElement).value)); (e.target as HTMLSelectElement).value = ''; }"
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select an attribute to add...</option>
+                  <option value="">{{ $t('Select an attribute to add...') }}</option>
                   <option 
                     v-for="attribute in getAvailableAttributes" 
                     :key="attribute.id" 
                     :value="attribute.id"
                   >
                     {{ attribute.name }}
-                    <template v-if="attribute.is_required"> (Required)</template>
+                    <template v-if="attribute.is_required"> {{ $t('(Required)') }}</template>
                   </option>
                 </select>
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Choose attributes that apply to this product</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Choose attributes that apply to this product') }}</p>
               </div>
 
               <!-- No Attributes Selected State -->
@@ -526,8 +526,8 @@ const saveDraft = () => {
                 <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
-                <p class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No attributes added yet</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Select attributes from the dropdown above to add product specifications</p>
+                <p class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ $t('No attributes added yet') }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $t('Select attributes from the dropdown above to add product specifications') }}</p>
               </div>
 
               <!-- Selected Attributes -->
@@ -546,10 +546,10 @@ const saveDraft = () => {
                       </label>
                       <div class="flex items-center gap-2 mt-1">
                         <span v-if="attribute.is_configurable" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300">
-                          Configurable
+                          {{ $t('Configurable') }}
                         </span>
                         <span v-if="attribute.is_filterable" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
-                          Filterable
+                          {{ $t('Filterable') }}
                         </span>
                         <span class="text-xs text-gray-500 dark:text-gray-400">{{ attribute.type }}</span>
                       </div>
@@ -559,7 +559,7 @@ const saveDraft = () => {
                       type="button"
                       @click="removeAttribute(attribute.id)"
                       class="text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                      title="Remove attribute"
+                     :title="$t('Remove attribute')"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -575,7 +575,7 @@ const saveDraft = () => {
                       v-model="attributeValues[attribute.code]"
                       type="text"
                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      :placeholder="`Enter ${attribute.name.toLowerCase()}`"
+                      :placeholder="$t('Enter {attribute}', { attribute: attribute.name.toLowerCase() })"
                     />
 
                     <!-- Textarea -->
@@ -584,7 +584,7 @@ const saveDraft = () => {
                       v-model="attributeValues[attribute.code]"
                       rows="3"
                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      :placeholder="`Enter ${attribute.name.toLowerCase()}`"
+                      :placeholder="$t('Enter {attribute}', { attribute: attribute.name.toLowerCase() })"
                     />
 
                     <!-- Select -->
@@ -593,7 +593,7 @@ const saveDraft = () => {
                       v-model="attributeValues[attribute.code]"
                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
-                      <option value="">Select {{ attribute.name }}</option>
+                      <option value="">{{ $t('Select') }} {{ attribute.name }}</option>
                       <option v-for="option in attribute.options" :key="option.id" :value="option.value">
                         {{ option.label }}
                       </option>
@@ -634,7 +634,7 @@ const saveDraft = () => {
                         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
                       />
                       <label :for="attribute.code" class="ml-3 text-sm text-gray-700 dark:text-gray-300">
-                        Enable {{ attribute.name }}
+                        {{ $t('Enable') }} {{ attribute.name }}
                       </label>
                     </div>
 
@@ -655,7 +655,7 @@ const saveDraft = () => {
                         step="0.01"
                         min="0"
                         class="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        :placeholder="`Enter ${attribute.name.toLowerCase()}`"
+                        :placeholder="$t('Enter {attribute}', { attribute: attribute.name.toLowerCase() })"
                       />
                     </div>
                   </div>
@@ -666,13 +666,13 @@ const saveDraft = () => {
             <!-- Inventory & Pricing Tab -->
             <div v-show="activeTab === 'inventory'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Pricing</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Pricing') }}</h3>
                 <button
                   type="button"
                   @click="openPriceComparison"
                   class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                 >
-                  Price Comparison
+                  {{ $t('Price Comparison') }}
                 </button>
               </div>
               
@@ -680,7 +680,7 @@ const saveDraft = () => {
                 <!-- Price -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Regular Price <span class="text-red-500">*</span>
+                    {{ $t('Regular Price') }} <span class="text-red-500">*</span>
                   </label>
                   <div class="relative">
                     <span class="absolute left-3 top-2 text-gray-500 dark:text-gray-400">{{ currencySymbol }}</span>
@@ -691,80 +691,80 @@ const saveDraft = () => {
 
                 <!-- Cost -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cost</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Cost') }}</label>
                   <div class="relative">
                     <span class="absolute left-3 top-2 text-gray-500 dark:text-gray-400">{{ currencySymbol }}</span>
                     <input v-model="form.cost" type="number" step="0.01" class="w-full pl-7 pr-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="0.00" />
                   </div>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Cost per unit (for profit calculation)</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Cost per unit (for profit calculation)') }}</p>
                 </div>
 
                 <!-- Tax Class -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tax Class</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Tax Class') }}</label>
                   <select
                     v-model="form.tax_class_id"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    <option :value="null">No Tax</option>
+                    <option :value="null">{{ $t('No Tax') }}</option>
                     <option v-for="taxClass in props.taxClasses" :key="taxClass.id" :value="taxClass.id">
                       {{ taxClass.name }}
                     </option>
                   </select>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Select applicable tax class for this product</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Select applicable tax class for this product') }}</p>
                 </div>
               </div>
 
               <div v-if="costNumber > 0 && currentPriceNumber > 0" class="mb-8 p-4 rounded-md border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/20">
                 <p class="text-sm text-gray-700 dark:text-gray-300">
-                  Current unit profit: <span class="font-semibold">{{ currencySymbol }}{{ (currentPriceNumber - costNumber).toFixed(2) }}</span>
+                  {{ $t('Current unit profit:') }} <span class="font-semibold">{{ currencySymbol }}{{ (currentPriceNumber - costNumber).toFixed(2) }}</span>
                   ({{ (((currentPriceNumber - costNumber) / currentPriceNumber) * 100).toFixed(2) }}% margin)
                 </p>
               </div>
 
               <div class="border-t border-gray-200 dark:border-gray-700 pt-8 mb-8">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Special Pricing</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Special Pricing') }}</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <!-- Special Price -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Special Price</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Special Price') }}</label>
                     <div class="relative">
                       <span class="absolute left-3 top-2 text-gray-500 dark:text-gray-400">{{ currencySymbol }}</span>
                       <input v-model="form.special_price" type="number" step="0.01" class="w-full pl-7 pr-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="0.00" />
                     </div>
-                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Sale price (optional)</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Sale price (optional)') }}</p>
                   </div>
 
                   <!-- From Date -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">From Date</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('From Date') }}</label>
                     <input v-model="form.special_price_from" type="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                   </div>
 
                   <!-- To Date -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">To Date</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('To Date') }}</label>
                     <input v-model="form.special_price_to" type="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                   </div>
                 </div>
               </div>
 
               <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Inventory</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Inventory') }}</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <!-- Quantity -->
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Quantity <span class="text-red-500">*</span>
+                      {{ $t('Quantity') }} <span class="text-red-500">*</span>
                     </label>
                     <input v-model="form.quantity" type="number" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :class="{ 'border-red-500': errors?.quantity }" placeholder="0" />
-                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Available stock quantity</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Available stock quantity') }}</p>
                     <p v-if="errors?.quantity" class="mt-1 text-sm text-red-600">{{ errors.quantity }}</p>
                   </div>
 
                   <!-- Weight - Only for physical products -->
                   <div v-if="form.type === 'simple' || form.type === 'configurable'">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Weight (kg)</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Weight (kg)') }}</label>
                     <input 
                       v-model="form.weight" 
                       type="text" 
@@ -773,7 +773,7 @@ const saveDraft = () => {
                       placeholder="0.00" 
                     />
                     <p v-if="props.errors?.weight" class="mt-1 text-sm text-red-600">{{ props.errors.weight }}</p>
-                    <p v-else class="mt-1 text-xs text-gray-500 dark:text-gray-400">Product weight for shipping</p>
+                    <p v-else class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Product weight for shipping') }}</p>
                   </div>
 
                   <!-- Digital Product Notice -->
@@ -784,9 +784,9 @@ const saveDraft = () => {
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div>
-                          <p class="text-sm text-blue-800 dark:text-blue-200 font-medium">{{ form.type === 'virtual' ? 'Virtual Product' : 'Downloadable Product' }}</p>
+                          <p class="text-sm text-blue-800 dark:text-blue-200 font-medium">{{ $t(form.type === 'virtual' ? 'Virtual Product' : 'Downloadable Product') }}</p>
                           <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                            {{ form.type === 'virtual' ? 'This product does not require shipping.' : 'This product will be available for download after purchase.' }}
+                            {{ $t(form.type === 'virtual' ? 'This product does not require shipping.' : 'This product will be available for download after purchase.') }}
                           </p>
                         </div>
                       </div>
@@ -798,7 +798,7 @@ const saveDraft = () => {
 
             <!-- Downloadable Files Tab -->
             <div v-show="activeTab === 'downloads'" v-if="form.type === 'downloadable'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Downloadable Files</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Downloadable Files') }}</h3>
               
               <div class="space-y-6">
                 <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-400 dark:hover:border-blue-500 transition-colors">
@@ -807,12 +807,12 @@ const saveDraft = () => {
                   </svg>
                   <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
                     <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300">
-                      <span>Upload files</span>
+                      <span>{{ $t('Upload files') }}</span>
                       <input id="file-upload" name="file-upload" type="file" class="sr-only" multiple />
                     </label>
-                    or drag and drop
+                    {{ $t('or drag and drop') }}
                   </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Any file type up to 50MB</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Any file type up to 50MB') }}</p>
                 </div>
 
                 <div class="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-md p-4">
@@ -821,9 +821,9 @@ const saveDraft = () => {
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <div>
-                      <p class="text-sm text-yellow-800 dark:text-yellow-200 font-medium">File Management Coming Soon</p>
+                      <p class="text-sm text-yellow-800 dark:text-yellow-200 font-medium">{{ $t('File Management Coming Soon') }}</p>
                       <p class="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                        Downloadable file upload and management will be available in the next update. For now, you can create the product and add files later.
+                        {{ $t('Downloadable file upload and management will be available in the next update. For now, you can create the product and add files later.') }}
                       </p>
                     </div>
                   </div>
@@ -833,28 +833,28 @@ const saveDraft = () => {
 
             <!-- SEO Tab -->
             <div v-show="activeTab === 'seo'" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Search Engine Optimization</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Search Engine Optimization') }}</h3>
 
               <div class="space-y-6">
                 <!-- Meta Title -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Meta Title</label>
-                  <input v-model="form.meta_title" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Product Name | Your Store" />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Recommended: 50-60 characters</p>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Meta Title') }}</label>
+                  <input v-model="form.meta_title" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :placeholder="$t('Product Name | Your Store')" />
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Recommended: 50-60 characters') }}</p>
                 </div>
 
                 <!-- Meta Description -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Meta Description</label>
-                  <textarea v-model="form.meta_description" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Brief description for search engines"></textarea>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Recommended: 150-160 characters</p>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Meta Description') }}</label>
+                  <textarea v-model="form.meta_description" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :placeholder="$t('Brief description for search engines')"></textarea>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Recommended: 150-160 characters') }}</p>
                 </div>
 
                 <!-- Meta Keywords -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Meta Keywords</label>
-                  <input v-model="form.meta_keywords" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="keyword1, keyword2, keyword3" />
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Comma-separated keywords</p>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Meta Keywords') }}</label>
+                  <input v-model="form.meta_keywords" type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" :placeholder="$t('keyword1, keyword2, keyword3')" />
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Comma-separated keywords') }}</p>
                 </div>
               </div>
             </div>
@@ -864,39 +864,39 @@ const saveDraft = () => {
           <div class="lg:col-span-1 space-y-6">
             <!-- Publish Card -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Publish</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ $t('Publish') }}</h3>
 
               <div class="space-y-4">
                 <!-- Status -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Status') }}</label>
                   <select v-model="form.status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="enabled">Enabled</option>
-                    <option value="disabled">Disabled</option>
+                    <option value="enabled">{{ $t('Enabled') }}</option>
+                    <option value="disabled">{{ $t('Disabled') }}</option>
                   </select>
                 </div>
 
                 <!-- Visibility -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Visibility</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Visibility') }}</label>
                   <select v-model="form.visibility" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="both">Catalog & Search</option>
-                    <option value="catalog">Catalog Only</option>
-                    <option value="search">Search Only</option>
-                    <option value="none">Not Visible</option>
+                    <option value="both">{{ $t('Catalog & Search') }}</option>
+                    <option value="catalog">{{ $t('Catalog Only') }}</option>
+                    <option value="search">{{ $t('Search Only') }}</option>
+                    <option value="none">{{ $t('Not Visible') }}</option>
                   </select>
                 </div>
 
                 <!-- Featured -->
                 <div class="flex items-center">
                   <input v-model="form.featured" type="checkbox" id="featured" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700" />
-                  <label for="featured" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Featured Product</label>
+                  <label for="featured" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">{{ $t('Featured Product') }}</label>
                 </div>
 
                 <!-- New -->
                 <div class="flex items-center">
                   <input v-model="form.new" type="checkbox" id="new" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700" />
-                  <label for="new" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Mark as New</label>
+                  <label for="new" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">{{ $t('Mark as New') }}</label>
                 </div>
               </div>
 
@@ -905,7 +905,7 @@ const saveDraft = () => {
 
             <!-- Categories Card -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ $t('Categories') }}</h3>
 
               <div v-if="errors?.category_ids" class="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-md">
                 <p class="text-sm text-red-600 dark:text-red-400">{{ errors.category_ids }}</p>
@@ -922,7 +922,7 @@ const saveDraft = () => {
                 <svg class="mx-auto h-8 w-8 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p class="mt-2 text-sm">No categories available</p>
+                <p class="mt-2 text-sm">{{ $t('No categories available') }}</p>
               </div>
             </div>
           </div>
@@ -946,9 +946,9 @@ const saveDraft = () => {
           <div class="relative w-full max-w-4xl rounded-lg bg-white shadow-xl dark:bg-gray-800" @click.stop>
             <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6 py-4">
               <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Price Comparison</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Price Comparison') }}</h2>
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Select one of 4 market-based price variations to apply.
+                  {{ $t('Select one of 4 market-based price variations to apply.') }}
                 </p>
               </div>
               <button
@@ -962,7 +962,7 @@ const saveDraft = () => {
 
             <div class="px-6 py-5 max-h-[70vh] overflow-y-auto">
               <div v-if="isComparingPrice" class="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-                Generating price comparison...
+                {{ $t('Generating price comparison...') }}
               </div>
 
               <div v-else-if="priceComparisonError" class="rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-700 dark:text-red-300">
@@ -974,12 +974,12 @@ const saveDraft = () => {
                   <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-900/20">
                       <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Select</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Variation</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Source</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Price</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Current - Suggested</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Profit / Unit (Price - Cost)</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Select') }}</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Variation') }}</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Source') }}</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Price') }}</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Current - Suggested') }}</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $t('Profit / Unit (Price - Cost)') }}</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -1010,7 +1010,7 @@ const saveDraft = () => {
                         </td>
                         <td class="px-4 py-3 text-sm text-right text-gray-900 dark:text-gray-100">
                           <span v-if="costNumber > 0">{{ currencySymbol }}{{ (option.price - costNumber).toFixed(2) }}</span>
-                          <span v-else class="text-xs text-gray-400 dark:text-gray-500">Add cost to calculate</span>
+                          <span v-else class="text-xs text-gray-400 dark:text-gray-500">{{ $t('Add cost to calculate') }}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -1018,12 +1018,12 @@ const saveDraft = () => {
                 </div>
 
                 <div v-if="selectedComparison && selectedPriceProfit" class="rounded-md border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 p-4 text-sm text-green-800 dark:text-green-300">
-                  Selected price profit overview:
+                  {{ $t('Selected price profit overview:') }}
                   <span class="font-semibold ml-1">{{ currencySymbol }}{{ selectedPriceProfit.unitProfit.toFixed(2) }}</span>
-                  per unit ({{ selectedPriceProfit.margin.toFixed(2) }}% margin)
+                  {{ $t('per unit (') }}{{ selectedPriceProfit.margin.toFixed(2) }}% margin)
                 </div>
                 <div v-else-if="selectedComparison && costNumber <= 0" class="rounded-md border border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20 p-4 text-sm text-yellow-800 dark:text-yellow-300">
-                  Profit / Unit = Selected Price - Product Cost. Enter cost in the Inventory & Pricing section to see margin overview.
+                  {{ $t('Profit / Unit = Selected Price - Product Cost. Enter cost in the Inventory & Pricing section to see margin overview.') }}
                 </div>
               </div>
             </div>
@@ -1034,7 +1034,7 @@ const saveDraft = () => {
                 class="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 @click="showPriceComparisonModal = false"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
               <button
                 type="button"
@@ -1042,7 +1042,7 @@ const saveDraft = () => {
                 :disabled="selectedComparisonIndex === null"
                 @click="applySelectedComparisonPrice"
               >
-                Apply Selected Price
+                {{ $t('Apply Selected Price') }}
               </button>
             </div>
           </div>

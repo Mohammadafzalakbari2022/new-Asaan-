@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Power, PowerOff, Clock, Shield, Mail, AlertTriangle, Copy, Check, Hammer } from 'lucide-vue-next';
 import ConfirmModal from '@/components/Admin/ConfirmModal.vue';
+import { useI18nStore } from '@/Stores/i18n';
 import * as maintenanceRoutes from '@/routes/admin/system/maintenance';
 
 const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -53,6 +54,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const { t } = useI18nStore();
+
 const form = ref({
     title: props.settings.title,
     message: props.settings.message,
@@ -69,6 +72,8 @@ const scheduleForm = ref({
 
 const isSubmitting = ref(false);
 const copiedSecret = ref(false);
+
+const titlePlaceholder = t("We'll be back soon!");
 const showEnableDialog = ref(false);
 const showDisableDialog = ref(false);
 
@@ -91,11 +96,11 @@ const confirmEnableMaintenance = () => {
         allowed_ips: form.value.allowed_ips.split('\n').filter(ip => ip.trim()),
     }, {
         onSuccess: (page: any) => {
-            showToast('Maintenance mode enabled successfully', 'success');
+            showToast(t('Maintenance mode enabled successfully'), 'success');
             isSubmitting.value = false;
         },
         onError: (errors) => {
-            showToast('Failed to enable maintenance mode', 'error');
+            showToast(t('Failed to enable maintenance mode'), 'error');
             isSubmitting.value = false;
         },
     });
@@ -110,11 +115,11 @@ const confirmDisableMaintenance = () => {
     isSubmitting.value = true;
     router.post(maintenanceRoutes.disable.url(), {}, {
         onSuccess: () => {
-            showToast('Maintenance mode disabled successfully', 'success');
+            showToast(t('Maintenance mode disabled successfully'), 'success');
             isSubmitting.value = false;
         },
         onError: () => {
-            showToast('Failed to disable maintenance mode', 'error');
+            showToast(t('Failed to disable maintenance mode'), 'error');
             isSubmitting.value = false;
         },
     });
@@ -124,30 +129,30 @@ const copyBypassUrl = async () => {
     try {
         await navigator.clipboard.writeText(bypassUrl.value);
         copiedSecret.value = true;
-        showToast('Bypass URL copied to clipboard', 'success');
+        showToast(t('Bypass URL copied to clipboard'), 'success');
         setTimeout(() => {
             copiedSecret.value = false;
         }, 2000);
     } catch (err) {
-        showToast('Failed to copy URL', 'error');
+        showToast(t('Failed to copy URL'), 'error');
     }
 };
 
 const scheduleMaintenance = () => {
     if (!scheduleForm.value.start_time || !scheduleForm.value.end_time) {
-        showToast('Please select start and end times', 'error');
+        showToast(t('Please select start and end times'), 'error');
         return;
     }
 
     isSubmitting.value = true;
     router.post(maintenanceRoutes.schedule.url(), scheduleForm.value, {
         onSuccess: () => {
-            showToast('Maintenance scheduled successfully', 'success');
+            showToast(t('Maintenance scheduled successfully'), 'success');
             scheduleForm.value = { start_time: '', end_time: '', message: '' };
             isSubmitting.value = false;
         },
         onError: () => {
-            showToast('Failed to schedule maintenance', 'error');
+            showToast(t('Failed to schedule maintenance'), 'error');
             isSubmitting.value = false;
         },
     });
@@ -163,24 +168,24 @@ const getActionBadge = (action: string) => {
 };
 
 const formatDateTime = (datetime: string | undefined) => {
-    if (!datetime) return 'N/A';
+    if (!datetime) return t('N/A');
     return new Date(datetime).toLocaleString();
 };
 </script>
 
 <template>
-    <Head title="Maintenance Mode" />
+    <Head :title="$t('Maintenance Mode')" />
     
-    <AdminLayout title="System Maintenance">
+    <AdminLayout :title="$t('System Maintenance')">
         <div class="space-y-6">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        Maintenance Mode
+                        {{ $t('Maintenance Mode') }}
                     </h1>
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        Manage site maintenance and scheduled downtime
+                        {{ $t('Manage site maintenance and scheduled downtime') }}
                     </p>
                 </div>
             
@@ -192,7 +197,7 @@ const formatDateTime = (datetime: string | undefined) => {
                         :disabled="isSubmitting"
                     >
                         <PowerOff class="mr-2 h-4 w-4" />
-                        Disable Maintenance
+                        {{ $t('Disable Maintenance') }}
                     </Button>
                     <Button 
                         v-else
@@ -201,7 +206,7 @@ const formatDateTime = (datetime: string | undefined) => {
                         :disabled="isSubmitting"
                     >
                         <Power class="mr-2 h-4 w-4" />
-                        Enable Maintenance
+                        {{ $t('Enable Maintenance') }}
                     </Button>
                 </div>
             </div>
@@ -213,8 +218,8 @@ const formatDateTime = (datetime: string | undefined) => {
                     <Alert v-if="settings.enabled" variant="destructive">
                         <AlertTriangle class="h-4 w-4" />
                         <AlertDescription>
-                            <strong>Maintenance Mode is Active</strong> - Your site is currently in maintenance mode.
-                            Visitors will see the maintenance page.
+                            <strong>{{ $t('Maintenance Mode is Active') }}</strong> - {{ $t('Your site is currently in maintenance mode.') }}
+                            {{ $t('Visitors will see the maintenance page.') }}
                         </AlertDescription>
                     </Alert>
 
@@ -223,10 +228,10 @@ const formatDateTime = (datetime: string | undefined) => {
                         <CardHeader>
                             <CardTitle class="flex items-center">
                                 <Shield class="mr-2 h-5 w-5" />
-                                Bypass URL
+                                {{ $t('Bypass URL') }}
                             </CardTitle>
                             <CardDescription>
-                                Use this URL to access the site during maintenance
+                                {{ $t('Use this URL to access the site during maintenance') }}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -252,33 +257,33 @@ const formatDateTime = (datetime: string | undefined) => {
                         <!-- Maintenance Settings -->
                         <Card class="bg-white dark:bg-gray-900/70 border-gray-200 dark:border-gray-800">
                             <CardHeader>
-                                <CardTitle>Maintenance Settings</CardTitle>
+                                <CardTitle>{{ $t('Maintenance Settings') }}</CardTitle>
                                 <CardDescription>
-                                    Configure maintenance page content and options
+                                    {{ $t('Configure maintenance page content and options') }}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent class="space-y-4">
                                 <div class="space-y-2">
-                                    <Label for="title">Title</Label>
+                                    <Label for="title">{{ $t('Title') }}</Label>
                                     <Input 
                                         id="title"
                                         v-model="form.title"
-                                        placeholder="We'll be back soon!"
+                                        :placeholder="titlePlaceholder"
                                     />
                                 </div>
 
                                 <div class="space-y-2">
-                                    <Label for="message">Message</Label>
+                                    <Label for="message">{{ $t('Message') }}</Label>
                                     <Textarea 
                                         id="message"
                                         v-model="form.message"
-                                        placeholder="We are performing scheduled maintenance..."
+                                        :placeholder="$t('We are performing scheduled maintenance...')"
                                         rows="4"
                                     />
                                 </div>
 
                                 <div class="space-y-2">
-                                    <Label for="contact">Contact Email</Label>
+                                    <Label for="contact">{{ $t('Contact Email') }}</Label>
                                     <div class="flex items-center gap-2">
                                         <Mail class="h-4 w-4 text-muted-foreground" />
                                         <Input 
@@ -291,7 +296,7 @@ const formatDateTime = (datetime: string | undefined) => {
                                 </div>
 
                                 <div class="space-y-2">
-                                    <Label for="retry">Retry After (seconds)</Label>
+                                    <Label for="retry">{{ $t('Retry After (seconds)') }}</Label>
                                     <Input 
                                         id="retry"
                                         v-model.number="form.retry_after"
@@ -299,12 +304,12 @@ const formatDateTime = (datetime: string | undefined) => {
                                         min="60"
                                     />
                                     <p class="text-sm text-muted-foreground">
-                                        Tells browsers when to retry ({{ Math.floor(form.retry_after / 60) }} minutes)
+                                        {{ $t('Tells browsers when to retry ({minutes} minutes)', { minutes: Math.floor(form.retry_after / 60) }) }}
                                     </p>
                                 </div>
 
                                 <div class="space-y-2">
-                                    <Label for="ips">Allowed IP Addresses</Label>
+                                    <Label for="ips">{{ $t('Allowed IP Addresses') }}</Label>
                                     <Textarea 
                                         id="ips"
                                         v-model="form.allowed_ips"
@@ -312,7 +317,7 @@ const formatDateTime = (datetime: string | undefined) => {
                                         rows="3"
                                     />
                                     <p class="text-sm text-muted-foreground">
-                                        These IPs can access the site during maintenance
+                                        {{ $t('These IPs can access the site during maintenance') }}
                                     </p>
                                 </div>
                             </CardContent>
@@ -325,15 +330,15 @@ const formatDateTime = (datetime: string | undefined) => {
                                 <CardHeader>
                                     <CardTitle class="flex items-center">
                                         <Clock class="mr-2 h-5 w-5" />
-                                        Schedule Maintenance
+                                        {{ $t('Schedule Maintenance') }}
                                     </CardTitle>
                                     <CardDescription>
-                                        Plan future maintenance windows
+                                        {{ $t('Plan future maintenance windows') }}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent class="space-y-4">
                                     <div class="space-y-2">
-                                        <Label for="start">Start Time</Label>
+                                        <Label for="start">{{ $t('Start Time') }}</Label>
                                         <Input 
                                             id="start"
                                             v-model="scheduleForm.start_time"
@@ -342,7 +347,7 @@ const formatDateTime = (datetime: string | undefined) => {
                                     </div>
 
                                     <div class="space-y-2">
-                                        <Label for="end">End Time</Label>
+                                        <Label for="end">{{ $t('End Time') }}</Label>
                                         <Input 
                                             id="end"
                                             v-model="scheduleForm.end_time"
@@ -351,11 +356,11 @@ const formatDateTime = (datetime: string | undefined) => {
                                     </div>
 
                                     <div class="space-y-2">
-                                        <Label for="schedule-message">Reason</Label>
+                                        <Label for="schedule-message">{{ $t('Reason') }}</Label>
                                         <Textarea 
                                             id="schedule-message"
                                             v-model="scheduleForm.message"
-                                            placeholder="Scheduled server upgrade..."
+                                            :placeholder="$t('Scheduled server upgrade...')"
                                             rows="2"
                                         />
                                     </div>
@@ -366,7 +371,7 @@ const formatDateTime = (datetime: string | undefined) => {
                                         :disabled="isSubmitting"
                                     >
                                         <Clock class="mr-2 h-4 w-4" />
-                                        Schedule Maintenance
+                                        {{ $t('Schedule Maintenance') }}
                                     </Button>
                                 </CardContent>
                             </Card>
@@ -374,21 +379,21 @@ const formatDateTime = (datetime: string | undefined) => {
                             <!-- Quick Stats -->
                             <Card class="bg-white dark:bg-gray-900/70 border-gray-200 dark:border-gray-800">
                                 <CardHeader>
-                                    <CardTitle>Statistics</CardTitle>
+                                    <CardTitle>{{ $t('Statistics') }}</CardTitle>
                                 </CardHeader>
                                 <CardContent class="space-y-2">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-sm text-muted-foreground">Status</span>
+                                        <span class="text-sm text-muted-foreground">{{ $t('Status') }}</span>
                                         <Badge :variant="settings.enabled ? 'destructive' : 'default'">
-                                            {{ settings.enabled ? 'Active' : 'Inactive' }}
+                                            {{ settings.enabled ? $t('Active') : $t('Inactive') }}
                                         </Badge>
                                     </div>
                                     <div class="flex justify-between items-center">
-                                        <span class="text-sm text-muted-foreground">Total Logs</span>
+                                        <span class="text-sm text-muted-foreground">{{ $t('Total Logs') }}</span>
                                         <span class="font-semibold text-gray-900 dark:text-gray-100">{{ logs.length }}</span>
                                     </div>
                                     <div class="flex justify-between items-center">
-                                        <span class="text-sm text-muted-foreground">Allowed IPs</span>
+                                        <span class="text-sm text-muted-foreground">{{ $t('Allowed IPs') }}</span>
                                         <span class="font-semibold text-gray-900 dark:text-gray-100">{{ settings.allowed_ips.length }}</span>
                                     </div>
                                 </CardContent>
@@ -399,9 +404,9 @@ const formatDateTime = (datetime: string | undefined) => {
                     <!-- Maintenance History -->
                     <Card class="bg-white dark:bg-gray-900/70 border-gray-200 dark:border-gray-800">
                         <CardHeader>
-                            <CardTitle>Maintenance History</CardTitle>
+                            <CardTitle>{{ $t('Maintenance History') }}</CardTitle>
                             <CardDescription>
-                                Recent maintenance mode activities
+                                {{ $t('Recent maintenance mode activities') }}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -417,19 +422,19 @@ const formatDateTime = (datetime: string | undefined) => {
                                     <div class="flex-1 space-y-1">
                                         <p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ log.reason }}</p>
                                         <div class="flex gap-4 text-xs text-muted-foreground">
-                                            <span>By: {{ log.admin_name }}</span>
+                                            <span>{{ $t('By: {name}', { name: log.admin_name }) }}</span>
                                             <span v-if="log.actual_start">
-                                                Started: {{ formatDateTime(log.actual_start) }}
+                                                {{ $t('Started: {date}', { date: formatDateTime(log.actual_start) }) }}
                                             </span>
                                             <span v-if="log.actual_end">
-                                                Ended: {{ formatDateTime(log.actual_end) }}
+                                                {{ $t('Ended: {date}', { date: formatDateTime(log.actual_end) }) }}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div v-if="logs.length === 0" class="text-center py-8 text-muted-foreground">
-                                    No maintenance history yet
+                                    {{ $t('No maintenance history yet') }}
                                 </div>
                             </div>
                         </CardContent>
@@ -440,10 +445,10 @@ const formatDateTime = (datetime: string | undefined) => {
             <!-- Enable Maintenance Confirmation Modal -->
             <ConfirmModal
                 v-model:show="showEnableDialog"
-                title="Enable Maintenance Mode"
-                message="Are you sure you want to enable maintenance mode? This will make the site inaccessible to visitors."
-                confirm-text="Enable Maintenance"
-                cancel-text="Cancel"
+                :title="$t('Enable Maintenance Mode')"
+                :message="$t('Are you sure you want to enable maintenance mode? This will make the site inaccessible to visitors.')"
+                :confirm-text="$t('Enable Maintenance')"
+                :cancel-text="$t('Cancel')"
                 variant="warning"
                 @confirm="confirmEnableMaintenance"
             />
@@ -451,10 +456,10 @@ const formatDateTime = (datetime: string | undefined) => {
             <!-- Disable Maintenance Confirmation Modal -->
             <ConfirmModal
                 v-model:show="showDisableDialog"
-                title="Disable Maintenance Mode"
-                message="Are you sure you want to disable maintenance mode? The site will become accessible to all visitors again."
-                confirm-text="Disable Maintenance"
-                cancel-text="Cancel"
+                :title="$t('Disable Maintenance Mode')"
+                :message="$t('Are you sure you want to disable maintenance mode? The site will become accessible to all visitors again.')"
+                :confirm-text="$t('Disable Maintenance')"
+                :cancel-text="$t('Cancel')"
                 variant="danger"
                 @confirm="confirmDisableMaintenance"
             />

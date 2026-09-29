@@ -73,9 +73,9 @@ const discountPercentage = (product: Product) => {
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <!-- Breadcrumb -->
             <nav class="flex mb-6 text-sm">
-                <Link href="/" class="text-gray-600 hover:text-gray-900">Home</Link>
+                <Link href="/" class="text-gray-600 hover:text-gray-900">{{ $t('Home') }}</Link>
                 <span class="mx-2 text-gray-400">/</span>
-                <Link href="/products" class="text-gray-600 hover:text-gray-900">Products</Link>
+                <Link href="/products" class="text-gray-600 hover:text-gray-900">{{ $t('Products') }}</Link>
                 <span class="mx-2 text-gray-400">/</span>
                 <span class="text-gray-900 font-medium">{{ category.name }}</span>
             </nav>
@@ -97,7 +97,7 @@ const discountPercentage = (product: Product) => {
 
                 <!-- Subcategories -->
                 <div v-if="category.children && category.children.length > 0" class="mt-6">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-3">Shop by Category</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">{{ $t('Shop by Category') }}</h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         <Link
                             v-for="child in category.children"
@@ -119,21 +119,21 @@ const discountPercentage = (product: Product) => {
             <!-- Products Header -->
             <div class="flex items-center justify-between mb-6 border-b pb-4">
                 <div class="text-sm text-gray-600">
-                    Showing {{ products.data.length }} of {{ products.total }} products
+                    {{ $t('Showing {count} of {total} products', { count: products.data.length, total: products.total }) }}
                 </div>
                 <div class="flex items-center space-x-4">
                     <label class="text-sm text-gray-700">
-                        Sort by:
+                        {{ $t('Sort by:') }}
                         <select 
                             class="ml-2 border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             @change="(e) => $inertia.get(`/category/${category.slug}`, { sort: (e.target as HTMLSelectElement).value })"
                         >
-                            <option value="position">Featured</option>
-                            <option value="name">Name (A-Z)</option>
-                            <option value="-name">Name (Z-A)</option>
-                            <option value="price">Price: Low to High</option>
-                            <option value="-price">Price: High to Low</option>
-                            <option value="-created_at">Newest First</option>
+                            <option value="position">{{ $t('Featured') }}</option>
+                            <option value="name">{{ $t('Name (A-Z)') }}</option>
+                            <option value="-name">{{ $t('Name (Z-A)') }}</option>
+                            <option value="price">{{ $t('Price: Low to High') }}</option>
+                            <option value="-price">{{ $t('Price: High to Low') }}</option>
+                            <option value="-created_at">{{ $t('Newest First') }}</option>
                         </select>
                     </label>
                 </div>
@@ -195,10 +195,10 @@ const discountPercentage = (product: Product) => {
                 <svg class="mx-auto h-24 w-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
-                <h3 class="mt-4 text-lg font-medium text-gray-900">No products found</h3>
-                <p class="mt-2 text-gray-500">This category doesn't have any products yet.</p>
+                <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('No products found') }}</h3>
+                <p class="mt-2 text-gray-500">{{ $t("This category doesn't have any products yet.") }}</p>
                 <Link href="/products" class="mt-6 inline-block px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
-                    Browse All Products
+                    {{ $t('Browse All Products') }}
                 </Link>
             </div>
 

@@ -83,19 +83,19 @@ function submit() {
 </script>
 
 <template>
-  <Head :title="isEdit ? 'Edit Category' : 'Add Category'" />
+  <Head :title="isEdit ? $t('Edit Category') : $t('Add Category')" />
 
-  <AdminLayout :title="isEdit ? 'Edit Category' : 'Add Category'">
+  <AdminLayout :title="isEdit ? $t('Edit Category') : $t('Add Category')">
     <div class="p-6 space-y-6">
       <div>
         <Link
           href="/admin/services/categories"
           class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400"
         >
-          <ArrowLeft class="mr-1 h-4 w-4" /> Back to categories
+          <ArrowLeft class="mr-1 h-4 w-4" /> {{ $t('Back to categories') }}
         </Link>
         <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {{ isEdit ? `Edit ${props.category!.name}` : 'Add a category' }}
+          {{ isEdit ? $t('Edit {name}', { name: props.category!.name }) : $t('Add a category') }}
         </h1>
       </div>
 
@@ -103,7 +103,7 @@ function submit() {
         <section class="space-y-5 rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
           <div>
             <label for="field-name" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Name <span class="text-red-500">*</span>
+              {{ $t('Name') }} <span class="text-red-500">*</span>
             </label>
             <input
               id="field-name"
@@ -117,7 +117,7 @@ function submit() {
 
           <div>
             <label for="field-parent_id" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Sits under
+              {{ $t('Sits under') }}
             </label>
             <select
               id="field-parent_id"
@@ -125,7 +125,7 @@ function submit() {
               class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               :class="page.props.errors?.parent_id ? 'border-red-500' : ''"
             >
-              <option :value="null">Top level</option>
+              <option :value="null">{{ $t('Top level') }}</option>
               <option v-for="item in categories" :key="item.id" :value="item.id">{{ item.name }}</option>
             </select>
             <p v-if="page.props.errors?.parent_id" class="mt-1 text-sm text-red-600">
@@ -135,7 +135,7 @@ function submit() {
 
           <div>
             <label for="field-description" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Description
+              {{ $t('Description') }}
             </label>
             <textarea
               id="field-description"
@@ -147,7 +147,7 @@ function submit() {
 
           <div>
             <label for="field-image" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Picture
+              {{ $t('Picture') }}
             </label>
             <input id="field-image" type="file" accept="image/*" class="w-full text-sm text-gray-600" @change="onFile" />
             <img
@@ -162,27 +162,27 @@ function submit() {
         <section class="space-y-4 rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
           <div>
             <label for="field-status" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Visibility
+              {{ $t('Visibility') }}
             </label>
             <select
               id="field-status"
               v-model="form.status"
               class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
             >
-              <option value="enabled">Visible</option>
-              <option value="disabled">Hidden</option>
+              <option value="enabled">{{ $t('Visible') }}</option>
+              <option value="disabled">{{ $t('Hidden') }}</option>
             </select>
-            <p class="mt-1 text-xs text-gray-500">A hidden category also takes its services off the website.</p>
+            <p class="mt-1 text-xs text-gray-500">{{ $t('A hidden category also takes its services off the website.') }}</p>
           </div>
 
           <label class="flex items-center gap-2 text-sm text-gray-600">
             <input v-model="form.show_in_menu" type="checkbox" class="rounded" />
-            Show in the storefront menu
+            {{ $t('Show in the storefront menu') }}
           </label>
 
           <div>
             <label for="field-sort_order" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Order
+              {{ $t('Order') }}
             </label>
             <input
               id="field-sort_order"
@@ -200,13 +200,13 @@ function submit() {
             class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-blue-700 disabled:opacity-60"
           >
             <Save class="mr-2 h-4 w-4" />
-            {{ form.processing ? 'Saving...' : isEdit ? 'Save changes' : 'Create category' }}
+            {{ form.processing ? $t('Saving...') : isEdit ? $t('Save changes') : $t('Create category') }}
           </button>
           <Link
             href="/admin/services/categories"
             class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200"
           >
-            Cancel
+            {{ $t('Cancel') }}
           </Link>
         </div>
       </form>

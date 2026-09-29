@@ -55,7 +55,7 @@ const totalResults = computed(() => {
 <template>
     <ThemeLayout>
         <Head>
-            <title>Search Results for "{{ query }}"</title>
+            <title>{{ $t('Search Results for "{query}"', { query: query }) }}</title>
         </Head>
 
         <div class="bg-gray-50 min-h-screen py-8">
@@ -63,15 +63,15 @@ const totalResults = computed(() => {
                 <!-- Search Header -->
                 <div class="mb-8">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        Search Results
+                        {{ $t('Search Results') }}
                     </h1>
                     <p class="mt-2 text-lg text-gray-600">
                         <template v-if="query">
-                            {{ totalResults }} result{{ totalResults !== 1 ? 's' : '' }} for 
-                            <span class="font-semibold">"{{ query }}"</span>
+                            {{ $t('{count} result for', { count: totalResults }) }}
+                            <span class="font-semibold">{{ $t('"{query}"', { query: query }) }}</span>
                         </template>
                         <template v-else>
-                            Please enter a search term
+                            {{ $t('Please enter a search term') }}
                         </template>
                     </p>
                 </div>
@@ -81,16 +81,16 @@ const totalResults = computed(() => {
                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900">No products found</h3>
+                    <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('No products found') }}</h3>
                     <p class="mt-2 text-sm text-gray-500">
-                        Try adjusting your search terms or browse our categories
+                        {{ $t('Try adjusting your search terms or browse our categories') }}
                     </p>
                     <div class="mt-6">
                         <a 
                             href="/products" 
                             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
                         >
-                            Browse All Products
+                            {{ $t('Browse All Products') }}
                         </a>
                     </div>
                 </div>

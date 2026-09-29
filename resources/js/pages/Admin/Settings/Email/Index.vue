@@ -1,13 +1,13 @@
 <template>
-  <AdminLayout title="Email Settings">
+  <AdminLayout :title="$t('Email Settings')">
     <template #default>
-      <Head title="Email Settings" />
+      <Head :title="$t('Email Settings')" />
       <div class="space-y-6">
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Email Settings</h1>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Configure email delivery and manage email templates</p>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Email Settings') }}</h1>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Configure email delivery and manage email templates') }}</p>
             </div>
             <div v-if="activeTab === 'configuration'">
                 <button
@@ -20,7 +20,7 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+                    {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
                 </button>
             </div>
         </div>
@@ -28,7 +28,7 @@
       <!-- Tabs -->
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800">
-          <nav class="flex space-x-8 px-6" aria-label="Tabs">
+          <nav class="flex space-x-8 px-6" :aria-label="$t('Tabs')">
             <button
               @click="activeTab = 'configuration'"
               :class="[
@@ -39,7 +39,7 @@
               ]"
             >
               <Settings class="w-4 h-4 mr-2" :class="activeTab === 'configuration' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-              Configuration
+              {{ $t('Configuration') }}
             </button>
             <button
                @click="activeTab = 'templates'"
@@ -51,7 +51,7 @@
                ]"
              >
                <FileText class="w-4 h-4 mr-2" :class="activeTab === 'templates' ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'" />
-               Email Templates
+               {{ $t('Email Templates') }}
              </button>
           </nav>
         </div>
@@ -65,11 +65,11 @@
               <div class="mb-8">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                     <Settings class="w-5 h-5 text-gray-400" />
-                    General Configuration
+                    {{ $t('General Configuration') }}
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Mail Driver</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Mail Driver') }}</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 padding-l-3 flex items-center pl-3 pointer-events-none">
                             <Server class="h-4 w-4 text-gray-400" />
@@ -83,7 +83,7 @@
                     </div>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">From Email</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('From Email') }}</label>
                     <input
                       v-model="form.mail_from_address"
                       type="email"
@@ -92,7 +92,7 @@
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">From Name</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('From Name') }}</label>
                     <input
                       v-model="form.mail_from_name"
                       type="text"
@@ -101,7 +101,7 @@
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Reply-To Email (Optional)</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Reply-To Email (Optional)') }}</label>
                     <input
                       v-model="form.reply_to_email"
                       type="email"
@@ -115,11 +115,11 @@
               <div v-if="form.mail_driver === 'smtp'" class="mb-8 pt-6 border-t border-gray-100 dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                     <Mail class="w-5 h-5 text-gray-400" />
-                    SMTP Server Details
+                    {{ $t('SMTP Server Details') }}
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">SMTP Host</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('SMTP Host') }}</label>
                     <input
                       v-model="form.smtp_host"
                       type="text"
@@ -128,7 +128,7 @@
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">SMTP Port</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('SMTP Port') }}</label>
                     <input
                       v-model="form.smtp_port"
                       type="number"
@@ -137,7 +137,7 @@
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">SMTP Username</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('SMTP Username') }}</label>
                     <input
                       v-model="form.smtp_username"
                       type="text"
@@ -145,7 +145,7 @@
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">SMTP Password</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('SMTP Password') }}</label>
                     <div class="relative">
                         <input
                         v-model="form.smtp_password"
@@ -164,7 +164,7 @@
                     </div>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Encryption</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Encryption') }}</label>
                     <div class="relative">
                          <div class="absolute inset-y-0 left-0 padding-l-3 flex items-center pl-3 pointer-events-none">
                             <Shield class="h-4 w-4 text-gray-400" />
@@ -175,7 +175,7 @@
                         >
                         <option value="tls">TLS</option>
                         <option value="ssl">SSL</option>
-                        <option value="none">None</option>
+                        <option value="none">{{ $t('None') }}</option>
                         </select>
                     </div>
                   </div>
@@ -186,11 +186,11 @@
               <div v-if="form.mail_driver === 'ses'" class="mb-8 pt-6 border-t border-gray-100 dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                     <Server class="w-5 h-5 text-gray-400" />
-                    Amazon SES Configuration
+                    {{ $t('Amazon SES Configuration') }}
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Access Key ID</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Access Key ID') }}</label>
                     <input
                       v-model="form.ses_key"
                       type="text"
@@ -199,7 +199,7 @@
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Secret Access Key</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Secret Access Key') }}</label>
                     <div class="relative">
                         <input
                         v-model="form.ses_secret"
@@ -218,7 +218,7 @@
                     </div>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Region</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Region') }}</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 padding-l-3 flex items-center pl-3 pointer-events-none">
                             <Globe class="h-4 w-4 text-gray-400" />
@@ -227,10 +227,10 @@
                         v-model="form.ses_region"
                         class="block w-full pl-10 pr-10 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-200"
                         >
-                        <option value="us-east-1">US East (N. Virginia)</option>
-                        <option value="us-west-2">US West (Oregon)</option>
-                        <option value="eu-west-1">EU (Ireland)</option>
-                        <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+                        <option value="us-east-1">{{ $t('US East (N. Virginia)') }}</option>
+                        <option value="us-west-2">{{ $t('US West (Oregon)') }}</option>
+                        <option value="eu-west-1">{{ $t('EU (Ireland)') }}</option>
+                        <option value="ap-southeast-1">{{ $t('Asia Pacific (Singapore)') }}</option>
                         </select>
                     </div>
                   </div>
@@ -241,11 +241,11 @@
               <div v-if="form.mail_driver === 'postmark'" class="mb-8 pt-6 border-t border-gray-100 dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                     <Mail class="w-5 h-5 text-gray-400" />
-                    Postmark Configuration
+                    {{ $t('Postmark Configuration') }}
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Server Token</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Server Token') }}</label>
                     <div class="relative">
                         <input
                         v-model="form.postmark_token"
@@ -277,7 +277,7 @@
                     <h4 :class="configuration.last_test_status === 'success' ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'" class="text-sm font-semibold">
                       {{ configuration.last_test_message }}
                     </h4>
-                    <p :class="configuration.last_test_status === 'success' ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'" class="text-xs mt-1 opacity-80">Last tested: {{ formatDate(configuration.last_test_at) }}</p>
+                    <p :class="configuration.last_test_status === 'success' ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'" class="text-xs mt-1 opacity-80">{{ $t('Last tested:') }} {{ formatDate(configuration.last_test_at) }}</p>
                   </div>
                 </div>
               </div>
@@ -295,7 +295,7 @@
                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  {{ testingConnection ? 'Testing...' : 'Test Connection' }}
+                  {{ testingConnection ? $t('Testing...') : $t('Test Connection') }}
                 </button>
 
                 <button
@@ -304,7 +304,7 @@
                   class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 shadow-sm transition-all duration-200"
                 >
                   <Mail class="w-4 h-4 mr-2 text-purple-500" />
-                  Send Test Email
+                  {{ $t('Send Test Email') }}
                 </button>
 
                 <div class="flex-1"></div>
@@ -319,7 +319,7 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  {{ form.processing ? 'Saving...' : 'Save Configuration' }}
+                  {{ form.processing ? $t('Saving...') : $t('Save Configuration') }}
                 </button>
               </div>
             </form>
@@ -347,7 +347,7 @@
                       >
                         <CheckCircle2 v-if="template.is_active" class="w-3 h-3 mr-1.5" />
                         <X v-else class="w-3 h-3 mr-1.5" />
-                        {{ template.is_active ? 'Active' : 'Inactive' }}
+                        {{ template.is_active ? $t('Active') : $t('Inactive') }}
                       </span>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -356,11 +356,11 @@
                       <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-500">
                         <span class="flex items-center gap-1.5 bg-white dark:bg-gray-800 px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700">
                           <Mail class="w-3 h-3 text-gray-400" />
-                          <span class="truncate max-w-[200px]">Subject: {{ template.subject }}</span>
+                          <span class="truncate max-w-[200px]">{{ $t('Subject:') }} {{ template.subject }}</span>
                         </span>
                         <span class="flex items-center gap-1.5 bg-white dark:bg-gray-800 px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700">
                           <CheckCircle2 class="w-3 h-3 text-gray-400" />
-                          {{ template.times_sent }} sent
+                          {{ $t('{count} sent', { count: template.times_sent }) }}
                         </span>
                       </div>
                     </div>
@@ -370,10 +370,10 @@
                     <button
                       @click="editTemplate(template)"
                       class="inline-flex items-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 rounded-lg text-sm font-medium transition-all shadow-sm"
-                      title="Edit Template"
+                      :title="$t('Edit Template')"
                     >
                       <Edit2 class="w-3.5 h-3.5" />
-                      Edit
+                      {{ $t('Edit') }}
                     </button>
                     <button
                       @click="toggleTemplateStatus(template.id)"
@@ -381,18 +381,18 @@
                         ? 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-800' 
                         : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 dark:hover:text-green-400 hover:border-green-200 dark:hover:border-green-800'"
                       class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all shadow-sm w-[100px] justify-center"
-                      :title="template.is_active ? 'Disable Template' : 'Enable Template'"
+                      :title="template.is_active ? $t('Disable Template') : $t('Enable Template')"
                     >
                       <Power class="w-3.5 h-3.5" />
-                      {{ template.is_active ? 'Disable' : 'Enable' }}
+                      {{ template.is_active ? $t('Disable') : $t('Enable') }}
                     </button>
                     <button
                       @click="sendTestTemplate(template)"
                       class="inline-flex items-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-800 rounded-lg text-sm font-medium transition-all shadow-sm"
-                      title="Send Test Email"
+                      :title="$t('Send Test Email')"
                     >
                       <Mail class="w-3.5 h-3.5" />
-                      Test
+                      {{ $t('Test') }}
                     </button>
                   </div>
                 </div>
@@ -410,7 +410,7 @@
               <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                 <Edit2 class="w-5 h-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Email Template</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Edit Email Template') }}</h3>
             </div>
             <button
               type="button"
@@ -424,31 +424,31 @@
           <form @submit.prevent="saveTemplate" class="flex-1 overflow-y-auto">
             <div class="p-6 space-y-6">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject Line</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Subject Line') }}</label>
                 <input
                   v-model="templateForm.subject"
                   type="text"
                   required
-                  placeholder="Enter email subject..."
+                  :placeholder="$t('Enter email subject...')"
                   class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all"
                 />
               </div>
               
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HTML Content</label>
-                <TiptapEditor v-model="templateForm.html_content" placeholder="Email HTML content with formatting..." />
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('HTML Content') }}</label>
+                <TiptapEditor v-model="templateForm.html_content" :placeholder="$t('Email HTML content with formatting...')" />
                 <div class="mt-2 p-3 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg">
-                  <p class="text-xs text-blue-700 dark:text-blue-300 font-medium mb-1">Available Variables:</p>
+                  <p class="text-xs text-blue-700 dark:text-blue-300 font-medium mb-1">{{ $t('Available Variables:') }}</p>
                   <p class="text-xs text-blue-600 dark:text-blue-400">{customer_name}, {order_number}, {store_name}, {order_total}, {tracking_number}</p>
                 </div>
               </div>
               
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Plain Text Content (Optional)</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Plain Text Content (Optional)') }}</label>
                 <textarea
                   v-model="templateForm.plain_text_content"
                   rows="8"
-                  placeholder="Fallback plain text version..."
+                  :placeholder="$t('Fallback plain text version...')"
                   class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all"
                 ></textarea>
               </div>
@@ -460,7 +460,7 @@
                 @click="editingTemplate = null"
                 class="px-5 py-2.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
               <button
                 type="submit"
@@ -472,7 +472,7 @@
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                {{ templateForm.processing ? 'Saving...' : 'Save Template' }}
+                {{ templateForm.processing ? $t('Saving...') : $t('Save Template') }}
               </button>
             </div>
           </form>
@@ -487,7 +487,7 @@
               <div class="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
                 <Mail class="w-5 h-5 text-purple-600 dark:text-purple-400" />
               </div>
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Send Test Email</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $t('Send Test Email') }}</h3>
             </div>
             <button
               type="button"
@@ -500,7 +500,7 @@
           
           <form @submit.prevent="sendTest">
             <div class="p-6">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Test Email Address</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Test Email Address') }}</label>
               <input
                 v-model="testEmail"
                 type="email"
@@ -508,7 +508,7 @@
                 placeholder="your@email.com"
                 class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all"
               />
-              <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">A test email will be sent to this address using your current configuration.</p>
+              <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ $t('A test email will be sent to this address using your current configuration.') }}</p>
             </div>
             
             <div class="p-6 bg-gray-50 dark:bg-gray-900/50 flex justify-end gap-3 border-t border-gray-200 dark:border-gray-700">
@@ -517,7 +517,7 @@
                 @click="showSendTestDialog = false"
                 class="px-5 py-2.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
               <button
                 type="submit"
@@ -529,7 +529,7 @@
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                {{ sendingTest ? 'Sending...' : 'Send Test' }}
+                {{ sendingTest ? $t('Sending...') : $t('Send Test') }}
               </button>
             </div>
           </form>
@@ -545,6 +545,7 @@ import { ref, reactive } from 'vue'
 import { router, Head } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import TiptapEditor from '@/components/Admin/TiptapEditor.vue'
+import { useI18nStore } from '@/Stores/i18n'
 import { 
   Save, 
   Settings, 
@@ -572,9 +573,11 @@ const props = defineProps<{
   categories: any
 }>()
 
+const { t } = useI18nStore()
+
 const tabs = [
-  { id: 'configuration', name: 'Configuration' },
-  { id: 'templates', name: 'Email Templates' },
+  { id: 'configuration', name: t('Configuration') },
+  { id: 'templates', name: t('Email Templates') },
 ]
 
 const activeTab = ref('configuration')
@@ -670,7 +673,7 @@ const toggleTemplateStatus = (id: number) => {
 }
 
 const sendTestTemplate = (template: any) => {
-  const email = prompt('Enter email address to send test:')
+  const email = prompt(t('Enter email address to send test:'))
   if (email) {
     router.post(`/admin/settings/email/templates/${template.id}/send-test`, { email }, {
       preserveScroll: true,

@@ -277,22 +277,22 @@ function handleDragEnd() {
 </script>
 
 <template>
-  <Head title="Customer Groups" />
+  <Head :title="$t('Customer Groups')" />
 
-  <AdminLayout title="Customer Groups">
+  <AdminLayout :title="$t('Customer Groups')">
     <div class="p-6 space-y-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Customer Groups</h1>
-          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage customer segmentation and group-based pricing</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $t('Customer Groups') }}</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Manage customer segmentation and group-based pricing') }}</p>
         </div>
         <Link
           :href="'/admin/customers/groups/create'"
           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
         >
           <PlusCircle class="w-4 h-4 mr-2" />
-          New Group
+          {{ $t('New Group') }}
         </Link>
       </div>
 
@@ -301,7 +301,7 @@ function handleDragEnd() {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Groups</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Total Groups') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.total }}</p>
             </div>
             <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
@@ -313,7 +313,7 @@ function handleDragEnd() {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Active</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Active') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.active }}</p>
             </div>
             <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
@@ -325,7 +325,7 @@ function handleDragEnd() {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-red-200 dark:hover:border-red-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Inactive</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Inactive') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.inactive }}</p>
             </div>
             <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
@@ -337,7 +337,7 @@ function handleDragEnd() {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 group hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">With Customers</p>
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('With Customers') }}</p>
               <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ statistics.with_customers }}</p>
             </div>
             <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
@@ -352,14 +352,14 @@ function handleDragEnd() {
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
           <!-- Search -->
           <div class="md:col-span-2">
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Search</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Search') }}</label>
             <div class="relative">
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 v-model="search"
                 @input="applyFilters"
                 type="text"
-                placeholder="Name, code, description..."
+                :placeholder="$t('Name, code, description...')"
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-gray-400"
               />
             </div>
@@ -367,7 +367,7 @@ function handleDragEnd() {
 
           <!-- Status Filter -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Status') }}</label>
             <div class="relative">
               <Filter class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -375,9 +375,9 @@ function handleDragEnd() {
                 @change="applyFilters"
                 class="w-full pl-10 pr-8 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer"
               >
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="">{{ $t('All Status') }}</option>
+                <option value="active">{{ $t('Active') }}</option>
+                <option value="inactive">{{ $t('Inactive') }}</option>
               </select>
                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <ArrowUpDown class="w-3 h-3 text-gray-400" />
@@ -387,7 +387,7 @@ function handleDragEnd() {
           
            <!-- Per Page -->
           <div>
-            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Per Page</label>
+            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Per Page') }}</label>
              <div class="relative">
               <Layers class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <select
@@ -413,7 +413,7 @@ function handleDragEnd() {
              class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
           >
             <X class="w-4 h-4" />
-            Clear Filters
+            {{ $t('Clear Filters') }}
           </button>
         </div>
       </div>
@@ -424,7 +424,7 @@ function handleDragEnd() {
           <div class="flex items-center">
              <CheckCircle class="w-4 h-4 mr-2" />
             <span class="text-sm font-semibold">
-              {{ selectedGroups.length }} group(s) selected
+              {{ $t('{count} group(s) selected', { count: selectedGroups.length }) }}
             </span>
           </div>
           <div class="flex gap-2">
@@ -432,20 +432,20 @@ function handleDragEnd() {
               @click="bulkUpdateStatus(true)"
               class="px-3 py-1.5 text-xs font-semibold bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
             >
-              Activate
+              {{ $t('Activate') }}
             </button>
             <button
               @click="bulkUpdateStatus(false)"
               class="px-3 py-1.5 text-xs font-semibold bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
             >
-              Deactivate
+              {{ $t('Deactivate') }}
             </button>
             <button
               @click="confirmBulkDelete"
               class="px-3 py-1.5 text-xs font-semibold bg-white/20 hover:bg-white/30 rounded-lg transition-colors flex items-center"
             >
               <Trash2 class="w-3 h-3 mr-1.5" />
-              Delete
+              {{ $t('Delete') }}
             </button>
           </div>
         </div>
@@ -467,25 +467,25 @@ function handleDragEnd() {
                   />
                 </th>
                 <th class="w-12 px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Order
+                  {{ $t('Order') }}
                 </th>
                 <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Group
+                  {{ $t('Group') }}
                 </th>
                 <th class="hidden sm:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Discount
+                  {{ $t('Discount') }}
                 </th>
                 <th class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Customers
+                  {{ $t('Customers') }}
                 </th>
                 <th class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Auto-Assignment
+                  {{ $t('Auto-Assignment') }}
                 </th>
                 <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
+                  {{ $t('Status') }}
                 </th>
                 <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
+                  {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
@@ -497,14 +497,14 @@ function handleDragEnd() {
                         <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                             <Layers class="w-8 h-8" />
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">No customer groups found</h3>
-                         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 max-w-sm">Get started by creating a new customer group.</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{{ $t('No customer groups found') }}</h3>
+                         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 max-w-sm">{{ $t('Get started by creating a new customer group.') }}</p>
                         <Link
                             :href="'/admin/customers/groups/create'"
                             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                         >
                             <PlusCircle class="w-4 h-4 mr-2" />
-                            New Group
+                            {{ $t('New Group') }}
                         </Link>
                     </div>
                 </td>
@@ -551,7 +551,7 @@ function handleDragEnd() {
                           v-if="group.is_default"
                           class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800"
                         >
-                          Default
+                          {{ $t('Default') }}
                         </span>
                       </div>
                       <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-0.5">
@@ -571,31 +571,31 @@ function handleDragEnd() {
                 </td>
                 <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                   <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    {{ group.customers_count }} total
+                    {{ $t('{count} total', { count: group.customers_count }) }}
                   </div>
                   <div class="text-xs text-gray-500 dark:text-gray-400">
-                    {{ group.active_customers_count }} active
+                    {{ $t('{count} active', { count: group.active_customers_count }) }}
                   </div>
                 </td>
                 <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
                   <div v-if="group.auto_assignment_rules && Object.keys(group.auto_assignment_rules).length > 0" class="text-xs space-y-1">
                     <div v-if="group.auto_assignment_rules.min_orders" class="text-gray-600 dark:text-gray-400">
-                      Min Orders: <span class="font-medium text-gray-900 dark:text-white">{{ group.auto_assignment_rules.min_orders }}</span>
+                      {{ $t('Min Orders:') }} <span class="font-medium text-gray-900 dark:text-white">{{ group.auto_assignment_rules.min_orders }}</span>
                     </div>
                     <div v-if="group.auto_assignment_rules.min_spent" class="text-gray-600 dark:text-gray-400">
-                      Min Spent: <span class="font-medium text-gray-900 dark:text-white">{{ formatPrice(group.auto_assignment_rules.min_spent) }}</span>
+                      {{ $t('Min Spent:') }} <span class="font-medium text-gray-900 dark:text-white">{{ formatPrice(group.auto_assignment_rules.min_spent) }}</span>
                     </div>
                     <div v-if="group.auto_assignment_rules.min_aov" class="text-gray-600 dark:text-gray-400">
-                      Min AOV: <span class="font-medium text-gray-900 dark:text-white">{{ formatPrice(group.auto_assignment_rules.min_aov) }}</span>
+                      {{ $t('Min AOV:') }} <span class="font-medium text-gray-900 dark:text-white">{{ formatPrice(group.auto_assignment_rules.min_aov) }}</span>
                     </div>
                     <button
                       @click="applyAutoAssignment(group.id)"
                       class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium hover:underline"
                     >
-                      Apply Now
+                      {{ $t('Apply Now') }}
                     </button>
                   </div>
-                  <span v-else class="text-xs text-gray-400 dark:text-gray-500 italic">Not configured</span>
+                  <span v-else class="text-xs text-gray-400 dark:text-gray-500 italic">{{ $t('Not configured') }}</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span
@@ -606,7 +606,7 @@ function handleDragEnd() {
                         : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800'
                     ]"
                   >
-                    {{ group.status ? 'Active' : 'Inactive' }}
+                    {{ group.status ? $t('Active') : $t('Inactive') }}
                   </span>
                 </td>
                 <td class="px-6 py-4 text-right text-sm font-medium">
@@ -614,7 +614,7 @@ function handleDragEnd() {
                     <Link
                       :href="`/admin/customers/groups/${group.id}/edit`"
                      class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
-                      title="Edit"
+                      :title="$t('Edit')"
                     >
                       <Edit class="w-4 h-4" />
                     </Link>
@@ -623,7 +623,7 @@ function handleDragEnd() {
                        class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                       :disabled="group.is_default"
                       :class="{ 'opacity-50 cursor-not-allowed': group.is_default }"
-                      title="Delete"
+                      :title="$t('Delete')"
                     >
                       <Trash2 class="w-4 h-4" />
                     </button>
@@ -638,7 +638,7 @@ function handleDragEnd() {
         <!-- Pagination -->
         <div class="bg-gray-50/50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
            <div class="text-xs text-gray-500 dark:text-gray-400">
-            Showing <span class="font-medium">{{ groups.from || 0 }}</span> to <span class="font-medium">{{ groups.to || 0 }}</span> of <span class="font-medium">{{ groups.total }}</span> results
+            {{ $t('Showing {from} to {to} of {total} results', { from: groups.from || 0, to: groups.to || 0, total: groups.total }) }}
           </div>
           <div class="flex gap-2">
             <Link
@@ -647,7 +647,7 @@ function handleDragEnd() {
                class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
               <ChevronLeft class="w-3 h-3" />
-              Previous
+              {{ $t('Previous') }}
             </Link>
              <button
               v-else
@@ -655,22 +655,22 @@ function handleDragEnd() {
                class="px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-600 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1 opacity-50"
             >
               <ChevronLeft class="w-3 h-3" />
-              Previous
+              {{ $t('Previous') }}
             </button>
             <Link
               v-if="groups.next_page_url"
               :href="groups.next_page_url"
                class="px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
             >
-              Next
+              {{ $t('Next') }}
               <ChevronRight class="w-3 h-3" />
             </Link>
              <button
               v-else
               disabled
-              class="px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-600 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1 opacity-50"
+               class="px-3 py-1.5 text-xs font-medium text-gray-400 dark:text-gray-600 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1 opacity-50"
             >
-              Next
+              {{ $t('Next') }}
               <ChevronRight class="w-3 h-3" />
             </button>
           </div>
@@ -681,15 +681,15 @@ function handleDragEnd() {
     <ConfirmDeleteModal
       v-model:show="showDeleteModal"
       :title="deletingGroup?.name ?? ''"
-      :message="`Are you sure you want to delete '${deletingGroup?.name}'? This action cannot be undone.`"
+      :message="$t('Are you sure you want to delete {name}? This action cannot be undone.', { name: deletingGroup?.name })"
       @confirm="deleteGroup"
     />
 
     <!-- Bulk Delete Modal -->
     <ConfirmDeleteModal
       v-model:show="showBulkDeleteModal"
-      title="Multiple Customer Groups"
-      :message="`Are you sure you want to delete ${selectedGroups.length} customer group(s)? Groups with customers or set as default will be skipped.`"
+      :title="$t('Multiple Customer Groups')"
+      :message="$t('Are you sure you want to delete {count} customer group(s)? Groups with customers or set as default will be skipped.', { count: selectedGroups.length })"
       @confirm="bulkDelete"
     />
 
@@ -712,11 +712,11 @@ function handleDragEnd() {
               </div>
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
-                  Apply Auto-Assignment Rules
+                  {{ $t('Apply Auto-Assignment Rules') }}
                 </h3>
                 <div class="mt-2">
                   <p class="text-sm text-gray-500 dark:text-gray-400">
-                    This will assign customers matching the auto-assignment rules to this group. This operation might take a while depending on the number of customers.
+                    {{ $t('This will assign customers matching the auto-assignment rules to this group. This operation might take a while depending on the number of customers.') }}
                   </p>
                 </div>
               </div>
@@ -727,14 +727,14 @@ function handleDragEnd() {
                 @click="confirmAutoAssignment"
                 class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm"
               >
-                Continue
+                {{ $t('Continue') }}
               </button>
               <button
                 type="button"
                 @click="showAutoAssignModal = false"
                 class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-700 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </button>
             </div>
           </div>

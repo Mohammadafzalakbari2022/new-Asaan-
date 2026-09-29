@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import { useI18nStore } from '@/Stores/i18n'
 import ConfirmModal from '@/components/Admin/ConfirmModal.vue'
 import {
   RefreshCcw, Download, LayoutTemplate, Search, CheckCircle2, ArrowUpCircle, Monitor,
@@ -69,6 +70,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const { t } = useI18nStore()
+
 const isSyncing = ref(false)
 const installing = ref<Record<string, boolean>>({})
 const activating = ref<Record<string, boolean>>({})
@@ -80,7 +83,7 @@ const confirmModal = ref({
   show: false,
   title: '',
   message: '',
-  confirmText: 'Confirm',
+  confirmText: t('Confirm'),
   variant: 'primary' as 'primary' | 'warning' | 'danger',
   onConfirm: () => {},
 })
@@ -96,7 +99,7 @@ const openConfirm = (options: {
     show: true,
     title: options.title,
     message: options.message,
-    confirmText: options.confirmText ?? 'Confirm',
+    confirmText: options.confirmText ?? t('Confirm'),
     variant: options.variant ?? 'primary',
     onConfirm: options.onConfirm,
   }
@@ -168,9 +171,9 @@ const installTemplate = (template: TemplateItem) => {
 
   if (!canInstallRemote(template)) {
     openConfirm({
-      title: 'API key required',
-      message: 'Set CARTXIS_THEME_API_KEY in your .env file to install themes from the Cartxis directory. It is auto-generated when you run php artisan cartxis:install.',
-      confirmText: 'Got it',
+      title: t('API key required'),
+      message: t('Set CARTXIS_THEME_API_KEY in your .env file to install themes from the Cartxis directory. It is auto-generated when you run php artisan cartxis:install.'),
+      confirmText: t('Got it'),
       variant: 'warning',
       onConfirm: () => {},
     })
@@ -180,11 +183,11 @@ const installTemplate = (template: TemplateItem) => {
   const remote = isRemoteTheme(template)
 
   openConfirm({
-    title: remote ? 'Install from Cartxis Directory' : 'Install theme',
+    title: remote ? t('Install from Cartxis Directory') : t('Install theme'),
     message: remote
-      ? `Install "${template.name}" from the Cartxis theme directory? The package will be downloaded securely and activated on your store.`
-      : `Install "${template.name}" into your store and activate it as the storefront theme?`,
-    confirmText: 'Install & Activate',
+      ? t('Install "{name}" from the Cartxis theme directory? The package will be downloaded securely and activated on your store.', { name: template.name })
+      : t('Install "{name}" into your store and activate it as the storefront theme?', { name: template.name }),
+    confirmText: t('Install & Activate'),
     variant: 'primary',
     onConfirm: () => runInstall(template),
   })
@@ -194,9 +197,9 @@ const activateTemplate = (template: TemplateItem) => {
   if (activating.value[template.slug]) return
 
   openConfirm({
-    title: 'Activate theme',
-    message: `Activate "${template.name}" as your storefront theme? Your live store appearance will switch to this theme.`,
-    confirmText: 'Activate',
+    title: t('Activate theme'),
+    message: t('Activate "{name}" as your storefront theme? Your live store appearance will switch to this theme.', { name: template.name }),
+    confirmText: t('Activate'),
     variant: 'primary',
     onConfirm: () => runActivate(template),
   })
@@ -208,18 +211,18 @@ const downloadTemplate = (slug: string) => {
 </script>
 
 <template>
-  <Head title="Browse Themes" />
+  <Head :title="$t('Browse Themes')" />
 
-  <AdminLayout title="Browse Themes">
+  <AdminLayout :title="$t('Browse Themes')">
     <div class="space-y-6">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <LayoutTemplate class="w-7 h-7 text-blue-600" />
-            Browse Themes
+            {{ $t('Browse Themes') }}
           </h1>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Search the Cartxis theme directory, preview storefront themes, and install with one click.
+            {{ $t('Search the Cartxis theme directory, preview storefront themes, and install with one click.') }}
           </p>
         </div>
 
@@ -228,7 +231,7 @@ const downloadTemplate = (slug: string) => {
             href="/admin/appearance/themes"
             class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
           >
-            Installed Themes
+            {{ $t('Installed Themes') }}
           </Link>
           <button
             @click="syncCatalog"
@@ -236,7 +239,7 @@ const downloadTemplate = (slug: string) => {
             class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
           >
             <RefreshCcw class="w-4 h-4" :class="isSyncing ? 'animate-spin' : ''" />
-            Sync Catalog
+            {{ $t('Sync Catalog') }}
           </button>
         </div>
       </div>
@@ -246,11 +249,11 @@ const downloadTemplate = (slug: string) => {
         class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4"
       >
         <p class="text-sm text-amber-900 dark:text-amber-100">
-          Theme directory URL is not configured. Set
-          <code class="font-mono text-xs">CARTXIS_THEME_DIRECTORY_URL</code> in your
-          <code class="font-mono text-xs">.env</code> or run
+          {{ $t('Theme directory URL is not configured. Set') }}
+          <code class="font-mono text-xs">CARTXIS_THEME_DIRECTORY_URL</code> {{ $t('in your') }}
+          <code class="font-mono text-xs">.env</code> {{ $t('or run') }}
           <code class="font-mono text-xs">php artisan cartxis:install</code>
-          to browse themes from cartxis.com.
+          {{ $t('to browse themes from cartxis.com.') }}
         </p>
       </div>
 
@@ -259,9 +262,9 @@ const downloadTemplate = (slug: string) => {
         class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4"
       >
         <p class="text-sm text-red-900 dark:text-red-100">
-          Could not reach the theme directory at
+          {{ $t('Could not reach the theme directory at') }}
           <code class="font-mono text-xs">{{ directoryUrl }}</code>.
-          {{ remoteProbe.error || 'Check that cartxis-home is running and the URL includes /api.' }}
+          {{ remoteProbe.error || $t('Check that cartxis-home is running and the URL includes /api.') }}
         </p>
       </div>
 
@@ -270,8 +273,8 @@ const downloadTemplate = (slug: string) => {
         class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4"
       >
         <p class="text-sm text-amber-900 dark:text-amber-100">
-          The directory reports {{ remoteProbe.theme_count }} theme(s) but none matched the current filters.
-          Try <strong>All Templates</strong> or click <strong>Sync Catalog</strong>.
+          {{ $t('The directory reports {count} theme(s) but none matched the current filters.', { count: remoteProbe.theme_count }) }}
+          {{ $t('Try') }} <strong>{{ $t('All Templates') }}</strong> {{ $t('or click') }} <strong>{{ $t('Sync Catalog') }}</strong>.
         </p>
       </div>
 
@@ -280,36 +283,36 @@ const downloadTemplate = (slug: string) => {
         class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4"
       >
         <p class="text-sm text-amber-900 dark:text-amber-100">
-          Connected to <code class="font-mono text-xs">{{ directoryUrl }}</code> but no themes are published there yet.
+          {{ $t('Connected to') }} <code class="font-mono text-xs">{{ directoryUrl }}</code> {{ $t('but no themes are published there yet.') }}
         </p>
       </div>
 
       <div v-else-if="remoteInstallEnabled === false" class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
         <p class="text-sm text-amber-900 dark:text-amber-100">
-          You can browse the Cartxis theme directory, but one-click installs require
-          <code class="font-mono text-xs">CARTXIS_THEME_API_KEY</code> in your
-          <code class="font-mono text-xs">.env</code> (auto-generated during
+          {{ $t('You can browse the Cartxis theme directory, but one-click installs require') }}
+          <code class="font-mono text-xs">CARTXIS_THEME_API_KEY</code> {{ $t('in your') }}
+          <code class="font-mono text-xs">.env</code> {{ $t('(auto-generated during') }}
           <code class="font-mono text-xs">cartxis:install</code>).
         </p>
       </div>
 
       <div v-else class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
         <p class="text-sm text-blue-900 dark:text-blue-100">
-          Themes from the official Cartxis directory install securely — packages are downloaded server-side and activated in one step.
+          {{ $t('Themes from the official Cartxis directory install securely — packages are downloaded server-side and activated in one step.') }}
         </p>
       </div>
 
       <div class="flex flex-col xl:flex-row gap-6">
         <aside class="xl:w-64 shrink-0 space-y-4">
           <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4">
-            <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Categories</h2>
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">{{ $t('Categories') }}</h2>
             <div class="space-y-1">
               <button
                 @click="selectedCategory = ''; applyFilters()"
                 class="w-full text-left px-3 py-2 rounded-lg text-sm transition-colors"
                 :class="!selectedCategory ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'"
               >
-                All Templates
+                {{ $t('All Templates') }}
               </button>
               <button
                 v-for="category in categories"
@@ -324,7 +327,7 @@ const downloadTemplate = (slug: string) => {
           </div>
 
           <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4">
-            <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Template Type</h2>
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">{{ $t('Template Type') }}</h2>
             <div class="space-y-1">
               <button
                 v-for="type in types"
@@ -335,7 +338,7 @@ const downloadTemplate = (slug: string) => {
                 :class="selectedType === type.slug ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'"
               >
                 {{ type.label }}
-                <span v-if="!type.enabled" class="text-xs text-gray-400"> (soon)</span>
+                <span v-if="!type.enabled" class="text-xs text-gray-400"> {{ $t('(soon)') }}</span>
               </button>
             </div>
           </div>
@@ -348,15 +351,15 @@ const downloadTemplate = (slug: string) => {
               v-model="searchQuery"
               @keyup.enter="applyFilters"
               type="search"
-              placeholder="Search themes..."
+              placeholder="{{ $t('Search themes...') }}"
               class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm"
             />
           </div>
 
           <div v-if="filteredTemplates.length === 0" class="text-center py-16 bg-white dark:bg-gray-900 rounded-xl border border-dashed border-gray-300">
             <Monitor class="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">No themes found</h3>
-            <p class="text-sm text-gray-500 mt-1">Try another category or clear your search filters.</p>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ $t('No themes found') }}</h3>
+            <p class="text-sm text-gray-500 mt-1">{{ $t('Try another category or clear your search filters.') }}</p>
           </div>
 
           <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -386,27 +389,27 @@ const downloadTemplate = (slug: string) => {
                       v-if="isRemoteTheme(template)"
                       class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 ring-1 ring-purple-600/10"
                     >
-                      Cartxis Directory
+                      {{ $t('Cartxis Directory') }}
                     </span>
                     <span
                       v-if="template.is_active"
                       class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-600 text-white shadow-sm"
                     >
-                      Active
+                      {{ $t('Active') }}
                     </span>
                     <span
                       v-else-if="template.installed"
                       class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 ring-1 ring-green-600/10"
                     >
                       <CheckCircle2 class="w-3 h-3" />
-                      Installed
+                      {{ $t('Installed') }}
                     </span>
                     <span
                       v-if="template.update_available"
                       class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 ring-1 ring-amber-600/10"
                     >
                       <ArrowUpCircle class="w-3 h-3" />
-                      Update
+                      {{ $t('Update') }}
                     </span>
                   </div>
                 </div>
@@ -418,7 +421,7 @@ const downloadTemplate = (slug: string) => {
                   <p class="text-xs text-gray-500 mt-1">
                     v{{ template.version }} · {{ template.author }}
                     <span v-if="template.installed && template.installed_version" class="text-green-600">
-                      · installed v{{ template.installed_version }}
+                      · {{ $t('installed v') }}{{ template.installed_version }}
                     </span>
                   </p>
                 </div>
@@ -433,7 +436,7 @@ const downloadTemplate = (slug: string) => {
                       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
                     >
                       <Power class="w-4 h-4" />
-                      {{ activating[template.slug] ? 'Activating…' : 'Activate' }}
+                      {{ activating[template.slug] ? $t('Activating…') : $t('Activate') }}
                     </button>
                     <Link
                       v-if="template.is_active"
@@ -441,7 +444,7 @@ const downloadTemplate = (slug: string) => {
                       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
                     >
                       <Settings2 class="w-4 h-4" />
-                      Customize
+                      {{ $t('Customize') }}
                     </Link>
                     <Link
                       v-if="template.is_active"
@@ -449,7 +452,7 @@ const downloadTemplate = (slug: string) => {
                       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-green-700 bg-green-50 border border-green-200 hover:bg-green-100"
                     >
                       <Wand2 class="w-4 h-4" />
-                      Open Page Builder
+                      {{ $t('Open Page Builder') }}
                       <ChevronRight class="w-3.5 h-3.5 opacity-60" />
                     </Link>
                   </template>
@@ -460,7 +463,7 @@ const downloadTemplate = (slug: string) => {
                     :disabled="installing[template.slug] || (isRemoteTheme(template) && !canInstallRemote(template))"
                     class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
                   >
-                    {{ template.installed && template.update_available ? 'Update' : 'Install Now' }}
+                    {{ template.installed && template.update_available ? $t('Update') : $t('Install Now') }}
                   </button>
 
                   <button
@@ -469,13 +472,13 @@ const downloadTemplate = (slug: string) => {
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50"
                   >
                     <Download class="w-4 h-4" />
-                    Download
+                    {{ $t('Download') }}
                   </button>
                   <Link
                     :href="`/admin/appearance/template-zone/${encodeURIComponent(template.slug)}`"
                     class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-blue-700 hover:bg-blue-50"
                   >
-                    Details
+                    {{ $t('Details') }}
                   </Link>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Shield, ArrowLeft, PenLine, List } from 'lucide-vue-next'
+import { useI18nStore } from '@/Stores/i18n'
 
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const { t } = useI18nStore()
 
 const form = useForm({
   name: '',
@@ -51,23 +54,23 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Create Permission" />
+  <Head :title="$t('Create Permission')" />
   
-  <AdminLayout title="Create Permission">
+  <AdminLayout :title="$t('Create Permission')">
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
       <!-- Header -->
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Create Permission</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Add a new permission to the system</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">{{ $t('Create Permission') }}</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ $t('Add a new permission to the system') }}</p>
           </div>
           <Link
             href="/admin/system/permissions"
             class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <ArrowLeft class="w-4 h-4 mr-2" />
-            Back to Permissions
+            {{ $t('Back to Permissions') }}
           </Link>
         </div>
       </div>
@@ -77,7 +80,7 @@ const submit = () => {
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Name -->
             <div class="space-y-2">
-              <Label for="name" class="required">Permission Name</Label>
+              <Label for="name" class="required">{{ $t('Permission Name') }}</Label>
               <Input
                 id="name"
                 v-model="form.name"
@@ -87,7 +90,7 @@ const submit = () => {
                 required
               />
               <p class="text-sm text-gray-500 dark:text-gray-300">
-                Use dot notation for permission keys (e.g., module.resource.action)
+                {{ $t('Use dot notation for permission keys (e.g., module.resource.action)') }}
               </p>
               <p v-if="form.errors.name" class="text-sm text-red-600">
                 {{ form.errors.name }}
@@ -96,7 +99,7 @@ const submit = () => {
 
             <!-- Display Name -->
             <div class="space-y-2">
-              <Label for="display_name" class="required">Display Name</Label>
+              <Label for="display_name" class="required">{{ $t('Display Name') }}</Label>
               <Input
                 id="display_name"
                 v-model="form.display_name"
@@ -105,7 +108,7 @@ const submit = () => {
                 required
               />
               <p class="text-sm text-gray-500 dark:text-gray-300">
-                A human-readable name for this permission
+                {{ $t('A human-readable name for this permission') }}
               </p>
               <p v-if="form.errors.display_name" class="text-sm text-red-600">
                 {{ form.errors.display_name }}
@@ -114,7 +117,7 @@ const submit = () => {
 
             <!-- Group Selection -->
             <div class="space-y-2">
-              <Label for="group" class="required">Permission Group</Label>
+              <Label for="group" class="required">{{ $t('Permission Group') }}</Label>
               <select
                 v-if="!showCustomGroup"
                 id="group"
@@ -122,15 +125,15 @@ const submit = () => {
                 class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
                 required
               >
-                <option value="" disabled>Select a group</option>
-                <option value="catalog">Catalog</option>
-                <option value="sales">Sales</option>
-                <option value="customer">Customer</option>
-                <option value="marketing">Marketing</option>
-                <option value="content">Content</option>
-                <option value="settings">Settings</option>
-                <option value="system">System</option>
-                <option value="reports">Reports</option>
+                <option value="" disabled>{{ $t('Select a group') }}</option>
+                <option value="catalog">{{ $t('Catalog') }}</option>
+                <option value="sales">{{ $t('Sales') }}</option>
+                <option value="customer">{{ $t('Customer') }}</option>
+                <option value="marketing">{{ $t('Marketing') }}</option>
+                <option value="content">{{ $t('Content') }}</option>
+                <option value="settings">{{ $t('Settings') }}</option>
+                <option value="system">{{ $t('System') }}</option>
+                <option value="reports">{{ $t('Reports') }}</option>
                 <option
                   v-for="group in props.existingGroups"
                   :key="group"
@@ -144,7 +147,7 @@ const submit = () => {
                 id="custom_group"
                 v-model="customGroup"
                 type="text"
-                placeholder="Enter custom group name"
+                :placeholder="$t('Enter custom group name')"
                 @input="updateGroup(customGroup)"
                 required
               />
@@ -155,10 +158,10 @@ const submit = () => {
               >
                 <List v-if="showCustomGroup" class="h-3.5 w-3.5" />
                 <PenLine v-else class="h-3.5 w-3.5" />
-                {{ showCustomGroup ? 'Choose from existing groups' : 'Use a custom group name' }}
+                {{ showCustomGroup ? $t('Choose from existing groups') : $t('Use a custom group name') }}
               </button>
               <p class="text-sm text-gray-500 dark:text-gray-300">
-                Group related permissions together
+                {{ $t('Group related permissions together') }}
               </p>
               <p v-if="form.errors.group" class="text-sm text-red-600">
                 {{ form.errors.group }}
@@ -167,15 +170,15 @@ const submit = () => {
 
             <!-- Description -->
             <div class="space-y-2">
-              <Label for="description">Description</Label>
+              <Label for="description">{{ $t('Description') }}</Label>
               <Textarea
                 id="description"
                 v-model="form.description"
-                placeholder="Describe what this permission allows..."
+                :placeholder="$t('Describe what this permission allows...')"
                 rows="3"
               />
               <p class="text-sm text-gray-500 dark:text-gray-300">
-                Optional description to explain what this permission controls
+                {{ $t('Optional description to explain what this permission controls') }}
               </p>
               <p v-if="form.errors.description" class="text-sm text-red-600">
                 {{ form.errors.description }}
@@ -188,14 +191,14 @@ const submit = () => {
                 href="/admin/system/permissions"
                 class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Cancel
+                {{ $t('Cancel') }}
               </Link>
               <button
                 type="submit"
                 :disabled="form.processing"
                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {{ form.processing ? 'Creating...' : 'Create Permission' }}
+                {{ form.processing ? $t('Creating...') : $t('Create Permission') }}
               </button>
             </div>
           </form>
