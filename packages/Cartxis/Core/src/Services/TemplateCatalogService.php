@@ -427,8 +427,12 @@ class TemplateCatalogService
         $publicPath = public_path($publicRelativePath);
 
         if (! file_exists($publicPath) && file_exists($sourcePath)) {
-            File::ensureDirectoryExists(dirname($publicPath));
-            @copy($sourcePath, $publicPath);
+            try {
+                File::ensureDirectoryExists(dirname($publicPath));
+                @copy($sourcePath, $publicPath);
+            } catch (\Throwable) {
+                // Read-only public/ directory: fall through and report no preview.
+            }
         }
 
         return file_exists($publicPath) ? asset($publicRelativePath) : null;

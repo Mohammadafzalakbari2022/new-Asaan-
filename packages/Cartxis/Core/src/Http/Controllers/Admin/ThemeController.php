@@ -456,12 +456,17 @@ class ThemeController extends Controller
             $sourcePath = $theme->getPath() . '/' . ltrim($configuredScreenshot, '/');
 
             if (file_exists($sourcePath)) {
-                $targetDirectory = dirname($publicPath);
-                if (!is_dir($targetDirectory)) {
-                    mkdir($targetDirectory, 0755, true);
-                }
+                try {
+                    $targetDirectory = dirname($publicPath);
+                    if (!is_dir($targetDirectory)) {
+                        mkdir($targetDirectory, 0755, true);
+                    }
 
-                @copy($sourcePath, $publicPath);
+                    @copy($sourcePath, $publicPath);
+                } catch (\Throwable) {
+                    // Read-only public/ directory: the theme still shows up in the
+                    // list, just without a published preview image.
+                }
             }
         }
 

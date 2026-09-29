@@ -27,7 +27,12 @@ class ThemeService
         $storefrontRoot = $this->paths->storefrontRoot();
 
         if (! is_dir($storefrontRoot)) {
-            File::ensureDirectoryExists($storefrontRoot);
+            try {
+                File::ensureDirectoryExists($storefrontRoot);
+            } catch (\Throwable) {
+                // Read-only deployment: there is nothing on disk to discover.
+                return $discovered;
+            }
 
             return $discovered;
         }
@@ -44,7 +49,11 @@ class ThemeService
             }
 
             foreach (File::directories($categoryPath) as $directory) {
-                $this->flattenNestedPackage($directory);
+                try {
+                    $this->flattenNestedPackage($directory);
+                } catch (\Throwable) {
+                    // Read-only storefront directory: read the package in place.
+                }
 
                 $slug = basename($directory);
                 $configPath = $directory.'/theme.json';
@@ -127,28 +136,36 @@ class ThemeService
 
     /**
      * Copy template assets into public/templates/{slug}/.
+     *
+     * Publishing is a convenience, not a requirement: on an immutable container
+     * there is no writable public/ directory, and the theme pages still have to
+     * render (without a locally published stylesheet) rather than fail outright.
      */
     protected function publishPublicAssets(string $themePath, string $slug): void
     {
-        $publicThemePath = $this->paths->publicPath($slug);
+        try {
+            $publicThemePath = $this->paths->publicPath($slug);
 
-        if (is_dir($publicThemePath)) {
-            File::deleteDirectory($publicThemePath);
-        }
+            if (is_dir($publicThemePath)) {
+                File::deleteDirectory($publicThemePath);
+            }
 
-        File::ensureDirectoryExists($publicThemePath);
+            File::ensureDirectoryExists($publicThemePath);
 
-        $assetsPath = $themePath.'/assets';
+            $assetsPath = $themePath.'/assets';
 
-        if (is_dir($assetsPath)) {
-            File::copyDirectory($assetsPath, $publicThemePath.'/assets');
-        }
+            if (is_dir($assetsPath)) {
+                File::copyDirectory($assetsPath, $publicThemePath.'/assets');
+            }
 
-        $themeCssPath = $themePath.'/resources/css/theme.css';
+            $themeCssPath = $themePath.'/resources/css/theme.css';
 
-        if (file_exists($themeCssPath)) {
-            File::ensureDirectoryExists($publicThemePath.'/css');
-            File::copy($themeCssPath, $publicThemePath.'/css/theme.css');
+            if (file_exists($themeCssPath)) {
+                File::ensureDirectoryExists($publicThemePath.'/css');
+                File::copy($themeCssPath, $publicThemePath.'/css/theme.css');
+            }
+        } catch (\Throwable) {
+            // Leave the assets unpublished; the theme is still listed and usable.
         }
     }
 
@@ -353,18 +370,24 @@ class ThemeService
             return;
         }
 
-        foreach (File::allDirectories($root) as $directory) {
-            if (basename($directory) === '__MACOSX') {
-                File::deleteDirectory($directory);
+        // Best effort only. On a container image the application directory is not
+        // writable, and this housekeeping must never be the reason a page 500s.
+        try {
+            foreach (File::allDirectories($root) as $directory) {
+                if (basename($directory) === '__MACOSX') {
+                    File::deleteDirectory($directory);
+                }
             }
-        }
 
-        foreach (File::allFiles($root) as $file) {
-            $filename = $file->getFilename();
+            foreach (File::allFiles($root) as $file) {
+                $filename = $file->getFilename();
 
-            if (str_starts_with($filename, '._') || $filename === '.DS_Store') {
-                File::delete($file->getPathname());
+                if (str_starts_with($filename, '._') || $filename === '.DS_Store') {
+                    File::delete($file->getPathname());
+                }
             }
+        } catch (\Throwable) {
+            // Nothing to clean if the directory cannot be modified.
         }
     }
 
