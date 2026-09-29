@@ -102,6 +102,8 @@ Order list and detail, invoices, booking dates, delivery scheduling, admin repor
 
 ## 5. Phase 4 — Currency: AFN primary, USD secondary
 
+**Decision taken: manual conversion.** No live exchange-rate API. The rate is entered by hand.
+
 Current state: a full multi-currency system already exists — `currencies` table, `CurrencySeeder`, `CountrySeeder`, and an exchange-rate layer. It is currently seeded for the Indian market (INR, with Razorpay as the payment gateway).
 
 **Low-effort approach** (no rewrite):
@@ -110,12 +112,11 @@ Current state: a full multi-currency system already exists — `currencies` tabl
 2. Set AFN as the base/default currency and the shop's display currency.
 3. **Disable** the other currencies rather than deleting them — deleting rows risks breaking historical orders that reference them.
 4. Hide non-enabled currencies in the admin currency settings screen.
-5. Decide display rule: AFN primary with USD as a secondary reference line, or a manual AFN/USD toggle.
+5. Manual rate: one editable AFN→USD rate, stored in settings, with the date it was last set. Price conversion is then a pure function of that stored number, so historical orders keep the rate that applied when they were placed.
 
-**Needs your decision:**
+**Why manual is the right call here:** no external dependency, no API key, no rate-limit failures, and the rate is auditable. The one risk is that someone forgets to update it, so the settings screen should show the rate and the date it was last changed.
 
-- Is USD a live-converted display price, or a manually-entered rate you maintain?
-- Is this an Afghan shop taking USD, or AFN only with USD for reference pricing? This changes the payment gateway work substantially.
+**Still undecided:** whether the payment gateway stays Razorpay or moves to an Afghan one. This is the largest remaining unknown in this phase.
 
 ---
 
