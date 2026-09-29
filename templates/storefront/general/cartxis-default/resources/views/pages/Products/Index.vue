@@ -82,6 +82,7 @@ const props = defineProps<Props>();
 const viewMode = ref<'grid' | 'list'>('grid');
 const isLoading = ref(false);
 const showQuickView = ref(false);
+const showFilters = ref(false);
 const selectedProductSlug = ref<string | null>(null);
 
 const sortOptions = [
@@ -255,6 +256,19 @@ const clearAllFilters = (event: Event) => {
     });
 };
 
+// Reset all filters from the empty state
+const resetFilters = (event: Event) => {
+    event.preventDefault();
+    isLoading.value = true;
+    router.get('/products', {}, {
+        preserveState: true,
+        preserveScroll: false,
+        onFinish: () => {
+            isLoading.value = false;
+        }
+    });
+};
+
 // Check if any filters are active
 const hasActiveFilters = computed(() => {
     return props.activeFilters.category || props.activeFilters.brand || props.activeFilters.search || 
@@ -347,9 +361,22 @@ const activeFilterBadges = computed(() => {
 
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- Filters Sidebar -->
-                    <aside class="lg:w-64 flex-shrink-0">
+                    <aside id="product-filters" class="lg:w-64 flex-shrink-0" :class="showFilters ? 'block' : 'hidden lg:block'">
                         <div class="bg-white rounded-2xl shadow-md p-6 sticky top-24">
-                            <h2 class="text-xl font-bold text-gray-900 mb-6">{{ $t('Filters') }}</h2>
+                            <div class="flex items-center justify-between mb-6 gap-2">
+                                <h2 class="text-xl font-bold text-gray-900">{{ $t('Filters') }}</h2>
+                                <button
+                                    type="button"
+                                    @click="showFilters = false"
+                                    class="lg:hidden p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                                    :title="$t('Close')"
+                                    :aria-label="$t('Close')"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
 
                             <!-- Categories -->
                             <div class="mb-6">
@@ -462,7 +489,25 @@ const activeFilterBadges = computed(() => {
                     <!-- Main Content -->
                     <main class="flex-1">
                         <!-- Toolbar -->
-                        <div class="bg-white rounded-2xl shadow-md p-4 mb-6 flex items-center justify-between">
+                        <div class="bg-white rounded-2xl shadow-md p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <!-- Mobile Filters Toggle -->
+                            <button
+                                type="button"
+                                @click="showFilters = !showFilters"
+                                class="lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors"
+                                :class="showFilters ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
+                                :aria-expanded="showFilters"
+                                aria-controls="product-filters"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                                <span>{{ $t('Filters') }}</span>
+                                <span v-if="activeFilterBadges.length" class="inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-full text-xs font-semibold" :class="showFilters ? 'bg-white text-indigo-600' : 'bg-indigo-600 text-white'">
+                                    {{ activeFilterBadges.length }}
+                                </span>
+                            </button>
+
                             <!-- View Toggle -->
                             <div class="flex gap-2">
                                 <button
@@ -535,7 +580,7 @@ const activeFilterBadges = computed(() => {
                             <p class="text-gray-600 mb-6">{{ $t('Try adjusting your filters or search terms') }}</p>
                             <a
                                 href="/products"
-                                @click="handleFilterClick('/products', $event)"
+                                @click="resetFilters($event)"
                                 class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
                             >
                                 {{ $t('Clear Filters') }}
