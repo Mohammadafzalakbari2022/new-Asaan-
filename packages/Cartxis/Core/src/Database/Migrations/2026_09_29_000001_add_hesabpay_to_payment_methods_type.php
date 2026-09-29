@@ -47,10 +47,24 @@ return new class extends Migration
         $driver = DB::connection()->getDriverName();
 
         if ($driver === 'pgsql') {
-            // Laravel derives the enum type name as {table}_{column}_enum.
-            $exists = DB::selectOne("SELECT 1 FROM pg_type WHERE typname = 'payment_methods_type_enum'");
+            // Laravel's enum() on PostgreSQL compiles to a CHECK constraint
+            // named {table}_{column}_check, not a native enum type. The known
+            // name is asserted by Laravel's own grammar, and the constraint was
+            // reported by name in the production failure. Drop it and re-add it
+            // with the widened value list.
+            DB::statement('ALTER TABLE payment_methods DROP CONSTRAINT IF EXISTS payment_methods_type_check');
 
-            if ($exists) {
+            $values = "'" . implode("','", self::VALUES) . "'";
+
+            DB::statement(
+                "ALTER TABLE payment_methods ADD CONSTRAINT payment_methods_type_check CHECK (type IN ({$values}))"
+            );
+
+            // Belt and braces for databases that were upgraded by hand to a
+            // native enum type; harmless (and still idempotent) if absent.
+            $native = DB::selectOne("SELECT 1 FROM pg_type WHERE typname = 'payment_methods_type_enum'");
+
+            if ($native) {
                 DB::statement("ALTER TYPE payment_methods_type_enum ADD VALUE IF NOT EXISTS 'hesabpay'");
             }
 

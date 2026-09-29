@@ -316,7 +316,42 @@ class HesabPayGateway implements PaymentGatewayInterface
             ];
         })->values()->all();
 
-        return $items;
+        // An empty items array is rejected by the API.
+        if (empty($items)) {
+            return [$this->summaryItem($order)];
+        }
+
+        $total = round((float) $order->total, 2);
+        $remainder = round($total - round(array_sum(array_column($items, 'price')), 2), 2);
+
+        if (abs($remainder) < 0.01) {
+            return $items;
+        }
+
+        // Tax and shipping push the total up. Add one line for the difference so
+        // the customer still sees their goods itemised.
+        if ($remainder > 0) {
+            $items[] = [
+                'id' => mb_substr($order->order_number . '-adj', 0, 50),
+                'name' => 'Tax, shipping and discounts',
+                'price' => $remainder,
+            ];
+
+            return $items;
+        }
+
+        // Coupons or referral credit take the total below the sum of the goods.
+        // The public API documents a price as a plain non-negative item amount
+        // and never mentions negative lines, so rather than risk a rejected
+        // session the order is sent as a single exact-total line. Correct
+        // charging matters more than an itemised receipt.
+        Log::info('HesabPayGateway: Order total is below its item subtotal, sending a single summary line', [
+            'order_id' => $order->id,
+            'total' => $total,
+            'remainder' => $remainder,
+        ]);
+
+        return [$this->summaryItem($order)];
     }
 
     /**
