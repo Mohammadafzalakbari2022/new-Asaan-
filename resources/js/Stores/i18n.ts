@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
 import axios from 'axios'
 import en from '../../../lang/en.json'
@@ -39,15 +39,21 @@ function interpolate(text: string, params?: Record<string, string | number>): st
 
 export const useI18nStore = defineStore('i18n', () => {
     const page = usePage()
-    const props = computed(() => page.props as Record<string, unknown>)
 
-    const initialLocale = props.value.locale as string | undefined
-    const locale = ref<string>(initialLocale && SUPPORTED_LOCALES.includes(initialLocale) ? initialLocale : 'fa')
+    // Inertia assigns the page from inside the InertiaApp component's setup,
+    // which runs when the app is mounted. This store is created earlier than
+    // that -- app.ts calls it to install $t before mount -- so on the very
+    // first read the page props are not there yet. Default to an empty object
+    // rather than reading straight off undefined, and pick the real values up
+    // via the watcher below as soon as the page arrives.
+    const props = computed<Record<string, unknown>>(() => (page.props ?? {}) as Record<string, unknown>)
 
-    const initialLocales = props.value.locales as LocaleOption[] | undefined
-    const locales = ref<LocaleOption[]>(
-        Array.isArray(initialLocales) && initialLocales.length > 0 ? initialLocales : [],
-    )
+    const locale = ref<string>('fa')
+    const locales = ref<LocaleOption[]>([])
+
+    // Set once the visitor picks a language themselves, so a later page load
+    // does not drag them back to the server's default.
+    const chosenByVisitor = ref(false)
 
     const activeDict = computed(() => dictionaries[locale.value] ?? dictionaries.en ?? {})
     const fallbackDict = dictionaries.en ?? {}
@@ -60,7 +66,23 @@ export const useI18nStore = defineStore('i18n', () => {
         document.documentElement.setAttribute('dir', dir)
     }
 
-    applyDocument(locale.value, locales.value)
+    function syncFromPage(pageProps: Record<string, unknown>): void {
+        const code = pageProps?.locale as string | undefined
+        if (code && SUPPORTED_LOCALES.includes(code) && !chosenByVisitor.value) {
+            locale.value = code
+        }
+
+        const list = pageProps?.locales as LocaleOption[] | undefined
+        if (Array.isArray(list) && list.length > 0) {
+            locales.value = list
+        }
+
+        applyDocument(locale.value, locales.value)
+    }
+
+    // immediate so the seeded 'fa' default is applied when the page never
+    // carries a locale, and so a real locale is picked up the moment it lands.
+    watch(props, syncFromPage, { immediate: true })
 
     function t(key: string, params?: Record<string, string | number>): string {
         const source = activeDict.value[key] ?? (fallbackDict as Record<string, string>)[key] ?? key
@@ -74,6 +96,8 @@ export const useI18nStore = defineStore('i18n', () => {
      */
     async function setLocale(code: string): Promise<void> {
         if (!SUPPORTED_LOCALES.includes(code) || code === locale.value) return
+
+        chosenByVisitor.value = true
 
         try {
             await axios.post(`/locale/${code}`)
