@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { router, Link, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import type { Transaction, TransactionFilters, TransactionStatistics, StatusOption, PaginatedResponse } from '@/types/sales';
 import { useCurrency } from '@/composables/useCurrency';
 import {
@@ -105,16 +106,6 @@ watch(selectAll, (value) => {
     selectedIds.value = [];
   }
 });
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
 
 const getStatusBadge = (status: string) => {
   const badges: Record<string, string> = {
@@ -512,7 +503,7 @@ const exportTransactions = () => {
                   <span v-else class="text-sm text-gray-500 dark:text-gray-400">{{ $t('N/A') }}</span>
                 </td>
                 <td class="hidden xl:table-cell px-6 py-4 whitespace-nowrap">
-                  <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(transaction.created_at) }}</span>
+                  <span class="text-sm text-gray-500 dark:text-gray-400"><DateDisplay :value="transaction.created_at" time /></span>
                 </td>
                 <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                   <span
@@ -569,7 +560,7 @@ const exportTransactions = () => {
                         </div>
                          <div class="xl:hidden flex flex-col gap-2">
                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Date') }}</span>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(transaction.created_at) }}</span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400"><DateDisplay :value="transaction.created_at" time /></span>
                         </div>
                     </div>
                  </td>

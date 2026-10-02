@@ -2,6 +2,7 @@
 import { Head, router, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { ref, computed, watch } from 'vue';
 import { debounce } from 'lodash';
 import { useCurrency } from '@/composables/useCurrency';
@@ -128,14 +129,6 @@ const getRefundMethodBadge = (method: string) => {
   return method === 'online' 
     ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800' 
     : 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-800';
-};
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
 };
 
 const downloadPdf = (id: number) => {
@@ -428,7 +421,7 @@ const cancelCreditMemo = (id: number) => {
                   <div class="text-sm font-bold text-gray-900 dark:text-white">{{ formatPrice(creditMemo.grand_total) }}</div>
                 </td>
                 <td class="hidden xl:table-cell px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(creditMemo.created_at) }}</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400"><DateDisplay :value="creditMemo.created_at" /></div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                    <div class="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
@@ -499,7 +492,7 @@ const cancelCreditMemo = (id: number) => {
                                </div>
                                <div>
                                   <span class="text-xs text-gray-500 block">{{ $t('Date') }}</span>
-                                  <span class="text-gray-700 dark:text-gray-300 mt-1 block">{{ formatDate(creditMemo.created_at) }}</span>
+                                  <span class="text-gray-700 dark:text-gray-300 mt-1 block"><DateDisplay :value="creditMemo.created_at" /></span>
                                </div>
                             </div>
                         </div>

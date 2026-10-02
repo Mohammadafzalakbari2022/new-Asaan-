@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { Head, router, Link, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { debounce } from 'lodash';
 import {
   Search,
@@ -221,7 +222,7 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
                   <td class="px-4 py-3 text-sm text-gray-600">
                     <span v-if="d.scheduled_date" class="inline-flex items-center gap-1">
                       <Calendar class="h-3.5 w-3.5 text-gray-400" />
-                      {{ new Date(d.scheduled_date).toLocaleDateString() }}
+                      <DateDisplay :value="d.scheduled_date" />
                     </span>
                     <span v-else>—</span>
                   </td>

@@ -4,14 +4,13 @@ import { router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import type { Transaction } from '@/types/sales';
 import { useCurrency } from '@/composables/useCurrency';
-import { useI18nStore } from '@/Stores/i18n';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 
 const props = defineProps<{
   transaction: Transaction;
   relatedTransactions: Transaction[];
 }>();
 
-const { t } = useI18nStore();
 const { formatPrice } = useCurrency();
 
 const showRefundModal = ref(false);
@@ -70,17 +69,6 @@ const getTypeBadgeClass = (type: string) => {
     capture: 'bg-teal-100 text-teal-800 border-teal-200',
   };
   return classes[type as keyof typeof classes] || 'bg-gray-100 text-gray-800 border-gray-200';
-};
-
-const formatDate = (date?: string) => {
-  if (!date) return t('N/A');
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 };
 
 const formatJson = (data: any) => {
@@ -220,12 +208,12 @@ const formatJson = (data: any) => {
 
               <div>
                 <label class="text-sm text-gray-600">{{ $t('Created At') }}</label>
-                <p class="font-medium text-gray-900">{{ formatDate(transaction.created_at) }}</p>
+                <p class="font-medium text-gray-900"><DateDisplay :value="transaction.created_at" time /></p>
               </div>
 
               <div>
                 <label class="text-sm text-gray-600">{{ $t('Processed At') }}</label>
-                <p class="font-medium text-gray-900">{{ formatDate(transaction.processed_at) }}</p>
+                <p class="font-medium text-gray-900"><DateDisplay :value="transaction.processed_at" time /></p>
               </div>
             </div>
 
@@ -253,7 +241,7 @@ const formatJson = (data: any) => {
               >
                 <div class="flex-1">
                   <p class="font-medium text-gray-900">{{ related.transaction_number }}</p>
-                  <p class="text-sm text-gray-600">{{ formatDate(related.created_at) }}</p>
+                  <p class="text-sm text-gray-600"><DateDisplay :value="related.created_at" time /></p>
                 </div>
                 <div class="flex items-center gap-3">
                   <span

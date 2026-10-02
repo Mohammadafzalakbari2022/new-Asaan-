@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Head, router, Link, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { ArrowLeft, MapPin, Phone, User, Calendar, Package, Banknote, Trash2, RefreshCw } from 'lucide-vue-next';
 
 interface Driver {
@@ -154,7 +155,7 @@ const cancelDelivery = () => {
                     <span v-if="e.actor" class="font-normal text-gray-500">· {{ e.actor.name }}</span>
                   </p>
                   <p v-if="e.note" class="text-sm text-gray-600">{{ e.note }}</p>
-                  <p class="text-xs text-gray-400">{{ new Date(e.created_at).toLocaleString() }}</p>
+                  <p class="text-xs text-gray-400"><DateDisplay :value="e.created_at" time /></p>
                 </div>
               </li>
             </ol>

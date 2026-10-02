@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { debounce } from 'lodash';
 import { Search, Plus, Users, X, Trash2, KeyRound, Edit2 } from 'lucide-vue-next';
 
@@ -160,7 +161,7 @@ const deleteUser = (row: StaffRow) => {
                       {{ $t(s.is_active ? 'Active' : 'Inactive') }}
                     </span>
                   </td>
-                  <td class="px-4 py-3 text-sm text-gray-600">{{ new Date(s.created_at).toLocaleDateString() }}</td>
+                  <td class="px-4 py-3 text-sm text-gray-600"><DateDisplay :value="s.created_at" /></td>
                   <td class="px-4 py-3 text-right">
                     <div class="flex items-center justify-end gap-1">
                       <button type="button" class="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 hover:text-blue-600" :title="$t('Edit')" @click="openEdit(s)">

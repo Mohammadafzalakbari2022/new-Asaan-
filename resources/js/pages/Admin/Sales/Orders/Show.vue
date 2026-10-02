@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { ref } from 'vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { useI18nStore } from '@/Stores/i18n';
@@ -187,16 +188,6 @@ function getStatusBadge(status: string): string {
   return badges[status] || badges.pending;
 }
 
-function formatDate(date: string): string {
-  return new Date(date).toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-}
-
 const shippingAddress = props.order.addresses.find(a => a.type === 'shipping');
 const billingAddress = props.order.addresses.find(a => a.type === 'billing');
 </script>
@@ -227,7 +218,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
               {{ order.source_channel }}
             </span>
           </div>
-          <p class="mt-1 text-sm text-gray-600">{{ formatDate(order.created_at) }}</p>
+          <p class="mt-1 text-sm text-gray-600"><DateDisplay :value="order.created_at" time /></p>
         </div>
         <div class="flex gap-2">
           <button
@@ -455,11 +446,11 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                         </div>
                         <div v-if="shipment.shipped_at">
                            <span class="font-medium text-gray-700">{{ $t('Shipped:') }}</span>
-                          <span class="ml-2 text-gray-900">{{ formatDate(shipment.shipped_at) }}</span>
+                          <span class="ml-2 text-gray-900"><DateDisplay :value="shipment.shipped_at" time /></span>
                         </div>
                         <div v-if="shipment.delivered_at">
                            <span class="font-medium text-gray-700">{{ $t('Delivered:') }}</span>
-                          <span class="ml-2 text-gray-900">{{ formatDate(shipment.delivered_at) }}</span>
+                          <span class="ml-2 text-gray-900"><DateDisplay :value="shipment.delivered_at" time /></span>
                         </div>
                       </div>
 
@@ -508,7 +499,7 @@ const billingAddress = props.order.addresses.find(a => a.type === 'billing');
                     </div>
                     <div v-if="history.comment" class="mt-1 text-sm text-gray-600">{{ history.comment }}</div>
                     <div class="mt-1 text-xs text-gray-500">
-                      {{ history.admin_user?.name || $t('System') }} • {{ formatDate(history.created_at) }}
+                      {{ history.admin_user?.name || $t('System') }} • <DateDisplay :value="history.created_at" time />
                       <span v-if="history.customer_notified" class="ml-2 text-blue-600">✓ {{ $t('Customer notified') }}</span>
                     </div>
                   </div>

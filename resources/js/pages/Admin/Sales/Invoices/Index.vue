@@ -2,9 +2,11 @@
 import { Head, router, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { ref, computed, watch } from 'vue';
 import { debounce } from 'lodash';
 import { useCurrency } from '@/composables/useCurrency';
+import { useCalendar } from '@/composables/useCalendar';
 import {
   Search,
   Filter,
@@ -65,6 +67,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const { formatPrice } = useCurrency();
+const { formatDate: formatCalendarDate } = useCalendar();
 
 const search = ref(props.filters.search || '');
 const statusFilter = ref(props.filters.status || '');
@@ -147,14 +150,6 @@ const getStatusBadge = (status: string) => {
     cancelled: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800',
   };
   return badges[status] || badges.pending;
-};
-
-const formatDate = (date: string): string => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
 };
 </script>
 
@@ -376,7 +371,7 @@ const formatDate = (date: string): string => {
                     >
                       {{ invoice.invoice_number }}
                     </Link>
-                    <span v-if="invoice.due_date" class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $t('Due: {date}', { date: formatDate(invoice.due_date) }) }}</span>
+                    <span v-if="invoice.due_date" class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $t('Due: {date}', { date: formatCalendarDate(invoice.due_date) }) }}</span>
                   </div>
                 </td>
                 <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
@@ -401,7 +396,7 @@ const formatDate = (date: string): string => {
                   </div>
                 </td>
                 <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(invoice.issue_date) }}</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400"><DateDisplay :value="invoice.issue_date" /></div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span :class="['inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border shadow-sm', getStatusBadge(invoice.status)]">
@@ -456,11 +451,11 @@ const formatDate = (date: string): string => {
                             <div class="grid grid-cols-2 gap-2">
                                <div>
                                   <span class="text-xs text-gray-500 block">{{ $t('Issued') }}</span>
-                                  <span class="text-gray-700 dark:text-gray-300">{{ formatDate(invoice.issue_date) }}</span>
+                                  <span class="text-gray-700 dark:text-gray-300"><DateDisplay :value="invoice.issue_date" /></span>
                                </div>
                                <div v-if="invoice.due_date">
                                   <span class="text-xs text-gray-500 block">{{ $t('Due') }}</span>
-                                  <span class="text-gray-700 dark:text-gray-300">{{ formatDate(invoice.due_date) }}</span>
+                                  <span class="text-gray-700 dark:text-gray-300"><DateDisplay :value="invoice.due_date" /></span>
                                </div>
                             </div>
                          </div>

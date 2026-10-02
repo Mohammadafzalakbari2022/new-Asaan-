@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
+import { useCalendar } from '@/composables/useCalendar';
 import { ref } from 'vue';
 
 interface ShipmentItem {
@@ -64,6 +66,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const { formatDate: formatCalendarDate } = useCalendar();
+
 // Modal states
 const showUpdateTrackingModal = ref(false);
 const showUpdateStatusModal = ref(false);
@@ -95,16 +99,6 @@ function getStatusBadge(status: string): string {
     cancelled: 'bg-gray-100 text-gray-800 border border-gray-200',
   };
   return badges[status] || badges.pending;
-}
-
-function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
 
 function markAsShipped() {
@@ -191,7 +185,7 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
       <div class="flex justify-between items-start">
         <div>
           <h1 class="text-2xl font-bold text-gray-900">{{ $t('Shipment {number}', { number: shipment.shipment_number }) }}</h1>
-          <p class="text-sm text-gray-500 mt-1">{{ $t('Created: {date}', { date: formatDate(shipment.created_at) }) }}</p>
+          <p class="text-sm text-gray-500 mt-1">{{ $t('Created: {date}', { date: formatCalendarDate(shipment.created_at) }) }}</p>
         </div>
         <div class="flex gap-2">
           <button
@@ -342,7 +336,7 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
             </div>
             <div v-if="shipment.shiprocket_synced_at">
               <div class="text-sm text-gray-600">{{ $t('Last Synced') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ formatDate(shipment.shiprocket_synced_at) }}</div>
+              <div class="mt-1 font-medium text-gray-900"><DateDisplay :value="shipment.shiprocket_synced_at" time /></div>
             </div>
             <div>
               <div class="text-sm text-gray-600">{{ $t('Delivery Status') }}</div>
@@ -350,7 +344,7 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
             </div>
             <div v-if="shipment.delivery_synced_at">
               <div class="text-sm text-gray-600">{{ $t('Delivery Last Synced') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ formatDate(shipment.delivery_synced_at) }}</div>
+              <div class="mt-1 font-medium text-gray-900"><DateDisplay :value="shipment.delivery_synced_at" time /></div>
             </div>
             <div v-if="shipment.tracking_url">
               <button
@@ -437,7 +431,7 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
             </div>
             <div class="ml-4">
               <div class="text-sm font-medium text-gray-900">{{ $t('Shipment Created') }}</div>
-              <div class="text-sm text-gray-500">{{ formatDate(shipment.created_at) }}</div>
+              <div class="text-sm text-gray-500"><DateDisplay :value="shipment.created_at" time /></div>
             </div>
           </div>
 
@@ -451,7 +445,7 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
             </div>
             <div class="ml-4">
               <div class="text-sm font-medium text-gray-900">{{ $t('Shipped') }}</div>
-              <div class="text-sm text-gray-500">{{ formatDate(shipment.shipped_at) }}</div>
+              <div class="text-sm text-gray-500"><DateDisplay :value="shipment.shipped_at" time /></div>
             </div>
           </div>
 
@@ -465,7 +459,7 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
             </div>
             <div class="ml-4">
               <div class="text-sm font-medium text-gray-900">{{ $t('Delivered') }}</div>
-              <div class="text-sm text-gray-500">{{ formatDate(shipment.delivered_at) }}</div>
+              <div class="text-sm text-gray-500"><DateDisplay :value="shipment.delivered_at" time /></div>
             </div>
           </div>
         </div>

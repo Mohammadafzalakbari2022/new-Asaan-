@@ -3,6 +3,7 @@ import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { ref } from 'vue';
 import { useCurrency } from '@/composables/useCurrency';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import type { CreditMemo } from '@/types/sales';
 
 interface Props {
@@ -13,16 +14,6 @@ const props = defineProps<Props>();
 const { formatPrice } = useCurrency();
 
 const activeTab = ref('overview');
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
 
 const getStatusBadge = (status: string) => {
   const badges: Record<string, string> = {
@@ -131,7 +122,7 @@ const viewInvoice = () => {
 
         <div class="bg-white rounded-lg shadow-sm p-6">
           <div class="text-sm text-gray-600">{{ $t('Created') }}</div>
-          <div class="mt-2 text-sm text-gray-900">{{ formatDate(creditMemo.created_at) }}</div>
+          <div class="mt-2 text-sm text-gray-900"><DateDisplay :value="creditMemo.created_at" time /></div>
         </div>
       </div>
 
@@ -198,11 +189,11 @@ const viewInvoice = () => {
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">{{ $t('Created At') }}</div>
-                  <div class="mt-1 text-gray-900">{{ formatDate(creditMemo.created_at) }}</div>
+                  <div class="mt-1 text-gray-900"><DateDisplay :value="creditMemo.created_at" time /></div>
                 </div>
                 <div v-if="creditMemo.refunded_at">
                   <div class="text-sm text-gray-600">{{ $t('Refunded At') }}</div>
-                  <div class="mt-1 text-gray-900">{{ formatDate(creditMemo.refunded_at) }}</div>
+                  <div class="mt-1 text-gray-900"><DateDisplay :value="creditMemo.refunded_at" time /></div>
                 </div>
               </div>
             </div>
@@ -365,7 +356,7 @@ const viewInvoice = () => {
                 </div>
                 <div v-if="creditMemo.refunded_at">
                   <div class="text-sm text-gray-600">{{ $t('Refunded At') }}</div>
-                  <div class="mt-1 text-gray-900">{{ formatDate(creditMemo.refunded_at) }}</div>
+                  <div class="mt-1 text-gray-900"><DateDisplay :value="creditMemo.refunded_at" time /></div>
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">{{ $t('Refund Amount') }}</div>

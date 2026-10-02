@@ -3,6 +3,7 @@ import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { ref, computed, watch } from 'vue';
 import { useCurrency } from '@/composables/useCurrency';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import type { Order, RefundableItem, StatusOption } from '@/types/sales';
 
 interface Props {
@@ -128,14 +129,6 @@ const submit = () => {
 const cancel = () => {
   router.visit('/admin/sales/credit-memos');
 };
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-};
 </script>
 
 <template>
@@ -187,7 +180,7 @@ const formatDate = (date: string) => {
             </div>
             <div>
               <div class="text-sm text-gray-600">{{ $t('Order Date') }}</div>
-              <div class="mt-1 text-gray-900">{{ formatDate(selectedOrder.created_at) }}</div>
+              <div class="mt-1 text-gray-900"><DateDisplay :value="selectedOrder.created_at" /></div>
             </div>
             <div>
               <div class="text-sm text-gray-600">{{ $t('Payment Method') }}</div>
