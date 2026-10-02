@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { useI18nStore } from '@/Stores/i18n';
 
@@ -83,7 +84,7 @@ const statusText: Record<string, string> = {
                 <dl class="mt-4 space-y-3 text-sm">
                     <div class="flex justify-between gap-4">
                         <dt class="text-gray-600">{{ $t('Date') }}</dt>
-                        <dd class="font-medium text-gray-900">{{ booking.scheduled_date }}</dd>
+                        <dd class="font-medium text-gray-900"><DateDisplay :value="booking.scheduled_date" /></dd>
                     </div>
                     <div class="flex justify-between gap-4">
                         <dt class="text-gray-600">{{ $t('Time') }}</dt>

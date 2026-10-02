@@ -45,6 +45,7 @@ import {
     formatLong,
     formatShort,
     formatSolar,
+    formatTime,
     fromGregorian,
     fromNumerals,
     isLeapYear,
@@ -595,6 +596,36 @@ test('a date is formatted identically from every kind of input', () => {
     assert.equal(formatDate('2025-09-06T13:45:00+04:30', 'fa'), expected);
     assert.equal(formatDate(new Date('2025-09-06T23:59:59Z'), 'fa'), expected);
     assert.equal(formatDate(Date.UTC(2025, 8, 6), 'fa'), expected);
+});
+
+test('a timestamp can show its clock time, in the reader\'s digits', () => {
+    // One run of time, shared by both halves of the pairing, not two.
+    assert.equal(formatTime('2025-09-06T14:30:00'), '۱۴:۳۰');
+    assert.equal(formatTime('2025-09-06T14:30:00', { numerals: 'latn' }), '14:30');
+    assert.equal(
+        formatTime('2025-09-06T14:30:00', { numerals: 'arab' }),
+        '١٤:٣٠',
+    );
+
+    // Seconds only when asked for.
+    assert.equal(
+        formatTime('2025-09-06T14:30:09', { seconds: true, numerals: 'latn' }),
+        '14:30:09',
+    );
+
+    // Midnight and a single-digit hour are zero-padded so a column lines up.
+    assert.equal(formatTime('2025-09-06T00:05:00', { numerals: 'latn' }), '00:05');
+    assert.equal(formatTime('2025-09-06T09:00:00', { numerals: 'latn' }), '09:00');
+
+    // A stored date with no time is read as the start of the day, not an error.
+    assert.equal(formatTime('2025-09-06', { numerals: 'latn' }), '00:00');
+});
+
+test('an unreadable timestamp yields an empty clock, never "NaN"', () => {
+    // The caller drops an empty run, so bad data leaves a clean date rather than
+    // a broken-looking "NaN:NaN" beside it.
+    assert.equal(formatTime('not a date'), '');
+    assert.equal(formatTime(''), '');
 });
 
 // ---------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 
 interface Category { id: number; name: string; slug: string }
 interface Post {
@@ -23,9 +24,6 @@ defineProps<{
     post: Post;
     related: Post[];
 }>();
-
-const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 </script>
 
 <template>
@@ -76,7 +74,7 @@ const formatDate = (date: string) =>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
-                                {{ formatDate(post.published_at) }}
+                                <DateDisplay :value="post.published_at" />
                             </span>
                             <span class="flex items-center gap-1.5">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +118,7 @@ const formatDate = (date: string) =>
                                 <h3 class="text-sm font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
                                     <Link :href="`/blog/${relPost.slug}`">{{ relPost.title }}</Link>
                                 </h3>
-                                <p class="text-xs text-gray-500">{{ formatDate(relPost.published_at) }}</p>
+                                <p class="text-xs text-gray-500"><DateDisplay :value="relPost.published_at" /></p>
                             </div>
                         </article>
                     </div>

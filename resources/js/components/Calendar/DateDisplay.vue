@@ -11,13 +11,23 @@ const props = withDefaults(
         weekday?: boolean;
         /** Numerals only: '۱۴۰۴/۰۶/۱۵ (2025/09/06)'. */
         short?: boolean;
+        /** Append the clock time for a stored timestamp: '· ۱۴:۳۰'. */
+        time?: boolean;
+        /** Include seconds with the clock. Off by default. */
+        seconds?: boolean;
         placeholder?: string;
     }>(),
-    { weekday: false, short: false, placeholder: '—' },
+    { weekday: false, short: false, time: false, seconds: false, placeholder: '—' },
 );
 
-const { formatDate, formatSolar, formatGregorian, settings, direction } =
-    useCalendar();
+const {
+    formatDate,
+    formatSolar,
+    formatGregorian,
+    formatTime,
+    settings,
+    direction,
+} = useCalendar();
 
 const dateValue = computed<Date | string | number | null>(() => {
     const value = props.value;
@@ -42,6 +52,13 @@ const long = computed(() =>
     dateValue.value === null
         ? ''
         : formatDate(dateValue.value, { weekday: true, short: props.short }),
+);
+
+/** The clock on a timestamp, one run shared by both calendar halves. */
+const clock = computed(() =>
+    dateValue.value === null || !props.time
+        ? ''
+        : formatTime(dateValue.value, { seconds: props.seconds }),
 );
 </script>
 
@@ -75,5 +92,18 @@ const long = computed(() =>
                 ({{ gregorian }})
             </span>
         </template>
+
+        <!--
+            The clock trails the whole stamp so it reads the same whether or not
+            the weekday was asked for. Kept out of the Gregorian run: a time is
+            not Gregorian, it is the same instant on either calendar.
+        -->
+        <span
+            v-if="clock"
+            class="tabular-nums text-gray-500 dark:text-gray-400"
+            dir="ltr"
+        >
+            · {{ clock }}
+        </span>
     </span>
 </template>

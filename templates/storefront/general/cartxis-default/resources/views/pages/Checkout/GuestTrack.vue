@@ -2,6 +2,7 @@
 import { Head, router } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import ThemeLayout from '../../layouts/ThemeLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import UIBlockRenderer from '@/components/UIEditor/UIBlockRenderer.vue'
 import { useCurrency } from '@/composables/useCurrency'
 
@@ -67,7 +68,7 @@ const submit = () => {
         <div class="space-y-2 text-sm">
           <div class="flex justify-between"><span class="text-gray-600">{{ $t('Status') }}</span><span class="font-medium">{{ $t(trackedOrder.status.charAt(0).toUpperCase() + trackedOrder.status.slice(1)) }}</span></div>
           <div class="flex justify-between"><span class="text-gray-600">{{ $t('Payment Status') }}</span><span>{{ $t(trackedOrder.payment_status.charAt(0).toUpperCase() + trackedOrder.payment_status.slice(1)) }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Placed On') }}</span><span>{{ trackedOrder.created_at }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Placed On') }}</span><DateDisplay :value="trackedOrder.created_at" time /></div>
           <div class="flex justify-between"><span class="text-gray-600">{{ $t('Items') }}</span><span>{{ trackedOrder.items_count }}</span></div>
           <div class="flex justify-between"><span class="text-gray-600">{{ $t('Total') }}</span><span class="font-semibold">{{ formatPrice(trackedOrder.total) }}</span></div>
         </div>

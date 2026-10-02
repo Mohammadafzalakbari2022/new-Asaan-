@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 
 interface Category {
     id: number;
@@ -32,9 +33,6 @@ defineProps<{
     posts: PaginatedPosts;
     categories: Category[];
 }>();
-
-const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 </script>
 
 <template>
@@ -98,7 +96,7 @@ const formatDate = (date: string) =>
 
                                     <!-- Meta -->
                                     <div class="flex items-center justify-between text-xs text-gray-500">
-                                        <span>{{ formatDate(post.published_at) }}</span>
+                                        <DateDisplay :value="post.published_at" />
                                         <Link :href="`/blog/${post.slug}`" class="text-blue-600 hover:text-blue-800 font-medium">
                                             {{ $t('Read more →') }}
                                         </Link>

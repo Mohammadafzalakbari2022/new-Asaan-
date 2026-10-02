@@ -2,6 +2,7 @@
 import { computed, nextTick, ref, watch } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { useI18nStore } from '@/Stores/i18n';
 
@@ -204,7 +205,7 @@ watch(
                 <dl class="mt-4 space-y-3 text-sm">
                     <div class="flex justify-between gap-4">
                         <dt class="text-gray-600">{{ $t('Date') }}</dt>
-                        <dd class="font-medium text-gray-900">{{ booking.scheduled_date }}</dd>
+                        <dd class="font-medium text-gray-900"><DateDisplay :value="booking.scheduled_date" /></dd>
                     </div>
                     <div class="flex justify-between gap-4">
                         <dt class="text-gray-600">{{ $t('Time') }}</dt>
@@ -231,7 +232,7 @@ watch(
                             <span class="font-medium text-gray-900">
                                 {{ $t(statusText[event.to_status] ?? event.to_status) }}
                             </span>
-                            <span class="text-gray-500"> - {{ event.created_at }}</span>
+                            <span class="text-gray-500"> - <DateDisplay :value="event.created_at" time /></span>
                             <p v-if="event.note" class="text-gray-600">{{ event.note }}</p>
                         </li>
                     </ol>

@@ -942,6 +942,79 @@ export function formatShort(
     return formatDate(date, locale, { ...options, short: true });
 }
 
+// ---------------------------------------------------------------------------
+// Time of day
+// ---------------------------------------------------------------------------
+
+export interface TimeOptions {
+    /** Include seconds. Off by default: a displayed timestamp rarely needs them. */
+    seconds?: boolean;
+    /** Which digits to draw the hour and minute in. */
+    numerals?: Numerals;
+}
+
+/**
+ * The clock time of a stored timestamp: '14:30', or '۱۴:۳۰' in Persian digits.
+ *
+ * Kept apart from the calendar on purpose. The time of day is the same instant
+ * whichever calendar names the day, so it is one run shared by both halves of a
+ * timestamp rather than something each half renders. Only the digits follow the
+ * numeral set; the ':' stays, because it reads the same in either script.
+ */
+export function formatTime(
+    date: Date | string | number,
+    options: TimeOptions = {},
+): string {
+    const clock = clockParts(date);
+
+    if (clock === null) {
+        return '';
+    }
+
+    const [hours, minutes, seconds] = clock;
+    const pad = (value: number): string => String(value).padStart(2, '0');
+    const value = options.seconds
+        ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
+        : `${pad(hours)}:${pad(minutes)}`;
+
+    return toNumerals(value, options.numerals ?? 'fa');
+}
+
+/**
+ * Read the hour, minute and second, or null when there is nothing to read.
+ *
+ * A date string is taken literally, exactly as gregorianParts() reads the day
+ * beside it. Unlike Date's own parser this does not shift a stored timestamp
+ * across the timezone into the previous date, and a date with no clock on it
+ * reads as the start of the day rather than an error.
+ */
+function clockParts(
+    date: Date | string | number,
+): [number, number, number] | null {
+    if (typeof date === 'string') {
+        const trimmed = date.trim();
+        const literal = trimmed.match(
+            /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?/,
+        );
+
+        if (literal) {
+            return [
+                Number(literal[4] ?? 0),
+                Number(literal[5] ?? 0),
+                Number(literal[6] ?? 0),
+            ];
+        }
+    }
+
+    const when = new Date(date);
+
+    if (Number.isNaN(when.getTime())) {
+        return null;
+    }
+
+    return [when.getUTCHours(), when.getUTCMinutes(), when.getUTCSeconds()];
+}
+
 function renderSolar(
     parts: SolarDateParts,
     locale: SolarLocale,

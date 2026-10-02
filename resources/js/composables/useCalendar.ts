@@ -6,9 +6,11 @@ import {
     formatGregorian as formatGregorianEngine,
     formatShort as formatShortEngine,
     formatSolar as formatSolarEngine,
+    formatTime as formatTimeEngine,
     normaliseLocale,
     type FormatOptions,
     type Numerals,
+    type TimeOptions,
 } from '@/lib/solar-hijri';
 
 /**
@@ -164,6 +166,18 @@ export function useCalendar() {
             ...options,
         });
 
+    /**
+     * The clock on a timestamp: '۱۴:۳۰'.
+     *
+     * One run, shared by both calendar halves, drawn in the same digits as the
+     * Solar date so a stamp reads as a single sentence rather than a mixed one.
+     */
+    const formatTime = (value: DateInput, options: TimeOptions = {}): string =>
+        formatTimeEngine(value, {
+            numerals: settings.value.numerals,
+            ...options,
+        });
+
     return {
         settings,
         locale,
@@ -174,5 +188,6 @@ export function useCalendar() {
         formatGregorian,
         formatShort,
         formatLong,
+        formatTime,
     };
 }
