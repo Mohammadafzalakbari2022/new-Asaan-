@@ -209,6 +209,11 @@ class ReferralLinkService
     public function forgetPendingCode(): void
     {
         session()->forget('referral_code');
+
+        // The inviter's name is only true while the code beside it is still
+        // waiting to be applied. Left behind, it would greet the next person to
+        // register on this browser as "Invited by" somebody who did not.
+        session()->forget('referral_referrer_name');
     }
 
     /**

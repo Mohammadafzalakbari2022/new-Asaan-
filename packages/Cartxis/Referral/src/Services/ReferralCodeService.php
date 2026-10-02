@@ -5,6 +5,7 @@ namespace Cartxis\Referral\Services;
 use App\Models\User;
 use Cartxis\Referral\Models\ReferralCode;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 /**
@@ -12,6 +13,18 @@ use Illuminate\Support\Str;
  */
 class ReferralCodeService
 {
+    /**
+     * The route a shared link must land on. Verified against the route table
+     * rather than assumed, because the register page is what captures the code.
+     */
+    public const REGISTER_ROUTE = 'register';
+
+    /**
+     * Used only when the route table cannot be read (a console command booting
+     * before routes are loaded), so a link is still produced.
+     */
+    public const REGISTER_ROUTE_FALLBACK = 'register';
+
     /**
      * No 0/O/1/I/L, because customers read these aloud and type them from memory.
      */
@@ -71,22 +84,55 @@ class ReferralCodeService
     }
 
     /**
-     * The shareable link for a code.
+     * The shareable link for a code: an absolute link to the registration page
+     * with the code attached.
+     *
+     * It has to point at the registration page and not at the shop home page,
+     * because that is the only page a new customer is on when they open the
+     * link, and a link that lands on a page which never records the code throws
+     * the invitation away.
      */
     public function shareLinkFor(ReferralCode $code): string
     {
-        $base = rtrim((string) config('app.url'), '/');
-
-        if ($base === '' || $base === 'http://localhost') {
-            $base = rtrim((string) config('app.url'), '/');
-        }
-
-        return $base.'/?ref='.rawurlencode($code->code);
+        return $this->registrationLink($code->code);
     }
 
     public function shareLinkForUser(User $user): string
     {
         return $this->shareLinkFor($this->forUser($user));
+    }
+
+    /**
+     * The absolute registration link a customer can paste into a message app.
+     */
+    public function registrationLink(string $code): string
+    {
+        $code = $this->normalise($code);
+
+        return $this->storeUrl().$this->registrationPath().'?ref='.rawurlencode($code);
+    }
+
+    /**
+     * The path of the registration page, taken from the route itself so that
+     * moving or prefixing the register route cannot silently break every link
+     * that has already been sent out.
+     */
+    public function registrationPath(): string
+    {
+        $route = Route::getRoutes()->getByName(self::REGISTER_ROUTE);
+
+        $uri = $route ? $route->uri() : self::REGISTER_ROUTE_FALLBACK;
+
+        return '/'.ltrim($uri, '/');
+    }
+
+    /**
+     * The site's own address, so a link copied out of the admin panel or built
+     * in a queued job is not stamped with whatever host happened to serve it.
+     */
+    public function storeUrl(): string
+    {
+        return rtrim((string) config('app.url'), '/');
     }
 
     public function recordClick(ReferralCode $code): void

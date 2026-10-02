@@ -64,6 +64,7 @@ use Cartxis\Referral\Services\ReferralLinkService;
 use Cartxis\Referral\Services\ReferralSettings;
 use Cartxis\Shop\Models\Order;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 /**
@@ -81,7 +82,45 @@ function referralUser(string $name = 'Test Customer', array $attributes = []): U
 
     app(\Cartxis\Referral\Services\ReferralCodeService::class)->forUser($user);
 
+    verifyReferralFixture($user);
+
     return $user->fresh();
+}
+
+/**
+ * The referral programme only pays identity-verified accounts, so this fixture is
+ * a verified shopper. Without this the shared referral tests would be asserting
+ * the old rule (unverified customers earn) rather than the current one.
+ *
+ * Accounts that earn nothing because they are unverified are covered in
+ * tests/Feature/Identity/IdentityReferralGateTest.php.
+ */
+function verifyReferralFixture(User $user): void
+{
+    if (! Schema::hasTable('identity_verifications')) {
+        return;
+    }
+
+    $crypto = app(\Cartxis\Identity\Services\IdentityCrypto::class);
+
+    $verification = \Cartxis\Identity\Models\IdentityVerification::create([
+        'user_id' => $user->id,
+        'national_id_encrypted' => $crypto->encrypt('TEST-' . $user->id),
+        'national_id_fingerprint' => $crypto->fingerprint('TEST-' . $user->id),
+        'full_name_encrypted' => $crypto->encrypt($user->name),
+        'document_type' => \Cartxis\Identity\Models\IdentityVerification::DOCUMENT_TAZKIRA,
+        // No image: the referral tests never open a document, and writing real
+        // files for a fixture would slow every one of them down.
+        'image_disk' => 'identity_private',
+        'image_path' => 'fixtures/no-document.jpg',
+        'status' => \Cartxis\Identity\Models\IdentityVerification::STATUS_APPROVED,
+        'reviewed_at' => now(),
+    ]);
+
+    $user->forceFill([
+        'identity_verified_at' => now(),
+        'identity_verification_id' => $verification->id,
+    ])->save();
 }
 
 /**

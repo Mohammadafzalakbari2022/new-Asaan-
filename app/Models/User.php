@@ -74,6 +74,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            // Set by the identity review flow only. Deliberately left out of
+            // $fillable: a customer must not be able to verify themselves by
+            // putting the field in a form. IdentityService writes it with
+            // forceFill for the same reason.
+            'identity_verified_at' => 'datetime',
         ];
     }
 

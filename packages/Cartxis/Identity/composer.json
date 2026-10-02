@@ -1,0 +1,22 @@
+{
+    "name": "cartxis/identity",
+    "description": "National ID (Tazkira) verification gate for the Cartxis referral programme",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Cartxis\\Identity\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^13.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cartxis\\Identity\\IdentityServiceProvider"
+            ]
+        }
+    }
+}
