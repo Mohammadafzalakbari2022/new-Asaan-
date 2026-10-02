@@ -4,6 +4,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
 import ServiceCard from '../../components/ServiceCard.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import { useI18nStore } from '@/Stores/i18n';
 
 const { formatPrice } = useCurrency();
@@ -331,11 +332,10 @@ const submit = () => {
                                     <label for="scheduled_date" class="block text-sm font-medium text-gray-700">
                                         {{ $t('Date') }} <span class="text-red-600">*</span>
                                     </label>
-                                    <input
+                                    <DatePicker
                                         id="scheduled_date-field"
                                         v-model="form.scheduled_date"
                                         name="scheduled_date"
-                                        type="date"
                                         :min="booking.earliest_date"
                                         :max="booking.latest_date"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"

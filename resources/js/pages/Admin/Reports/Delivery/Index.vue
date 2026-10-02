@@ -2,6 +2,7 @@
 import AdminPagination from '@/components/Admin/Pagination.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import { Head, router } from '@inertiajs/vue3';
 import {
     ArcElement,
@@ -280,17 +281,10 @@ const rate = (value: number | null) =>
                             class="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                             >{{ $t('Start Date') }}</label
                         >
-                        <div class="relative">
-                            <Calendar
-                                :size="16"
-                                class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
-                            />
-                            <input
-                                v-model="startDate"
-                                type="date"
-                                class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pr-4 pl-10 text-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700/50"
-                            />
-                        </div>
+                        <DatePicker
+                            v-model="startDate"
+                            class="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700/50"
+                        />
                     </div>
 
                     <div>
@@ -298,17 +292,10 @@ const rate = (value: number | null) =>
                             class="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
                             >{{ $t('End Date') }}</label
                         >
-                        <div class="relative">
-                            <Calendar
-                                :size="16"
-                                class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
-                            />
-                            <input
-                                v-model="endDate"
-                                type="date"
-                                class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pr-4 pl-10 text-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700/50"
-                            />
-                        </div>
+                        <DatePicker
+                            v-model="endDate"
+                            class="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-700/50"
+                        />
                     </div>
 
                     <div>

@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { 
     Calendar, 
@@ -203,27 +204,19 @@ const getStatusClass = (status: string) => {
                     <!-- Start Date -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('Start Date') }}</label>
-                        <div class="relative">
-                            <Calendar :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                            <input
-                                v-model="startDate"
-                                type="date"
-                                class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors"
-                            />
-                        </div>
+                        <DatePicker
+                            v-model="startDate"
+                            class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors"
+                        />
                     </div>
 
                     <!-- End Date -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ $t('End Date') }}</label>
-                        <div class="relative">
-                            <Calendar :size="16" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                            <input
-                                v-model="endDate"
-                                type="date"
-                                class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors"
-                            />
-                        </div>
+                        <DatePicker
+                            v-model="endDate"
+                            class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-colors"
+                        />
                     </div>
 
                     <!-- Status Filter -->

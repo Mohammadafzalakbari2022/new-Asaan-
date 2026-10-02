@@ -4,6 +4,7 @@ import { router, Link, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import TiptapEditor from '@/components/Admin/TiptapEditor.vue';
 import ImageUploader from '@/components/Admin/ImageUploader.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import * as productRoutes from '@/routes/admin/catalog/products';
 import axios from '@/lib/axios';
 import { useCurrency } from '@/composables/useCurrency';
@@ -738,13 +739,13 @@ const saveDraft = () => {
                   <!-- From Date -->
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('From Date') }}</label>
-                    <input v-model="form.special_price_from" type="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <DatePicker v-model="form.special_price_from" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                   </div>
 
                   <!-- To Date -->
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('To Date') }}</label>
-                    <input v-model="form.special_price_to" type="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <DatePicker v-model="form.special_price_to" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                   </div>
                 </div>
               </div>

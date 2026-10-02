@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { Line, Bar, Doughnut } from 'vue-chartjs';
 import {
@@ -261,31 +262,19 @@ const getSegmentColor = (segment: string) => {
                             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
                                 {{ $t('Start Date') }}
                             </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Calendar class="h-5 w-5 text-gray-400" />
-                                </div>
-                                <input
-                                    type="date"
-                                    v-model="startDate"
-                                    class="block w-full pl-10 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
-                                />
-                            </div>
+                            <DatePicker
+                                v-model="startDate"
+                                class="block w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                            />
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
                                 {{ $t('End Date') }}
                             </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Calendar class="h-5 w-5 text-gray-400" />
-                                </div>
-                                <input
-                                    type="date"
-                                    v-model="endDate"
-                                    class="block w-full pl-10 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
-                                />
-                            </div>
+                            <DatePicker
+                                v-model="endDate"
+                                class="block w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                            />
                         </div>
                     </div>
                 </div>

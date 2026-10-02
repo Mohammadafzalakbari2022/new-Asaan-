@@ -6,6 +6,7 @@ import ConfirmDeleteModal from '@/components/Admin/ConfirmDeleteModal.vue';
 import TiptapEditor from '@/components/Admin/TiptapEditor.vue';
 import ImageUploader from '@/components/Admin/ImageUploader.vue';
 import InventoryTracker from '@/components/Admin/InventoryTracker.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import * as productRoutes from '@/routes/admin/catalog/products';
 import axios from '@/lib/axios';
 import { useCurrency } from '@/composables/useCurrency';
@@ -1155,10 +1156,9 @@ const deleteProduct = () => {
                         <label for="special_price_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           {{ $t('From Date') }}
                         </label>
-                        <input
+                        <DatePicker
                           id="special_price_from"
                           v-model="form.special_price_from"
-                          type="date"
                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                       </div>
@@ -1167,10 +1167,9 @@ const deleteProduct = () => {
                         <label for="special_price_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           {{ $t('To Date') }}
                         </label>
-                        <input
+                        <DatePicker
                           id="special_price_to"
                           v-model="form.special_price_to"
-                          type="date"
                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                       </div>
