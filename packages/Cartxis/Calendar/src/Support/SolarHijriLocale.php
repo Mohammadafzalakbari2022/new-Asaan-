@@ -26,14 +26,13 @@ namespace Cartxis\Calendar\Support;
  * ------------------------------------------------------------------------
  * THE LOCALES
  * ------------------------------------------------------------------------
- *   'en'  English transliteration.          Farvardin, Ordibehesht, Khordad,
- *   'fa'  Dari, Persian-Arabic script.        Tir, Mordad, Shahrivar, Mehr,
- *   'ps'  Pashto, Persian-Arabic script.       Aban, Azar, Dey, Bahman, Esfand
+ *   'en'  English transliteration.          Hamal, Sawr, Jawza, Saratan,
+ *   'fa'  Dari, Persian-Arabic script.        Asad, Sunbula, Mizan, Aqrab,
+ *   'ps'  Pashto, Persian-Arabic script.      Qaws, Jadi, Dalwa, Hoot
  *   'fa_alt'
- *         Dari with the classical/regional
- *         variants people actually say out
- *         loud -- Sumbul for Shahrivar being
- *         the obvious one.
+ *         Dari alias. Kept so a stored
+ *         'fa_alt' preference keeps working;
+ *         it resolves to the same Afghan names.
  *
  * These are names for DISPLAY. They are not lang/*.json keys and they never
  * were: month names are proper nouns in a calendar, they are the same in an
@@ -55,60 +54,60 @@ final class SolarHijriLocale
      */
     private const MONTHS = [
         'en' => [
-            'Farvardin',
-            'Ordibehesht',
-            'Khordad',
-            'Tir',
-            'Mordad',
-            'Shahrivar',
-            'Mehr',
-            'Aban',
-            'Azar',
-            'Dey',
-            'Bahman',
-            'Esfand',
+            'Hamal',
+            'Sawr',
+            'Jawza',
+            'Saratan',
+            'Asad',
+            'Sunbula',
+            'Mizan',
+            'Aqrab',
+            'Qaws',
+            'Jadi',
+            'Dalwa',
+            'Hoot',
         ],
         'fa' => [
-            'فروردین',
-            'اردیبهشت',
-            'خرداد',
-            'تیر',
-            'مرداد',
-            'شهریور',
-            'مهر',
-            'آبان',
-            'آذر',
-            'دی',
-            'بهمن',
-            'اسفند',
+            'حمل',
+            'ثور',
+            'جوزا',
+            'سرطان',
+            'اسد',
+            'سنبله',
+            'میزان',
+            'عقرب',
+            'قوس',
+            'جدی',
+            'دلو',
+            'حوت',
         ],
         'fa_alt' => [
-            'فروردین',
-            'اردیبهشت',
-            'خرداد',
-            'تیر',
-            'مرداد',
+            'حمل',
+            'ثور',
+            'جوزا',
+            'سرطان',
+            'اسد',
             'سنبله',
-            'مهر',
-            'آبان',
-            'آذر',
-            'دی',
-            'بهمن',
-            'اسفند',
+            'میزان',
+            'عقرب',
+            'قوس',
+            'جدی',
+            'دلو',
+            'حوت',
         ],
         'ps' => [
-            'فرورډین',
-            'اورديبهشت',
-            'خورداد',
-            'تیر',
-            'مرداد',
-            'شېربوار',
-            'مهر',
-            'اګبون',
-            'آذر',
-            'دی',
-            'بهمن',
-            'اسفند',
+            'وری',
+            'غویی',
+            'غبرګولی',
+            'چنګاښ',
+            'زمری',
+            'وږی',
+            'تله',
+            'لړم',
+            'لیندۍ',
+            'مرغومی',
+            'سلواغه',
+            'کب',
         ],
     ];
 

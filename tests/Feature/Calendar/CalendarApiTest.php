@@ -69,7 +69,7 @@ it('lays the week out from Saturday, where the Afghan week starts', function () 
         expect($week[0]['weekday'])->toBe(6);
     }
 
-    // Shahrivar 1404 begins on a Saturday, so it needs no leading padding at
+    // Sunbula 1404 begins on a Saturday, so it needs no leading padding at
     // all and the 1st is already in the first cell. Checked here because it is
     // the case that would be broken by an off-by-one in the padding maths.
     expect($payload['weeks'][0][0]['inMonth'])->toBeTrue()
@@ -77,8 +77,8 @@ it('lays the week out from Saturday, where the Afghan week starts', function () 
 });
 
 it('pads a month that starts mid-week so the 1st lands under its own weekday', function () {
-    // Farvardin 1404 starts on a Friday, so six leading days come from
-    // Esfand and must be greyed out rather than dropped.
+    // Hamal 1404 starts on a Friday, so six leading days come from
+    // Hoot and must be greyed out rather than dropped.
     $payload = $this->getJson('/api/v1/calendar/months/1404/1')->json();
 
     expect(SolarHijri::weekdayOfSolar(1404, 1, 1))->toBe(5)
@@ -97,7 +97,7 @@ it('names the month in the store default language, which is Dari', function () {
     expect(config('calendar.locale'))->toBe('fa')
         ->and(SolarHijriLocale::storeDefault())->toBe('fa')
         ->and($payload['monthName'])->toBe(SolarHijriLocale::monthName(6, 'fa'))
-        ->and($payload['monthName'])->toBe('شهریور');
+        ->and($payload['monthName'])->toBe('سنبله');
 });
 
 it('lets the store change its default date language in one place', function () {
@@ -109,12 +109,12 @@ it('lets the store change its default date language in one place', function () {
 
     expect(SolarHijriLocale::storeDefault())->toBe('en')
         ->and(solar_hijri('2025-09-06'))->toContain('September')
-        ->and(solar_hijri('2025-09-06'))->toContain('Shahrivar');
+        ->and(solar_hijri('2025-09-06'))->toContain('Sunbula');
 
     config(['calendar.locale' => 'fa']);
 
     expect(SolarHijriLocale::storeDefault())->toBe('fa')
-        ->and(solar_hijri('2025-09-06'))->toContain('شهریور');
+        ->and(solar_hijri('2025-09-06'))->toContain('سنبله');
 });
 
 it('still lets a reader who has chosen English keep English, whatever the store default is', function () {
@@ -124,17 +124,17 @@ it('still lets a reader who has chosen English keep English, whatever the store 
     // rather than the store default, which is the documented promise.
     app()->setLocale('en');
 
-    expect($this->getJson('/api/v1/calendar/months/1404/6')->json('monthName'))->toBe('Shahrivar');
+    expect($this->getJson('/api/v1/calendar/months/1404/6')->json('monthName'))->toBe('Sunbula');
 
     app()->setLocale('fa');
 
-    expect($this->getJson('/api/v1/calendar/months/1404/6')->json('monthName'))->toBe('شهریور');
+    expect($this->getJson('/api/v1/calendar/months/1404/6')->json('monthName'))->toBe('سنبله');
 });
 
 it('gives a reader who asked for English English month names', function () {
     $payload = $this->getJson('/api/v1/calendar/months/1404/6?locale=en')->json();
 
-    expect($payload['monthName'])->toBe('Shahrivar');
+    expect($payload['monthName'])->toBe('Sunbula');
 });
 
 it('greets the year at Nowruz, with the year lengths either side of it', function () {

@@ -472,23 +472,27 @@ test('every locale has twelve month names and seven weekday names', () => {
 
 test('the Dari month names are the ones an Afghan reader expects', () => {
     assert.deepEqual(monthNames('fa'), [
-        'فروردین',
-        'اردیبهشت',
-        'خرداد',
-        'تیر',
-        'مرداد',
-        'شهریور',
-        'مهر',
-        'آبان',
-        'آذر',
-        'دی',
-        'بهمن',
-        'اسفند',
+        'حمل',
+        'ثور',
+        'جوزا',
+        'سرطان',
+        'اسد',
+        'سنبله',
+        'میزان',
+        'عقرب',
+        'قوس',
+        'جدی',
+        'دلو',
+        'حوت',
     ]);
 
-    // Sumbul is the common Dari name for Shahrivar, which Intl never gives you.
-    assert.equal(monthName(6, 'fa'), 'شهریور');
+    // The Afghan names, not the Iranian set. Farvardin and Shahrivar are what
+    // PHP's and JavaScript's Intl hand back, and they are wrong for this store.
+    assert.equal(monthName(1, 'fa'), 'حمل');
+    assert.equal(monthName(6, 'fa'), 'سنبله');
     assert.equal(monthName(6, 'fa_alt'), 'سنبله');
+    assert.equal(monthName(1, 'en'), 'Hamal');
+    assert.equal(monthName(6, 'en'), 'Sunbula');
 });
 
 test('locales resolve, including the regional spellings', () => {
@@ -535,7 +539,7 @@ test('numerals convert and convert back', () => {
 test('the store pairing is Solar Hijri first, Gregorian in brackets', () => {
     assert.equal(
         formatDate('2025-09-06', 'fa'),
-        '۱۵ شهریور ۱۴۰۴ (6 September 2025)',
+        '۱۵ سنبله ۱۴۰۴ (6 September 2025)',
     );
 
     // Exactly the worked example in the brief, with the alternative Dari name.
@@ -546,7 +550,7 @@ test('the store pairing is Solar Hijri first, Gregorian in brackets', () => {
 });
 
 test('the two halves can be asked for on their own', () => {
-    assert.equal(formatSolar('2025-09-06', 'fa'), '۱۵ شهریور ۱۴۰۴');
+    assert.equal(formatSolar('2025-09-06', 'fa'), '۱۵ سنبله ۱۴۰۴');
     assert.equal(formatGregorian('2025-09-06', 'en'), '6 September 2025');
 
     // gregorian() must not print the same date twice.
@@ -555,14 +559,14 @@ test('the two halves can be asked for on their own', () => {
     assert.equal(formatShort('2025-09-06', 'fa'), '۱۴۰۴/۰۶/۱۵ (2025/09/06)');
     assert.equal(
         formatLong('2025-09-06', 'fa'),
-        'شنبه، ۱۵ شهریور ۱۴۰۴ (Saturday, 6 September 2025)',
+        'شنبه، ۱۵ سنبله ۱۴۰۴ (Saturday, 6 September 2025)',
     );
 });
 
 test('formatting in English keeps Latin digits for the Gregorian reference', () => {
     assert.equal(
         formatDate('2025-09-06', 'en', { numerals: 'latn' }),
-        '15 Shahrivar 1404 (6 September 2025)',
+        '15 Sunbula 1404 (6 September 2025)',
     );
 
     // The secondary half is Latin by default so it can be copied into a bank
@@ -573,23 +577,23 @@ test('formatting in English keeps Latin digits for the Gregorian reference', () 
 test('the weekday is joined to the date with a comma, not a space', () => {
     // Otherwise it reads as four loose words rather than "Saturday, the 15th".
     const formatted = formatSolar('2025-09-06', 'fa', { weekday: true });
-    assert.equal(formatted, 'شنبه، ۱۵ شهریور ۱۴۰۴');
+    assert.equal(formatted, 'شنبه، ۱۵ سنبله ۱۴۰۴');
 });
 
 test('the bracket wrapper is configurable', () => {
     assert.equal(
         formatDate('2025-09-06', 'fa', { bracket: '[{secondary}]' }),
-        '۱۵ شهریور ۱۴۰۴ [6 September 2025]',
+        '۱۵ سنبله ۱۴۰۴ [6 September 2025]',
     );
 
     assert.equal(
         formatDate('2025-09-06', 'fa', { secondary: 'none' }),
-        '۱۵ شهریور ۱۴۰۴',
+        '۱۵ سنبله ۱۴۰۴',
     );
 });
 
 test('a date is formatted identically from every kind of input', () => {
-    const expected = '۱۵ شهریور ۱۴۰۴ (6 September 2025)';
+    const expected = '۱۵ سنبله ۱۴۰۴ (6 September 2025)';
 
     assert.equal(formatDate('2025-09-06', 'fa'), expected);
     assert.equal(formatDate('2025-09-06T13:45:00Z', 'fa'), expected);
@@ -709,6 +713,6 @@ test('a grid can be opened on the month a date falls in', () => {
 
     assert.equal(grid.year, 1404);
     assert.equal(grid.month, 6);
-    assert.equal(grid.monthName, 'شهریور');
+    assert.equal(grid.monthName, 'سنبله');
     assert.equal(grid.isLeapYear, false);
 });
