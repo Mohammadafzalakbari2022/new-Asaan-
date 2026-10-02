@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, router, Link, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import { ArrowLeft, MapPin, Phone, User, Calendar, Package, Banknote, Trash2, RefreshCw } from 'lucide-vue-next';
 
 interface Driver {
@@ -180,9 +181,8 @@ const cancelDelivery = () => {
                 <label class="mb-1 flex items-center gap-1 text-sm font-medium text-gray-700">
                   <Calendar class="h-3.5 w-3.5 text-gray-400" /> {{ $t('Scheduled Date') }}
                 </label>
-                <input
+                <DatePicker
                   v-model="editForm.scheduled_date"
-                  type="date"
                   class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>

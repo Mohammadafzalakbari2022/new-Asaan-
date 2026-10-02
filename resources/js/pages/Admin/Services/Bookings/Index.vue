@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import Pagination from '@/components/Admin/Pagination.vue';
 import { useI18nStore } from '@/Stores/i18n';
 import { Search, Download, Eye, User, CalendarClock, CheckCircle2, Inbox } from 'lucide-vue-next';
@@ -189,17 +190,15 @@ const hasFilters = computed(
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('From') }}</label>
-              <input
+              <DatePicker
                 v-model="from"
-                type="date"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
             </div>
             <div>
               <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('To') }}</label>
-              <input
+              <DatePicker
                 v-model="to"
-                type="date"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
             </div>

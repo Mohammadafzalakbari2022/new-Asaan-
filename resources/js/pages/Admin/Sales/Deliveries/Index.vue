@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, router, Link, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import { debounce } from 'lodash';
 import {
   Search,
@@ -329,9 +330,8 @@ const isTerminal = (status: string) => terminalStatuses.includes(status);
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="mb-1 block text-sm font-medium text-gray-700">{{ $t('Scheduled Date') }}</label>
-              <input
+              <DatePicker
                 v-model="assignForm.scheduled_date"
-                type="date"
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
