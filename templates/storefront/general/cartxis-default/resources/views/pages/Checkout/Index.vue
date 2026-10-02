@@ -148,7 +148,9 @@ const shippingAddress = ref<Address>({
   city: '',
   state: '',
   postal_code: '',
-  country: 'US',
+  // Not a shopper choice: the store country is decided on the server. The
+  // field stays on the type because the API returns it on saved addresses.
+  country: '',
   phone: '',
 });
 
@@ -161,7 +163,7 @@ const billingAddress = ref<Address>({
   city: '',
   state: '',
   postal_code: '',
-  country: 'US',
+  country: '',
   phone: '',
 });
 
@@ -783,19 +785,6 @@ const submitOrder = () => {
                   ]"
                 />
                 <p v-if="fieldErrors.postal_code" class="mt-1 text-sm text-red-600">{{ fieldErrors.postal_code }}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-2">{{ $t('Country') }} *</label>
-                <select
-                  v-model="shippingAddress.country"
-                  required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="IN">India</option>
-                  <option value="GB">United Kingdom</option>
-                </select>
               </div>
               <div class="md:col-span-2">
                 <label class="block text-sm font-medium mb-2">{{ $t('Phone Number') }} *</label>

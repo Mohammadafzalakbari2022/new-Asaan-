@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Cartxis\Core\Services\SettingService;
+use Cartxis\Core\Support\StoreCountry;
 use Illuminate\Support\Facades\Storage;
 
 class GeneralSettingsController extends Controller
@@ -31,7 +32,9 @@ class GeneralSettingsController extends Controller
                 'admin_email' => (string) $this->settingService->get('admin_email', ''),
                 'contact_phone' => (string) $this->settingService->get('contact_phone', ''),
                 'contact_address' => (string) $this->settingService->get('contact_address', ''),
-                'store_country' => (string) $this->settingService->get('store_country', ''),
+                // Read-only: the store is Afghanistan-only, so this is always
+                // the store country rather than whatever is in the table.
+                'store_country' => StoreCountry::name(),
                 'site_logo' => (string) $this->settingService->get('site_logo', ''),
                 'admin_logo' => (string) $this->settingService->get('admin_logo', ''),
                 'site_favicon' => (string) $this->settingService->get('site_favicon', ''),
@@ -59,7 +62,6 @@ class GeneralSettingsController extends Controller
             'admin_email' => 'required|email|max:255',
             'contact_phone' => 'nullable|string|max:50',
             'contact_address' => 'nullable|string|max:500',
-            'store_country' => 'required|string|max:100',
 
             // SEO Settings
             'meta_title' => 'nullable|string|max:255',
@@ -195,6 +197,10 @@ class GeneralSettingsController extends Controller
         foreach ($validated as $key => $value) {
             $this->settingService->set($key, $value, 'string', 'general');
         }
+
+        // The store is Afghanistan-only, so this is written on every save
+        // regardless of what (if anything) arrived from the form.
+        $this->settingService->set('store_country', StoreCountry::name(), 'string', 'general');
 
         return back()->with('success', 'General settings saved successfully.');
     }

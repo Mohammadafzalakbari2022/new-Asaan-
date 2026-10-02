@@ -81,8 +81,7 @@ class OrderItem extends Model
      */
     public function getFormattedPriceAttribute(): string
     {
-        $currency = \Cartxis\Core\Models\Currency::getDefault();
-        return $currency ? $currency->format($this->price) : '$' . number_format($this->price, 2);
+        return \Cartxis\Core\Support\DisplayCurrency::format((float) $this->price);
     }
 
     /**
@@ -92,8 +91,7 @@ class OrderItem extends Model
      */
     public function getFormattedTotalAttribute(): string
     {
-        $currency = \Cartxis\Core\Models\Currency::getDefault();
-        return $currency ? $currency->format($this->total) : '$' . number_format($this->total, 2);
+        return \Cartxis\Core\Support\DisplayCurrency::format((float) $this->total);
     }
 
     /**

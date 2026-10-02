@@ -597,12 +597,11 @@
                {{ $t('No locations added yet.') }}
              </div>
             <div v-for="(location, index) in taxZoneForm.locations" :key="index" class="flex gap-2 items-start">
-              <input
-                v-model="location.country_code"
-                type="text"
-                :placeholder="$t('Country Code (e.g., US)')"
-                class="flex-1 px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-              />
+              <div
+                class="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-600 dark:text-gray-400"
+              >
+                {{ storeCountry }}
+              </div>
               <input
                 v-model="location.state_code"
                 type="text"
@@ -948,6 +947,9 @@ const openTaxZoneModal = (taxZone?: TaxZone) => {
   }
   showTaxZoneModal.value = true
 }
+
+// Shown read-only: the country is decided by the store, not the admin form.
+const storeCountry = ref('Afghanistan')
 
 const addLocation = () => {
   taxZoneForm.locations.push({

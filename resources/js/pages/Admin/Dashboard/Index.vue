@@ -167,7 +167,7 @@ const salesChartOptions = computed(() => ({
       borderColor: chartTooltipBorder.value,
       borderWidth: 1,
       padding: 10,
-      callbacks: { label: (ctx: any) => ' ' + formatPrice(ctx.raw, { decimals: 2 }) },
+      callbacks: { label: (ctx: any) => ' ' + formatPrice(ctx.raw, { decimalPlaces: 2 }) },
     },
   },
   scales: {

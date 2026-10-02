@@ -168,6 +168,7 @@ class CoreServiceProvider extends ServiceProvider
 
         // Load routes
         $this->loadRoutesFrom(__DIR__.'/../Routes/admin.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
 
         // Load translations
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'core');

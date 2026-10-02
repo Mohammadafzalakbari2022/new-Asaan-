@@ -24,6 +24,11 @@ class LocalesController extends Controller
             'locales'    => $locales,
             'currencies' => $currencies,
             'countries'  => $countries,
+            // Built by the model so the form label and the stored value can
+            // never describe different things.
+            'exchangeRateLabel'    => Currency::exchangeRateLabel(),
+            'usdToAfn'             => Currency::usdToAfn(),
+            'supportedCurrencyCodes' => Currency::SUPPORTED_CODES,
         ]);
     }
 
@@ -92,7 +97,7 @@ class LocalesController extends Controller
     public function storeCurrency(Request $request)
     {
         $validated = $request->validate([
-            'code' => 'required|string|max:10|unique:currencies,code|alpha',
+            'code' => ['required', 'string', 'max:10', 'alpha', 'unique:currencies,code', $this->supportedCurrencyRule()],
             'name' => 'required|string|max:100|min:2',
             'symbol' => 'required|string|max:10',
             'symbol_position' => 'required|in:before,after',
@@ -107,6 +112,22 @@ class LocalesController extends Controller
 
         return redirect()->route('admin.settings.locales.index')
             ->with('success', 'Currency created successfully.');
+    }
+
+    /**
+     * The store sells in AFN and offers USD. Nothing else can be added.
+     *
+     * Stated as a validation rule rather than only in the UI, because the form
+     * is not the only way in -- this is the same rule on both sides, and the
+     * server is the side that has to hold.
+     */
+    private function supportedCurrencyRule(): \Closure
+    {
+        return function (string $attribute, mixed $value, \Closure $fail): void {
+            if (! Currency::isSupportedCode(is_string($value) ? $value : null)) {
+                $fail('This store only supports AFN and USD.');
+            }
+        };
     }
 
     /**

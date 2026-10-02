@@ -313,7 +313,7 @@ class ShiprocketService
             'billing_city' => (string) ($address->city ?? ''),
             'billing_pincode' => (string) ($address->postal_code ?? ''),
             'billing_state' => (string) ($address->state ?? ''),
-            'billing_country' => (string) ($address->country ?? 'India'),
+            'billing_country' => \Cartxis\Core\Support\StoreCountry::normalise($address->country ?? null),
             'billing_email' => (string) ($address->email ?: $order->customer_email),
             'billing_phone' => (string) ($address->phone ?: $order->customer_phone),
             'shipping_is_billing' => true,

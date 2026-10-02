@@ -135,25 +135,30 @@ the Razorpay/PayUMoney page pattern:
 - Test / Production mode toggle
 - Separate sandbox and live API keys
 - Read-only display of the webhook URL to paste into the HesabPay dashboard
-- Payment method is seeded **inactive**; the owner activates it in admin.
+- Payment method is seeded **active** and is the default method at checkout.
+  The keys are blank by default, so the storefront hides HesabPay until the
+  owner has configured it; once a key is entered it is offered again.
 
 ## Storefront
 
-No storefront change is needed for the payment option to appear. The checkout
-controller lists every active `PaymentMethod` (CheckoutController.php:144) and the
-Inertia prop `paymentMethods` drives the selection UI. Activating HesabPay in
-admin is sufficient.
+The checkout controller lists every active `PaymentMethod` (CheckoutController.php:144)
+and filters out any online gateway that is not yet configured, so an unconfigured
+HesabPay is never shown as an option. The Inertia prop `paymentMethods` drives
+the selection UI. Activating HesabPay in admin is sufficient.
 
 ## Mobile API
 
 `packages/Cartxis/API/Http/Controllers/V1/CheckoutController.php` gets a
 `hesabpay` branch that returns the checkout URL to the app, which opens it in a
-system browser. Same pending-then-webhook confirmation as web.
+system browser. Same pending-then-webhook confirmation as web. `hesabpay` is
+included in the gateway-credential allow-lists so the app receives the same
+`gateway_config` the other online methods get.
 
 ## What is blocked
 
-- **Live activation needs the owner's HesabPay merchant API key.** Code ships
-  seeded and inactive; without a key `isConfigured()` returns false and checkout
-  shows a clear "not configured" message instead of failing at payment time.
+- **Live activation needs the owner's HesabPay merchant API key.** The method
+  ships active and default, but with no key `isConfigured()` returns false, so
+  checkout does not offer it and the store keeps working on Cash on Delivery
+  until the owner pastes a key into the admin page.
 - **The webhook URL must be registered in the HesabPay dashboard** by the owner.
   The admin page shows the exact URL to copy.

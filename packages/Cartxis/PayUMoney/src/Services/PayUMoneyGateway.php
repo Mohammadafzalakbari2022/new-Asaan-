@@ -4,12 +4,25 @@ namespace Cartxis\PayUMoney\Services;
 
 use Cartxis\Core\Contracts\PaymentGatewayInterface;
 use Cartxis\Core\Models\PaymentMethod;
+use Cartxis\Core\Support\GatewayCurrency;
 use Cartxis\Shop\Models\Order;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
 /**
  * PayUMoney Payment Gateway Implementation
+ *
+ * NOTE FOR THE OWNER: PayUMoney's API has no currency parameter at all -- the
+ * amount is always interpreted in the merchant's own settlement currency. So
+ * the currency is not sent, it is DECLARED, through GatewayCurrency, which
+ * says PayUMoney settles in USD and converts the canonical AFN total once on
+ * the way out. The amount and the label therefore cannot drift apart: both
+ * come from the same decision.
+ *
+ * That decision needs a USD-settling PayUMoney merchant account to be real
+ * money. If the account turns out to settle in afghani instead, 'payumoney'
+ * moves from GatewayCurrency's USD list to its AFN list and the amount becomes
+ * the untouched AFN total.
  */
 class PayUMoneyGateway implements PaymentGatewayInterface
 {
@@ -20,6 +33,14 @@ class PayUMoneyGateway implements PaymentGatewayInterface
      */
     protected const TEST_URL = 'https://test.payu.in/_payment';
     protected const LIVE_URL = 'https://secure.payu.in/_payment';
+
+    /**
+     * The currency PayUMoney is charged in.
+     */
+    public function getSettlementCurrency(): string
+    {
+        return GatewayCurrency::settle($this->getCode(), lowerCase: false);
+    }
 
     /**
      * Get payment method configuration from database.
@@ -178,8 +199,13 @@ class PayUMoneyGateway implements PaymentGatewayInterface
             // Generate unique transaction ID
             $txnId = 'TXN' . $order->id . '_' . time();
 
-            // Prepare payment parameters
-            $amount = $order->total ?? $order->grand_total ?? $order->subtotal ?? 0;
+            // Prepare payment parameters. The API takes no currency field, so
+            // this is the canonical AFN total passed through the one helper
+            // that decides what this gateway charges in.
+            $amount = GatewayCurrency::amount(
+                (float) ($order->total ?? $order->grand_total ?? $order->subtotal ?? 0),
+                $this->getCode()
+            );
 
             $params = [
                 'key' => $merchantKey,
@@ -194,7 +220,7 @@ class PayUMoneyGateway implements PaymentGatewayInterface
                 'address2' => $billingAddress->address_line_2 ?? '',
                 'city' => $billingAddress->city,
                 'state' => $billingAddress->state,
-                'country' => $billingAddress->country_code,
+                'country' => \Cartxis\Core\Support\StoreCountry::name(),
                 'zipcode' => $billingAddress->postcode,
                 'surl' => route('payumoney.callback'),
                 'furl' => route('payumoney.callback'),

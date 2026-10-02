@@ -4,10 +4,12 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 use Cartxis\Core\Models\Currency;
 use Cartxis\Core\Services\MenuService;
 use Cartxis\Core\Services\SettingService;
+use Cartxis\Core\Support\DisplayCurrency;
 use Cartxis\Admin\Services\AdminNotificationService;
 use Cartxis\Settings\Models\Setting as SystemSetting;
 
@@ -85,6 +87,13 @@ class HandleInertiaRequests extends Middleware
                 'ziggy' => fn () => [
                     'location' => $request->url(),
                 ],
+                // Nothing is querying the database during a migration, so the
+                // currency props are left empty rather than risking a query
+                // against a table that does not exist yet.
+                'currency' => null,
+                'currencies' => [],
+                'displayCurrency' => null,
+                'usdToAfn' => Currency::DEFAULT_USD_TO_AFN,
             ]);
         }
 
@@ -203,23 +212,56 @@ class HandleInertiaRequests extends Middleware
             }),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'ziggy' => fn () => [
-                ...\Illuminate\Support\Facades\Route::current()->originalParameters(),
+                // `Route::current()` is null whenever a shared prop is resolved
+                // without a matched route -- during exception rendering, and on
+                // fallback routes. Calling originalParameters() on it there threw,
+                // which failed the page with no `X-Inertia` header and put Inertia's
+                // error box on the screen. There are simply no route parameters
+                // to report in that case.
+                ...(Route::current()?->originalParameters() ?? []),
                 'location' => $request->url(),
             ],
             // Currency configuration (shared for admin and frontend)
+            //
+            // `currency` is the BASE currency (AFN) and is what every stored
+            // amount is in. `currencies` is the two the store supports and is
+            // what the picker offers. `displayCurrency` is which of the two this
+            // shopper is currently looking at -- the same codes, picked out of
+            // the same list, so the frontend never has to guess.
             'currency' => function () {
                 try {
                     $currency = Currency::getDefault();
                     return $currency ? [
                         'code' => $currency->code,
+                        'name' => $currency->name,
                         'symbol' => $currency->symbol,
                         'symbolPosition' => $currency->symbol_position,
-                        'decimalPlaces' => $currency->decimal_places,
+                        'decimalPlaces' => $currency->displayDecimals(),
                     ] : null;
                 } catch (\Exception $e) {
                     return null;
                 }
             },
+            'currencies' => function () {
+                try {
+                    return Currency::selectable()
+                        ->map(fn ($currency) => $currency->toDisplayArray())
+                        ->values()
+                        ->all();
+                } catch (\Exception $e) {
+                    return [];
+                }
+            },
+            'displayCurrency' => function () {
+                try {
+                    return DisplayCurrency::resolve()->toDisplayArray();
+                } catch (\Exception $e) {
+                    return null;
+                }
+            },
+            // The "1 USD = ? AFN" rate, so the frontend can show the shopper
+            // what they are being shown.
+            'usdToAfn' => fn () => Currency::usdToAfn(),
             // Note: Theme-specific data (theme, contactInfo, socialLinks) is shared
             // by ShareFrontendData middleware via the hook system. Each theme registers
             // only the shared props it needs through its hooks.php file.

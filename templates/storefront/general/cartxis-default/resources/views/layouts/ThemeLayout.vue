@@ -3,6 +3,7 @@ import { usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import ThemeHeader from '../components/ThemeHeader.vue';
 import ThemeFooter from '../components/ThemeFooter.vue';
+import CurrencySelector from '../components/CurrencySelector.vue';
 import UIBlockRenderer from '@/components/UIEditor/UIBlockRenderer.vue';
 import { useThemeSettings } from '@/composables/useThemeSettings';
 import { ChevronUp } from 'lucide-vue-next';
@@ -59,6 +60,22 @@ onUnmounted(() => {
             :categories="categories"
             :container-style="containerStyle"
         />
+
+        <!--
+            The currency picker belongs inside ThemeHeader's utility row, but that
+            file is owned by another agent right now. Mounted here, directly under
+            the header, so the control exists and works on every storefront page
+            instead of waiting. Moving it is one line: delete this, and add
+            <CurrencySelector /> to ThemeHeader's template.
+        -->
+        <div class="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+            <div
+                class="mx-auto flex items-center justify-end px-4 py-1.5"
+                :style="containerStyle"
+            >
+                <CurrencySelector />
+            </div>
+        </div>
 
         <main class="flex-1">
             <slot />

@@ -426,12 +426,16 @@ class Order extends Model
     /**
      * Get the order's formatted total.
      *
+     * The stored figure is afghani. DisplayCurrency converts it for whichever
+     * currency the shopper is viewing and prints it in that currency's own
+     * format -- so the afghani comes out with no decimals and the dollar with
+     * two. The value on the order is never changed.
+     *
      * @return string
      */
     public function getFormattedTotalAttribute(): string
     {
-        $currency = \Cartxis\Core\Models\Currency::getDefault();
-        return $currency ? $currency->format($this->total) : '$' . number_format($this->total, 2);
+        return \Cartxis\Core\Support\DisplayCurrency::format((float) $this->total);
     }
 
     /**
@@ -441,8 +445,7 @@ class Order extends Model
      */
     public function getFormattedSubtotalAttribute(): string
     {
-        $currency = \Cartxis\Core\Models\Currency::getDefault();
-        return $currency ? $currency->format($this->subtotal) : '$' . number_format($this->subtotal, 2);
+        return \Cartxis\Core\Support\DisplayCurrency::format((float) $this->subtotal);
     }
 
     /**

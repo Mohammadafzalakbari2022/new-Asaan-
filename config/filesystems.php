@@ -47,6 +47,33 @@ return [
             'report' => false,
         ],
 
+        /*
+        |----------------------------------------------------------------------
+        | Identity documents (national ID scans)
+        |----------------------------------------------------------------------
+        |
+        | Deliberately different from the "local" disk in two ways:
+        |
+        |  - no "serve" flag. A served local disk gets a public /storage/{path}
+        |    route, which would put every customer's Tazkira on the internet for
+        |    anyone who could guess or read the file name.
+        |  - a root outside both directories the app exposes: storage/app/public
+        |    is what storage:link symlinks, and storage/app/private is the root
+        |    of the served "local" disk.
+        |
+        | There is no "url" key either, so Storage::url() on this disk throws
+        | rather than handing back a link to the file.
+        |
+        */
+
+        'identity_private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/identity'),
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

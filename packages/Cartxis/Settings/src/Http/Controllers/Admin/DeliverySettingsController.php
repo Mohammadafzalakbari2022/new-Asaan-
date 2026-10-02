@@ -12,6 +12,12 @@ use Inertia\Response;
 
 class DeliverySettingsController extends Controller
 {
+    /**
+     * These settings belong to the OPTIONAL external courier integration (the
+     * Delhivery-style HTTP API), not to the built-in in-house delivery system.
+     * The in-house one needs no configuration at all and is always available,
+     * so nothing here may gate it.
+     */
     public function __construct(
         protected SettingService $settingService,
         protected DeliveryService $deliveryService
@@ -21,10 +27,10 @@ class DeliverySettingsController extends Controller
     {
         return Inertia::render('Admin/Settings/ShippingMethods/ConfigureDelivery', [
             'settings' => [
-                'enabled' => (bool) $this->settingService->get('shipping.delivery.enabled', false),
-                'api_token' => (string) $this->settingService->get('shipping.delivery.api_token', ''),
-                'pickup_location' => (string) $this->settingService->get('shipping.delivery.pickup_location', ''),
-                'base_url' => (string) $this->settingService->get('shipping.delivery.base_url', 'https://track.delhivery.com'),
+                'enabled' => (bool) $this->settingService->get('shipping.courier.enabled', false),
+                'api_token' => (string) $this->settingService->get('shipping.courier.api_token', ''),
+                'pickup_location' => (string) $this->settingService->get('shipping.courier.pickup_location', ''),
+                'base_url' => (string) $this->settingService->get('shipping.courier.base_url', 'https://track.delhivery.com'),
             ],
         ]);
     }
@@ -54,10 +60,10 @@ class DeliverySettingsController extends Controller
             }
         }
 
-        $this->settingService->set('shipping.delivery.enabled', (bool) $validated['enabled'], 'boolean', 'shipping');
-        $this->settingService->set('shipping.delivery.api_token', (string) ($validated['api_token'] ?? ''), 'string', 'shipping');
-        $this->settingService->set('shipping.delivery.pickup_location', (string) ($validated['pickup_location'] ?? ''), 'string', 'shipping');
-        $this->settingService->set('shipping.delivery.base_url', (string) ($validated['base_url'] ?? 'https://track.delhivery.com'), 'string', 'shipping');
+        $this->settingService->set('shipping.courier.enabled', (bool) $validated['enabled'], 'boolean', 'shipping');
+        $this->settingService->set('shipping.courier.api_token', (string) ($validated['api_token'] ?? ''), 'string', 'shipping');
+        $this->settingService->set('shipping.courier.pickup_location', (string) ($validated['pickup_location'] ?? ''), 'string', 'shipping');
+        $this->settingService->set('shipping.courier.base_url', (string) ($validated['base_url'] ?? 'https://track.delhivery.com'), 'string', 'shipping');
 
         return back()->with('success', 'Delivery settings saved successfully.');
     }
@@ -103,7 +109,7 @@ class DeliverySettingsController extends Controller
     public function fetchMetadata(): JsonResponse
     {
         try {
-            if (!(bool) $this->settingService->get('shipping.delivery.enabled', false)) {
+            if (!(bool) $this->settingService->get('shipping.courier.enabled', false)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Delivery is disabled.',
@@ -111,7 +117,7 @@ class DeliverySettingsController extends Controller
                 ], 422);
             }
 
-            if (trim((string) $this->settingService->get('shipping.delivery.api_token', '')) === '') {
+            if (trim((string) $this->settingService->get('shipping.courier.api_token', '')) === '') {
                 return response()->json([
                     'success' => false,
                     'message' => 'Delivery API token is not configured.',

@@ -2,6 +2,7 @@
 
 namespace Cartxis\Shop\Services;
 
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Shop\Contracts\OrderRepositoryInterface;
 use Cartxis\Shop\Models\Order;
 use Cartxis\Shop\Models\OrderItem;
@@ -349,7 +350,7 @@ class CheckoutService extends ShopService
             'city' => $addressData['city'],
             'state' => $addressData['state'],
             'postal_code' => $addressData['postal_code'],
-            'country' => $addressData['country'],
+            'country' => StoreCountry::normalise($addressData['country'] ?? null),
             'phone' => $addressData['phone'] ?? null,
             'email' => $addressData['email'] ?? null,
         ]);
@@ -386,7 +387,7 @@ class CheckoutService extends ShopService
             'city' => $addressData['city'],
             'state' => $addressData['state'],
             'postal_code' => $addressData['postal_code'],
-            'country' => $addressData['country'],
+            'country' => StoreCountry::normalise($addressData['country'] ?? null),
             'phone' => $addressData['phone'] ?? null,
             'is_default_shipping' => $type === 'shipping',
             'is_default_billing' => $type === 'billing',

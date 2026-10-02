@@ -4,6 +4,7 @@ namespace Cartxis\Settings\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Cartxis\Core\Services\SettingService;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Core\Models\ShippingMethod;
 use Cartxis\Core\Models\ShippingRate;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class ShippingMethodsController extends Controller
             'methods' => $methods,
             'extensions' => [
                 'delivery' => [
-                    'enabled' => (bool) $this->settingService->get('shipping.delivery.enabled', false),
+                    'enabled' => (bool) $this->settingService->get('shipping.courier.enabled', false),
                 ],
                 'shiprocket' => [
                     'enabled' => (bool) $this->settingService->get('shipping.shiprocket.enabled', false),
@@ -58,7 +59,7 @@ class ShippingMethodsController extends Controller
         }
 
         if ($extension === 'delivery') {
-            $this->settingService->set('shipping.delivery.enabled', (bool) $validated['enabled'], 'boolean', 'shipping');
+            $this->settingService->set('shipping.courier.enabled', (bool) $validated['enabled'], 'boolean', 'shipping');
         }
 
         return response()->json([
@@ -215,7 +216,7 @@ class ShippingMethodsController extends Controller
     public function addRate(Request $request, ShippingMethod $shippingMethod)
     {
         $validated = $request->validate([
-            'country' => 'required|string|size:2',
+            'country' => 'nullable|string|size:2',
             'state' => 'nullable|string|size:2',
             'min_weight' => 'required|numeric|min:0',
             'max_weight' => 'required|numeric|gt:min_weight',
@@ -223,6 +224,11 @@ class ShippingMethodsController extends Controller
             'cost_per_kg' => 'required|numeric|min:0|max:99999.9999',
             'status' => 'required|in:active,inactive',
         ]);
+
+        // The store only ships inside one country, so a rate always applies to
+        // it. The field stays accepted so the admin screen and any existing
+        // scripted calls keep working.
+        $validated['country'] = StoreCountry::code();
 
         $rate = $shippingMethod->rates()->create($validated);
 
@@ -239,7 +245,7 @@ class ShippingMethodsController extends Controller
     public function updateRate(Request $request, ShippingRate $shippingRate)
     {
         $validated = $request->validate([
-            'country' => 'required|string|size:2',
+            'country' => 'nullable|string|size:2',
             'state' => 'nullable|string|size:2',
             'min_weight' => 'required|numeric|min:0',
             'max_weight' => 'required|numeric|gt:min_weight',
@@ -247,6 +253,8 @@ class ShippingMethodsController extends Controller
             'cost_per_kg' => 'required|numeric|min:0|max:99999.9999',
             'status' => 'required|in:active,inactive',
         ]);
+
+        $validated['country'] = StoreCountry::code();
 
         $shippingRate->update($validated);
 
@@ -297,7 +305,7 @@ class ShippingMethodsController extends Controller
 
         $cost = $shippingMethod->calculateCost(
             $validated['weight'],
-            $validated['country'] ?? null,
+            StoreCountry::code(),
             $validated['state'] ?? null
         );
 

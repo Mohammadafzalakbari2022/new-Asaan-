@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Cartxis\Core\Services\SettingService;
+use Cartxis\Core\Support\StoreCountry;
 
 /**
  * AppSettingsController
@@ -42,7 +43,13 @@ class AppSettingsController extends Controller
             'mobile_auth_logo' => $this->assetUrl($this->settingService->get('mobile_auth_logo')),
 
             // Store info
-            'store_country'    => (string) $this->settingService->get('store_country', ''),
+            // The key stays: the mobile apps already read it. The value comes
+            // from the one place the country is decided rather than from the
+            // settings row, because that row still holds whatever the store
+            // was called before it became Afghanistan-only, and this endpoint
+            // is public -- a wrong country here is what the app shows a shopper
+            // before they have even logged in.
+            'store_country'    => StoreCountry::name(),
             'contact_phone'    => (string) $this->settingService->get('contact_phone', ''),
             'admin_email'      => (string) $this->settingService->get('admin_email', ''),
 

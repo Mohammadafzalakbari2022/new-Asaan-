@@ -4,6 +4,7 @@ namespace Cartxis\Core\Database\Seeders;
 
 use Cartxis\Core\Models\ShippingMethod;
 use Cartxis\Core\Models\ShippingRate;
+use Cartxis\Core\Support\StoreCountry;
 use Illuminate\Database\Seeder;
 
 class ShippingMethodSeeder extends Seeder
@@ -33,17 +34,17 @@ class ShippingMethodSeeder extends Seeder
             'type' => 'calculated',
             'base_cost' => 0,
             'cost_per_kg' => 0,
-            'description' => 'Weight-based shipping with rates by country and weight range',
+            'description' => 'Weight-based shipping with rates by weight range',
             'is_default' => false,
             'status' => 'active',
             'display_order' => 2,
         ]);
 
         // Add rates for calculated method
-        // US rates
+        // Afghanistan rates
         ShippingRate::create([
             'shipping_method_id' => $calculated->id,
-            'country' => 'US',
+            'country' => StoreCountry::code(),
             'state' => null,
             'min_weight' => 0,
             'max_weight' => 5,
@@ -54,7 +55,7 @@ class ShippingMethodSeeder extends Seeder
 
         ShippingRate::create([
             'shipping_method_id' => $calculated->id,
-            'country' => 'US',
+            'country' => StoreCountry::code(),
             'state' => null,
             'min_weight' => 5,
             'max_weight' => 25,
@@ -65,47 +66,12 @@ class ShippingMethodSeeder extends Seeder
 
         ShippingRate::create([
             'shipping_method_id' => $calculated->id,
-            'country' => 'US',
+            'country' => StoreCountry::code(),
             'state' => null,
             'min_weight' => 25,
             'max_weight' => 100,
             'base_cost' => 25.00,
             'cost_per_kg' => 0.50,
-            'status' => 'active',
-        ]);
-
-        // Canada rates
-        ShippingRate::create([
-            'shipping_method_id' => $calculated->id,
-            'country' => 'CA',
-            'state' => null,
-            'min_weight' => 0,
-            'max_weight' => 5,
-            'base_cost' => 15.00,
-            'cost_per_kg' => 1.25,
-            'status' => 'active',
-        ]);
-
-        ShippingRate::create([
-            'shipping_method_id' => $calculated->id,
-            'country' => 'CA',
-            'state' => null,
-            'min_weight' => 5,
-            'max_weight' => 100,
-            'base_cost' => 20.00,
-            'cost_per_kg' => 0.90,
-            'status' => 'active',
-        ]);
-
-        // UK rates
-        ShippingRate::create([
-            'shipping_method_id' => $calculated->id,
-            'country' => 'GB',
-            'state' => null,
-            'min_weight' => 0,
-            'max_weight' => 100,
-            'base_cost' => 12.00,
-            'cost_per_kg' => 0.80,
             'status' => 'active',
         ]);
 

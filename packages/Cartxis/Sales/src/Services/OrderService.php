@@ -8,6 +8,7 @@ use Cartxis\Sales\Repositories\OrderRepository;
 use Cartxis\Core\Models\EmailTemplate;
 use Cartxis\Core\Models\EmailConfiguration;
 use Cartxis\Core\Models\Currency;
+use Cartxis\Core\Support\GatewayCurrency;
 use Cartxis\Admin\Services\AdminNotificationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -351,7 +352,7 @@ class OrderService
                 'customer_name' => $order->user->name ?? 'Customer',
                 'customer_email' => $order->customer_email,
                 'payment_amount' => $this->formatCurrency($order->total),
-                'order_total' => '₹' . number_format($order->total, 2),
+                'order_total' => GatewayCurrency::formatCharge($order->total, $order->payment_method ?? 'afn'),
                 'old_status' => ucfirst($oldStatus),
                 'new_status' => ucfirst($newStatus),
                 'store_name' => config('app.name', 'Cartxis'),
@@ -421,7 +422,7 @@ class OrderService
                 'order_number' => $order->order_number,
                 'customer_name' => $order->user->name ?? 'Customer',
                 'customer_email' => $order->customer_email,
-                'payment_amount' => '₹' . number_format($order->total, 2),
+                'payment_amount' => GatewayCurrency::formatCharge($order->total, $order->payment_method ?? 'afn'),
                 'payment_date' => now()->format('F d, Y'),
                 'transaction_id' => $order->payment_transaction_id ?? 'N/A',
                 'store_name' => config('app.name', 'Cartxis'),
@@ -447,11 +448,11 @@ class OrderService
      */
     protected function formatCurrency(float $amount): string
     {
-        $currency = Currency::getDefault();
-
-        return $currency
-            ? $currency->format($amount)
-            : '$' . number_format($amount, 2);
+        // AFN shows no decimals and a dollar sign is not a currency this store
+        // trades in, so the no-currency-row fallback falls back to AFN rather
+        // than to "$x.xx".
+        return (Currency::getDefault() ?? Currency::getByCode(Currency::BASE_CODE))?->format($amount)
+            ?? number_format($amount, 0, '.', ',') . ' ' . Currency::BASE_CODE;
     }
 
     /**

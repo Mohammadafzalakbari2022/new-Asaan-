@@ -86,14 +86,17 @@ class ShipmentController extends Controller
             && (string) $this->settingService->get('shipping.shiprocket.email', '') !== ''
             && (string) $this->settingService->get('shipping.shiprocket.password', '') !== '';
 
-        $deliveryEnabled = (bool) $this->settingService->get('shipping.delivery.enabled', false);
-        $deliveryConfigured = $deliveryEnabled
-            && (string) $this->settingService->get('shipping.delivery.api_token', '') !== '';
+        // The in-house delivery system is always offered; it needs no courier
+        // setting, no API token and no third-party account. The external
+        // courier is a separate, optional extra that only appears once it is
+        // switched on and has credentials.
+        $courierConfigured = $this->deliveryService->isConfigured();
 
         return Inertia::render('Admin/Sales/Shipments/Create', [
             'order' => $order,
             'shiprocket_available' => $shiprocketConfigured,
-            'delivery_available' => $deliveryConfigured,
+            'courier_available' => $courierConfigured,
+            'internal_delivery_available' => true,
             'statuses' => collect(Shipment::getStatuses())->map(function ($label, $value) {
                 return ['value' => $value, 'label' => $label];
             })->values(),
@@ -107,7 +110,7 @@ class ShipmentController extends Controller
     {
         $validated = $request->validate([
             'order_id' => 'required|exists:orders,id',
-            'shipment_mode' => 'required|string|in:manual,shiprocket,delivery',
+            'shipment_mode' => 'required|string|in:manual,shiprocket,courier,internal_delivery',
             'carrier' => 'nullable|string|max:100',
             'tracking_number' => 'nullable|string|max:255',
             'tracking_url' => 'nullable|url|max:500',
@@ -150,16 +153,13 @@ class ShipmentController extends Controller
                 }
             }
 
-            if (($validated['shipment_mode'] ?? 'manual') === 'delivery') {
-                $deliveryConfigured = (bool) $this->settingService->get('shipping.delivery.enabled', false)
-                    && (string) $this->settingService->get('shipping.delivery.api_token', '') !== '';
-
-                if (!$deliveryConfigured) {
+            if (($validated['shipment_mode'] ?? 'manual') === 'courier') {
+                if (!$this->deliveryService->isConfigured()) {
                     $shipment->delete();
 
                     return back()
                         ->withInput()
-                        ->with('error', 'Delivery extension is not configured. Please complete Delivery settings first.');
+                        ->with('error', 'External courier is not configured. Please complete courier settings first.');
                 }
 
                 try {
@@ -168,14 +168,28 @@ class ShipmentController extends Controller
 
                     return redirect()
                         ->route('admin.sales.shipments.show', $shipment->id)
-                        ->with('success', 'Shipment created and sent to Delivery successfully.');
+                        ->with('success', 'Shipment created and sent to the external courier successfully.');
                 } catch (\Throwable $deliveryError) {
                     $shipment->delete();
 
                     return back()
                         ->withInput()
-                        ->with('error', 'Delivery shipment creation failed: ' . $deliveryError->getMessage());
+                        ->with('error', 'External courier shipment creation failed: ' . $deliveryError->getMessage());
                 }
+            }
+
+            // In-house delivery: the shipment is already created locally by
+            // createFromOrder() above. Nothing external is called, so there is
+            // no courier setting, token or account to check. The admin assigns
+            // it to a delivery person from the Deliveries screen.
+            if (($validated['shipment_mode'] ?? 'manual') === 'internal_delivery') {
+                if (empty($shipment->carrier)) {
+                    $shipment->update(['carrier' => 'In-house delivery']);
+                }
+
+                return redirect()
+                    ->route('admin.sales.shipments.show', $shipment->id)
+                    ->with('success', 'Shipment created for in-house delivery. Assign a delivery person from Deliveries.');
             }
 
             return redirect()

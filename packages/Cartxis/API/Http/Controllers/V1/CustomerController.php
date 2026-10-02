@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Cartxis\API\Helpers\ApiResponse;
 use Cartxis\API\Http\Resources\UserResource;
 use Cartxis\API\Http\Resources\AddressResource;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Customer\Models\Customer;
 use Cartxis\Customer\Models\CustomerAddress;
 
@@ -133,7 +134,7 @@ class CustomerController extends Controller
             'address_line_2' => 'nullable|string|max:255',
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
-            'country' => 'required|string|max:3',
+            'country' => 'nullable|string|max:3',
             'postal_code' => 'required|string|max:20',
             'phone' => 'required|string|max:20',
             'is_default' => 'nullable|boolean',
@@ -184,7 +185,7 @@ class CustomerController extends Controller
                 'city' => $request->city,
                 'state' => $request->state,
                 'postal_code' => $request->postal_code,
-                'country' => $request->country,
+                'country' => StoreCountry::normalise($request->country),
                 'phone' => $request->phone,
                 'is_default_shipping' => $isDefaultShipping,
                 'is_default_billing' => $isDefaultBilling,
@@ -253,7 +254,11 @@ class CustomerController extends Controller
                     ->update(['is_default_billing' => false]);
             }
 
-            $address->update($request->all());
+            $address->update(array_merge(
+                $request->all(),
+                // Never trust the app's country: the store only ships here.
+                ['country' => StoreCountry::code()]
+            ));
         });
 
         return ApiResponse::success(

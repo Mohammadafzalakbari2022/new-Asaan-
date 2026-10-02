@@ -9,6 +9,11 @@ class PaymentMethodsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * Only ever inserts. The rows are the store's default setup, but once they
+     * exist they belong to the shopkeeper: re-running the seeder must not
+     * switch a method back on, blank an API key, or take the default away
+     * from whichever gateway they have since configured.
      */
     public function run(): void
     {
@@ -20,7 +25,9 @@ class PaymentMethodsTableSeeder extends Seeder
                 'description' => 'Pay with cash when your order is delivered',
                 'type' => 'cod',
                 'is_active' => true,
-                'is_default' => true,
+                // HesabPay ships as the default; COD stays available as the
+                // fallback for anyone paying on delivery.
+                'is_default' => false,
                 'sort_order' => 1,
                 'instructions' => 'Please keep exact change ready. Our delivery person will collect payment upon delivery.',
                 'configuration' => json_encode([
@@ -92,10 +99,11 @@ class PaymentMethodsTableSeeder extends Seeder
         ];
 
         foreach ($paymentMethods as $method) {
-            DB::table('payment_methods')->updateOrInsert(
-                ['code' => $method['code']],
-                $method
-            );
+            if (DB::table('payment_methods')->where('code', $method['code'])->exists()) {
+                continue;
+            }
+
+            DB::table('payment_methods')->insert($method);
         }
     }
 }

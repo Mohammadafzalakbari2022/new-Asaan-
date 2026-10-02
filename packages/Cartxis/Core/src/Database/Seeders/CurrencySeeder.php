@@ -4,141 +4,101 @@ declare(strict_types=1);
 
 namespace Cartxis\Core\Database\Seeders;
 
+use Cartxis\Core\Models\Currency;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
+/**
+ * The store's two currencies.
+ *
+ * This used to derive 149 currencies from the countries table, all switched on
+ * at a rate of exactly 1.0, which meant every one of them claimed a US dollar
+ * was worth a rupee. Now it seeds only what the store actually trades in.
+ *
+ * AFN is the base: prices are stored in it, and it shows no decimals because
+ * there is no practical afghani subunit. USD is the optional display currency,
+ * and its exchange_rate is the usd_to_afn rate -- "1 USD = ? AFN" -- which the
+ * owner edits in admin settings.
+ *
+ * upsert() rather than insert() so re-seeding an existing install fixes the
+ * two supported rows in place and leaves their ids alone.
+ */
 class CurrencySeeder extends Seeder
 {
     /**
-     * Seed currencies derived from the countries table.
-     * The countries table is the single source of truth for currency_code and currency_symbol.
-     * Additional metadata (name, decimal_places, symbol_position) uses sensible defaults
-     * and can be refined later via the admin settings panel.
+     * The rows, in the order they appear in the admin list and the picker.
+     *
+     * The keys map one-to-one onto the columns on the currencies table:
+     * code, name, symbol, symbol_position, decimal_places, exchange_rate,
+     * is_default, is_active, sort_order.
+     *
+     * @var list<array<string, mixed>>
      */
+    private const CURRENCIES = [
+        [
+            'code' => Currency::BASE_CODE,
+            'name' => 'Afghan Afghani',
+            'symbol' => "\u{060B}",
+            'symbol_position' => 'before',
+            // No decimals. "؋500", never "؋500.00".
+            'decimal_places' => 0,
+            // The base is always worth one of itself.
+            'exchange_rate' => 1.0,
+            'is_default' => true,
+            'is_active' => true,
+            'sort_order' => 1,
+        ],
+        [
+            'code' => Currency::OPTIONAL_CODE,
+            'name' => 'US Dollar',
+            'symbol' => '$',
+            'symbol_position' => 'before',
+            'decimal_places' => 2,
+            // "1 USD = 71 AFN". The owner edits this; see the admin settings
+            // label built by Currency::exchangeRateLabel().
+            'exchange_rate' => Currency::DEFAULT_USD_TO_AFN,
+            'is_default' => false,
+            'is_active' => true,
+            'sort_order' => 2,
+        ],
+    ];
+
     public function run(): void
     {
-        // Currency names for common ISO 4217 codes
-        $names = [
-            'AED' => 'UAE Dirham',             'AFN' => 'Afghan Afghani',
-            'ALL' => 'Albanian Lek',           'AMD' => 'Armenian Dram',
-            'AOA' => 'Angolan Kwanza',         'ARS' => 'Argentine Peso',
-            'AUD' => 'Australian Dollar',      'AWG' => 'Aruban Florin',
-            'AZN' => 'Azerbaijani Manat',
-            'BAM' => 'Bosnia-Herzegovina Mark','BBD' => 'Barbadian Dollar',
-            'BDT' => 'Bangladeshi Taka',       'BGN' => 'Bulgarian Lev',
-            'BHD' => 'Bahraini Dinar',         'BIF' => 'Burundian Franc',
-            'BMD' => 'Bermudian Dollar',
-            'BND' => 'Brunei Dollar',          'BOB' => 'Bolivian Boliviano',
-            'BRL' => 'Brazilian Real',         'BSD' => 'Bahamian Dollar',
-            'BTN' => 'Bhutanese Ngultrum',     'BWP' => 'Botswanan Pula',
-            'BYN' => 'Belarusian Ruble',       'BZD' => 'Belize Dollar',
-            'CAD' => 'Canadian Dollar',        'CDF' => 'Congolese Franc',
-            'CHF' => 'Swiss Franc',            'CLP' => 'Chilean Peso',
-            'CNY' => 'Chinese Yuan',           'COP' => 'Colombian Peso',
-            'CRC' => 'Costa Rican Colón',      'CUP' => 'Cuban Peso',
-            'CVE' => 'Cape Verdean Escudo',    'CZK' => 'Czech Koruna',
-            'DJF' => 'Djiboutian Franc',       'DKK' => 'Danish Krone',
-            'DOP' => 'Dominican Peso',         'DZD' => 'Algerian Dinar',
-            'EGP' => 'Egyptian Pound',         'ERN' => 'Eritrean Nakfa',
-            'ETB' => 'Ethiopian Birr',         'EUR' => 'Euro',
-            'FJD' => 'Fijian Dollar',          'GBP' => 'British Pound',
-            'GEL' => 'Georgian Lari',          'GHS' => 'Ghanaian Cedi',
-            'GMD' => 'Gambian Dalasi',         'GNF' => 'Guinean Franc',
-            'GTQ' => 'Guatemalan Quetzal',     'GYD' => 'Guyanese Dollar',
-            'HKD' => 'Hong Kong Dollar',       'HNL' => 'Honduran Lempira',
-            'HRK' => 'Croatian Kuna',          'HTG' => 'Haitian Gourde',
-            'HUF' => 'Hungarian Forint',       'IDR' => 'Indonesian Rupiah',
-            'ILS' => 'Israeli New Shekel',     'INR' => 'Indian Rupee',
-            'IQD' => 'Iraqi Dinar',            'IRR' => 'Iranian Rial',
-            'ISK' => 'Icelandic Króna',        'JMD' => 'Jamaican Dollar',
-            'JOD' => 'Jordanian Dinar',        'JPY' => 'Japanese Yen',
-            'KES' => 'Kenyan Shilling',        'KGS' => 'Kyrgystani Som',
-            'KHR' => 'Cambodian Riel',         'KMF' => 'Comorian Franc',
-            'KPW' => 'North Korean Won',       'KRW' => 'South Korean Won',
-            'KWD' => 'Kuwaiti Dinar',
-            'KYD' => 'Cayman Islands Dollar',  'KZT' => 'Kazakhstani Tenge',
-            'LAK' => 'Laotian Kip',            'LBP' => 'Lebanese Pound',
-            'LKR' => 'Sri Lankan Rupee',       'LRD' => 'Liberian Dollar',
-            'LSL' => 'Lesotho Loti',           'LYD' => 'Libyan Dinar',
-            'MAD' => 'Moroccan Dirham',        'MDL' => 'Moldovan Leu',
-            'MGA' => 'Malagasy Ariary',        'MKD' => 'Macedonian Denar',       'MMK' => 'Myanmar Kyat',
-            'MNT' => 'Mongolian Tögrög',       'MOP' => 'Macanese Pataca',
-            'MRU' => 'Mauritanian Ouguiya',    'MUR' => 'Mauritian Rupee',
-            'MVR' => 'Maldivian Rufiyaa',      'MWK' => 'Malawian Kwacha',
-            'MXN' => 'Mexican Peso',           'MYR' => 'Malaysian Ringgit',
-            'MZN' => 'Mozambican Metical',     'NAD' => 'Namibian Dollar',
-            'NGN' => 'Nigerian Naira',         'NIO' => 'Nicaraguan Córdoba',
-            'NOK' => 'Norwegian Krone',        'NPR' => 'Nepalese Rupee',
-            'NZD' => 'New Zealand Dollar',     'OMR' => 'Omani Rial',
-            'PAB' => 'Panamanian Balboa',      'PEN' => 'Peruvian Sol',
-            'PGK' => 'Papua New Guinean Kina', 'PHP' => 'Philippine Peso',
-            'PKR' => 'Pakistani Rupee',        'PLN' => 'Polish Złoty',
-            'PYG' => 'Paraguayan Guaraní',     'QAR' => 'Qatari Riyal',
-            'RON' => 'Romanian Leu',           'RSD' => 'Serbian Dinar',
-            'RUB' => 'Russian Ruble',          'RWF' => 'Rwandan Franc',
-            'SAR' => 'Saudi Riyal',            'SBD' => 'Solomon Islands Dollar',
-            'SCR' => 'Seychellois Rupee',      'SDG' => 'Sudanese Pound',
-            'SEK' => 'Swedish Krona',          'SGD' => 'Singapore Dollar',
-            'SLL' => 'Sierra Leonean Leone',   'SOS' => 'Somali Shilling',
-            'SRD' => 'Surinamese Dollar',      'SSP' => 'South Sudanese Pound',
-            'STN' => 'São Tomé and Príncipe Dobra',
-            'SVC' => 'Salvadoran Colón',       'SYP' => 'Syrian Pound',
-            'SZL' => 'Swazi Lilangeni',        'THB' => 'Thai Baht',
-            'TJS' => 'Tajikistani Somoni',     'TMT' => 'Turkmenistani Manat',
-            'TND' => 'Tunisian Dinar',         'TOP' => 'Tongan Paʻanga',
-            'TRY' => 'Turkish Lira',           'TTD' => 'Trinidad & Tobago Dollar',
-            'TWD' => 'New Taiwan Dollar',      'TZS' => 'Tanzanian Shilling',
-            'UAH' => 'Ukrainian Hryvnia',      'UGX' => 'Ugandan Shilling',
-            'USD' => 'US Dollar',              'UYU' => 'Uruguayan Peso',
-            'UZS' => 'Uzbekistani Som',        'VES' => 'Venezuelan Bolívar Soberano',
-            'VND' => 'Vietnamese Dong',        'VUV' => 'Vanuatu Vatu',
-            'WST' => 'Samoan Tala',            'XAF' => 'Central African CFA Franc', 'XCD' => 'East Caribbean Dollar',
-            'XOF' => 'West African CFA Franc', 'YER' => 'Yemeni Rial',
-            'ZAR' => 'South African Rand',     'ZMW' => 'Zambian Kwacha',
-            'ZWL' => 'Zimbabwean Dollar',
-        ];
-
-        // Zero-decimal currencies (no fractional units)
-        $zeroDecimal = ['BIF','CLP','DJF','GNF','IDR','JPY','KMF','KRW','MGA','PYG','RWF','TZS','UGX','VND','VUV','XAF','XOF','XPF'];
-
-        // Currencies where symbol goes after the amount
-        $symbolAfter = ['PLN','CZK','HUF','RON','SEK','DKK','NOK','ISK','HRK'];
-
         $now = now();
 
-        // Derive all currencies from the countries table
-        $rows = DB::table('countries')
-            ->whereNotNull('currency_code')
-            ->where('currency_code', '!=', '')
-            ->selectRaw('currency_code, MIN(currency_symbol) as currency_symbol')
-            ->groupBy('currency_code')
-            ->orderBy('currency_code')
-            ->get();
-
-        $currencies = [];
-        $sort = 1;
-
-        foreach ($rows as $row) {
-            $code = strtoupper(trim($row->currency_code));
-            $currencies[] = [
-                'code'            => $code,
-                'name'            => $names[$code] ?? $code,
-                'symbol'          => $row->currency_symbol ?? $code,
-                'symbol_position' => in_array($code, $symbolAfter) ? 'after' : 'before',
-                'decimal_places'  => in_array($code, $zeroDecimal) ? 0 : 2,
-                'exchange_rate'   => 1.0,
-                'is_default'      => $code === 'USD',
-                'is_active'       => true,
-                'sort_order'      => $sort++,
-                'created_at'      => $now,
-                'updated_at'      => $now,
+        $rows = array_map(static function (array $currency) use ($now): array {
+            return $currency + [
+                'created_at' => $now,
+                'updated_at' => $now,
             ];
-        }
+        }, self::CURRENCIES);
 
-        DB::table('currencies')->upsert(
-            $currencies,
+        // is_default and exchange_rate are left OUT of the update list on
+        // purpose.
+        //
+        // is_default goes through the model's saving hook, which is what keeps a
+        // single default; writing it straight from the query builder would
+        // bypass that. It is re-asserted on the row below instead.
+        //
+        // exchange_rate is the owner's number, typed into admin settings as
+        // "1 USD = ? AFN" and corrected as the market moves. Re-seeding a live
+        // store must not put it back to the seeded 71: that silently changes
+        // the price of every converted figure on the site back to a figure the
+        // owner has already rejected. It is still written on INSERT, so a
+        // first-time seed gets a rate and a rate-less store keeps its own.
+        Currency::query()->upsert(
+            $rows,
             ['code'],
-            ['name', 'symbol', 'symbol_position', 'decimal_places', 'is_default', 'is_active', 'sort_order', 'updated_at']
+            ['name', 'symbol', 'symbol_position', 'decimal_places', 'is_active', 'sort_order', 'updated_at']
         );
+
+        $base = Currency::query()->where('code', Currency::BASE_CODE)->first();
+
+        // Unconditional, not only when the flag was wrong. The model's saving
+        // hook is what guarantees a single default, and it only runs when a row
+        // is saved -- so on a re-seed of a store that had two rows flagged
+        // default, skipping the save would leave both flagged. Every row is
+        // re-asserted, not just the one that looked wrong.
+        $base?->update(['is_default' => true]);
     }
 }

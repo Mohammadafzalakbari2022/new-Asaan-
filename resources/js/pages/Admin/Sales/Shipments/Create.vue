@@ -38,7 +38,8 @@ interface Order {
 interface Props {
   order: Order | null;
   shiprocket_available: boolean;
-  delivery_available: boolean;
+  courier_available: boolean;
+  internal_delivery_available: boolean;
   statuses: Array<{ value: string; label: string }>;
 }
 
@@ -46,7 +47,7 @@ const props = defineProps<Props>();
 
 const form = useForm({
   order_id: props.order?.id || null,
-  shipment_mode: 'manual' as 'manual' | 'shiprocket' | 'delivery',
+  shipment_mode: 'manual' as 'manual' | 'shiprocket' | 'courier' | 'internal_delivery',
   carrier: '',
   tracking_number: '',
   tracking_url: '',
@@ -124,13 +125,52 @@ function cancel() {
       <form @submit.prevent="submit" class="space-y-6">
         <div class="bg-white rounded-lg shadow-sm p-6">
           <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Shipment Method') }}</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             <label class="border rounded-lg p-4 cursor-pointer" :class="form.shipment_mode === 'manual' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'">
               <div class="flex items-start gap-3">
                 <input v-model="form.shipment_mode" type="radio" value="manual" class="mt-1" />
                 <div>
                   <p class="font-medium text-gray-900">{{ $t('Manual Shipment') }}</p>
                   <p class="text-sm text-gray-600 mt-1">{{ $t('You enter carrier/tracking details manually.') }}</p>
+                </div>
+              </div>
+            </label>
+
+            <!-- Built-in, always available: no courier setting, token or account. -->
+            <label
+              class="border rounded-lg p-4 cursor-pointer"
+              :class="form.shipment_mode === 'internal_delivery' ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200'"
+            >
+              <div class="flex items-start gap-3">
+                <input
+                  v-model="form.shipment_mode"
+                  type="radio"
+                  value="internal_delivery"
+                  class="mt-1"
+                />
+                <div>
+                  <p class="font-medium text-gray-900">{{ $t('In-house Delivery') }}</p>
+                  <p class="text-sm text-gray-600 mt-1">{{ $t('Use your own delivery staff. No API or courier account needed.') }}</p>
+                </div>
+              </div>
+            </label>
+
+            <label
+              class="border rounded-lg p-4"
+              :class="[props.courier_available ? 'cursor-pointer' : 'opacity-60 cursor-not-allowed', form.shipment_mode === 'courier' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200']"
+            >
+              <div class="flex items-start gap-3">
+                <input
+                  v-model="form.shipment_mode"
+                  type="radio"
+                  value="courier"
+                  class="mt-1"
+                  :disabled="!props.courier_available"
+                />
+                <div>
+                  <p class="font-medium text-gray-900">{{ $t('External Courier (Delhivery)') }}</p>
+                  <p class="text-sm text-gray-600 mt-1">{{ $t('Sends the shipment to the external courier API automatically. Optional.') }}</p>
+                  <p v-if="!props.courier_available" class="text-xs text-red-600 mt-2">{{ $t('Enable/configure the external courier in Settings to use this option.') }}</p>
                 </div>
               </div>
             </label>
@@ -151,26 +191,6 @@ function cancel() {
                   <p class="font-medium text-gray-900">{{ $t('Shiprocket Shipment') }}</p>
                   <p class="text-sm text-gray-600 mt-1">{{ $t('System creates shipment and sends it to Shiprocket automatically.') }}</p>
                   <p v-if="!props.shiprocket_available" class="text-xs text-red-600 mt-2">{{ $t('Enable/configure Shiprocket in Settings to use this option.') }}</p>
-                </div>
-              </div>
-            </label>
-
-            <label
-              class="border rounded-lg p-4"
-              :class="[props.delivery_available ? 'cursor-pointer' : 'opacity-60 cursor-not-allowed', form.shipment_mode === 'delivery' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200']"
-            >
-              <div class="flex items-start gap-3">
-                <input
-                  v-model="form.shipment_mode"
-                  type="radio"
-                  value="delivery"
-                  class="mt-1"
-                  :disabled="!props.delivery_available"
-                />
-                <div>
-                  <p class="font-medium text-gray-900">{{ $t('Delivery Shipment') }}</p>
-                  <p class="text-sm text-gray-600 mt-1">{{ $t('System creates shipment and sends it to Delivery extension automatically.') }}</p>
-                  <p v-if="!props.delivery_available" class="text-xs text-red-600 mt-2">{{ $t('Enable/configure Delivery in Settings to use this option.') }}</p>
                 </div>
               </div>
             </label>
@@ -243,9 +263,14 @@ function cancel() {
           <p class="text-sm text-cyan-800">{{ $t('After clicking create, this shipment will be sent to Shiprocket automatically and AWB/tracking will be filled when available.') }}</p>
         </div>
 
-        <div v-else class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-indigo-900 mb-2">{{ $t('Delivery Flow Selected') }}</h3>
-          <p class="text-sm text-indigo-800">{{ $t('After clicking create, this shipment will be sent to Delivery extension automatically and AWB/tracking will be filled when available.') }}</p>
+        <div v-else-if="form.shipment_mode === 'courier'" class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-indigo-900 mb-2">{{ $t('External Courier Flow Selected') }}</h3>
+          <p class="text-sm text-indigo-800">{{ $t('After clicking create, this shipment will be sent to the external courier automatically and AWB/tracking will be filled when available.') }}</p>
+        </div>
+
+        <div v-else class="bg-emerald-50 border border-emerald-200 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-emerald-900 mb-2">{{ $t('In-house Delivery Flow Selected') }}</h3>
+          <p class="text-sm text-emerald-800">{{ $t('After clicking create, assign the shipment to one of your delivery staff from the Deliveries screen. No external courier is contacted.') }}</p>
         </div>
 
         <!-- Items to Ship -->
@@ -321,9 +346,11 @@ function cancel() {
             {{ $t(
               form.shipment_mode === 'shiprocket'
                 ? 'Shipment will be created and pushed to Shiprocket in one step.'
-                : form.shipment_mode === 'delivery'
-                  ? 'Shipment will be created and pushed to Delivery in one step.'
-                  : 'Shipment will be created using manual flow.'
+                : form.shipment_mode === 'courier'
+                  ? 'Shipment will be created and pushed to the external courier in one step.'
+                  : form.shipment_mode === 'internal_delivery'
+                    ? 'Shipment will be created for your own delivery staff. No external courier is contacted.'
+                    : 'Shipment will be created using manual flow.'
             ) }}
           </p>
           <div class="flex space-x-3">
@@ -344,9 +371,11 @@ function cancel() {
                   ? 'Creating...'
                   : form.shipment_mode === 'shiprocket'
                     ? 'Create & Send to Shiprocket'
-                    : form.shipment_mode === 'delivery'
-                      ? 'Create & Send to Delivery'
-                      : 'Create Manual Shipment'
+                    : form.shipment_mode === 'courier'
+                      ? 'Create & Send to External Courier'
+                      : form.shipment_mode === 'internal_delivery'
+                        ? 'Create for In-house Delivery'
+                        : 'Create Manual Shipment'
               ) }}
             </button>
           </div>

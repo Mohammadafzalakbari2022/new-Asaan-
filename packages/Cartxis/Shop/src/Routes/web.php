@@ -98,6 +98,17 @@ Route::group([
         |
         */
         require base_path('packages/Cartxis/Referral/src/Routes/shop.php');
+
+        /*
+        |----------------------------------------------------------------------
+        | Identity Verification
+        |----------------------------------------------------------------------
+        |
+        | Required from inside this group for the same reason: the customer's
+        | identity page needs the shop's theme layout, session and auth.
+        |
+        */
+        require base_path('packages/Cartxis/Identity/src/Routes/shop.php');
     });
 
     /*

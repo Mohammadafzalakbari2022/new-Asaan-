@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Cartxis\Customer\Models\Customer;
 use Cartxis\Customer\Models\CustomerAddress;
 use Cartxis\Customer\Models\CustomerGroup;
+use Cartxis\Core\Support\StoreCountry;
 
 class CustomerSeeder extends Seeder
 {
@@ -109,10 +110,10 @@ class CustomerSeeder extends Seeder
                 'company' => $customer->company_name,
                 'address_line_1' => '123 Main Street',
                 'address_line_2' => 'Apt 4B',
-                'city' => 'New York',
-                'state' => 'NY',
+                'city' => 'Kabul',
+                'state' => 'Kabul',
                 'postal_code' => '10001',
-                'country' => 'US',
+                'country' => StoreCountry::code(),
                 'phone' => $customer->phone,
                 'is_default_billing' => false,
             ]
@@ -131,10 +132,10 @@ class CustomerSeeder extends Seeder
                 'company' => $customer->company_name,
                 'address_line_1' => '456 Business Ave',
                 'address_line_2' => 'Suite 200',
-                'city' => 'New York',
-                'state' => 'NY',
+                'city' => 'Kabul',
+                'state' => 'Kabul',
                 'postal_code' => '10002',
-                'country' => 'US',
+                'country' => StoreCountry::code(),
                 'phone' => $customer->phone,
                 'is_default_shipping' => false,
             ]

@@ -80,11 +80,13 @@
             "Cartxis\\Reports\\": "packages/Cartxis/Reports/src/",
             "Cartxis\\Marketing\\": "packages/Cartxis/Marketing/src/",
             "Cartxis\\Referral\\": "packages/Cartxis/Referral/src/",
+            "Cartxis\\Identity\\": "packages/Cartxis/Identity/src/",
             "Cartxis\\Service\\": "packages/Cartxis/Service/src/",
             "Cartxis\\API\\": "packages/Cartxis/API/",
             "Cartxis\\Setup\\": "packages/Cartxis/Setup/src/",
             "Cartxis\\Setup\\Database\\Seeders\\": "packages/Cartxis/Setup/src/Database/Seeders/",
-            "Cartxis\\Blog\\": "packages/Cartxis/Blog/src/"
+            "Cartxis\\Blog\\": "packages/Cartxis/Blog/src/",
+            "Cartxis\\Calendar\\": "packages/Cartxis/Calendar/src/"
         }
     },
     "autoload-dev": {

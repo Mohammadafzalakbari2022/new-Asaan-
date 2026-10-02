@@ -4,6 +4,8 @@ namespace Cartxis\PayPal\Services;
 
 use Cartxis\Core\Contracts\PaymentGatewayInterface;
 use Cartxis\Core\Models\PaymentMethod;
+use Cartxis\Core\Support\GatewayCurrency;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Shop\Models\Order;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
@@ -11,12 +13,24 @@ use Illuminate\Support\Facades\Log;
 /**
  * PayPal Payment Gateway Implementation
  * Uses PayPal REST API v2 directly
+ *
+ * PayPal settles in USD. The amount sent is the order's canonical AFN total
+ * converted exactly once, because PayPal's API demands an amount in its own
+ * currency. The order row stays in AFN.
  */
 class PayPalGateway implements PaymentGatewayInterface
 {
     protected ?PaymentMethod $paymentMethod = null;
     protected ?Client $httpClient = null;
     protected ?string $accessToken = null;
+
+    /**
+     * The currency PayPal is charged in.
+     */
+    public function getSettlementCurrency(): string
+    {
+        return GatewayCurrency::settle($this->getCode(), lowerCase: false);
+    }
 
     /**
      * Get payment method configuration from database.
@@ -198,7 +212,12 @@ class PayPalGateway implements PaymentGatewayInterface
             // Get shipping address
             $shippingAddress = $order->shippingAddress;
 
-            $currency = strtoupper($order->currency_code ?? 'USD');
+            // PayPal only settles in USD. This used to read
+            // $order->currency_code, which no order has -- the column does not
+            // exist -- so it silently fell through to a hardcoded 'USD' while
+            // sending the unconverted AFN amount. Resolved from the gateway,
+            // with the amount converted to match.
+            $currency = $this->getSettlementCurrency();
             $parseAmount = static function ($value): float {
                 if (is_null($value)) {
                     return 0.0;
@@ -230,6 +249,11 @@ class PayPalGateway implements PaymentGatewayInterface
             if ($grandTotal <= 0) {
                 throw new \Exception('PayPal amount must be greater than zero.');
             }
+
+            // The totals above are the canonical AFN figures. PayPal charges in
+            // its own currency, so convert once here, at the boundary, and
+            // never anywhere else in this class.
+            $grandTotal = GatewayCurrency::amount($grandTotal, $this->getCode());
 
             $formatAmount = static fn ($value) => number_format($value, 2, '.', '');
 
@@ -373,28 +397,14 @@ class PayPalGateway implements PaymentGatewayInterface
         }
     }
 
-    private function normalizeCountryCode(string $country): ?string
+    /**
+     * PayPal rejects an order whose shipping country is missing, and it only
+     * needs to be right, not the shopper's choice — the store only ships to
+     * one country, so whatever arrived is replaced with that.
+     */
+    private function normalizeCountryCode(?string $country): ?string
     {
-        $value = strtoupper(trim($country));
-        if ($value === '') {
-            return null;
-        }
-
-        if (strlen($value) === 2 && ctype_alpha($value)) {
-            return $value;
-        }
-
-        $map = [
-            'UNITED STATES' => 'US',
-            'USA' => 'US',
-            'UNITED STATES OF AMERICA' => 'US',
-            'CANADA' => 'CA',
-            'INDIA' => 'IN',
-            'UNITED KINGDOM' => 'GB',
-            'GREAT BRITAIN' => 'GB',
-        ];
-
-        return $map[$value] ?? null;
+        return StoreCountry::code();
     }
 
     /**
@@ -516,9 +526,14 @@ class PayPalGateway implements PaymentGatewayInterface
 
             $refundAmount = $amount ?? $order->grand_total;
 
+            // Canonical AFN figure, converted into the currency the capture was
+            // made in. Refunding a USD capture with an unconverted AFN number
+            // would return a fraction of what was taken.
+            $refundAmount = GatewayCurrency::amount((float) $refundAmount, $this->getCode());
+
             $refundData = [
                 'amount' => [
-                    'currency_code' => $order->currency_code ?? 'USD',
+                    'currency_code' => $this->getSettlementCurrency(),
                     'value' => number_format($refundAmount, 2, '.', ''),
                 ],
                 'note_to_payer' => $reason ?? 'Refund for order #' . $order->order_number,

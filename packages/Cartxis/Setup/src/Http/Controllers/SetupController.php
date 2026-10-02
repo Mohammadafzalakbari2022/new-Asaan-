@@ -15,6 +15,7 @@ use Inertia\Response;
 use Cartxis\Setup\Services\DemoDataService;
 use Cartxis\Core\Models\Country;
 use Cartxis\Core\Services\SettingService;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Core\Models\Currency;
 use Cartxis\UIEditor\Models\PageLayout;
 use Cartxis\UIEditor\Services\LayoutService;
@@ -54,8 +55,6 @@ class SetupController extends Controller
     {
         $businessType = $request->query('type', 'retail');
 
-        $countries = Country::active()->ordered()->get(['name', 'code'])->toArray();
-
         // Prefer the currencies table (proper names + metadata).
         // Fall back to countries-derived data on a true first-run before seeding.
         $currenciesFromTable = Currency::where('is_active', true)
@@ -79,7 +78,6 @@ class SetupController extends Controller
 
         return Inertia::render('Setup/BusinessSettings', [
             'businessType' => $businessType,
-            'countries'    => $countries,
             'currencies'   => $currencies,
         ]);
     }
@@ -94,12 +92,16 @@ class SetupController extends Controller
             'store_name' => 'required|string|max:255',
             'contact_phone' => 'nullable|string|max:50',
             'store_address' => 'nullable|string',
-            'store_country' => 'required|string|max:100',
+            'store_country' => 'nullable|string|max:100',
             'currency' => 'required|string|max:10',
             'timezone' => 'required|string|max:100',
         ]);
 
         try {
+            // The store is Afghanistan-only, so the wizard does not ask and
+            // the value is never taken from the request.
+            $validated['store_country'] = StoreCountry::name();
+
             // Save settings for setup wizard (raw in settings table)
             foreach ($validated as $key => $value) {
                 DB::table('settings')->updateOrInsert(
@@ -119,7 +121,20 @@ class SetupController extends Controller
             $this->settingService->set('contact_address', $validated['store_address'] ?? '', 'string', 'general');
             $this->settingService->set('store_country', $validated['store_country'], 'string', 'general');
 
+            // The store prices in AFN. The wizard offers the two supported
+            // codes, but the SERVER is where that rule has to hold: an
+            // unsupported code posted straight at this endpoint used to create a
+            // third currency and, worse, make it the default -- which prints
+            // every afghani price with the wrong symbol.
             $currencyCode = strtoupper($validated['currency']);
+
+            if (! Currency::isSupportedCode($currencyCode)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This store only supports AFN and USD.',
+                ], 422);
+            }
+
             $currencyMeta = $this->getCurrencyMetadata($currencyCode);
 
             Currency::updateOrCreate(
@@ -128,11 +143,18 @@ class SetupController extends Controller
                     'name' => $currencyMeta['name'],
                     'symbol' => $currencyMeta['symbol'],
                     'symbol_position' => $currencyMeta['symbol_position'],
-                    'decimal_places' => $currencyMeta['decimal_places'],
-                    'exchange_rate' => $currencyMeta['exchange_rate'],
-                    'is_default' => true,
+                    // AFN is pinned to zero decimals and a rate of exactly one,
+                    // the same two rules the seeder and the migration hold. A
+                    // hand-edited row must not be able to reintroduce
+                    // "؋500.00" through the setup wizard.
+                    'decimal_places' => $currencyCode === Currency::BASE_CODE ? 0 : $currencyMeta['decimal_places'],
+                    'exchange_rate' => $currencyCode === Currency::BASE_CODE ? 1.0 : $currencyMeta['exchange_rate'],
+                    // Only the afghani may be the default currency. USD is the
+                    // optional one prices are DISPLAYED in; a dollar default
+                    // would mean the afghani figures are labelled in dollars.
+                    'is_default' => $currencyCode === Currency::BASE_CODE,
                     'is_active' => true,
-                    'sort_order' => 0,
+                    'sort_order' => $currencyCode === Currency::BASE_CODE ? 1 : 2,
                 ]
             );
 

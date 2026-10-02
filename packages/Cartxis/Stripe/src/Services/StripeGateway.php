@@ -4,6 +4,8 @@ namespace Cartxis\Stripe\Services;
 
 use Cartxis\Core\Contracts\PaymentGatewayInterface;
 use Cartxis\Core\Models\PaymentMethod;
+use Cartxis\Core\Support\GatewayCurrency;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Shop\Models\Order;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
@@ -12,10 +14,23 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Stripe Payment Gateway Implementation
+ *
+ * Stripe settles in USD. Every amount leaving this class is the order's
+ * canonical AFN figure converted exactly once, into the currency Stripe's own
+ * API requires. The order row still holds AFN, so a refund or a report reads
+ * the same figure it always did.
  */
 class StripeGateway implements PaymentGatewayInterface
 {
     protected ?PaymentMethod $paymentMethod = null;
+
+    /**
+     * The currency Stripe is charged in.
+     */
+    public function getSettlementCurrency(): string
+    {
+        return GatewayCurrency::settle($this->getCode());
+    }
 
     /**
      * Get payment method configuration from database.
@@ -114,7 +129,9 @@ class StripeGateway implements PaymentGatewayInterface
                 ],
                 // Pre-fill customer shipping information
                 'shipping_address_collection' => [
-                    'allowed_countries' => ['US', 'CA', 'GB', 'IN'], // Add countries as needed
+                    // Stripe rejects any other value here, and the store only
+                    // ships to one country, so the list is the store country.
+                    'allowed_countries' => [StoreCountry::code()],
                 ],
                 'shipping_options' => [
                     [
@@ -122,7 +139,7 @@ class StripeGateway implements PaymentGatewayInterface
                             'type' => 'fixed_amount',
                             'fixed_amount' => [
                                 'amount' => 0, // Already included in line items
-                                'currency' => 'inr',
+                                'currency' => $this->getSettlementCurrency(),
                             ],
                             'display_name' => $order->shipping_method ?? 'Standard Shipping',
                         ],
@@ -159,21 +176,27 @@ class StripeGateway implements PaymentGatewayInterface
 
     /**
      * Format order items for Stripe Checkout.
+     *
+     * Each line's unit_amount is the canonical AFN unit price converted once
+     * into USD cents, because Stripe charges the sum of the line items in the
+     * currency it is told. Passing an AFN figure here with a 'usd' label would
+     * charge the customer seventy-one times too much.
      */
     protected function formatLineItems(Order $order): array
     {
         $items = [];
+        $code = $this->getCode();
 
         // Add order items
         foreach ($order->items as $item) {
             $items[] = [
                 'price_data' => [
-                    'currency' => 'inr',
+                    'currency' => $this->getSettlementCurrency(),
                     'product_data' => [
                         'name' => $item->product_name,
                         'images' => $item->product_image ? [url($item->product_image)] : [],
                     ],
-                    'unit_amount' => (int) ($item->price * 100), // Convert to cents
+                    'unit_amount' => GatewayCurrency::minorUnits((float) $item->price, $code),
                 ],
                 'quantity' => $item->quantity,
             ];
@@ -183,11 +206,11 @@ class StripeGateway implements PaymentGatewayInterface
         if ($order->shipping_cost > 0) {
             $items[] = [
                 'price_data' => [
-                    'currency' => 'inr',
+                    'currency' => $this->getSettlementCurrency(),
                     'product_data' => [
                         'name' => 'Shipping - ' . $order->shipping_method,
                     ],
-                    'unit_amount' => (int) ($order->shipping_cost * 100),
+                    'unit_amount' => GatewayCurrency::minorUnits((float) $order->shipping_cost, $code),
                 ],
                 'quantity' => 1,
             ];
@@ -197,11 +220,11 @@ class StripeGateway implements PaymentGatewayInterface
         if ($order->tax > 0) {
             $items[] = [
                 'price_data' => [
-                    'currency' => 'inr',
+                    'currency' => $this->getSettlementCurrency(),
                     'product_data' => [
                         'name' => 'Tax',
                     ],
-                    'unit_amount' => (int) ($order->tax * 100),
+                    'unit_amount' => GatewayCurrency::minorUnits((float) $order->tax, $code),
                 ],
                 'quantity' => 1,
             ];
@@ -338,7 +361,8 @@ class StripeGateway implements PaymentGatewayInterface
             ];
 
             if ($amount) {
-                $refundData['amount'] = (int) ($amount * 100); // Convert to cents
+                // Canonical AFN refund, so convert before it becomes cents.
+                $refundData['amount'] = GatewayCurrency::minorUnits((float) $amount, $this->getCode());
             }
 
             if ($reason) {

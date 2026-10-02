@@ -18,6 +18,10 @@
         </include>
     </source>
     <php>
+        <!-- The suite builds fake images (UploadedFile::fake()->image) and renders
+             PDFs, so it needs more headroom than PHP's 128M default. Without this
+             the run dies mid-suite with "Allowed memory size exhausted". -->
+        <ini name="memory_limit" value="1024M"/>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>

@@ -9,6 +9,15 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * External courier API client (Delhivery by default).
+ *
+ * This talks to a third-party courier over HTTP and is entirely optional. It
+ * is NOT the built-in in-house delivery system: that one lives in the Delivery
+ * model, DeliveryStatusService and the 'delivery' guard, needs no API token and
+ * makes no outbound calls. Both are shipped, but they must not be confused, so
+ * this one owns the "shipping.courier.*" settings and the external name.
+ */
 class DeliveryService
 {
     public function __construct(
@@ -17,19 +26,19 @@ class DeliveryService
 
     public function isEnabled(): bool
     {
-        return (bool) $this->settingService->get('shipping.delivery.enabled', false);
+        return (bool) $this->settingService->get('shipping.courier.enabled', false);
     }
 
     public function isConfigured(): bool
     {
         return $this->isEnabled()
-            && trim((string) $this->settingService->get('shipping.delivery.api_token', '')) !== '';
+            && trim((string) $this->settingService->get('shipping.courier.api_token', '')) !== '';
     }
 
     public function createOrderForShipment(Shipment $shipment): array
     {
         if (!$this->isConfigured()) {
-            throw new \RuntimeException('Delivery extension is not configured.');
+            throw new \RuntimeException('External courier is not configured. Please complete courier settings first.');
         }
 
         $shipment->loadMissing([
@@ -132,8 +141,8 @@ class DeliveryService
 
                 Log::warning('Delhivery create shipment generic internal error', [
                     'order_number' => $order->order_number,
-                    'pickup_location' => (string) $this->settingService->get('shipping.delivery.pickup_location', ''),
-                    'channel_id' => (string) $this->settingService->get('shipping.delivery.channel_id', ''),
+                    'pickup_location' => (string) $this->settingService->get('shipping.courier.pickup_location', ''),
+                    'channel_id' => (string) $this->settingService->get('shipping.courier.channel_id', ''),
                     'base_url' => $this->apiBaseUrl(),
                     'response' => $data,
                 ]);
@@ -143,7 +152,7 @@ class DeliveryService
             }
 
             if (stripos($apiMessage, 'ClientWarehouse matching query does not exist') !== false) {
-                $configuredPickup = trim((string) $this->settingService->get('shipping.delivery.pickup_location', ''));
+                $configuredPickup = trim((string) $this->settingService->get('shipping.courier.pickup_location', ''));
                 $apiMessage = sprintf(
                     'Pickup location "%s" was not found in Delhivery. Update Delivery Settings with the exact warehouse name from Delhivery panel.',
                     $configuredPickup !== '' ? $configuredPickup : '(empty)'
@@ -186,7 +195,7 @@ class DeliveryService
         /** @var \Illuminate\Http\Client\Response $response */
         $response = Http::acceptJson()
             ->withHeaders([
-                'Authorization' => 'Token ' . trim((string) $this->settingService->get('shipping.delivery.api_token', '')),
+                'Authorization' => 'Token ' . trim((string) $this->settingService->get('shipping.courier.api_token', '')),
             ])
             ->asForm()
             ->post($this->apiBaseUrl() . '/api/cmu/create.json', [
@@ -205,7 +214,7 @@ class DeliveryService
     public function fetchTrackingByAwb(string $awbCode): array
     {
         if (!$this->isConfigured()) {
-            throw new \RuntimeException('Delivery extension is not configured.');
+            throw new \RuntimeException('External courier is not configured. Please complete courier settings first.');
         }
 
         $awbCode = trim($awbCode);
@@ -216,7 +225,7 @@ class DeliveryService
         /** @var \Illuminate\Http\Client\Response $response */
         $response = Http::acceptJson()
             ->withHeaders([
-                'Authorization' => 'Token ' . trim((string) $this->settingService->get('shipping.delivery.api_token', '')),
+                'Authorization' => 'Token ' . trim((string) $this->settingService->get('shipping.courier.api_token', '')),
                 'Content-Type' => 'application/json',
             ])
             ->get($this->apiBaseUrl() . '/api/v1/packages/json/', [
@@ -250,7 +259,7 @@ class DeliveryService
 
     public function fetchPickupLocations(?string $token = null, ?string $baseUrl = null): array
     {
-        $apiToken = trim((string) ($token ?? $this->settingService->get('shipping.delivery.api_token', '')));
+        $apiToken = trim((string) ($token ?? $this->settingService->get('shipping.courier.api_token', '')));
         if ($apiToken === '') {
             throw new \RuntimeException('Delivery API token is required to fetch pickup locations.');
         }
@@ -317,7 +326,7 @@ class DeliveryService
 
         $fullName = trim((string) ($address->full_name ?? ($order->customer_name ?? 'Customer')));
         $phone = (string) ($address->phone ?: ($order->customer_phone ?? '9999999999'));
-        $pickupName = trim((string) $this->settingService->get('shipping.delivery.pickup_location', ''));
+        $pickupName = trim((string) $this->settingService->get('shipping.courier.pickup_location', ''));
         if ($pickupName === '') {
             throw new \RuntimeException('Delivery pickup location is not configured. Please set it in Delivery Settings.');
         }
@@ -345,7 +354,7 @@ class DeliveryService
             'pin' => (string) ($address->postal_code ?? ''),
             'city' => (string) ($address->city ?? ''),
             'state' => (string) ($address->state ?? ''),
-            'country' => (string) ($address->country ?? 'India'),
+            'country' => \Cartxis\Core\Support\StoreCountry::normalise($address->country ?? null),
             'phone' => $phone,
             'order' => (string) ($order->order_number ?? $shipment->shipment_number),
             'payment_mode' => $order->isPaid() ? 'Prepaid' : 'COD',
@@ -458,7 +467,7 @@ class DeliveryService
 
     protected function apiBaseUrl(): string
     {
-        $configured = trim((string) $this->settingService->get('shipping.delivery.base_url', ''));
+        $configured = trim((string) $this->settingService->get('shipping.courier.base_url', ''));
         if ($configured !== '') {
             return rtrim($configured, '/');
         }
@@ -471,7 +480,7 @@ class DeliveryService
      */
     protected function metadataBaseUrls(?string $override = null): array
     {
-        $configured = trim((string) ($override ?: $this->settingService->get('shipping.delivery.base_url', '')));
+        $configured = trim((string) ($override ?: $this->settingService->get('shipping.courier.base_url', '')));
         $normalizedConfigured = $configured !== '' ? rtrim($configured, '/') : null;
 
         $candidates = collect([

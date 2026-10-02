@@ -90,8 +90,12 @@ return new class extends Migration
      *
      * Seeded from the migration rather than the service provider because the
      * provider boots before the schema exists, so its insert would only ever
-     * run on a database that already had the table. Left inactive: switching a
-     * payment method on is the store owner's decision.
+     * run on a database that already had the table.
+     *
+     * Shipped active and as the store default, because a local wallet is the
+     * only way most Afghan shoppers can pay online. The keys are still blank,
+     * so checkout hides the method again until the owner configures it —
+     * see PaymentGatewayInterface::isConfigured() and the checkout listing.
      */
     private function seedPaymentMethod(): void
     {
@@ -106,9 +110,11 @@ return new class extends Migration
             'name' => 'HesabPay',
             'description' => 'Pay with the HesabPay wallet, AfPay card, or an international card.',
             'type' => 'hesabpay',
-            'is_active' => false,
-            'is_default' => false,
-            'sort_order' => 3,
+            'is_active' => true,
+            'is_default' => true,
+            // Ahead of Cash on Delivery (1), which is the method it replaces as
+            // the preselected option at checkout.
+            'sort_order' => 0,
             'configuration' => json_encode([
                 'mode' => 'sandbox',
                 'test_api_key' => '',

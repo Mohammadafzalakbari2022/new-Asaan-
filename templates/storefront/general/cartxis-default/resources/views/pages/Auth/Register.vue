@@ -18,6 +18,14 @@ const primaryColor = computed(() => theme.value?.settings?.['colors.primary'] ||
 
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
+
+// Set by the referral middleware while an invitation is still waiting to be
+// applied. Null when nobody sent this visitor, so nothing is shown.
+const referrerName = computed(() => {
+    const name = (page.props as Record<string, unknown>).referralReferrerName;
+
+    return typeof name === 'string' && name.trim() !== '' ? name.trim() : null;
+});
 </script>
 
 <template>
@@ -51,6 +59,17 @@ const showConfirmPassword = ref(false);
                         v-slot="{ errors, processing }"
                         class="space-y-6"
                     >
+                        <!-- Who sent this visitor here -->
+                        <div
+                            v-if="referrerName"
+                            data-test="register-referrer-banner"
+                            class="mb-6 rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700"
+                            :style="{ borderInlineStartColor: primaryColor }"
+                        >
+                            {{ $t('Invited by') }}
+                            <span class="font-semibold text-gray-900">{{ referrerName }}</span>
+                        </div>
+
                         <!-- Name Field -->
                         <div class="space-y-2">
                             <Label for="name" class="text-sm font-medium text-gray-700">
@@ -147,10 +166,38 @@ const showConfirmPassword = ref(false);
                             <InputError :message="errors.password_confirmation" />
                         </div>
 
+                        <!--
+                            Only for someone whose link did not survive being
+                            pasted into a message app. Optional, and ignored if it
+                            is not a real code.
+                        -->
+                        <div class="space-y-2">
+                            <Label for="referral_code" class="text-sm font-medium text-gray-700">
+                                {{ $t('Referral code') }}
+                                <span class="font-normal text-gray-500">({{ $t('optional') }})</span>
+                            </Label>
+                            <Input
+                                id="referral_code"
+                                type="text"
+                                name="referral_code"
+                                :tabindex="5"
+                                placeholder="AHMAD-7K2QX"
+                                autocomplete="off"
+                                autocapitalize="characters"
+                                spellcheck="false"
+                                class="w-full"
+                                data-test="register-referral-code"
+                            />
+                            <p class="text-xs text-gray-500">
+                                {{ $t("Have a friend's code? Enter it here.") }}
+                            </p>
+                            <InputError :message="errors.referral_code" />
+                        </div>
+
                         <!-- Terms Checkbox (Optional - can be removed if not needed) -->
                         <div class="flex items-start">
                             <Label for="terms" class="flex items-start space-x-2 cursor-pointer text-sm text-gray-600">
-                                <Checkbox id="terms" name="terms" :tabindex="5" class="mt-0.5" />
+                                <Checkbox id="terms" name="terms" :tabindex="6" class="mt-0.5" />
                                 <span>
                                     {{ $t('I agree to the') }}
                                     <TextLink href="/terms" class="hover:underline" :style="{ color: primaryColor }">
@@ -169,7 +216,7 @@ const showConfirmPassword = ref(false);
                             type="submit"
                             class="w-full text-white font-medium py-2.5 rounded-md hover:opacity-90 transition-opacity"
                             :style="{ backgroundColor: primaryColor }"
-                            :tabindex="6"
+                            :tabindex="7"
                             :disabled="processing"
                             data-test="register-user-button"
                         >
@@ -199,7 +246,7 @@ const showConfirmPassword = ref(false);
                                 href="/login"
                                 class="font-medium hover:underline"
                                 :style="{ color: primaryColor }"
-                                :tabindex="7"
+                                :tabindex="8"
                             >
                                 {{ $t('Log in') }}
                             </TextLink>
@@ -212,7 +259,7 @@ const showConfirmPassword = ref(false);
                     <TextLink
                         href="/"
                         class="text-sm text-gray-600 hover:underline inline-flex items-center"
-                        :tabindex="8"
+                        :tabindex="9"
                     >
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />

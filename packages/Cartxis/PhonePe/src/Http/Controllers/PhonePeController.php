@@ -4,6 +4,7 @@ namespace Cartxis\PhonePe\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Cartxis\Core\Support\GatewayCurrency;
 use Cartxis\Shop\Models\Order;
 use Cartxis\Core\Models\EmailTemplate;
 use Cartxis\Core\Models\PaymentMethod;
@@ -324,7 +325,7 @@ class PhonePeController extends Controller
                     'customer_name' => $customerName,
                     'order_number' => $order->order_number,
                     'order_date' => $order->created_at->format('F j, Y'),
-                    'order_total' => '₹' . number_format($order->total, 2),
+                    'order_total' => GatewayCurrency::formatCharge($order->total, $order->payment_method ?? 'afn'),
                     'store_name' => config('app.name', 'Cartxis'),
                     'store_url' => url('/'),
                 ]);

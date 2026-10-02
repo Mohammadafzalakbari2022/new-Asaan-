@@ -2,6 +2,7 @@
 
 namespace Cartxis\Shop\Models;
 
+use Cartxis\Core\Support\StoreCountry;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,6 +55,18 @@ class Address extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    /**
+     * The store only ships inside one country, so the column is filled in here
+     * rather than trusted from a form or a mobile payload. The column stays
+     * NOT NULL and is still returned in API responses.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (self $address) {
+            $address->country = StoreCountry::normalise($address->country);
+        });
+    }
 
     /**
      * Address type constants
@@ -265,6 +278,9 @@ class Address extends Model
      */
     public function isComplete(): bool
     {
+        // Country is deliberately absent: it is filled in by the model, so a
+        // shopper never supplies it and it can never be the reason an address
+        // is judged incomplete.
         $required = [
             'first_name',
             'last_name',
@@ -272,7 +288,6 @@ class Address extends Model
             'city',
             'state',
             'postal_code',
-            'country',
         ];
 
         foreach ($required as $field) {

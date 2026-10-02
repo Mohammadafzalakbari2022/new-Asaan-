@@ -42,7 +42,6 @@ const form = useForm({
     city: '',
     state: '',
     postal_code: '',
-    country: 'IN',
   },
   billing_address: {
     first_name: '',
@@ -53,7 +52,6 @@ const form = useForm({
     city: '',
     state: '',
     postal_code: '',
-    country: 'IN',
   },
   subtotal: 0,
   tax: 0,
@@ -153,7 +151,6 @@ function submit() {
     city: form.shipping_address.city,
     state: form.shipping_address.state,
     postal_code: form.shipping_address.postal_code,
-    country: form.shipping_address.country,
   };
   
   // Post with explicit billing_address

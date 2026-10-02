@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cartxis\Customer\Models;
 
+use Cartxis\Core\Support\StoreCountry;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,6 +36,18 @@ class CustomerAddress extends Model
         'is_default_shipping' => 'boolean',
         'is_default_billing' => 'boolean',
     ];
+
+    /**
+     * The store only ships inside one country, so the column is filled in here
+     * rather than trusted from an admin form or a mobile payload. The column
+     * stays NOT NULL and is still returned in API responses.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (self $address) {
+            $address->country = StoreCountry::normalise($address->country);
+        });
+    }
 
     /**
      * Get the customer that owns this address.

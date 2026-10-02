@@ -5,7 +5,7 @@ namespace Cartxis\Shop\Http\Controllers\Account;
 use Illuminate\Http\Request;
 use Cartxis\Shop\Http\Controllers\Controller;
 use Cartxis\Shop\Models\Address;
-use Cartxis\Core\Models\Country;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Core\Services\ThemeViewResolver;
 
 class AddressController extends Controller
@@ -28,18 +28,10 @@ class AddressController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $countries = Country::query()
-            ->active()
-            ->ordered()
-            ->get(['name', 'code'])
-            ->map(fn ($country) => [
-                'name' => $country->name,
-                'code' => $country->code,
-            ]);
-
+        // No country list is sent: the country is not a choice, so there is
+        // nothing for the shopper to pick and nothing for the page to render.
         return $this->themeResolver->inertia('Account/Addresses/Index', [
             'addresses' => $addresses,
-            'countries' => $countries,
         ]);
     }
 
@@ -58,7 +50,7 @@ class AddressController extends Controller
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
-            'country' => 'required|string|max:255',
+            'country' => 'nullable|string|max:255',
             'phone' => 'required|string|max:20',
             'is_default' => 'sometimes|boolean',
             'address_type' => 'required|in:shipping,billing',
@@ -85,7 +77,7 @@ class AddressController extends Controller
             'city' => $validated['city'],
             'state' => $validated['state'],
             'postal_code' => $validated['postal_code'],
-            'country' => $validated['country'],
+            'country' => StoreCountry::normalise($validated['country'] ?? null),
             'phone' => $validated['phone'],
             'is_default' => $validated['is_default'] ?? false,
         ]);
@@ -113,7 +105,7 @@ class AddressController extends Controller
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
-            'country' => 'required|string|max:255',
+            'country' => 'nullable|string|max:255',
             'phone' => 'required|string|max:20',
             'is_default' => 'sometimes|boolean',
             'address_type' => 'required|in:shipping,billing',
@@ -139,7 +131,7 @@ class AddressController extends Controller
             'city' => $validated['city'],
             'state' => $validated['state'],
             'postal_code' => $validated['postal_code'],
-            'country' => $validated['country'],
+            'country' => StoreCountry::normalise($validated['country'] ?? null),
             'phone' => $validated['phone'],
             'is_default' => $validated['is_default'] ?? false,
         ]);

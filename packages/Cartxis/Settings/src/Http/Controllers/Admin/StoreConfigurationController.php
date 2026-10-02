@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 use Cartxis\Core\Services\SettingService;
+use Cartxis\Core\Support\StoreCountry;
 
 class StoreConfigurationController
 {
@@ -42,7 +43,8 @@ class StoreConfigurationController
                 'store_city' => (string) $this->settingService->get('store_city', ''),
                 'store_state' => (string) $this->settingService->get('store_state', ''),
                 'store_postal_code' => (string) $this->settingService->get('store_postal_code', ''),
-                'store_country' => (string) $this->settingService->get('store_country', ''),
+                // Read-only: the store is Afghanistan-only.
+                'store_country' => StoreCountry::name(),
                 
                 // Store Timezone
                 'store_timezone' => (string) $this->settingService->get('store_timezone', 'UTC'),
@@ -107,8 +109,7 @@ class StoreConfigurationController
                 'store_city' => 'required|string|max:100',
                 'store_state' => 'required|string|max:100',
                 'store_postal_code' => 'required|string|max:20',
-                'store_country' => 'required|string|max:100',
-                
+
                 // Store Timezone
                 'store_timezone' => 'required|string|max:50',
                 
@@ -149,6 +150,10 @@ class StoreConfigurationController
                 
                 $this->settingService->set($key, $value, $type, 'store');
             }
+
+            // The store is Afghanistan-only, so this is written on every save
+            // regardless of what (if anything) arrived from the form.
+            $this->settingService->set('store_country', StoreCountry::name(), 'string', 'store');
 
             return redirect()->route('admin.settings.store.index')->with('success', 'Store configuration saved successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {

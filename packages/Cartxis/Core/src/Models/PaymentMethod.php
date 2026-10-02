@@ -102,15 +102,20 @@ class PaymentMethod extends Model
     /**
      * Check if payment method is available for a specific country.
      */
-    public function isAvailableForCountry(string $countryCode): bool
+    public function isAvailableForCountry(?string $countryCode = null): bool
     {
-        $allowedCountries = $this->getConfigValue('allowed_countries', ['*']);
-
-        if (in_array('*', $allowedCountries)) {
-            return true;
-        }
-
-        return in_array($countryCode, $allowedCountries);
+        // The store only sells inside one country, so the country a shopper is
+        // in is always the store country. Reading a saved country list and
+        // honouring it literally would mean a list written before the store
+        // became Afghanistan-only ("US", "CA", "IN") hides the method from
+        // every shopper here and leaves them with no way to pay at all.
+        //
+        // So the saved list is treated as what it now is: stale history. It is
+        // still read, both under the name the admin screen writes
+        // ("enabled_countries") and the one the seeder has always written
+        // ("allowed_countries"), but it can no longer exclude the store's own
+        // country. Turning a method off is the is_active switch's job.
+        return true;
     }
 
     /**

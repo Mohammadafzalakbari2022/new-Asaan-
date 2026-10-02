@@ -3,7 +3,9 @@
 namespace Cartxis\HesabPay\Services;
 
 use Cartxis\Core\Contracts\PaymentGatewayInterface;
+use Cartxis\Core\Models\Currency;
 use Cartxis\Core\Models\PaymentMethod;
+use Cartxis\Core\Support\GatewayCurrency;
 use Cartxis\Shop\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
@@ -17,6 +19,14 @@ use Illuminate\Support\Facades\Log;
  * result. The browser redirect is only for the customer's benefit, so nothing
  * here trusts it.
  *
+ * It is AFN ONLY. HesabPay is an Afghan wallet and charges afghani, so the
+ * amount it is handed is the order's canonical AFN total, unchanged --
+ * regardless of what currency the shopper happens to be browsing prices in.
+ * There is no conversion anywhere in this class, and the order of operations
+ * matters: a shopper looking at dollars is still charged afghani, and the
+ * webhook below checks the received amount against orders.total in afghani.
+ * Both sides have to agree or a paid order never gets marked paid.
+ *
  * Docs: https://docs.hesab.com/
  */
 class HesabPayGateway implements PaymentGatewayInterface
@@ -28,6 +38,14 @@ class HesabPayGateway implements PaymentGatewayInterface
      * success webhook. Session key used to cache the resolved method.
      */
     protected const CACHE_KEY = 'hesabpay.payment_method';
+
+    /**
+     * The only currency HesabPay can be charged in.
+     */
+    public function getSettlementCurrency(): string
+    {
+        return GatewayCurrency::settle($this->getCode(), lowerCase: false);
+    }
 
     /**
      * Fetch the active payment method row holding our configuration.
@@ -256,7 +274,10 @@ class HesabPayGateway implements PaymentGatewayInterface
             self::writePaymentData($order, [
                 'order_reference' => $order->order_number,
                 'checkout_url' => $body['url'],
-                'amount' => (float) $order->total,
+                // Recorded in afghani, which is what HesabPay charged and what
+                // the webhook will echo back.
+                'amount' => GatewayCurrency::afnTotal((float) $order->total),
+                'currency' => $this->getSettlementCurrency(),
                 'mode' => $this->getMode(),
                 'transaction_id' => null,
             ]);
@@ -291,12 +312,12 @@ class HesabPayGateway implements PaymentGatewayInterface
         return [
             'id' => mb_substr((string) $order->order_number, 0, 50),
             'name' => mb_substr("Order #{$order->order_number}", 0, 500),
-            'price' => round((float) $order->total, 2),
+            'price' => round(GatewayCurrency::afnTotal((float) $order->total), 2),
         ];
     }
 
     /**
-     * Line items for the checkout page.
+     * Line items for the checkout page, in afghani.
      *
      * HesabPay has no quantity field and, per its API reference, "the gateway
      * calculates the payment amount from the submitted item prices". So the
@@ -305,6 +326,12 @@ class HesabPayGateway implements PaymentGatewayInterface
      * tax, shipping, coupons or referral credit has to be carried in the items,
      * otherwise the customer is charged the subtotal and the verified webhook
      * then fails its amount check and the order is never marked paid.
+     *
+     * Every figure here goes through GatewayCurrency::afnTotal(), which returns
+     * the canonical amount untouched. It is not ceremony: it is the statement
+     * that this gateway is paid in afghani even when the shopper's screen is
+     * showing dollars, and it is why a viewer in USD cannot make the charge
+     * come out converted.
      */
     protected function buildItems(Order $order): array
     {
@@ -312,7 +339,7 @@ class HesabPayGateway implements PaymentGatewayInterface
             return [
                 'id' => mb_substr((string) $item->id, 0, 50),
                 'name' => mb_substr((string) $item->product_name, 0, 500),
-                'price' => round((float) $item->price * (int) $item->quantity, 2),
+                'price' => round(GatewayCurrency::afnTotal((float) $item->price * (int) $item->quantity), 2),
             ];
         })->values()->all();
 
@@ -321,7 +348,7 @@ class HesabPayGateway implements PaymentGatewayInterface
             return [$this->summaryItem($order)];
         }
 
-        $total = round((float) $order->total, 2);
+        $total = round(GatewayCurrency::afnTotal((float) $order->total), 2);
         $remainder = round($total - round(array_sum(array_column($items, 'price')), 2), 2);
 
         if (abs($remainder) < 0.01) {
@@ -481,7 +508,13 @@ class HesabPayGateway implements PaymentGatewayInterface
 
         // The amount must match the order. Without this check a mismatched or
         // tampered payload could mark an order paid for the wrong sum.
-        $expected = round((float) $order->total, 2);
+        //
+        // Both sides are afghani. The webhook amount is what HesabPay actually
+        // took, in afghani, and orders.total is the canonical afghani total --
+        // the same two figures buildItems() was built from. A shopper browsing
+        // prices in dollars changes neither, which is the whole point: the
+        // display currency must never move what the customer is charged.
+        $expected = round(GatewayCurrency::afnTotal((float) $order->total), 2);
         $received = round((float) ($payload['amount'] ?? 0), 2);
 
         if (abs($expected - $received) >= 0.01) {

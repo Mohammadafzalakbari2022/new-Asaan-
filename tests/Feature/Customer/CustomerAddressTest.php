@@ -8,6 +8,7 @@ use Tests\TestCase;
 use Cartxis\Customer\Models\Customer;
 use Cartxis\Customer\Models\CustomerAddress;
 use Cartxis\Customer\Models\CustomerGroup;
+use Cartxis\Core\Support\StoreCountry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomerAddressTest extends TestCase
@@ -199,11 +200,36 @@ class CustomerAddressTest extends TestCase
             'city',
             'state',
             'postal_code',
-            'country',
+        ]);
+
+        // Country is no longer a shopper/admin choice, so its absence is fine.
+        $response->assertSessionDoesntHaveErrors(['country']);
+    }
+
+    public function test_country_is_not_required_and_is_always_the_store_country(): void
+    {
+        $addressData = [
+            'type' => 'shipping',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'address_line_1' => '123 Main St',
+            'city' => 'Kabul',
+            'state' => 'Kabul',
+            'postal_code' => '10001',
+        ];
+
+        $response = $this->actingAs($this->getAdminUser(), 'admin')
+            ->post(route('admin.customers.addresses.store', $this->customer), $addressData);
+
+        $response->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('customer_addresses', [
+            'customer_id' => $this->customer->id,
+            'country' => StoreCountry::CODE,
         ]);
     }
 
-    public function test_validates_country_code_length(): void
+    public function test_submitted_country_is_ignored(): void
     {
         $addressData = [
             'type' => 'shipping',
@@ -213,13 +239,52 @@ class CustomerAddressTest extends TestCase
             'city' => 'New York',
             'state' => 'NY',
             'postal_code' => '10001',
-            'country' => 'USA', // Should be 2 chars
+            'country' => 'US', // A stale app or a tampered request
         ];
 
         $response = $this->actingAs($this->getAdminUser(), 'admin')
             ->post(route('admin.customers.addresses.store', $this->customer), $addressData);
 
-        $response->assertSessionHasErrors(['country']);
+        $response->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('customer_addresses', [
+            'customer_id' => $this->customer->id,
+            'country' => StoreCountry::CODE,
+        ]);
+    }
+
+    public function test_updating_an_address_without_a_country_keeps_the_store_country(): void
+    {
+        $address = CustomerAddress::create([
+            'customer_id' => $this->customer->id,
+            'type' => 'shipping',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'address_line_1' => '123 Main St',
+            'city' => 'Kabul',
+            'state' => 'Kabul',
+            'postal_code' => '10001',
+            'country' => StoreCountry::CODE,
+        ]);
+
+        $response = $this->actingAs($this->getAdminUser(), 'admin')
+            ->put(route('admin.customers.addresses.update', [$this->customer, $address]), [
+                'type' => 'shipping',
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'address_line_1' => '789 Updated St',
+                'city' => 'Kabul',
+                'state' => 'Kabul',
+                'postal_code' => '10001',
+            ]);
+
+        $response->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('customer_addresses', [
+            'id' => $address->id,
+            'address_line_1' => '789 Updated St',
+            'country' => StoreCountry::CODE,
+        ]);
     }
 
     protected function getAdminUser()

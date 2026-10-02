@@ -68,26 +68,17 @@
                         ></textarea>
                     </div>
 
-                    <!-- Currency -->
+                    <!-- Store Country (fixed: the store country is decided by the store) -->
                     <div>
                         <label for="store_country" class="block text-sm font-medium text-gray-700 mb-2">
-                            Store Country <span class="text-red-500">*</span>
+                            Store Country
                         </label>
-                        <select
+                        <div
                             id="store_country"
-                            v-model="form.store_country"
-                            required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                            :class="{ 'border-red-500': errors.store_country }"
+                            class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-600"
                         >
-                            <option value="">Select country...</option>
-                            <option
-                                v-for="country in props.countries"
-                                :key="country.code"
-                                :value="country.name"
-                            >{{ country.name }}</option>
-                        </select>
-                        <p v-if="errors.store_country" class="mt-1 text-sm text-red-600">{{ errors.store_country }}</p>
+                            {{ storeCountry }}
+                        </div>
                     </div>
 
                     <!-- Currency -->
@@ -175,7 +166,6 @@ import axios from 'axios';
 
 const props = defineProps<{
     businessType?: string;
-    countries: { name: string; code: string }[];
     currencies: { code: string; symbol: string; name: string }[];
 }>();
 
@@ -183,17 +173,21 @@ const form = ref({
     store_name: '',
     contact_phone: '',
     store_address: '',
-    store_country: '',
-    currency: props.currencies.find(c => c.code === 'USD') ? 'USD' : (props.currencies[0]?.code ?? 'USD'),
+    // The store is priced in AFN. This used to prefer USD, which made the
+    // wizard make the dollar the default currency -- and a default of USD means
+    // every afghani price on the site is printed with a dollar sign.
+    currency: props.currencies.find(c => c.code === 'AFN') ? 'AFN' : (props.currencies[0]?.code ?? 'AFN'),
     timezone: 'UTC',
 });
+
+// Shown read-only: the country is decided by the store, not the wizard.
+const storeCountry = ref('Afghanistan')
 
 const errors = ref({});
 const processing = ref(false);
 
 const isValid = computed(() => {
     return form.value.store_name &&
-           form.value.store_country &&
            form.value.currency &&
            form.value.timezone;
 });

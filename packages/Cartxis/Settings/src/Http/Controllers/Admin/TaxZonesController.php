@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Cartxis\Core\Models\TaxZone;
+use Cartxis\Core\Support\StoreCountry;
 
 class TaxZonesController
 {
@@ -26,7 +27,7 @@ class TaxZonesController
             'description' => 'nullable|string',
             'is_active' => 'boolean',
             'locations' => 'array',
-            'locations.*.country_code' => 'required|string|size:2',
+            'locations.*.country_code' => 'nullable|string|size:2',
             'locations.*.state_code' => 'nullable|string|max:100',
             'locations.*.postal_code_pattern' => 'nullable|string|max:255',
             'locations.*.city' => 'nullable|string|max:255',
@@ -41,6 +42,10 @@ class TaxZonesController
 
         if (isset($validated['locations'])) {
             foreach ($validated['locations'] as $location) {
+                // The store only sells inside one country, so a tax zone
+                // location always belongs to it.
+                $location['country_code'] = StoreCountry::code();
+
                 $taxZone->locations()->create($location);
             }
         }
@@ -58,7 +63,7 @@ class TaxZonesController
             'description' => 'nullable|string',
             'is_active' => 'boolean',
             'locations' => 'array',
-            'locations.*.country_code' => 'required|string|size:2',
+            'locations.*.country_code' => 'nullable|string|size:2',
             'locations.*.state_code' => 'nullable|string|max:100',
             'locations.*.postal_code_pattern' => 'nullable|string|max:255',
             'locations.*.city' => 'nullable|string|max:255',
@@ -75,6 +80,8 @@ class TaxZonesController
         if (isset($validated['locations'])) {
             $taxZone->locations()->delete();
             foreach ($validated['locations'] as $location) {
+                $location['country_code'] = StoreCountry::code();
+
                 $taxZone->locations()->create($location);
             }
         }

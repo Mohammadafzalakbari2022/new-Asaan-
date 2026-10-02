@@ -26,7 +26,7 @@ class StoreCustomerAddressRequest extends FormRequest
             'city' => ['required', 'string', 'max:100'],
             'state' => ['required', 'string', 'max:100'],
             'postal_code' => ['required', 'string', 'max:20'],
-            'country' => ['required', 'string', 'size:2'],
+            'country' => ['nullable', 'string'],
             'phone' => ['nullable', 'string', 'max:20'],
             'is_default_shipping' => ['boolean'],
             'is_default_billing' => ['boolean'],

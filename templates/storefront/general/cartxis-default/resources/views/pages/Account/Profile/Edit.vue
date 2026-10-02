@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3';
 import ThemeLayout from '../../../layouts/ThemeLayout.vue';
+import CurrencySelector from '../../../components/CurrencySelector.vue';
 import { ref } from 'vue';
 
 interface User {
@@ -95,6 +96,15 @@ const confirmDelete = () => {
         </div>
 
         <div class="space-y-6">
+          <!-- Display Currency -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 class="text-xl font-semibold mb-2">{{ $t('Display Currency') }}</h2>
+            <p class="text-sm text-gray-600 mb-4">
+              {{ $t('Choose how prices are shown to you. Your account is billed in AFN either way.') }}
+            </p>
+            <CurrencySelector />
+          </div>
+
           <!-- Personal Information -->
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <h2 class="text-xl font-semibold mb-6">{{ $t('Personal Information') }}</h2>

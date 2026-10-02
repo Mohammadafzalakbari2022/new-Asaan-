@@ -16,6 +16,7 @@ use Cartxis\Customer\Models\CustomerAddress;
 use Cartxis\Core\Models\PaymentMethod;
 use Cartxis\Core\Models\Currency;
 use Cartxis\Core\Services\PaymentGatewayManager;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Cart\Services\CartShippingCalculator;
 use Cartxis\Core\Models\EmailTemplate;
 use Illuminate\Support\Facades\DB;
@@ -53,14 +54,14 @@ class CheckoutController extends Controller
     public function setShippingAddress(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'address_id' => 'required_without_all:first_name,last_name,address_line_1,city,state,country,postal_code|exists:customer_addresses,id',
+            'address_id' => 'required_without_all:first_name,last_name,address_line_1,city,state,postal_code|exists:customer_addresses,id',
             'first_name' => 'required_without:address_id|string|max:255',
             'last_name' => 'required_without:address_id|string|max:255',
             'address_line_1' => 'required_without:address_id|string|max:255',
             'address_line_2' => 'nullable|string|max:255',
             'city' => 'required_without:address_id|string|max:255',
             'state' => 'required_without:address_id|string|max:255',
-            'country' => 'required_without:address_id|string|max:255',
+            'country' => 'nullable|string|max:255',
             'postal_code' => 'required_without:address_id|string|max:20',
             'phone' => 'nullable|string|max:20',
         ]);
@@ -69,11 +70,17 @@ class CheckoutController extends Controller
             return ApiResponse::validationError($validator);
         }
 
+        // The store only ships inside one country, so whatever the app sent is
+        // replaced here. The key stays in the payload so existing mobile apps
+        // keep reading the field they already expect.
+        $address = $request->all();
+        $address['country'] = StoreCountry::normalise($address['country'] ?? null);
+
         // Store shipping address in session or cart
-        session(['checkout.shipping_address' => $request->all()]);
+        session(['checkout.shipping_address' => $address]);
 
         return ApiResponse::success([
-            'shipping_address' => $request->all(),
+            'shipping_address' => $address,
         ], 'Shipping address set successfully');
     }
 
@@ -91,7 +98,7 @@ class CheckoutController extends Controller
             'address_line_2' => 'nullable|string|max:255',
             'city' => 'required_without_all:same_as_shipping,address_id|string|max:255',
             'state' => 'required_without_all:same_as_shipping,address_id|string|max:255',
-            'country' => 'required_without_all:same_as_shipping,address_id|string|max:255',
+            'country' => 'nullable|string|max:255',
             'postal_code' => 'required_without_all:same_as_shipping,address_id|string|max:20',
             'phone' => 'nullable|string|max:20',
         ]);
@@ -103,7 +110,10 @@ class CheckoutController extends Controller
         if ($request->same_as_shipping) {
             session(['checkout.billing_address' => session('checkout.shipping_address')]);
         } else {
-            session(['checkout.billing_address' => $request->except('same_as_shipping')]);
+            $address = $request->except('same_as_shipping');
+            $address['country'] = StoreCountry::normalise($address['country'] ?? null);
+
+            session(['checkout.billing_address' => $address]);
         }
 
         return ApiResponse::success([
@@ -179,7 +189,7 @@ class CheckoutController extends Controller
                 ];
 
                 // Add gateway credentials for mobile app if it's an online payment method
-                if (in_array($method->code, ['razorpay', 'stripe', 'paypal'])) {
+                if (in_array($method->code, ['razorpay', 'stripe', 'paypal', 'hesabpay'])) {
                     $data['gateway_config'] = [
                         'key' => $method->getConfigValue('api_key') ?? $method->getConfigValue('public_key'),
                         'environment' => $method->getConfigValue('mode', 'sandbox'),
@@ -254,7 +264,7 @@ class CheckoutController extends Controller
         ];
 
         // Add gateway credentials for mobile app if it's an online payment method
-        if (in_array($request->payment_method_code, ['razorpay', 'stripe', 'paypal', 'phonepe'])) {
+        if (in_array($request->payment_method_code, ['razorpay', 'stripe', 'paypal', 'phonepe', 'hesabpay'])) {
             $response['gateway_config'] = [
                 'key' => $paymentMethod->getConfigValue('api_key') ?? $paymentMethod->getConfigValue('public_key'),
                 'environment' => $paymentMethod->getConfigValue('mode', 'sandbox'),
@@ -395,7 +405,7 @@ class CheckoutController extends Controller
                             $paymentIntentData['receipt_email'] = $user->email;
                         }
 
-                        // Add shipping details (REQUIRED for Indian regulations)
+                        // Add shipping details (Stripe requires a country on the address)
                         if ($shippingAddress) {
                             $paymentIntentData['shipping'] = [
                                 'name' => ($shippingAddress['first_name'] ?? '') . ' ' . ($shippingAddress['last_name'] ?? ''),
@@ -406,7 +416,7 @@ class CheckoutController extends Controller
                                     'city' => $shippingAddress['city'] ?? '',
                                     'state' => $shippingAddress['state'] ?? '',
                                     'postal_code' => $shippingAddress['postal_code'] ?? '',
-                                    'country' => $shippingAddress['country'] ?? 'IN',
+                                    'country' => StoreCountry::normalise($shippingAddress['country'] ?? null),
                                 ],
                             ];
                         } elseif ($user->name) {
@@ -418,7 +428,7 @@ class CheckoutController extends Controller
                                     'city' => 'Unknown',
                                     'state' => 'Unknown',
                                     'postal_code' => '000000',
-                                    'country' => 'IN',
+                                    'country' => StoreCountry::code(),
                                 ],
                             ];
                         }
@@ -530,9 +540,9 @@ class CheckoutController extends Controller
 
         $cartItemsArray = $cart->items->map(fn($i) => ['price' => $i->price, 'quantity' => $i->quantity])->toArray();
         $shippingOption = app(CartShippingCalculator::class)->getCheapestOption($cartItemsArray, [
-            'country' => $shippingAddress->country,
+            'country' => StoreCountry::code(),
             'state'   => $shippingAddress->state,
-        ]);
+            ]);
         $shippingCost = $shippingOption['cost'] ?? 0.00;
         $tax = 0.00; // Tax calculated by TaxService at order review
         $total = $subtotal + $shippingCost + $tax;
@@ -586,7 +596,7 @@ class CheckoutController extends Controller
                 'city' => $shippingAddress->city,
                 'state' => $shippingAddress->state,
                 'postal_code' => $shippingAddress->postal_code,
-                'country' => $shippingAddress->country,
+                'country' => StoreCountry::normalise($shippingAddress->country),
                 'is_default' => true,
             ]);
 
@@ -605,7 +615,7 @@ class CheckoutController extends Controller
                 'city' => $shippingAddress->city,
                 'state' => $shippingAddress->state,
                 'postal_code' => $shippingAddress->postal_code,
-                'country' => $shippingAddress->country,
+                'country' => StoreCountry::normalise($shippingAddress->country),
                 'is_default' => true,
             ]);
 

@@ -41,7 +41,6 @@ const addForm = useForm({
   city: '',
   state: '',
   postal_code: '',
-  country: 'India',
   phone: '',
   is_default: false,
   address_type: 'shipping' as 'shipping' | 'billing',
@@ -73,7 +72,6 @@ const editForm = useForm({
   city: '',
   state: '',
   postal_code: '',
-  country: '',
   phone: '',
   is_default: false,
   address_type: 'shipping' as 'shipping' | 'billing',
@@ -90,7 +88,6 @@ const openEditModal = (address: Address) => {
   editForm.city = address.city;
   editForm.state = address.state;
   editForm.postal_code = address.postal_code;
-  editForm.country = address.country;
   editForm.phone = address.phone;
   editForm.is_default = address.is_default;
   editForm.type = address.type;
@@ -394,20 +391,8 @@ const formatAddress = (address: Address) => {
             </div>
           </div>
 
-          <!-- Country & Phone -->
+          <!-- Phone -->
           <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label for="add-country" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('Country') }} <span class="text-red-500">*</span>
-              </label>
-              <input
-                id="add-country"
-                v-model="addForm.country"
-                type="text"
-                required
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
             <div>
               <label for="add-phone" class="block text-sm font-medium text-gray-700 mb-1">
                 {{ $t('Phone') }} <span class="text-red-500">*</span>
@@ -536,15 +521,9 @@ const formatAddress = (address: Address) => {
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Country') }} <span class="text-red-500">*</span></label>
-              <input v-model="editForm.country" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Phone') }} <span class="text-red-500">*</span></label>
-              <input v-model="editForm.phone" type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Phone') }} <span class="text-red-500">*</span></label>
+            <input v-model="editForm.phone" type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
           </div>
 
           <div>

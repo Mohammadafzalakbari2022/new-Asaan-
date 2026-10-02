@@ -26,8 +26,8 @@ class HesabPayServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Seeded even when the extension is off, so the admin can find and
-        // switch it on instead of the option simply not existing.
+        // Seeded even when the extension is off, so the row is always there for
+        // the admin to configure, rather than appearing from nowhere on switch-on.
         $this->seedPaymentMethod();
 
         if (!$this->isExtensionActive()) {
@@ -81,8 +81,9 @@ class HesabPayServiceProvider extends ServiceProvider
     /**
      * Seed the payment method row.
      *
-     * Shipped inactive: enabling a payment method is the owner's decision, and
-     * an unconfigured gateway would only produce checkout errors.
+     * Shipped active and as the store default: a local wallet is the only way
+     * most Afghan shoppers can pay online. The keys are still blank, so
+     * checkout hides the method again until the owner configures it.
      */
     protected function seedPaymentMethod(): void
     {
@@ -96,13 +97,16 @@ class HesabPayServiceProvider extends ServiceProvider
                 'name' => 'HesabPay',
                 'type' => 'hesabpay',
                 'description' => 'Pay with the HesabPay wallet, AfPay card, or an international card.',
-                'is_active' => false,
+                'is_active' => true,
+                'is_default' => true,
+                // Ahead of Cash on Delivery (1), which is the method it replaces
+                // as the preselected option at checkout.
+                'sort_order' => 0,
                 'configuration' => [
                     'mode' => 'sandbox',
                     'test_api_key' => '',
                     'api_key' => '',
                 ],
-                'sort_order' => 3,
             ]);
         } catch (\Exception $e) {
             // Expected while migrations are still running, when the payment

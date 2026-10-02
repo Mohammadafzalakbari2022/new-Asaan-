@@ -103,12 +103,19 @@ it('registers the gateway and its routes', function () {
     expect($names)->toContain('hesabpay.return.failure');
 });
 
-it('ships the payment method switched off until the owner activates it', function () {
+it('ships switched on and preselected as the default method', function () {
     $method = PaymentMethod::where('code', 'hesabpay')->first();
 
     expect($method)->not->toBeNull();
     expect($method->type)->toBe('hesabpay');
-    expect($method->is_active)->toBeFalse();
+    expect($method->is_active)->toBeTrue();
+    expect($method->is_default)->toBeTrue();
+
+    // Ahead of Cash on Delivery, which sits at 1. The storefront preselects
+    // the default first and only falls back to sort_order, so a wallet that
+    // was meant to be the default but sorted behind COD would never appear as
+    // the chosen option.
+    expect($method->sort_order)->toBe(0);
 });
 
 it('is not configured until an api key exists', function () {

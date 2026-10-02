@@ -10,14 +10,15 @@ use Cartxis\Cart\Services\CartTaxCalculator;
 use Cartxis\Cart\Services\CartShippingCalculator;
 use Cartxis\Shop\Services\CheckoutService;
 use Cartxis\Shop\Models\ShippingMethod;
+use Cartxis\Core\Support\GatewayCurrency;
 use Cartxis\Shop\Models\Order;
 use Cartxis\Product\Models\Product;
 use Cartxis\Core\Models\PaymentMethod;
-use Cartxis\Core\Models\Country;
 use Cartxis\Core\Models\EmailTemplate;
 use Cartxis\Core\Services\ThemeViewResolver;
 use Cartxis\Core\Services\SettingService;
 use Cartxis\Core\Services\PaymentGatewayManager;
+use Cartxis\Core\Support\StoreCountry;
 use Cartxis\Sales\Services\InvoiceService;
 use Cartxis\Sales\Services\TransactionService;
 use Cartxis\UIEditor\Services\LayoutService;
@@ -25,6 +26,7 @@ use Cartxis\CMS\Models\Page;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class CheckoutController extends Controller
 {
@@ -94,12 +96,8 @@ class CheckoutController extends Controller
                     'enable_newsletter_signup' => (bool) config('shop.checkout.enable_newsletter_signup', true),
                     'enable_order_notes' => (bool) config('shop.checkout.enable_order_notes', true),
                 ],
-                'userAddresses' => [],
+'userAddresses' => [],
                 'paymentMethods' => [],
-                'countries' => Country::active()->ordered()
-                    ->select('id', 'name', 'code', 'phone_code')
-                    ->get()
-                    ->toArray(),
             ]);
         }
 
@@ -145,6 +143,15 @@ class CheckoutController extends Controller
             ->orderBy('sort_order')
             ->get()
             ->map(function ($method) use ($grandTotal) {
+                // An online method whose gateway has no credentials cannot take a
+                // payment, so it is not offered at all. Checking here rather
+                // than failing at payment time matters most for the method
+                // flagged as the default: the storefront preselects the default
+                // first, so an unconfigured default would be the one option
+                // every shopper is sent to, and it would fail. COD and Bank
+                // Transfer have no gateway and are always offered.
+                $gateway = $this->gatewayManager->getByPaymentMethod($method->code);
+
                 return [
                     'id' => $method->code,
                     'code' => $method->code,
@@ -153,7 +160,8 @@ class CheckoutController extends Controller
                     'instructions' => $method->instructions,
                     'is_default' => $method->is_default,
                     'fee' => $method->calculateFee($grandTotal),
-                    'is_available' => $method->isAvailableForAmount($grandTotal),
+                    'is_available' => $method->isAvailableForAmount($grandTotal)
+                        && (! $gateway || $gateway->isConfigured()),
                 ];
             })
             ->filter(fn($method) => $method['is_available'])
@@ -236,12 +244,8 @@ class CheckoutController extends Controller
                 'rules_url' => route('shop.account.referrals.index'),
             ],
             'checkoutConfig' => $checkoutConfig,
-            'userAddresses' => $userAddresses,
+'userAddresses' => $userAddresses,
             'paymentMethods' => $paymentMethods,
-            'countries' => Country::active()->ordered()
-                ->select('id', 'name', 'code', 'phone_code')
-                ->get()
-                ->toArray(),
             'cartEmpty' => false,
         ]);
     }
@@ -261,10 +265,19 @@ class CheckoutController extends Controller
             'shipping_address.city' => 'required|string',
             'shipping_address.state' => 'required|string',
             'shipping_address.postal_code' => 'required|string',
-            'shipping_address.country' => 'required|string',
+            'shipping_address.country' => 'nullable|string',
             'shipping_address.phone' => 'required|string',
             'shipping_method_id' => 'required|exists:shipping_methods,id',
-            'payment_method' => 'required|string',
+            // Checkout only ever offers active methods, but the request can be
+            // written by hand, so the method is checked against the table here
+            // too. This runs before any order row is created: a switched-off
+            // method that fell through would otherwise be recorded, and with no
+            // gateway behind it the order would be marked paid immediately.
+            'payment_method' => [
+                'required',
+                'string',
+                Rule::exists('payment_methods', 'code')->where('is_active', true),
+            ],
             'billing_same_as_shipping' => 'boolean',
             'billing_address' => 'required_if:billing_same_as_shipping,false|array',
             'terms_accepted' => 'required|accepted',
@@ -275,6 +288,19 @@ class CheckoutController extends Controller
             'password' => 'required_if:create_account,true|nullable|string|min:8|confirmed',
             'password_confirmation' => 'required_with:password|nullable|string',
         ]);
+
+        // The store only ships inside one country, so the shopper does not get
+        // to pick one. Whatever arrived (or nothing at all) is replaced here,
+        // once, before any order or address row is built.
+        $validated['shipping_address']['country'] = StoreCountry::normalise(
+            $validated['shipping_address']['country'] ?? null
+        );
+
+        if (isset($validated['billing_address']) && is_array($validated['billing_address'])) {
+            $validated['billing_address']['country'] = StoreCountry::normalise(
+                $validated['billing_address']['country'] ?? null
+            );
+        }
 
         $requireAccount = (bool) $this->settingService->get('checkout_require_account', false);
         $allowGuest = (bool) $this->settingService->get('checkout_allow_guest', true);
@@ -460,7 +486,7 @@ class CheckoutController extends Controller
                     'customer_name' => $customerName,
                     'order_number' => $order->order_number,
                     'order_date' => $order->created_at->format('F j, Y'),
-                    'order_total' => '₹' . number_format($order->total, 2),
+                    'order_total' => GatewayCurrency::formatCharge($order->total, $order->payment_method ?? 'afn'),
                     'store_name' => config('app.name', 'Cartxis'),
                     'store_url' => url('/'),
                 ]);

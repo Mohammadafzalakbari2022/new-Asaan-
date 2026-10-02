@@ -62,9 +62,23 @@ const props = defineProps<{
     locales: Locale[];
     currencies: Currency[];
     countries: Country[];
+    /** "1 USD = ? AFN" -- built on the server so the label and the stored rate agree. */
+    exchangeRateLabel?: string;
+    usdToAfn?: number;
+    supportedCurrencyCodes?: string[];
 }>();
 
 const { t } = useI18nStore();
+
+/**
+ * The rate field says which way round the number goes.
+ *
+ * Falls back to the same string the server builds, so the form is never left
+ * with a bare "Exchange Rate" the owner has to guess the direction of.
+ */
+const exchangeRateLabel = computed(
+    () => props.exchangeRateLabel || '1 USD = ? AFN',
+);
 
 const page = usePage();
 const errors = computed(() => page.props.errors as Record<string, string>);
@@ -909,13 +923,29 @@ const confirmDelete = () => {
                             >
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ $t('Exchange Rate') }} <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                                {{ $t('Exchange Rate') }} <span class="text-red-500">*</span>
+                            </label>
                             <input 
                                 v-model.number="currencyForm.exchange_rate" 
                                 type="number" 
                                 step="0.0001" 
                                 :class="['w-full px-4 py-2.5 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600', errors.exchange_rate ? 'border-red-500' : 'border-gray-300']"
                             >
+                            <!--
+                                "Exchange Rate" on its own tells the owner nothing about
+                                which way round the number goes, and getting it backwards
+                                is the easiest way to set a rate that is wrong by a factor
+                                of 71. The label says exactly what to type, and it comes
+                                from the server so it can never disagree with the value
+                                the model reads.
+                            -->
+                            <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                                {{ $t(exchangeRateLabel) }}
+                                <span v-if="currencyForm.code === 'USD'" class="block mt-0.5">
+                                    {{ $t('Every price is stored in AFN. Changing this only changes what a shopper is shown when they choose USD.') }}
+                                </span>
+                            </p>
                         </div>
                     </div>
                     <p v-if="errors.decimal_places" class="mt-1 text-sm text-red-600">{{ errors.decimal_places }}</p>
