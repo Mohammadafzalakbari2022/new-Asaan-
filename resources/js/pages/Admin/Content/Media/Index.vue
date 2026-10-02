@@ -5,6 +5,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue';
 import ConfirmDeleteModal from '@/components/Admin/ConfirmDeleteModal.vue';
 import FolderTreeItem from '@/components/Admin/Media/FolderTreeItem.vue';
 import UploadDropzone from '@/components/Admin/Media/UploadDropzone.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import * as mediaRoutes from '@/routes/admin/content/media/index';
 import * as folderRoutes from '@/routes/admin/content/folders/index';
 import type { MediaFile, MediaFolder, MediaStatistics, MediaFilters, PaginatedMedia, MediaViewMode } from '@/types/media';
@@ -216,18 +217,6 @@ const formatSize = (bytes: number | string | null | undefined): string => {
     }
     
     return `${size.toFixed(2)} ${units[unitIndex]}`;
-};
-
-// Format date
-const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-    }).format(date);
 };
 
 // Get file icon based on type
@@ -729,7 +718,7 @@ const copyUrlToClipboard = async (url: string) => {
                                     {{ file.extension?.toUpperCase() || $t('Unknown') }}
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    {{ formatDate(file.created_at) }}
+                                    <DateDisplay :value="file.created_at" time />
                                 </td>
                                 <td class="px-6 py-4 text-right text-sm font-medium">
                                     <div class="flex items-center justify-end gap-2">
@@ -1013,7 +1002,7 @@ const copyUrlToClipboard = async (url: string) => {
                                         {{ $t('Uploaded') }}
                                     </label>
                                     <p class="text-sm text-gray-900 dark:text-white">
-                                        {{ formatDate(selectedFileDetails.created_at) }}
+                                        <DateDisplay :value="selectedFileDetails.created_at" time />
                                     </p>
                                 </div>
                             </div>

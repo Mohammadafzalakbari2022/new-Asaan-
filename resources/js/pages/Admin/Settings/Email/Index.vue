@@ -277,7 +277,7 @@
                     <h4 :class="configuration.last_test_status === 'success' ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'" class="text-sm font-semibold">
                       {{ configuration.last_test_message }}
                     </h4>
-                    <p :class="configuration.last_test_status === 'success' ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'" class="text-xs mt-1 opacity-80">{{ $t('Last tested:') }} {{ formatDate(configuration.last_test_at) }}</p>
+                    <p :class="configuration.last_test_status === 'success' ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'"                      class="text-xs mt-1 opacity-80">{{ $t('Last tested:') }} <DateDisplay :value="configuration.last_test_at" time /></p>
                   </div>
                 </div>
               </div>
@@ -544,6 +544,7 @@
 import { ref, reactive } from 'vue'
 import { router, Head } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import TiptapEditor from '@/components/Admin/TiptapEditor.vue'
 import { useI18nStore } from '@/Stores/i18n'
 import { 
@@ -679,9 +680,5 @@ const sendTestTemplate = (template: any) => {
       preserveScroll: true,
     })
   }
-}
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleString()
 }
 </script>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { ref } from 'vue';
 
@@ -253,11 +254,11 @@ function goToOrder() {
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-600">{{ $t('Issue Date:') }}</span>
-                  <span class="font-medium text-gray-900">{{ invoiceData.invoice.issue_date }}</span>
+                  <span class="font-medium text-gray-900"><DateDisplay :value="invoiceData.invoice.issue_date" /></span>
                 </div>
                 <div v-if="invoiceData.invoice.due_date" class="flex justify-between">
                   <span class="text-gray-600">{{ $t('Due Date:') }}</span>
-                  <span class="font-medium text-gray-900">{{ invoiceData.invoice.due_date }}</span>
+                  <span class="font-medium text-gray-900"><DateDisplay :value="invoiceData.invoice.due_date" /></span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-600">{{ $t('Order Number:') }}</span>

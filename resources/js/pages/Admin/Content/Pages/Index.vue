@@ -258,7 +258,7 @@
                                     </td>
                                     <td class="hidden lg:table-cell px-6 py-4">
                                         <div class="text-sm text-gray-600 dark:text-gray-400">
-                                            {{ formatDate(page.created_at) }}
+                                            <DateDisplay :value="page.created_at" />
                                         </div>
                                         <div v-if="page.creator" class="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-1">
                                             <User class="w-3 h-3" />
@@ -314,7 +314,7 @@
                                         <div class="grid grid-cols-1 gap-4 text-sm">
                                             <div>
                                                 <span class="text-xs text-gray-500 font-medium uppercase tracking-wider block mb-1">{{ $t('Created At') }}</span>
-                                                <div class="text-sm text-gray-900 dark:text-white">{{ formatDate(page.created_at) }}</div>
+                                                <div class="text-sm text-gray-900 dark:text-white"><DateDisplay :value="page.created_at" /></div>
                                                  <div v-if="page.creator" class="text-xs text-gray-500 mt-1">
                                                     {{ $t('by {name}', { name: page.creator.name }) }}
                                                 </div>
@@ -364,6 +364,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import Pagination from '@/components/Admin/Pagination.vue';
 import type { Page, PaginatedPages, PageStatistics, PageFilters } from '@/types/cms';
 import { debounce } from 'lodash';
@@ -495,13 +496,5 @@ const statusClass = (status: string) => {
         disabled: 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-900/20 dark:text-gray-300 dark:border-gray-800',
     };
     return classes[status as keyof typeof classes] || 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-900/20 dark:text-gray-300 dark:border-gray-800';
-};
-
-const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-    });
 };
 </script>

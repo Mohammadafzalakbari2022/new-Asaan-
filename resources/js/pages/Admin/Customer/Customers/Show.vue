@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import ConfirmDeleteModal from '@/components/Admin/ConfirmDeleteModal.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { useCurrency } from '@/composables/useCurrency';
 
 interface CustomerGroup {
@@ -85,24 +86,6 @@ const deleteCustomer = () => {
 
 const formatCurrency = (amount: number) => {
     return formatPrice(amount);
-};
-
-const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-};
-
-const formatDateTime = (dateString: string) => {
-    return new Date(dateString).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-    });
 };
 </script>
 
@@ -268,7 +251,7 @@ const formatDateTime = (dateString: string) => {
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Personal Information') }}</h3>
                                 <div v-if="customer.date_of_birth">
                                     <dt class="text-sm font-medium text-gray-500">{{ $t('Date of Birth') }}</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ formatDate(customer.date_of_birth) }}</dd>
+                                    <dd class="mt-1 text-sm text-gray-900"><DateDisplay :value="customer.date_of_birth" /></dd>
                                 </div>
                                 <div v-if="customer.gender">
                                     <dt class="text-sm font-medium text-gray-500">{{ $t('Gender') }}</dt>
@@ -289,7 +272,7 @@ const formatDateTime = (dateString: string) => {
                                 </div>
                                 <div>
                                     <dt class="text-sm font-medium text-gray-500">{{ $t('Member Since') }}</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ formatDate(customer.created_at) }}</dd>
+                                    <dd class="mt-1 text-sm text-gray-900"><DateDisplay :value="customer.created_at" /></dd>
                                 </div>
                             </div>
                         </div>
@@ -379,7 +362,7 @@ const formatDateTime = (dateString: string) => {
                             >
                                 <div class="flex items-start justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-900">{{ note.user.name }}</div>
-                                    <div class="text-xs text-gray-500">{{ formatDateTime(note.created_at) }}</div>
+                                    <div class="text-xs text-gray-500"><DateDisplay :value="note.created_at" time /></div>
                                 </div>
                                 <p class="text-sm text-gray-700 whitespace-pre-wrap">{{ note.note }}</p>
                             </div>

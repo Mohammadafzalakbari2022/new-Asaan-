@@ -533,7 +533,7 @@ function confirmBulkDelete() {
                                         </div>
                                         <div class="xl:hidden flex flex-col gap-1">
                                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Date') }}</span>
-                                            <span class="text-gray-700 dark:text-gray-300 font-mono">{{ new Date(review.created_at).toLocaleString() }}</span>
+                                            <span class="text-gray-700 dark:text-gray-300 font-mono"><DateDisplay :value="review.created_at" time /></span>
                                         </div>
                                     </div>
                                 </td>

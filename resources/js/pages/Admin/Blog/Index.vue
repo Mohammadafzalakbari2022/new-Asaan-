@@ -193,7 +193,8 @@
                                 </td>
                                 <td class="hidden lg:table-cell px-6 py-4">
                                     <div class="text-sm text-gray-600 dark:text-gray-400">
-                                        {{ post.published_at ? formatDate(post.published_at) : '—' }}
+                                        <DateDisplay v-if="post.published_at" :value="post.published_at" />
+                                        <span v-else>—</span>
                                     </div>
                                     <div v-if="post.creator" class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
                                         <User class="w-3 h-3" />{{ post.creator.name }}
@@ -243,6 +244,7 @@ import { ref, computed } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import Pagination from '@/components/Admin/Pagination.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { debounce } from 'lodash';
 import * as blogRoutes from '@/routes/admin/blog';
 import {
@@ -330,7 +332,4 @@ const statusClass = (status: string) => {
     };
     return classes[status] || 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-900/20 dark:text-gray-300 dark:border-gray-800';
 };
-
-const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 </script>

@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useWishlist } from '@/composables/useWishlist'
 import ThemeLayout from '../../../templates/storefront/general/cartxis-default/resources/views/layouts/ThemeLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import { Heart, ShoppingCart, Trash2, Loader2 } from 'lucide-vue-next'
 
 const { wishlistItems, wishlistCount, loading, removeFromWishlist, moveToCart, fetchWishlist } = useWishlist()
@@ -153,7 +154,7 @@ const handleMoveToCart = async (itemId: number) => {
 
             <!-- Added Date -->
             <p class="text-xs text-gray-500 mt-3">
-              Added {{ new Date(item.added_at).toLocaleDateString() }}
+              Added <DateDisplay :value="item.added_at" />
             </p>
           </div>
         </div>

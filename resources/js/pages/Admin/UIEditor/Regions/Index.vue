@@ -16,6 +16,7 @@ import {
 } from 'lucide-vue-next'
 import axios from 'axios'
 import { useI18nStore } from '@/Stores/i18n'
+import { useCalendar } from '@/composables/useCalendar'
 
 type RegionType = 'header' | 'footer' | 'section' | 'banner' | 'sidebar'
 
@@ -33,6 +34,7 @@ interface GlobalRegion {
 const props = defineProps<{ regions: GlobalRegion[] }>()
 
 const { t } = useI18nStore()
+const { formatDate: formatCalendarDate } = useCalendar()
 
 // ── Create modal ─────────────────────────────────────────────────────────────
 const showCreate = ref(false)
@@ -94,7 +96,7 @@ const typeLabels: Record<RegionType, string> = {
 
 function formatDate(iso: string | null): string {
   if (!iso) return '—'
-  return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+  return formatCalendarDate(iso)
 }
 
 const regionTypes: { value: RegionType; label: string }[] = [

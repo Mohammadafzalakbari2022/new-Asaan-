@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { 
     Calendar, 
@@ -403,7 +404,7 @@ const getStatusClass = (status: string) => {
                                 {{ typeof order.total === 'string' ? order.total : formatCurrency(order.total) }}
                             </td>
                             <td class="px-6 py-3.5 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                {{ order.created_at }}
+                                <DateDisplay :value="order.created_at" time />
                             </td>
                             <td class="px-6 py-3.5 whitespace-nowrap">
                                 <span :class="['px-2.5 py-0.5 inline-flex text-xs font-medium rounded-full', getStatusClass(order.status)]">

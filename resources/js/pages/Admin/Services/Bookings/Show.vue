@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { Head, Link, useForm, usePage, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DateDisplay from '@/components/Calendar/DateDisplay.vue';
+import { useCalendar } from '@/composables/useCalendar';
 import {
   ArrowLeft,
   MapPin,
@@ -70,6 +71,7 @@ const props = defineProps<{
 
 const page = usePage();
 const booking = props.booking;
+const { formatDate: formatCalendarDate } = useCalendar();
 
 const statusTone: Record<string, string> = {
   booked: 'bg-blue-100 text-blue-800',
@@ -174,7 +176,7 @@ function money(value: number | string) {
               </span>
             </div>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              {{ $t('{service} on {date} ({slot})', { service: booking.service_name, date: booking.scheduled_date, slot: booking.scheduled_slot }) }}
+              {{ $t('{service} on {date} ({slot})', { service: booking.service_name, date: formatCalendarDate(booking.scheduled_date), slot: booking.scheduled_slot }) }}
             </p>
           </div>
 
@@ -288,7 +290,7 @@ function money(value: number | string) {
                     <span v-else>{{ $t('Note added') }}</span>
                   </p>
                   <p class="text-xs text-gray-500">
-                    {{ new Date(event.created_at).toLocaleString() }}
+                    <DateDisplay :value="event.created_at" time />
                     <span v-if="event.actor"> &middot; {{ event.actor.name }}</span>
                   </p>
                   <p v-if="event.note" class="mt-1 whitespace-pre-line text-sm text-gray-600 dark:text-gray-400">
@@ -347,7 +349,7 @@ function money(value: number | string) {
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-gray-600 dark:text-gray-400">{{ $t('Scheduled') }}</span>
-                <span class="text-gray-900 dark:text-gray-100">{{ booking.scheduled_date }}</span>
+                <span class="text-gray-900 dark:text-gray-100"><DateDisplay :value="booking.scheduled_date" /></span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-gray-600 dark:text-gray-400">{{ $t('Slot') }}</span>
@@ -356,7 +358,7 @@ function money(value: number | string) {
               <div v-if="booking.completed_at" class="flex items-center justify-between">
                 <span class="text-gray-600 dark:text-gray-400">{{ $t('Finished') }}</span>
                 <span class="text-gray-900 dark:text-gray-100">
-                  {{ new Date(booking.completed_at).toLocaleString() }}
+                  <DateDisplay :value="booking.completed_at" time />
                 </span>
               </div>
               <div v-if="booking.cancel_reason" class="flex items-start justify-between gap-4">

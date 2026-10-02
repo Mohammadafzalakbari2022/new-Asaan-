@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { router, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import {
   Search,
   Filter,
@@ -138,9 +139,6 @@ const exportUrl = computed(() => {
   if (typeFilter.value) params.set('type', typeFilter.value);
   return '/admin/marketing/newsletters/export?' + params.toString();
 });
-
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 </script>
 
 <template>
@@ -344,7 +342,7 @@ const formatDate = (iso: string) =>
                     {{ sub.is_guest ? $t('Guest') : $t('Registered') }}
                   </span>
                 </td>
-                <td class="px-4 py-3 text-gray-500">{{ formatDate(sub.updated_at) }}</td>
+                <td class="px-4 py-3 text-gray-500"><DateDisplay :value="sub.updated_at" /></td>
                 <td class="px-4 py-3 text-right">
                   <button
                     class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 hover:text-red-800 border border-red-200 hover:border-red-300 rounded-lg hover:bg-red-50 transition-colors"

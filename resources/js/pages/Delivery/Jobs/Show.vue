@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import DeliveryLayout from '@/layouts/DeliveryLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import {
   ArrowLeft,
   Banknote,
@@ -210,7 +211,8 @@ function cancel() {
         <div class="space-y-2.5 text-sm">
           <p class="flex items-center gap-2.5">
             <Calendar class="h-4 w-4 flex-none text-muted-foreground" />
-            {{ booking.scheduled_date ? new Date(booking.scheduled_date).toLocaleDateString() : 'No date set' }}
+            <DateDisplay v-if="booking.scheduled_date" :value="booking.scheduled_date" />
+            <span v-else>No date set</span>
           </p>
           <p class="flex items-center gap-2.5">
             <Clock class="h-4 w-4 flex-none text-muted-foreground" /> {{ booking.scheduled_slot }}
@@ -389,7 +391,7 @@ function cancel() {
               <span v-else-if="event.to_status">{{ statusLabels[event.to_status] ?? event.to_status }}</span>
               <span v-else>Note added</span>
             </p>
-            <p class="text-xs text-muted-foreground">{{ new Date(event.created_at).toLocaleString() }}</p>
+            <p class="text-xs text-muted-foreground"><DateDisplay :value="event.created_at" time /></p>
             <p v-if="event.note" class="mt-0.5 text-sm text-muted-foreground">{{ event.note }}</p>
           </li>
         </ol>

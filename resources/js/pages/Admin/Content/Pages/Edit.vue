@@ -64,8 +64,8 @@
                     <div class="flex-1">
                         <h4 class="text-sm font-medium text-blue-900 dark:text-blue-200">{{ $t('Page Information') }}</h4>
                         <div class="mt-1 text-xs text-blue-700 dark:text-blue-300 space-y-1">
-                            <p>{{ $t('Created by') }} <strong>{{ page.creator?.name }}</strong> {{ $t('on {date}', { date: formatDate(page.created_at) }) }}</p>
-                            <p v-if="page.updater">{{ $t('Last updated by') }} <strong>{{ page.updater.name }}</strong> {{ $t('on {date}', { date: formatDate(page.updated_at) }) }}</p>
+                            <p>{{ $t('Created by') }} <strong>{{ page.creator?.name }}</strong> {{ $t('on {date}', { date: formatCalendarDate(page.created_at) }) }}</p>
+                            <p v-if="page.updater">{{ $t('Last updated by') }} <strong>{{ page.updater.name }}</strong> {{ $t('on {date}', { date: formatCalendarDate(page.updated_at) }) }}</p>
                         </div>
                     </div>
                 </div>
@@ -279,8 +279,10 @@ import { useDebounceFn } from '@vueuse/core';
 import * as pageRoutes from '@/routes/admin/content/pages';
 import axios from 'axios';
 import { useI18nStore } from '@/Stores/i18n';
+import { useCalendar } from '@/composables/useCalendar';
 
 const { t } = useI18nStore();
+const { formatDate: formatCalendarDate } = useCalendar();
 
 interface Props {
     page: Page;
@@ -366,15 +368,5 @@ const deletePage = () => {
     }
 
     router.delete(pageRoutes.destroy({ page: props.page.id }).url);
-};
-
-const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-    });
 };
 </script>

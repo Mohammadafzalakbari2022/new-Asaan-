@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { Download, Trash2, Plus, Database, HardDrive, FileArchive } from 'lucide-vue-next';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { useI18nStore } from '@/Stores/i18n';
 import * as backupRoutes from '@/routes/admin/system/backups/index';
 
@@ -144,7 +145,7 @@ const downloadBackup = (backup: Backup) => {
                                     {{ backup.size }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                    {{ backup.date }}
+                                    <DateDisplay :value="backup.date" time />
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                     <div class="flex items-center justify-end gap-2">

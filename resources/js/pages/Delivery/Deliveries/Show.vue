@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DeliveryLiveMapPanel from '@/components/Delivery/DeliveryLiveMapPanel.vue';
 import DeliveryLayout from '@/layouts/DeliveryLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import {
     ArrowLeft,
@@ -190,11 +191,9 @@ const submitUndelivered = () => {
                             <Calendar
                                 class="h-4 w-4 flex-none text-muted-foreground"
                             />
-                            {{
-                                new Date(
-                                    props.delivery.scheduled_date,
-                                ).toLocaleDateString()
-                            }}
+                            <DateDisplay
+                                :value="props.delivery.scheduled_date"
+                            />
                         </p>
                         <p
                             v-if="props.delivery.cod_amount"

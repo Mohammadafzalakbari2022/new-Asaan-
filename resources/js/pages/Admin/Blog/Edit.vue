@@ -179,7 +179,7 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <dt class="text-gray-500">{{ $t('Created') }}</dt>
-                                    <dd class="text-gray-900 dark:text-white">{{ formatDate(post.created_at) }}</dd>
+                                    <dd class="text-gray-900 dark:text-white"><DateDisplay :value="post.created_at" /></dd>
                                 </div>
                                 <div v-if="post.creator" class="flex justify-between">
                                     <dt class="text-gray-500">{{ $t('Author') }}</dt>
@@ -210,6 +210,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import TipTapEditor from '@/components/Admin/CMS/TipTapEditor.vue';
 import { useDebounceFn } from '@vueuse/core';
 import * as blogRoutes from '@/routes/admin/blog';
@@ -278,7 +279,4 @@ const deletePost = () => {
     if (!confirm(`Are you sure you want to delete "${props.post.title}"?`)) return;
     router.delete(blogRoutes.destroy({ post: props.post.slug }).url);
 };
-
-const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 </script>

@@ -235,7 +235,7 @@ function confirmDelete() {
                                         <span class="text-sm font-semibold text-gray-900">
                                             {{ review.admin_replier?.name || $t('Admin') }}
                                         </span>
-                                        <span class="text-xs text-gray-500">{{ review.admin_replied_at }}</span>
+                                        <span class="text-xs text-gray-500"><DateDisplay :value="review.admin_replied_at" time /></span>
                                     </div>
                                     <p class="text-sm text-gray-700">{{ review.admin_reply }}</p>
                                 </div>

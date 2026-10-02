@@ -3,6 +3,8 @@ import { ref, computed } from 'vue';
 import { Link, useForm, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useCalendar } from '@/composables/useCalendar';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import {
   ArrowLeft,
   Copy,
@@ -78,6 +80,7 @@ const props = defineProps<{
 }>();
 
 const { formatPrice } = useCurrency();
+const { formatDate: formatCalendarDate } = useCalendar();
 
 const copied = ref(false);
 
@@ -161,7 +164,7 @@ const takingTooMuch = computed(
           {{ person.email }}<span v-if="person.phone"> · {{ person.phone }}</span>
         </p>
         <p v-if="person.created_at" class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-          {{ $t('Joined {date}', { date: person.created_at }) }}
+          {{ $t('Joined {date}', { date: formatCalendarDate(person.created_at) }) }}
         </p>
       </div>
 
@@ -375,7 +378,7 @@ const takingTooMuch = computed(
                     {{ $t('Still spending') }}
                   </span>
                 </td>
-                <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{{ row.created_at }}</td>
+                <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400"><DateDisplay :value="row.created_at" /></td>
               </tr>
             </tbody>
           </table>
@@ -412,7 +415,7 @@ const takingTooMuch = computed(
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/20">
                   <td class="px-5 py-4 text-sm text-gray-900 dark:text-white">
                     {{ c.order_number ?? '—' }}
-                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ c.created_at }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400"><DateDisplay :value="c.created_at" /></div>
                   </td>
                   <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{{ $t('Level {level}', { level: c.level }) }}</td>
                   <td class="px-5 py-4 text-right text-sm font-semibold text-gray-900 dark:text-white">
@@ -427,7 +430,7 @@ const takingTooMuch = computed(
                         : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'"
                     >
                       <Lock v-if="c.unlocks_at && new Date(c.unlocks_at) > new Date()" class="w-3 h-3" />
-                      {{ c.unlocks_at && new Date(c.unlocks_at) > new Date() ? $t('Locked until {date}', { date: c.unlocks_at }) : $t('Available') }}
+                      {{ c.unlocks_at && new Date(c.unlocks_at) > new Date() ? $t('Locked until {date}', { date: formatCalendarDate(c.unlocks_at) }) : $t('Available') }}
                     </span>
                     <span
                       v-else
@@ -514,7 +517,7 @@ const takingTooMuch = computed(
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
               <tr v-for="entry in ledger" :key="entry.id" class="hover:bg-gray-50 dark:hover:bg-gray-700/20">
-                <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{{ entry.created_at }}</td>
+                <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400"><DateDisplay :value="entry.created_at" /></td>
                 <td class="px-5 py-4">
                   <div class="text-sm text-gray-900 dark:text-white">{{ $t(ledgerLabel[entry.type] ?? entry.type) }}</div>
                   <div v-if="entry.reason" class="text-xs text-gray-500 dark:text-gray-400">{{ entry.reason }}</div>

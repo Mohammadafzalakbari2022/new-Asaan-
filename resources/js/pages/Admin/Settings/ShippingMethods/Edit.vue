@@ -177,7 +177,7 @@
                 <span class="text-gray-600 dark:text-gray-400">{{ $t('Created') }}</span>
                 <div class="text-gray-900 dark:text-white font-medium flex items-center gap-1.5">
                   <Calendar class="w-3.5 h-3.5 text-gray-400" />
-                  {{ formatDate(method.created_at) }}
+                  <DateDisplay :value="method.created_at" />
                 </div>
               </div>
               <div v-if="method.rates && method.rates.length" class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700">
@@ -214,6 +214,7 @@
 import { ref } from 'vue'
 import { Link, usePage, router, Head } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import { 
   Truck, 
   ChevronLeft, 
@@ -258,14 +259,6 @@ const form = ref({
 
 const errors = ref<Record<string, string>>({})
 const loading = ref(false)
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
-}
 
 const submit = () => {
   loading.value = true

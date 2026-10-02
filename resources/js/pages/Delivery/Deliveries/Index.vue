@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import DeliveryLayout from '@/layouts/DeliveryLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import {
   Package,
   Phone,
@@ -100,7 +101,7 @@ const codTotal = computed(() =>
               </p>
               <div class="flex flex-wrap gap-x-4 gap-y-1 pt-1">
                 <p v-if="d.scheduled_date" class="flex items-center gap-2">
-                  <Calendar class="h-4 w-4 flex-none" /> {{ new Date(d.scheduled_date).toLocaleDateString() }}
+                  <Calendar class="h-4 w-4 flex-none" /> <DateDisplay :value="d.scheduled_date" />
                 </p>
                 <p v-if="d.cod_amount" class="flex items-center gap-2 font-medium text-foreground">
                   <Banknote class="h-4 w-4 flex-none" /> ${{ d.cod_amount }}

@@ -25,8 +25,10 @@ import {
 } from 'lucide-vue-next';
 import { useCurrency } from '@/composables/useCurrency';
 import { useI18nStore } from '@/Stores/i18n';
+import { useCalendar } from '@/composables/useCalendar';
 
 const { t } = useI18nStore();
+const { formatDate: formatCalendarDate } = useCalendar();
 
 interface Coupon {
   id: number;
@@ -219,7 +221,7 @@ const formatDiscount = (coupon: Coupon) => {
 
 const formatDate = (date: string | null) => {
   if (!date) return t('No expiry');
-  return new Date(date).toLocaleDateString();
+  return formatCalendarDate(date);
 };
 
 const clearFilters = () => {

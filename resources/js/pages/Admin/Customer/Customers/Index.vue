@@ -2,6 +2,7 @@
 import { Head, router, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import ConfirmDeleteModal from '@/components/Admin/ConfirmDeleteModal.vue';
 import { ref, computed } from 'vue';
 import { debounce } from 'lodash';
@@ -234,14 +235,6 @@ const { formatPrice } = useCurrency();
 
 function formatCurrency(amount: number): string {
   return formatPrice(amount);
-}
-
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
 }
 </script>
 
@@ -636,7 +629,7 @@ function formatDate(dateString: string): string {
               </div>
             </td>
             <td class="hidden xl:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-              {{ formatDate(customer.created_at) }}
+              <DateDisplay :value="customer.created_at" />
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
               <div class="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
@@ -701,7 +694,7 @@ function formatDate(dateString: string): string {
                         </div>
                         <div class="xl:hidden flex flex-col gap-2">
                             <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Joined') }}</span>
-                            <span class="text-sm text-gray-600 dark:text-gray-300">{{ formatDate(customer.created_at) }}</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-300"><DateDisplay :value="customer.created_at" /></span>
                         </div>
                     </div>
                 </td>

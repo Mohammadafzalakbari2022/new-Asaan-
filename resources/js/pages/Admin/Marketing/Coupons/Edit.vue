@@ -4,6 +4,7 @@ import { router, useForm, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { useI18nStore } from '@/Stores/i18n';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 
 interface Coupon {
   id: number;
@@ -129,16 +130,6 @@ const submit = () => {
       router.visit('/admin/marketing/coupons');
     },
   });
-};
-
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat('en-US', { 
-    month: 'short', 
-    day: 'numeric', 
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(new Date(date));
 };
 </script>
 
@@ -615,7 +606,7 @@ const formatDate = (date: string) => {
               >
                 <div class="flex items-center justify-between mb-1">
                   <span class="font-medium text-sm text-gray-900">{{ use.customer_name }}</span>
-                  <span class="text-xs text-gray-500">{{ formatDate(use.used_at) }}</span>
+                  <span class="text-xs text-gray-500"><DateDisplay :value="use.used_at" time /></span>
                 </div>
                 <div class="flex items-center justify-between text-sm mb-1">
                   <span class="text-gray-600">{{ $t('Order #{id}', { id: use.order_id }) }}</span>

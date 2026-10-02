@@ -3,6 +3,8 @@ import { ref, watch } from 'vue';
 import { router, useForm, Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
+import { useCalendar } from '@/composables/useCalendar';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { Search, Filter, X, Lock, Undo2, CheckCircle2, Ban } from 'lucide-vue-next';
 
 interface Commission {
@@ -43,6 +45,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const { formatPrice } = useCurrency();
+const { formatDate: formatCalendarDate } = useCalendar();
 
 const searchQuery = ref(props.filters.search ?? '');
 const statusFilter = ref(props.filters.status ?? '');
@@ -201,7 +204,7 @@ const pageTotal = (data: Commission[]) => data.reduce((sum, c) => sum + (c.statu
                   <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{{ c.referred_name }}</td>
                   <td class="px-6 py-4">
                     <div class="text-sm font-mono text-gray-900 dark:text-white">{{ c.order_number ?? '—' }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ c.created_at }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400"><DateDisplay :value="c.created_at" /></div>
                   </td>
                   <td class="px-6 py-4 text-right">
                     <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ formatPrice(c.amount) }}</div>
@@ -223,7 +226,7 @@ const pageTotal = (data: Commission[]) => data.reduce((sum, c) => sum + (c.statu
                       class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
                     >
                       <Lock class="w-3 h-3" />
-                      {{ $t('Until {date}', { date: c.unlocks_at }) }}
+                      {{ $t('Until {date}', { date: formatCalendarDate(c.unlocks_at ?? '') }) }}
                     </span>
                     <span
                       v-else

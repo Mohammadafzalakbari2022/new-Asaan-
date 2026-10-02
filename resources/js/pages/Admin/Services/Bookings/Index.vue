@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import DatePicker from '@/components/Calendar/DatePicker.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import Pagination from '@/components/Admin/Pagination.vue';
 import { useI18nStore } from '@/Stores/i18n';
 import { Search, Download, Eye, User, CalendarClock, CheckCircle2, Inbox } from 'lucide-vue-next';
@@ -236,7 +237,7 @@ const hasFilters = computed(
                   <p class="text-xs text-gray-500">{{ booking.customer_phone }}</p>
                 </td>
                 <td class="px-4 py-3 text-gray-600 dark:text-gray-400">
-                  <p>{{ booking.scheduled_date }}</p>
+                  <p><DateDisplay :value="booking.scheduled_date" /></p>
                   <p class="text-xs text-gray-500">{{ booking.scheduled_slot }}</p>
                 </td>
                 <td class="px-4 py-3 text-gray-600 dark:text-gray-400">

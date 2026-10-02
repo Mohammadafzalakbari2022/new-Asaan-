@@ -4,6 +4,7 @@ import { router, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { useI18nStore } from '@/Stores/i18n';
+import { useCalendar } from '@/composables/useCalendar';
 import {
   PlusCircle,
   Search,
@@ -90,6 +91,7 @@ const expandedRows = ref<number[]>([]);
 
 const { formatPrice } = useCurrency();
 const { t } = useI18nStore();
+const { formatDate: formatCalendarDate } = useCalendar();
 
 const someSelected = computed(() => {
   return selectedIds.value.length > 0 && selectedIds.value.length < props.promotions.data.length;
@@ -218,11 +220,7 @@ const formatDiscount = (promotion: Promotion) => {
 
 const formatDate = (date: string | null) => {
   if (!date) return t('No expiry');
-  return new Intl.DateTimeFormat('en-US', { 
-    month: '2-digit', 
-    day: '2-digit', 
-    year: 'numeric' 
-  }).format(new Date(date));
+  return formatCalendarDate(date);
 };
 
 const isExpired = (promotion: Promotion) => {

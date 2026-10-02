@@ -13,6 +13,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Power, PowerOff, Clock, Shield, Mail, AlertTriangle, Copy, Check, Hammer } from 'lucide-vue-next';
 import ConfirmModal from '@/components/Admin/ConfirmModal.vue';
 import { useI18nStore } from '@/Stores/i18n';
+import { useCalendar } from '@/composables/useCalendar';
 import * as maintenanceRoutes from '@/routes/admin/system/maintenance';
 
 const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -55,6 +56,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const { t } = useI18nStore();
+const { formatDate: formatCalendarDate, formatTime: formatCalendarTime } = useCalendar();
 
 const form = ref({
     title: props.settings.title,
@@ -170,7 +172,7 @@ const getActionBadge = (action: string) => {
 
 const formatDateTime = (datetime: string | undefined) => {
     if (!datetime) return t('N/A');
-    return new Date(datetime).toLocaleString();
+    return `${formatCalendarDate(datetime)} ${formatCalendarTime(datetime)}`;
 };
 </script>
 
