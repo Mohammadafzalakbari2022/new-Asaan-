@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Gift } from 'lucide-vue-next';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 
 interface OrderItem {
   id: number;
@@ -166,7 +167,7 @@ const formatPrice = (price: number) => {
                         {{ $t(order.status.charAt(0).toUpperCase() + order.status.slice(1)) }}
                       </span>
                     </div>
-                    <span class="text-sm text-gray-600">{{ order.created_at }}</span>
+                    <DateDisplay :value="order.created_at" class="text-sm text-gray-600" />
                   </div>
                   <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-600">

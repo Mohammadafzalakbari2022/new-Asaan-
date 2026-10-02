@@ -73,4 +73,31 @@ final class CalendarConfig
 
         return $container !== null && $container->bound('config');
     }
+
+    /**
+     * The presentation settings the browser has to mirror.
+     *
+     * The TypeScript engine and this one default to the same answers, but the
+     * server's config is the single source of truth: change CALENDAR_NUMERALS
+     * and the picker must follow without a second edit in JavaScript.
+     *
+     * Deliberately not the month and weekday tables. The table is static, it
+     * comes from SolarHijriLocale, and shipping it on every page would be
+     * bytes for nothing. Only the decisions that could differ go here.
+     *
+     * @return array<string, mixed>
+     */
+    public static function shared(): array
+    {
+        return [
+            'primary' => self::get('calendar.primary', 'solar'),
+            'secondary' => self::get('calendar.secondary', 'gregorian'),
+            'numerals' => self::get('calendar.numerals', 'fa'),
+            'secondaryNumerals' => self::get('calendar.secondary_numerals', 'latn'),
+            'bracket' => self::get('calendar.bracket', '({secondary})'),
+            'weekStartsOn' => (int) self::get('calendar.week_starts_on', 6),
+            'minYear' => (int) self::get('calendar.validated_min_year', 1399),
+            'maxYear' => (int) self::get('calendar.validated_max_year', 1500),
+        ];
+    }
 }

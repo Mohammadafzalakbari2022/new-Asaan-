@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import { useCurrency } from '@/composables/useCurrency';
 import ThemeLayout from '../../layouts/ThemeLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 
 interface OrderItem {
   product_name: string;
@@ -80,7 +81,7 @@ const isAuthenticated = computed(() => {
               </div>
               <div class="text-right">
                 <p class="text-sm text-gray-600">{{ $t('Order Date') }}</p>
-                <p class="font-medium">{{ order.created_at }}</p>
+                <p class="font-medium"><DateDisplay :value="order.created_at" /></p>
               </div>
             </div>
             

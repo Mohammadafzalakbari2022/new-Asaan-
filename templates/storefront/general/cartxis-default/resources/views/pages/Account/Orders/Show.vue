@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import ThemeLayout from '../../../layouts/ThemeLayout.vue';
+import { useCalendar } from '@/composables/useCalendar';
+
+const { formatDate: formatCalendarDate } = useCalendar();
 
 interface Address {
   first_name: string;
@@ -104,7 +107,7 @@ const formatAddress = (address?: Address) => {
           <div class="flex items-center justify-between">
             <div>
               <h1 class="text-3xl font-bold mb-2">{{ $t('Order #{number}', { number: order.order_number }) }}</h1>
-              <p class="text-gray-600">{{ $t('Placed on {date}', { date: order.created_at }) }}</p>
+              <p class="text-gray-600">{{ $t('Placed on {date}', { date: formatCalendarDate(order.created_at) }) }}</p>
             </div>
             <span
               :class="[

@@ -94,6 +94,7 @@ class HandleInertiaRequests extends Middleware
                 'currencies' => [],
                 'displayCurrency' => null,
                 'usdToAfn' => Currency::DEFAULT_USD_TO_AFN,
+                'calendar' => null,
             ]);
         }
 
@@ -262,6 +263,10 @@ class HandleInertiaRequests extends Middleware
             // The "1 USD = ? AFN" rate, so the frontend can show the shopper
             // what they are being shown.
             'usdToAfn' => fn () => Currency::usdToAfn(),
+            // The store's calendar decisions, so the Solar Hijri picker and
+            // every displayed date agree with config/calendar.php rather than
+            // each repeating the defaults and drifting apart.
+            'calendar' => fn () => \Cartxis\Calendar\Support\CalendarConfig::shared(),
             // Note: Theme-specific data (theme, contactInfo, socialLinks) is shared
             // by ShareFrontendData middleware via the hook system. Each theme registers
             // only the shared props it needs through its hooks.php file.

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import ThemeLayout from '../../../layouts/ThemeLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 
 interface OrderItem {
   id: number;
@@ -78,7 +79,7 @@ const formatPrice = (price: number) => {
                     </span>
                   </div>
                   <div class="flex flex-wrap gap-4 text-sm text-gray-600">
-                    <span>{{ order.created_at }}</span>
+                    <DateDisplay :value="order.created_at" />
                     <span>{{ $t(order.items_count === 1 ? '{count} item' : '{count} items', { count: order.items_count }) }}</span>
                     <span class="font-semibold text-gray-900">{{ formatPrice(order.total) }}</span>
                   </div>

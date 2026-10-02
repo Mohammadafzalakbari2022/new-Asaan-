@@ -70,7 +70,7 @@ return [
 
     'numerals' => env('CALENDAR_NUMERALS', 'fa'),
 
-    'secondary_numerals' => env('CALENDAR_SECONDAR_NUMERALS', 'latn'),
+    'secondary_numerals' => env('CALENDAR_SECONDARY_NUMERALS', 'latn'),
 
     /*
     |--------------------------------------------------------------------------
