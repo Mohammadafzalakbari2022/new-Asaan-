@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { router, Link, Head } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import * as reviewRoutes from '@/routes/admin/catalog/reviews';
 import Pagination from '@/components/Admin/Pagination.vue';
 import { 
@@ -478,7 +479,7 @@ function confirmBulkDelete() {
                                     </span>
                                 </td>
                                 <td class="hidden xl:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">
-                                    {{ new Date(review.created_at).toLocaleDateString() }}
+                                    <DateDisplay :value="review.created_at" />
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">

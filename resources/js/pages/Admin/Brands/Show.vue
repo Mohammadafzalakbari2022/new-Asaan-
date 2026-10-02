@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import * as brandRoutes from '@/routes/admin/catalog/brands';
 import { useCurrency } from '@/composables/useCurrency';
 
@@ -148,7 +149,7 @@ const props = defineProps<Props>();
 
                 <div>
                   <dt class="text-sm font-medium text-gray-500">{{ $t('Created') }}</dt>
-                  <dd class="mt-1 text-sm text-gray-900">{{ new Date(brand.created_at).toLocaleDateString() }}</dd>
+                  <dd class="mt-1 text-sm text-gray-900"><DateDisplay :value="brand.created_at" /></dd>
                 </div>
               </dl>
             </div>

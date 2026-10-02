@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import { ref, computed } from 'vue';
 import { debounce } from 'lodash';
 import Pagination from '@/components/Admin/Pagination.vue';
@@ -488,7 +489,7 @@ function changePage(page: number) {
                         </div>
                          <div class="flex flex-col gap-1">
                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">{{ $t('Created') }}</span>
-                          <span class="text-gray-700 dark:text-gray-300">{{ new Date(brand.created_at).toLocaleDateString() }}</span>
+                          <span class="text-gray-700 dark:text-gray-300"><DateDisplay :value="brand.created_at" /></span>
                        </div>
                     </div>
                  </td>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import * as categoryRoutes from '@/routes/admin/catalog/categories';
 import * as productRoutes from '@/routes/admin/catalog/products';
 import { useCurrency } from '@/composables/useCurrency';
@@ -291,11 +292,11 @@ const props = defineProps<Props>();
                   </div>
                   <div>
                     <dt class="text-sm font-medium text-gray-500">{{ $t('Created') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ new Date(category.created_at).toLocaleDateString() }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900"><DateDisplay :value="category.created_at" /></dd>
                   </div>
                   <div>
                     <dt class="text-sm font-medium text-gray-500">{{ $t('Last Updated') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ new Date(category.updated_at).toLocaleDateString() }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900"><DateDisplay :value="category.updated_at" /></dd>
                   </div>
                 </dl>
               </div>

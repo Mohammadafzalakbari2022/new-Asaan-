@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import axios from '@/lib/axios'
 import { useI18nStore } from '@/Stores/i18n'
 import { RefreshCcw, UserCircle2 } from 'lucide-vue-next'
@@ -158,7 +159,7 @@ onUnmounted(() => {
                 </td>
                 <td class="px-6 py-4 align-top">
                   <p class="text-sm text-gray-800 dark:text-gray-100">{{ log.created_at_human }}</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ log.created_at }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400"><DateDisplay :value="log.created_at" time /></p>
                 </td>
               </tr>
             </tbody>

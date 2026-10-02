@@ -2,6 +2,7 @@
 import { Head, Link, router } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Search, Edit, Trash2, Users } from 'lucide-vue-next'
@@ -162,7 +163,7 @@ const getStatusBadgeClass = (isActive: boolean) => {
                   {{ user.email_verified_at || $t('Not verified') }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ user.created_at }}
+                  <DateDisplay :value="user.created_at" time />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <Link

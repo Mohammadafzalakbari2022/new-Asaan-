@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { Head, Link, useForm, usePage, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import {
   ArrowLeft,
   MapPin,
@@ -342,7 +343,7 @@ function money(value: number | string) {
             <div class="mt-4 space-y-3 text-sm">
               <div class="flex items-center justify-between">
                 <span class="text-gray-600 dark:text-gray-400">{{ $t('Booked on') }}</span>
-                <span class="text-gray-900 dark:text-gray-100">{{ new Date(booking.created_at).toLocaleDateString() }}</span>
+                <span class="text-gray-900 dark:text-gray-100"><DateDisplay :value="booking.created_at" /></span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-gray-600 dark:text-gray-400">{{ $t('Scheduled') }}</span>

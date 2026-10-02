@@ -2,6 +2,7 @@
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -149,7 +150,7 @@ const changePassword = () => {
                 <strong>{{ $t('Email Verified:') }}</strong> {{ props.user.email_verified_at || $t('Not verified') }}
               </div>
               <div class="text-sm text-gray-600">
-                <strong>{{ $t('Account Created:') }}</strong> {{ props.user.created_at }}
+                <strong>{{ $t('Account Created:') }}</strong> <DateDisplay :value="props.user.created_at" time />
               </div>
             </div>
 

@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import ConfirmModal from '@/components/Admin/ConfirmModal.vue'
 import { useI18nStore } from '@/Stores/i18n'
 import { Download, LayoutTemplate, CheckCircle2, ArrowLeft, Wand2, Settings2, Power } from 'lucide-vue-next'
@@ -184,7 +185,7 @@ const activateTemplate = () => {
               <h1 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ template.name }}</h1>
               <p class="text-sm text-gray-500 mt-1">
                 v{{ template.version }} · {{ template.author }}
-                <span v-if="template.updated_at"> · {{ $t('Updated') }} {{ new Date(template.updated_at).toLocaleDateString() }}</span>
+                <span v-if="template.updated_at"> · {{ $t('Updated') }} <DateDisplay :value="template.updated_at" /></span>
               </p>
             </div>
             <div class="flex flex-wrap gap-2">

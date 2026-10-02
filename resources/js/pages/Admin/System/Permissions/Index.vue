@@ -2,6 +2,7 @@
 import { Head, Link, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DateDisplay from '@/components/Calendar/DateDisplay.vue'
 import { Shield, Plus, Edit, Trash2 } from 'lucide-vue-next'
 import { useI18nStore } from '@/Stores/i18n'
 
@@ -132,7 +133,7 @@ const getGroupColor = (group: string) => {
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {{ new Date(permission.created_at).toLocaleDateString() }}
+                    <DateDisplay :value="permission.created_at" />
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
