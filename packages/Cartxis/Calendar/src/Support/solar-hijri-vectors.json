@@ -1,0 +1,1056 @@
+{
+    "_comment": [
+        "SHARED test vectors for the Solar Hijri engine.",
+        "Read by BOTH the PHP suite (tests/Feature/Calendar/SolarHijriVectorsTest.php)",
+        "and the TypeScript suite (resources/js/lib/solar-hijri.test.ts), so the two",
+        "implementations are proven to agree rather than assumed to.",
+        "",
+        "Every Gregorian figure in this file was produced by ICU's persian calendar",
+        "through Intl.DateTimeFormat -- an implementation with no code in common with",
+        "this one -- and then cross-checked in the opposite direction before being",
+        "written. The leap-year and month-length columns were derived from the",
+        "33-year rule the engine implements, so a rule that is wrong in one place is",
+        "wrong in both and the tests catch it."
+    ],
+    "supportedRange": {
+        "minJalaliYear": 1399,
+        "maxJalaliYear": 1500
+    },
+    "leapRemainders": [
+        1,
+        5,
+        9,
+        13,
+        17,
+        22,
+        26,
+        30
+    ],
+    "anchors": [
+        {
+            "solar": "1400-01-01",
+            "gregorian": "2021-03-21",
+            "note": "everything is counted from here"
+        }
+    ],
+    "solarToGregorian": [
+        {
+            "solar": "1399-01-01",
+            "gregorian": "2020-03-20",
+            "leapYear": true,
+            "daysInMonth": 31,
+            "note": "Nowruz 1399: a leap year starting on 20 March",
+            "weekday": 5
+        },
+        {
+            "solar": "1400-01-01",
+            "gregorian": "2021-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1400: the engine anchor, 21 March",
+            "weekday": 0
+        },
+        {
+            "solar": "1401-01-01",
+            "gregorian": "2022-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1401",
+            "weekday": 1
+        },
+        {
+            "solar": "1402-01-01",
+            "gregorian": "2023-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1402",
+            "weekday": 2
+        },
+        {
+            "solar": "1403-01-01",
+            "gregorian": "2024-03-20",
+            "leapYear": true,
+            "daysInMonth": 31,
+            "note": "Nowruz 1403: a leap year starting on 20 March",
+            "weekday": 3
+        },
+        {
+            "solar": "1404-01-01",
+            "gregorian": "2025-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1404: the sanity-check year, 21 March 2025",
+            "weekday": 5
+        },
+        {
+            "solar": "1405-01-01",
+            "gregorian": "2026-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1405",
+            "weekday": 6
+        },
+        {
+            "solar": "1406-01-01",
+            "gregorian": "2027-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1406",
+            "weekday": 0
+        },
+        {
+            "solar": "1407-01-01",
+            "gregorian": "2028-03-20",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1407: 20 March in a NON-leap year",
+            "weekday": 1
+        },
+        {
+            "solar": "1408-01-01",
+            "gregorian": "2029-03-20",
+            "leapYear": true,
+            "daysInMonth": 31,
+            "note": "Nowruz 1408: a leap year, five years after 1403",
+            "weekday": 2
+        },
+        {
+            "solar": "1409-01-01",
+            "gregorian": "2030-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1409",
+            "weekday": 4
+        },
+        {
+            "solar": "1412-01-01",
+            "gregorian": "2033-03-20",
+            "leapYear": true,
+            "daysInMonth": 31,
+            "note": "Nowruz 1412",
+            "weekday": 0
+        },
+        {
+            "solar": "1416-01-01",
+            "gregorian": "2037-03-20",
+            "leapYear": true,
+            "daysInMonth": 31,
+            "note": "Nowruz 1416",
+            "weekday": 5
+        },
+        {
+            "solar": "1420-01-01",
+            "gregorian": "2041-03-20",
+            "leapYear": true,
+            "daysInMonth": 31,
+            "note": "Nowruz 1420",
+            "weekday": 3
+        },
+        {
+            "solar": "1430-01-01",
+            "gregorian": "2051-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1430",
+            "weekday": 2
+        },
+        {
+            "solar": "1450-01-01",
+            "gregorian": "2071-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1450",
+            "weekday": 6
+        },
+        {
+            "solar": "1475-01-01",
+            "gregorian": "2096-03-20",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1475",
+            "weekday": 2
+        },
+        {
+            "solar": "1499-01-01",
+            "gregorian": "2120-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1499",
+            "weekday": 4
+        },
+        {
+            "solar": "1500-01-01",
+            "gregorian": "2121-03-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "Nowruz 1500: the far end of the supported range",
+            "weekday": 5
+        },
+        {
+            "solar": "1399-12-29",
+            "gregorian": "2021-03-19",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "29 Esfand 1399 (leap year)",
+            "weekday": 5
+        },
+        {
+            "solar": "1399-12-30",
+            "gregorian": "2021-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1399: the leap day of this calendar exists",
+            "weekday": 6
+        },
+        {
+            "solar": "1400-12-29",
+            "gregorian": "2022-03-20",
+            "leapYear": false,
+            "daysInMonth": 29,
+            "note": "29 Esfand 1400 (common year): the last day of the year",
+            "weekday": 0
+        },
+        {
+            "solar": "1401-12-29",
+            "gregorian": "2023-03-20",
+            "leapYear": false,
+            "daysInMonth": 29,
+            "note": "29 Esfand 1401 (common year)",
+            "weekday": 1
+        },
+        {
+            "solar": "1402-12-29",
+            "gregorian": "2024-03-19",
+            "leapYear": false,
+            "daysInMonth": 29,
+            "note": "29 Esfand 1402 (common year)",
+            "weekday": 2
+        },
+        {
+            "solar": "1403-12-30",
+            "gregorian": "2025-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1403: the leap day, one day before Nowruz 1404",
+            "weekday": 4
+        },
+        {
+            "solar": "1404-12-29",
+            "gregorian": "2026-03-20",
+            "leapYear": false,
+            "daysInMonth": 29,
+            "note": "29 Esfand 1404 (common year)",
+            "weekday": 5
+        },
+        {
+            "solar": "1407-12-29",
+            "gregorian": "2029-03-19",
+            "leapYear": false,
+            "daysInMonth": 29,
+            "note": "29 Esfand 1407 (common year)",
+            "weekday": 1
+        },
+        {
+            "solar": "1408-12-30",
+            "gregorian": "2030-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1408: leap day in the second leap year of the range",
+            "weekday": 3
+        },
+        {
+            "solar": "1412-12-30",
+            "gregorian": "2034-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1412: leap day",
+            "weekday": 1
+        },
+        {
+            "solar": "1420-12-30",
+            "gregorian": "2042-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1420: leap day",
+            "weekday": 4
+        },
+        {
+            "solar": "1449-12-30",
+            "gregorian": "2071-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1449: leap day after a five-year gap",
+            "weekday": 5
+        },
+        {
+            "solar": "1478-12-30",
+            "gregorian": "2100-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1478: leap day",
+            "weekday": 6
+        },
+        {
+            "solar": "1498-12-30",
+            "gregorian": "2120-03-20",
+            "leapYear": true,
+            "daysInMonth": 30,
+            "note": "30 Esfand 1498: the last leap day in the supported range",
+            "weekday": 3
+        },
+        {
+            "solar": "1499-12-29",
+            "gregorian": "2121-03-20",
+            "leapYear": false,
+            "daysInMonth": 29,
+            "note": "29 Esfand 1499: common year, last day before 1500",
+            "weekday": 4
+        },
+        {
+            "solar": "1404-01-31",
+            "gregorian": "2025-04-20",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "last day of Farvardin (31 days)",
+            "weekday": 0
+        },
+        {
+            "solar": "1404-02-01",
+            "gregorian": "2025-04-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "1 Ordibehesht",
+            "weekday": 1
+        },
+        {
+            "solar": "1404-06-31",
+            "gregorian": "2025-09-22",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "last day of Shahrivar (31 days)",
+            "weekday": 1
+        },
+        {
+            "solar": "1404-07-01",
+            "gregorian": "2025-09-23",
+            "leapYear": false,
+            "daysInMonth": 30,
+            "note": "1 Mehr: the 31-day months end and the 30-day months begin",
+            "weekday": 2
+        },
+        {
+            "solar": "1404-11-30",
+            "gregorian": "2026-02-19",
+            "leapYear": false,
+            "daysInMonth": 30,
+            "note": "last day of Bahman (30 days)",
+            "weekday": 4
+        },
+        {
+            "solar": "1404-12-01",
+            "gregorian": "2026-02-20",
+            "leapYear": false,
+            "daysInMonth": 29,
+            "note": "1 Esfand",
+            "weekday": 5
+        },
+        {
+            "solar": "1430-06-31",
+            "gregorian": "2051-09-22",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "last day of Shahrivar in a far year",
+            "weekday": 5
+        },
+        {
+            "solar": "1430-07-01",
+            "gregorian": "2051-09-23",
+            "leapYear": false,
+            "daysInMonth": 30,
+            "note": "1 Mehr in a far year",
+            "weekday": 6
+        },
+        {
+            "solar": "1404-06-15",
+            "gregorian": "2025-09-06",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "the worked example: 6 September 2025",
+            "weekday": 6
+        },
+        {
+            "solar": "1404-03-31",
+            "gregorian": "2025-06-21",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "31 Khordad 1404",
+            "weekday": 6
+        },
+        {
+            "solar": "1400-09-30",
+            "gregorian": "2021-12-21",
+            "leapYear": false,
+            "daysInMonth": 30,
+            "note": "30 Dey 1400",
+            "weekday": 2
+        },
+        {
+            "solar": "1408-04-12",
+            "gregorian": "2029-07-02",
+            "leapYear": true,
+            "daysInMonth": 31,
+            "note": "12 Tir 1408",
+            "weekday": 1
+        },
+        {
+            "solar": "1425-08-05",
+            "gregorian": "2046-10-27",
+            "leapYear": false,
+            "daysInMonth": 30,
+            "note": "5 Aban 1425",
+            "weekday": 6
+        },
+        {
+            "solar": "1460-11-21",
+            "gregorian": "2082-02-09",
+            "leapYear": false,
+            "daysInMonth": 30,
+            "note": "21 Bahman 1460",
+            "weekday": 1
+        },
+        {
+            "solar": "1489-02-03",
+            "gregorian": "2110-04-23",
+            "leapYear": false,
+            "daysInMonth": 31,
+            "note": "3 Ordibehesht 1489",
+            "weekday": 3
+        }
+    ],
+    "gregorianToSolar": [
+        {
+            "gregorian": "2020-03-19",
+            "solar": "1398-12-29",
+            "leapYear": false,
+            "note": "the day before Nowruz 1399",
+            "weekday": 4
+        },
+        {
+            "gregorian": "2020-03-20",
+            "solar": "1399-01-01",
+            "leapYear": true,
+            "note": "Nowruz 1399 itself",
+            "weekday": 5
+        },
+        {
+            "gregorian": "2021-03-20",
+            "solar": "1399-12-30",
+            "leapYear": true,
+            "note": "29 Esfand 1400: the last day of the year",
+            "weekday": 6
+        },
+        {
+            "gregorian": "2021-03-21",
+            "solar": "1400-01-01",
+            "leapYear": false,
+            "note": "Nowruz 1400, the engine anchor",
+            "weekday": 0
+        },
+        {
+            "gregorian": "2024-02-29",
+            "solar": "1402-12-10",
+            "leapYear": false,
+            "note": "a Gregorian leap day, which this calendar does not have",
+            "weekday": 4
+        },
+        {
+            "gregorian": "2024-03-19",
+            "solar": "1402-12-29",
+            "leapYear": false,
+            "note": "29 Esfand 1403",
+            "weekday": 2
+        },
+        {
+            "gregorian": "2024-03-20",
+            "solar": "1403-01-01",
+            "leapYear": true,
+            "note": "Nowruz 1403 and also 30 Esfand 1402",
+            "weekday": 3
+        },
+        {
+            "gregorian": "2025-03-19",
+            "solar": "1403-12-29",
+            "leapYear": true,
+            "note": "29 Esfand 1404",
+            "weekday": 3
+        },
+        {
+            "gregorian": "2025-03-20",
+            "solar": "1403-12-30",
+            "leapYear": true,
+            "note": "the leap day: 30 Esfand 1403",
+            "weekday": 4
+        },
+        {
+            "gregorian": "2025-03-21",
+            "solar": "1404-01-01",
+            "leapYear": false,
+            "note": "Nowruz 1404",
+            "weekday": 5
+        },
+        {
+            "gregorian": "2025-09-06",
+            "solar": "1404-06-15",
+            "leapYear": false,
+            "note": "the worked example, from the Gregorian side",
+            "weekday": 6
+        },
+        {
+            "gregorian": "2028-02-29",
+            "solar": "1406-12-10",
+            "leapYear": false,
+            "note": "another Gregorian leap day",
+            "weekday": 2
+        },
+        {
+            "gregorian": "2029-03-19",
+            "solar": "1407-12-29",
+            "leapYear": false,
+            "note": "29 Esfand 1408",
+            "weekday": 1
+        },
+        {
+            "gregorian": "2029-03-20",
+            "solar": "1408-01-01",
+            "leapYear": true,
+            "note": "Nowruz 1408, the leap year",
+            "weekday": 2
+        },
+        {
+            "gregorian": "2121-03-20",
+            "solar": "1499-12-29",
+            "leapYear": false,
+            "note": "29 Esfand 1499",
+            "weekday": 4
+        },
+        {
+            "gregorian": "2121-03-21",
+            "solar": "1500-01-01",
+            "leapYear": false,
+            "note": "Nowruz 1500, the far end of the range",
+            "weekday": 5
+        }
+    ],
+    "nowruzByYear": [
+        {
+            "year": 1399,
+            "gregorian": "2020-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1400,
+            "gregorian": "2021-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1401,
+            "gregorian": "2022-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1402,
+            "gregorian": "2023-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1403,
+            "gregorian": "2024-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1404,
+            "gregorian": "2025-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1405,
+            "gregorian": "2026-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1406,
+            "gregorian": "2027-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1407,
+            "gregorian": "2028-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1408,
+            "gregorian": "2029-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1409,
+            "gregorian": "2030-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1410,
+            "gregorian": "2031-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1411,
+            "gregorian": "2032-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1412,
+            "gregorian": "2033-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1413,
+            "gregorian": "2034-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1414,
+            "gregorian": "2035-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1415,
+            "gregorian": "2036-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1416,
+            "gregorian": "2037-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1417,
+            "gregorian": "2038-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1418,
+            "gregorian": "2039-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1419,
+            "gregorian": "2040-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1420,
+            "gregorian": "2041-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1421,
+            "gregorian": "2042-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1422,
+            "gregorian": "2043-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1423,
+            "gregorian": "2044-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1424,
+            "gregorian": "2045-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1425,
+            "gregorian": "2046-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1426,
+            "gregorian": "2047-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1427,
+            "gregorian": "2048-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1428,
+            "gregorian": "2049-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1429,
+            "gregorian": "2050-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1430,
+            "gregorian": "2051-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1431,
+            "gregorian": "2052-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1432,
+            "gregorian": "2053-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1433,
+            "gregorian": "2054-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1434,
+            "gregorian": "2055-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1435,
+            "gregorian": "2056-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1436,
+            "gregorian": "2057-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1437,
+            "gregorian": "2058-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1438,
+            "gregorian": "2059-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1439,
+            "gregorian": "2060-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1440,
+            "gregorian": "2061-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1441,
+            "gregorian": "2062-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1442,
+            "gregorian": "2063-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1443,
+            "gregorian": "2064-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1444,
+            "gregorian": "2065-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1445,
+            "gregorian": "2066-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1446,
+            "gregorian": "2067-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1447,
+            "gregorian": "2068-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1448,
+            "gregorian": "2069-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1449,
+            "gregorian": "2070-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1450,
+            "gregorian": "2071-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1451,
+            "gregorian": "2072-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1452,
+            "gregorian": "2073-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1453,
+            "gregorian": "2074-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1454,
+            "gregorian": "2075-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1455,
+            "gregorian": "2076-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1456,
+            "gregorian": "2077-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1457,
+            "gregorian": "2078-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1458,
+            "gregorian": "2079-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1459,
+            "gregorian": "2080-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1460,
+            "gregorian": "2081-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1461,
+            "gregorian": "2082-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1462,
+            "gregorian": "2083-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1463,
+            "gregorian": "2084-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1464,
+            "gregorian": "2085-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1465,
+            "gregorian": "2086-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1466,
+            "gregorian": "2087-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1467,
+            "gregorian": "2088-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1468,
+            "gregorian": "2089-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1469,
+            "gregorian": "2090-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1470,
+            "gregorian": "2091-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1471,
+            "gregorian": "2092-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1472,
+            "gregorian": "2093-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1473,
+            "gregorian": "2094-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1474,
+            "gregorian": "2095-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1475,
+            "gregorian": "2096-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1476,
+            "gregorian": "2097-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1477,
+            "gregorian": "2098-03-20",
+            "leapYear": false
+        },
+        {
+            "year": 1478,
+            "gregorian": "2099-03-20",
+            "leapYear": true
+        },
+        {
+            "year": 1479,
+            "gregorian": "2100-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1480,
+            "gregorian": "2101-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1481,
+            "gregorian": "2102-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1482,
+            "gregorian": "2103-03-21",
+            "leapYear": true
+        },
+        {
+            "year": 1483,
+            "gregorian": "2104-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1484,
+            "gregorian": "2105-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1485,
+            "gregorian": "2106-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1486,
+            "gregorian": "2107-03-21",
+            "leapYear": true
+        },
+        {
+            "year": 1487,
+            "gregorian": "2108-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1488,
+            "gregorian": "2109-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1489,
+            "gregorian": "2110-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1490,
+            "gregorian": "2111-03-21",
+            "leapYear": true
+        },
+        {
+            "year": 1491,
+            "gregorian": "2112-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1492,
+            "gregorian": "2113-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1493,
+            "gregorian": "2114-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1494,
+            "gregorian": "2115-03-21",
+            "leapYear": true
+        },
+        {
+            "year": 1495,
+            "gregorian": "2116-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1496,
+            "gregorian": "2117-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1497,
+            "gregorian": "2118-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1498,
+            "gregorian": "2119-03-21",
+            "leapYear": true
+        },
+        {
+            "year": 1499,
+            "gregorian": "2120-03-21",
+            "leapYear": false
+        },
+        {
+            "year": 1500,
+            "gregorian": "2121-03-21",
+            "leapYear": false
+        }
+    ]
+}

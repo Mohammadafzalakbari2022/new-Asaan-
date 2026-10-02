@@ -26,5 +26,7 @@ return [
     Cartxis\Reports\ReportsServiceProvider::class,
     Cartxis\Marketing\MarketingServiceProvider::class,
     Cartxis\Referral\ReferralServiceProvider::class,
+    Cartxis\Identity\IdentityServiceProvider::class,
+    Cartxis\Calendar\CalendarServiceProvider::class,
     Cartxis\API\Providers\APIServiceProvider::class,
 ];

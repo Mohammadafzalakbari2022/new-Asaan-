@@ -115,3 +115,35 @@ if (!function_exists('theme_setting')) {
         return $settings[$key] ?? data_get($settings, $key, $default);
     }
 }
+
+if (!function_exists('store_country_code')) {
+    /**
+     * Get the store country code (ISO 3166-1 alpha-2).
+     *
+     * Delegates to the one place the store country is defined.
+     */
+    function store_country_code(): string
+    {
+        return \Cartxis\Core\Support\StoreCountry::code();
+    }
+}
+
+if (!function_exists('store_country_name')) {
+    /**
+     * Get the store country name.
+     */
+    function store_country_name(): string
+    {
+        return \Cartxis\Core\Support\StoreCountry::name();
+    }
+}
+
+if (!function_exists('store_country')) {
+    /**
+     * Get the store country (alias for the country name).
+     */
+    function store_country(): string
+    {
+        return store_country_name();
+    }
+}
