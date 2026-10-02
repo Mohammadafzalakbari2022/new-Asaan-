@@ -7,7 +7,8 @@
         "dev": "vite",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
-        "lint": "eslint . --fix"
+        "lint": "eslint . --fix",
+        "test:calendar": "node --experimental-strip-types --test resources/js/lib/solar-hijri.test.ts"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",

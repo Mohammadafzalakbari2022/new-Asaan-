@@ -465,6 +465,17 @@ function assertMonth(jalaliMonth: number): void {
     }
 }
 
+/** Throw unless the year, month and day together name a real date. */
+function assertValid(jalaliYear: number, jalaliMonth: number, jalaliDay: number): void {
+    if (isValid(jalaliYear, jalaliMonth, jalaliDay)) {
+        return;
+    }
+
+    throw new RangeError(
+        `Solar Hijri date ${jalaliYear}/${jalaliMonth}/${jalaliDay} does not exist.`,
+    );
+}
+
 /** Does this Solar Hijri date actually exist? */
 export function isValid(jalaliYear: number, jalaliMonth: number, jalaliDay: number): boolean {
     if (jalaliYear < MIN_JALALI_YEAR || jalaliYear > MAX_JALALI_YEAR) {
@@ -581,13 +592,13 @@ export function fromGregorian(date: Date | string | number): SolarDate {
     const [year, month, day] = gregorianParts(date);
 
     let jalaliYear = year - 621;
-    const serialDay = serialDay(year, month, day);
+    const dayNumber = serialDay(year, month, day);
 
-    if (serialDay < nowruzSerialDay(jalaliYear)) {
+    if (dayNumber < nowruzSerialDay(jalaliYear)) {
         jalaliYear -= 1;
     }
 
-    return fromDayOfYear(jalaliYear, serialDay - nowruzSerialDay(jalaliYear) + 1);
+    return fromDayOfYear(jalaliYear, dayNumber - nowruzSerialDay(jalaliYear) + 1);
 }
 
 /** The Gregorian 'Y-m-d' matching a Solar Hijri date. */
@@ -609,8 +620,10 @@ export function toGregorianIso(
  * What a date picker needs: what to show the shopper, and what to send back to
  * the server so the stored value is Gregorian.
  */
-export function toParts(date: Date | string | number): SolarDateParts {
-    const solar = fromGregorian(date);
+export function toParts(date: Date | string | number | SolarDate): SolarDateParts {
+    // A SolarDate may already have been produced by addDays(), as the month
+    // grid does when it walks a month.
+    const solar = isSolarDate(date) ? date : fromGregorian(date);
     const gregorian = toGregorianIso(solar.year, solar.month, solar.day);
 
     return {
@@ -704,11 +717,11 @@ function civilFromSerialDay(dayNumber: number): [number, number, number] {
     const era = Math.floor(z / 146097);
     const dayOfEra = z - era * 146097;
     const yearOfEra = Math.floor(
-        dayOfEra -
+        (dayOfEra -
             Math.floor(dayOfEra / 1460) +
             Math.floor(dayOfEra / 36524) -
-            Math.floor(dayOfEra / 146096),
-        365,
+            Math.floor(dayOfEra / 146096)) /
+            365,
     );
     const year = yearOfEra + era * 400;
     const dayOfYearValue =
@@ -862,9 +875,9 @@ export function formatDate(
     locale?: string | null,
     options: FormatOptions = {},
 ): string {
-    const resolved = resolveOptions(options);
-    const parts = toParts(date);
     const resolvedLocale = normaliseLocale(locale);
+    const resolved = resolveOptions(options, resolvedLocale);
+    const parts = toParts(date);
 
     const primary =
         resolved.primary === 'gregorian'
@@ -1012,11 +1025,13 @@ type ResolvedOptions = {
  * config/calendar.php on the server. A caller that needs to differ passes the
  * option; a caller that does not gets the store's decision.
  */
-function resolveOptions(options: FormatOptions): ResolvedOptions {
+function resolveOptions(options: FormatOptions, locale: SolarLocale): ResolvedOptions {
     return {
         primary: options.primary ?? 'solar',
         secondary: options.secondary ?? 'gregorian',
-        numerals: options.numerals ?? 'fa',
+        // An English reader gets Latin digits unless told otherwise. The
+        // Gregorian reference is always Latin anyway, so it stays copyable.
+        numerals: options.numerals ?? (locale === 'en' ? 'latn' : 'fa'),
         secondaryNumerals: options.secondaryNumerals ?? 'latn',
         weekday: options.weekday ?? false,
         short: options.short ?? false,

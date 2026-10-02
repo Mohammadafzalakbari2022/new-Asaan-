@@ -18,7 +18,7 @@
  * before being written. So neither copy is marking its own homework: both are
  * being measured against an outside calendar, and against each other.
  *
- * Run it with:  node --test resources/js/lib/solar-hijri.test.ts
+ * Run it with:  npm run test:calendar
  *
  * No test runner dependency, because the point of the engine is that it has
  * none, and adding vitest to prove a dependency-light module is dependency-free
@@ -37,6 +37,7 @@ import {
     MAX_JALALI_YEAR,
     MIN_JALALI_YEAR,
     addDays,
+    dayOfYear,
     daysInMonth,
     daysInYear,
     formatDate,
@@ -257,7 +258,7 @@ test('Nowruz never leaves 20 or 21 March across the supported range', () => {
             marchDay === 20 || marchDay === 21,
             `Nowruz ${year} fell on ${marchDay} March, outside 20-21 (${gregorian})`,
         );
-        assert.equal(gregorian.slice(5, 10), '03-2');
+        assert.equal(gregorian.slice(5, 7), '03');
     }
 });
 
@@ -339,8 +340,10 @@ test('30 Esfand exists only in a leap year', () => {
 
     // And 30 Esfand is always the day before the next Nowruz.
     for (const year of leapYears(1400, 1500)) {
+        const dayAfter = addDays(toGregorianIso(year, 12, 30), 1);
+
         assert.equal(
-            addDays(toGregorianIso(year, 12, 30), 1),
+            toGregorianIso(dayAfter.year, dayAfter.month, dayAfter.day),
             nowruzGregorian(year + 1),
             `30 Esfand ${year} must be the day before Nowruz ${year + 1}`,
         );
@@ -350,15 +353,16 @@ test('30 Esfand exists only in a leap year', () => {
 test('a month of 31 days really is 31 days apart', () => {
     // Month lengths are the easiest thing in a calendar to get subtly wrong, so
     // check the arithmetic rather than the table.
-    assert.equal(addDays('2025-08-06', 30).toString
-        ? addDays('2025-08-06', 30).day
-        : 0, 1);
+    const first = toGregorianIso(1404, 6, 1);
+    const last = toGregorianIso(1404, 6, 31);
+
+    assert.equal((Date.parse(last) - Date.parse(first)) / 86400000, 30);
 
     const sixthMonth = monthGrid(1404, 6, 'en');
     assert.equal(sixthMonth.daysInMonth, 31);
     assert.equal(
-        toGregorianIso(1404, 6, 31),
-        addDays( sixthMonth.weeks[0][0]?.gregorian ?? toGregorianIso(1404, 6, 1), 30),
+        sixthMonth.weeks.flat().filter((cell) => cell.inMonth).at(-1)?.gregorian,
+        last,
     );
 });
 
@@ -384,8 +388,10 @@ test('every day of the supported range converts both ways with no drift', () => 
             `${gregorian} round-tripped through ${solar.year}-${solar.month}-${solar.day} as ${roundTripped}`,
         );
 
-        // And the year must advance by one every single Nowruz, never by two.
-        const serial = Date.UTC(solar.year, solar.month - 1, solar.day);
+        // Solar dates must strictly increase: the day number rises within a
+        // year, and the year itself rises at Nowruz.
+        const serial =
+            solar.year * 1000 + dayOfYear(solar.year, solar.month, solar.day);
         if (previousSerial !== Number.NEGATIVE_INFINITY) {
             assert.ok(serial > previousSerial, `Solar Hijri dates must strictly increase at ${gregorian}`);
         }
@@ -394,7 +400,9 @@ test('every day of the supported range converts both ways with no drift', () => 
         days++;
     }
 
-    assert.equal(days, 36851);
+    // 20 March 2020 through 20 March 2121 inclusive: 101 years, 24 of them
+    // leap, plus the closing day.
+    assert.equal(days, 36890);
 });
 
 test('Solar Hijri days and Gregorian days advance in lockstep', () => {
@@ -618,7 +626,7 @@ test('a month grid has full weeks and marks its outside days', () => {
         inMonth.forEach((cell, index) => {
             assert.equal(cell.day, index + 1);
             assert.equal(cell.gregorian, toGregorianIso(year, month, index + 1));
-            assert.equal(cell.iso, toSolarIso([year, month, index + 1]));
+            assert.equal(cell.iso, toSolarIso({ year, month, day: index + 1 }));
         });
 
         // The 1st must sit under its own weekday, which is what stops a picker
