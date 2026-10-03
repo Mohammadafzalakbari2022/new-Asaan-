@@ -21,7 +21,7 @@ MYSQL_ATTR_SSL_CA="${MYSQL_ATTR_SSL_CA-/etc/ssl/certs/ca-certificates.crt}"
     echo "PHP_CLI_SERVER_WORKERS=4"
     echo "BCRYPT_ROUNDS=12"
     echo "LOG_CHANNEL=stack"
-    echo "LOG_STACK=single"
+    echo "LOG_STACK=single,stderr"
     echo "LOG_LEVEL=error"
     echo "DB_CONNECTION=${DB_CONNECTION:-mysql}"
     echo "DB_HOST=${DB_HOST:-127.0.0.1}"
@@ -49,10 +49,15 @@ MYSQL_ATTR_SSL_CA="${MYSQL_ATTR_SSL_CA-/etc/ssl/certs/ca-certificates.crt}"
     echo "MYSQL_ATTR_SSL_CA=${MYSQL_ATTR_SSL_CA}"
 } > .env
 
-# Generate app key if empty
+# Generate app key if empty. A fresh key every boot makes every encrypted value
+# (Tazkira numbers, saved email passwords) unreadable, so on a live site this
+# says so loudly instead of quietly losing them.
 if [ -z "$APP_KEY" ]; then
     APP_KEY="base64:$(openssl rand -base64 32)"
     sed -i "s|^APP_KEY=.*|APP_KEY=${APP_KEY}|" .env
+    if [ "${APP_ENV:-production}" = "production" ]; then
+        echo "[entrypoint] !!! APP_KEY was not set; a new one was generated. Anything encrypted with the old key can no longer be read. Set APP_KEY in the host's environment. !!!"
+    fi
 fi
 
 # Storage link
@@ -152,24 +157,34 @@ PHPEOF
         )
         RES=$(timeout 40 php -r "$CHECK_PHP" 2>&1)
         echo "[entrypoint] Database setup check: $RES"
+
+        # Retry a few times, and say plainly when it never succeeded. A single
+        # silent failure used to leave the code newer than the tables, so pages
+        # whose table had just been added answered with a 500 and nothing in the
+        # logs explained why.
+        run_migrate() {
+            label="$1"
+            shift
+            attempt=1
+            while [ "$attempt" -le 3 ]; do
+                if timeout 900 php artisan migrate --force "$@" 2>&1; then
+                    echo "[entrypoint] ${label}: migrations applied"
+                    return 0
+                fi
+                echo "[entrypoint] ${label}: attempt ${attempt} failed, retrying in 20s..."
+                sleep 20
+                attempt=$((attempt + 1))
+            done
+            echo "[entrypoint] !!! ${label}: MIGRATIONS FAILED after 3 attempts - the site will keep serving errors until this is fixed !!!"
+            return 1
+        }
+
         if printf '%s' "$RES" | grep -q 'CHECK-RESULT:0'; then
             echo "[entrypoint] Empty database detected - running migrate + seed once..."
-            if timeout 900 php artisan migrate --force --seed 2>&1; then
-                echo "[entrypoint] Database provisioning complete"
-            else
-                echo "[entrypoint] Database provisioning failed - retrying once after 30s..."
-                sleep 30
-                php artisan migrate --force --seed 2>&1
-            fi
+            run_migrate "provisioning" --seed
         else
             echo "[entrypoint] Database already provisioned - applying pending migrations..."
-            if timeout 900 php artisan migrate --force 2>&1; then
-                echo "[entrypoint] Pending migrations applied"
-            else
-                echo "[entrypoint] Migration step failed - retrying once after 30s..."
-                sleep 30
-                php artisan migrate --force 2>&1 || true
-            fi
+            run_migrate "pending"
         fi
     ) &
 fi
