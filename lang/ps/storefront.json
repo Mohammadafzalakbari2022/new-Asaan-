@@ -577,5 +577,16 @@
     "Today": "نن",
     "Too many attempts. Please try again tomorrow.": "ډېرې هڅې. مهرباني وکړئ، سهار بیا هڅه وکړئ.",
     "You already have a document waiting to be reviewed. We will let you know as soon as it has been looked at.": "تاسو مخکې د کتنې لپاره سند ولېږلی دی. موږ به چې کتنه وشي، تاسو به خبر کړو.",
-    "Your identity is already verified.": "ستاسو پېژندنه مخکې منل شوې ده."
+    "Your identity is already verified.": "ستاسو پېژندنه مخکې منل شوې ده.",
+    "National ID": "د تذکرې شمېره",
+    "Verify your identity": "خپل هویت تصدیق کړه",
+    "We could not accept your last document.": "موږ ونه توانېدو ستاسو تیر سند ومنو.",
+    "You can send a new one below.": "تاسو لاندې نوی یو لیږلی شئ.",
+    "Father's name (optional)": "د پلار نوم (اختیاري)",
+    "Date of birth (optional)": "د زېږېدو نېټه (اختیاري)",
+    "Photo of your Tazkira": "ستاسو د تذکرې انځور",
+    "Choose a file": "یو فایل وټاکه",
+    "JPG, PNG or WebP, up to {size} KB.": "JPG، PNG یا WebP، تر {size} KB پورې.",
+    "Send for review": "د بیاکتنې لپاره ولیږه",
+    "Your document is private. Only the review team can see it.": "ستاسو سند شخصي دی. یوازې د بیاکتنې ټیم یې لیدلی شي."
 }

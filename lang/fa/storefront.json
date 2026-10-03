@@ -577,5 +577,16 @@
     "Today": "امروز",
     "Too many attempts. Please try again tomorrow.": "تلاش‌های بیش از حد. لطفاً فردا دوباره تلاش کنید.",
     "You already have a document waiting to be reviewed. We will let you know as soon as it has been looked at.": "شما قبلاً سندی برای بررسی ثبت کرده‌اید. به‌محض بررسی، به شما اطلاع می‌دهیم.",
-    "Your identity is already verified.": "هویت شما قبلاً تأیید شده است."
+    "Your identity is already verified.": "هویت شما قبلاً تأیید شده است.",
+    "National ID": "شماره تذکره",
+    "Verify your identity": "هویت خود را تأیید کنید",
+    "We could not accept your last document.": "ما نتوانستیم سند قبلی شما را بپذیریم.",
+    "You can send a new one below.": "می‌توانید در زیر یکی جدید بفرستید.",
+    "Father's name (optional)": "نام پدر (اختیاری)",
+    "Date of birth (optional)": "تاریخ تولد (اختیاری)",
+    "Photo of your Tazkira": "تصویر تذکره شما",
+    "Choose a file": "انتخاب فایل",
+    "JPG, PNG or WebP, up to {size} KB.": "JPG، PNG یا WebP، حداکثر {size} کیلوبایت.",
+    "Send for review": "برای بررسی بفرستید",
+    "Your document is private. Only the review team can see it.": "سند شما خصوصی است. تنها تیم بررسی می‌تواند آن را ببیند."
 }

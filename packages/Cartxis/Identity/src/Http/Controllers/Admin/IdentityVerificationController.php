@@ -62,7 +62,7 @@ class IdentityVerificationController extends Controller
             fn (IdentityVerification $verification) => $this->summarise($verification)
         ));
 
-        return Inertia::render('Admin/Customers/Identity/Index', [
+        return Inertia::render('Admin/Customer/Identity/Index', [
             'verifications' => $verifications,
             'filters' => ['status' => $status, 'search' => $request->get('search')],
             'counts' => $this->counts(),
@@ -78,7 +78,7 @@ class IdentityVerificationController extends Controller
 
         $user = $verification->user;
 
-        return Inertia::render('Admin/Customers/Identity/Show', [
+        return Inertia::render('Admin/Customer/Identity/Show', [
             'verification' => [
                 'id' => $verification->id,
                 'status' => $verification->status,

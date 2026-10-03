@@ -577,5 +577,16 @@
     "Today": "Today",
     "Too many attempts. Please try again tomorrow.": "Too many attempts. Please try again tomorrow.",
     "You already have a document waiting to be reviewed. We will let you know as soon as it has been looked at.": "You already have a document waiting to be reviewed. We will let you know as soon as it has been looked at.",
-    "Your identity is already verified.": "Your identity is already verified."
+    "Your identity is already verified.": "Your identity is already verified.",
+    "National ID": "National ID",
+    "Verify your identity": "Verify your identity",
+    "We could not accept your last document.": "We could not accept your last document.",
+    "You can send a new one below.": "You can send a new one below.",
+    "Father's name (optional)": "Father's name (optional)",
+    "Date of birth (optional)": "Date of birth (optional)",
+    "Photo of your Tazkira": "Photo of your Tazkira",
+    "Choose a file": "Choose a file",
+    "JPG, PNG or WebP, up to {size} KB.": "JPG, PNG or WebP, up to {size} KB.",
+    "Send for review": "Send for review",
+    "Your document is private. Only the review team can see it.": "Your document is private. Only the review team can see it."
 }
