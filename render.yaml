@@ -49,6 +49,11 @@ services:
         value: log
       - key: APP_KEY
         sync: false
+      # Store the session payload encrypted, so a leaked database dump is not a
+      # pile of readable sessions. Existing sessions become unreadable once, so
+      # everyone signs in again on the first deploy after this.
+      - key: SESSION_ENCRYPT
+        value: "true"
       # entrypoint.sh only runs migrations when DB_CONNECTION is pgsql AND
       # RUN_MIGRATE=1. Without this flag the referral and services tables are
       # never created and those pages fail on a missing-table error. Safe to
