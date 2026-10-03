@@ -108,6 +108,7 @@ return Application::configure(basePath: dirname(__DIR__))
             SetLocaleFromCookie::class,
             \Cartxis\Referral\Http\Middleware\CaptureReferralCode::class,
             \Cartxis\Referral\Http\Middleware\ShareReferralData::class,
+            \Cartxis\Identity\Http\Middleware\ShareIdentityData::class,
             FrontendMaintenanceMode::class,
             HandleAppearance::class,
             HandleInertiaRequests::class,
