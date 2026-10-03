@@ -102,6 +102,21 @@ class DemoDataService
                     }
                 }
 
+                // The catalogue alone leaves every sales screen empty. The demo
+                // import is explicitly demo data, so give it a history of orders
+                // and payments too. Both seeders no-op on a store that already
+                // has orders, so this cannot duplicate anything.
+                foreach ([\Database\Seeders\OrderSeeder::class, \Database\Seeders\TransactionSeeder::class] as $salesSeeder) {
+                    if (! class_exists($salesSeeder)) {
+                        continue;
+                    }
+
+                    Artisan::call('db:seed', [
+                        '--class' => $salesSeeder,
+                        '--force' => true,
+                    ]);
+                }
+
                 // Get import statistics
                 $results['stats'] = $this->getImportStatistics();
                 $results['message'] = "Demo data imported successfully for {$config['name']}";
