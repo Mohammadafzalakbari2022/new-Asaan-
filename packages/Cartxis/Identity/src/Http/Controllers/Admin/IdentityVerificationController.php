@@ -9,6 +9,7 @@ use Cartxis\Identity\Services\IdentityCrypto;
 use Cartxis\Identity\Services\IdentityRetention;
 use Cartxis\Identity\Services\IdentityService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 

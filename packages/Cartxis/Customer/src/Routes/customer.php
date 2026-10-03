@@ -35,7 +35,7 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
         ->name('customers.export');
 
     // Customer addresses (child resource under a customer)
-    Route::prefix('customers/{customer}/addresses')->name('customers.addresses.')->group(function () {
+    Route::prefix('customers/{customer}/addresses')->name('customers.addresses.')->where(['customer' => '[0-9]+'])->group(function () {
         Route::get('/', [\Cartxis\Customer\Http\Controllers\CustomerAddressController::class, 'index'])->name('index');
         Route::get('/create', [\Cartxis\Customer\Http\Controllers\CustomerAddressController::class, 'create'])->name('create');
         Route::post('/', [\Cartxis\Customer\Http\Controllers\CustomerAddressController::class, 'store'])->name('store');
@@ -50,5 +50,9 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     });
     
     // Customers resource (should be LAST to avoid catching specific routes)
-    Route::resource('customers', CustomerController::class);
+    // Constrained to numeric ids so a sibling like /admin/customers/identity is
+    // not swallowed by {customer}. Without this, Postgres is asked to compare an
+    // integer id to the word "identity", which is a database error (500), not a
+    // missing record (404).
+    Route::resource('customers', CustomerController::class)->where(['customer' => '[0-9]+']);
 });
