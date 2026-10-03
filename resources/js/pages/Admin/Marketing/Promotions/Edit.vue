@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 
 interface Promotion {
   id: number;
@@ -499,10 +500,10 @@ const submit = () => {
                     <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">
                       {{ $t('Start Date & Time') }}
                     </label>
-                    <input
+                    <DatePicker
                       id="start_date"
                       v-model="form.start_date"
-                      type="datetime-local"
+                      with-time
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                     <p v-if="form.errors.start_date" class="mt-1 text-sm text-red-600">{{ form.errors.start_date }}</p>
@@ -513,10 +514,10 @@ const submit = () => {
                     <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">
                       {{ $t('End Date & Time') }}
                     </label>
-                    <input
+                    <DatePicker
                       id="end_date"
                       v-model="form.end_date"
-                      type="datetime-local"
+                      with-time
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                     <p v-if="form.errors.end_date" class="mt-1 text-sm text-red-600">{{ form.errors.end_date }}</p>

@@ -14,6 +14,7 @@ import { Power, PowerOff, Clock, Shield, Mail, AlertTriangle, Copy, Check, Hamme
 import ConfirmModal from '@/components/Admin/ConfirmModal.vue';
 import { useI18nStore } from '@/Stores/i18n';
 import { useCalendar } from '@/composables/useCalendar';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
 import * as maintenanceRoutes from '@/routes/admin/system/maintenance';
 
 const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -342,19 +343,21 @@ const formatDateTime = (datetime: string | undefined) => {
                                 <CardContent class="space-y-4">
                                     <div class="space-y-2">
                                         <Label for="start">{{ $t('Start Time') }}</Label>
-                                        <Input 
+                                        <DatePicker 
                                             id="start"
                                             v-model="scheduleForm.start_time"
-                                            type="datetime-local"
+                                            with-time
+                                            class="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs"
                                         />
                                     </div>
 
                                     <div class="space-y-2">
                                         <Label for="end">{{ $t('End Time') }}</Label>
-                                        <Input 
+                                        <DatePicker 
                                             id="end"
                                             v-model="scheduleForm.end_time"
-                                            type="datetime-local"
+                                            with-time
+                                            class="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs"
                                         />
                                     </div>
 

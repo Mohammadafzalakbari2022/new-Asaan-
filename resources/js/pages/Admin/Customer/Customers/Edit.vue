@@ -2,6 +2,8 @@
 import { Head, useForm, router } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import * as customerRoutes from '@/routes/admin/customers';
+import DatePicker from '@/components/Calendar/DatePicker.vue';
+import { today } from '@/lib/solar-hijri';
 
 interface CustomerGroup {
     id: number;
@@ -32,6 +34,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+/** A birthday can be any day up to today, and no earlier than 1900. */
+const maxDob = today().gregorian;
 
 const form = useForm({
     first_name: props.customer?.first_name || '',
@@ -151,9 +156,10 @@ const submit = () => {
                             <div class="grid grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Date of Birth') }}</label>
-                                    <input
+                                    <DatePicker
                                         v-model="form.date_of_birth"
-                                        type="date"
+                                        min="1900-01-01"
+                                        :max="maxDob"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                                         :class="{ 'border-red-500': form.errors.date_of_birth }"
                                     />

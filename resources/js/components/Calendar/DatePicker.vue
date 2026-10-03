@@ -8,6 +8,7 @@ import DateDisplay from '@/components/Calendar/DateDisplay.vue';
 import {
     fromGregorian,
     monthGrid,
+    monthName,
     toNumerals,
     today,
     type GridDay,
@@ -20,10 +21,12 @@ import {
  * its own calendar -- so this draws the Afghan month grid itself and hides the
  * native one.
  *
- * THE ONE RULE: `v-model` is the Gregorian date, 'YYYY-MM-DD'. The Solar Hijri
- * figures are what the shopper reads and clicks; the value that leaves is the
- * Gregorian one the server already stores. Nothing here changes a backend
- * contract, so swapping a native input for this one is a display change only.
+ * THE ONE RULE: `v-model` is the Gregorian date, 'YYYY-MM-DD'; when `withTime`
+ * is set it is 'YYYY-MM-DDTHH:mm', the exact shape a native datetime-local
+ * field used. The Solar Hijri figures are what the shopper reads and clicks;
+ * the value that leaves is the Gregorian one the server already stores. Nothing
+ * here changes a backend contract, so swapping a native input for this one is a
+ * display change only.
  */
 const props = withDefaults(
     defineProps<{
@@ -38,6 +41,12 @@ const props = withDefaults(
         placeholder?: string;
         disabled?: boolean;
         clearable?: boolean;
+        /**
+         * Offer a clock as well as a day. The value then becomes a native
+         * 'YYYY-MM-DDTHH:mm' string, which is what a datetime-local field
+         * bound before, so swapping the input changes only the calendar shown.
+         */
+        withTime?: boolean;
     }>(),
     {
         modelValue: '',
@@ -48,6 +57,7 @@ const props = withDefaults(
         placeholder: '',
         disabled: false,
         clearable: true,
+        withTime: false,
     },
 );
 
@@ -69,10 +79,42 @@ const open = ref(false);
 const root = ref<HTMLElement | null>(null);
 const panel = ref<HTMLElement | null>(null);
 
-const selectedIso = computed(() => props.modelValue ?? '');
+/**
+ * The picked value is 'YYYY-MM-DD', or 'YYYY-MM-DDTHH:mm' when withTime.
+ * Everywhere inside the picker only the day half is read.
+ */
+const selectedIso = computed(() => (props.modelValue ?? '').slice(0, 10));
+
+/** The clock half of a withTime value, or midnight when unset. */
+const selectedTime = computed(() => {
+    const match = (props.modelValue ?? '').match(/[T ](\d{2}):(\d{2})/);
+
+    return match ? `${match[1]}:${match[2]}` : '00:00';
+});
+
+const timeValue = ref(selectedTime.value);
+const mode = ref<'days' | 'months'>('days');
 
 /** A stable "today" for highlighting; the page is not expected to cross midnight. */
 const todayIso = today().gregorian;
+
+/**
+ * How far the month header may travel. A field's own min/max win, so a birthday
+ * field can reach back past the store's default window.
+ */
+const navMinYear = computed(() =>
+    props.min ? fromGregorian(props.min).year : settings.value.minYear,
+);
+const navMaxYear = computed(() =>
+    props.max ? fromGregorian(props.max).year : settings.value.maxYear,
+);
+
+/** Emit the picked day, with the clock when the field asked for one. */
+function emitValue(date: string): void {
+    const value = props.withTime ? `${date}T${timeValue.value}` : date;
+    emit('update:modelValue', value);
+    emit('change', value);
+}
 
 const view = ref<{ year: number; month: number }>({ year: 1400, month: 1 });
 
@@ -89,7 +131,21 @@ const position = ref({ top: 0, left: 0 });
 function seedView(): void {
     const solar = fromGregorian(selectedIso.value || todayIso);
     view.value = { year: solar.year, month: solar.month };
+    mode.value = 'days';
+    timeValue.value = selectedTime.value;
 }
+
+/** Changing the clock on an already-picked day should update the value too. */
+watch(timeValue, (value) => {
+    if (!props.withTime || !selectedIso.value) return;
+    // Seeding on open sets the clock back to what is already stored; that is
+    // not a user edit and must not dirty the form.
+    if (value === selectedTime.value) return;
+
+    const next = `${selectedIso.value}T${value}`;
+    emit('update:modelValue', next);
+    emit('change', next);
+});
 
 function updatePosition(): void {
     const el = root.value;
@@ -164,9 +220,8 @@ function dayClasses(day: GridDay): Record<string, boolean> {
 
 function select(day: GridDay): void {
     if (isDisabled(day)) return;
-    emit('update:modelValue', day.gregorian);
-    emit('change', day.gregorian);
-    close();
+    emitValue(day.gregorian);
+    if (!props.withTime) close();
 }
 
 function moveMonth(delta: number): void {
@@ -181,9 +236,21 @@ function moveMonth(delta: number): void {
         year += 1;
     }
 
-    if (year < settings.value.minYear || year > settings.value.maxYear) return;
+    if (year < navMinYear.value || year > navMaxYear.value) return;
 
     view.value = { year, month };
+}
+
+function moveYear(delta: number): void {
+    const year = view.value.year + delta;
+    if (year < navMinYear.value || year > navMaxYear.value) return;
+
+    view.value = { ...view.value, year };
+}
+
+function openMonth(month: number): void {
+    view.value = { ...view.value, month };
+    mode.value = 'days';
 }
 
 const todayDisabled = computed(
@@ -194,9 +261,8 @@ const todayDisabled = computed(
 
 function selectToday(): void {
     if (todayDisabled.value) return;
-    emit('update:modelValue', todayIso);
-    emit('change', todayIso);
-    close();
+    emitValue(todayIso);
+    if (!props.withTime) close();
 }
 
 function clear(): void {
@@ -221,7 +287,7 @@ function clear(): void {
         >
             <CalendarDays class="w-4 h-4 opacity-60 shrink-0" />
             <span v-if="selectedIso" class="truncate">
-                <DateDisplay :value="selectedIso" />
+                <DateDisplay :value="modelValue" :time="withTime" />
             </span>
             <span v-else class="opacity-50 truncate">{{ placeholder }}</span>
             <span class="flex-1" />
@@ -251,53 +317,124 @@ function clear(): void {
             >
                 <!-- Month header -->
                 <div class="mb-2 flex items-center justify-between gap-1">
-                    <button
-                        type="button"
-                        class="rounded-md p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        @click="moveMonth(direction === 'rtl' ? 1 : -1)"
-                    >
-                        <ChevronRight v-if="direction === 'rtl'" class="h-4 w-4" />
-                        <ChevronLeft v-else class="h-4 w-4" />
-                    </button>
+                    <template v-if="mode === 'days'">
+                        <button
+                            type="button"
+                            class="rounded-md p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            @click="moveMonth(direction === 'rtl' ? 1 : -1)"
+                        >
+                            <ChevronRight v-if="direction === 'rtl'" class="h-4 w-4" />
+                            <ChevronLeft v-else class="h-4 w-4" />
+                        </button>
 
-                    <div class="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                        {{ grid.monthName }} {{ yearLabel }}
-                    </div>
+                        <button
+                            type="button"
+                            class="rounded-md px-2 py-1 text-sm font-semibold text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+                            @click="mode = 'months'"
+                        >
+                            {{ grid.monthName }} {{ yearLabel }}
+                        </button>
 
-                    <button
-                        type="button"
-                        class="rounded-md p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        @click="moveMonth(direction === 'rtl' ? -1 : 1)"
-                    >
-                        <ChevronLeft v-if="direction === 'rtl'" class="h-4 w-4" />
-                        <ChevronRight v-else class="h-4 w-4" />
-                    </button>
+                        <button
+                            type="button"
+                            class="rounded-md p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            @click="moveMonth(direction === 'rtl' ? -1 : 1)"
+                        >
+                            <ChevronLeft v-if="direction === 'rtl'" class="h-4 w-4" />
+                            <ChevronRight v-else class="h-4 w-4" />
+                        </button>
+                    </template>
+
+                    <template v-else>
+                        <button
+                            type="button"
+                            class="rounded-md p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            @click="moveYear(direction === 'rtl' ? 1 : -1)"
+                        >
+                            <ChevronRight v-if="direction === 'rtl'" class="h-4 w-4" />
+                            <ChevronLeft v-else class="h-4 w-4" />
+                        </button>
+
+                        <button
+                            type="button"
+                            class="rounded-md px-2 py-1 text-sm font-semibold text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+                            @click="mode = 'days'"
+                        >
+                            {{ yearLabel }}
+                        </button>
+
+                        <button
+                            type="button"
+                            class="rounded-md p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            @click="moveYear(direction === 'rtl' ? -1 : 1)"
+                        >
+                            <ChevronLeft v-if="direction === 'rtl'" class="h-4 w-4" />
+                            <ChevronRight v-else class="h-4 w-4" />
+                        </button>
+                    </template>
                 </div>
 
-                <!-- Weekday row -->
-                <div class="grid grid-cols-7 gap-0.5">
-                    <div
-                        v-for="name in grid.weekdays"
-                        :key="name"
-                        class="h-8 flex items-center justify-center text-xs font-medium text-gray-400 dark:text-gray-500"
-                    >
-                        {{ name }}
-                    </div>
-                </div>
-
-                <!-- Day grid -->
-                <div class="grid grid-cols-7 gap-0.5">
+                <!-- Month chooser: one tap jumps a whole year, so a birthday is
+                     a few clicks rather than a few dozen. -->
+                <div v-if="mode === 'months'" class="grid grid-cols-3 gap-1">
                     <button
-                        v-for="day in grid.weeks.flat()"
-                        :key="day.iso"
+                        v-for="m in 12"
+                        :key="m"
                         type="button"
-                        :disabled="isDisabled(day)"
-                        :class="dayClasses(day)"
+                        :class="
+                            m === view.month
+                                ? 'bg-blue-600 text-white hover:bg-blue-600'
+                                : 'text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        "
                         class="h-9 rounded-md text-sm transition-colors"
-                        @click="select(day)"
+                        @click="openMonth(m)"
                     >
-                        {{ toNumerals(String(day.day), settings.numerals) }}
+                        {{ monthName(m, locale) }}
                     </button>
+                </div>
+
+                <template v-else>
+                    <!-- Weekday row -->
+                    <div class="grid grid-cols-7 gap-0.5">
+                        <div
+                            v-for="name in grid.weekdays"
+                            :key="name"
+                            class="h-8 flex items-center justify-center text-xs font-medium text-gray-400 dark:text-gray-500"
+                        >
+                            {{ name }}
+                        </div>
+                    </div>
+
+                    <!-- Day grid -->
+                    <div class="grid grid-cols-7 gap-0.5">
+                        <button
+                            v-for="day in grid.weeks.flat()"
+                            :key="day.iso"
+                            type="button"
+                            :disabled="isDisabled(day)"
+                            :class="dayClasses(day)"
+                            class="h-9 rounded-md text-sm transition-colors"
+                            @click="select(day)"
+                        >
+                            {{ toNumerals(String(day.day), settings.numerals) }}
+                        </button>
+                    </div>
+                </template>
+
+                <!-- Clock: only for a datetime-local field -->
+                <div
+                    v-if="withTime"
+                    class="mt-2 flex items-center gap-2 border-t border-gray-100 dark:border-gray-700 pt-2"
+                >
+                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                        {{ $t('Time') }}
+                    </span>
+                    <input
+                        v-model="timeValue"
+                        type="time"
+                        dir="ltr"
+                        class="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    />
                 </div>
 
                 <!-- Actions -->
