@@ -108,26 +108,40 @@ PHPEOF
     ) &
 fi
 
-# One-time provisioning for PostgreSQL databases (pgsql driver). Runs in the
-# background so nginx/php-fpm boot instantly and Render's port scan passes even on
-# a genuinely fresh render.PostgreSQL. A brand-new database (no migrations table)
-# gets a full migrate + seed; any subsequent boot just applies pending migrations,
-# so new columns/tables such as the Pashto/English locales reach production on
-# their own during a normal redeploy.
-if [ "${DB_CONNECTION:-mysql}" = "pgsql" ] && [ "${RUN_MIGRATE:-0}" = "1" ]; then
+# Apply pending migrations on EVERY boot, for EVERY database driver.
+#
+# This used to run only for PostgreSQL (pgsql). A MySQL/TiDB deployment
+# therefore never picked up migrations at all: the code was current, the site
+# booted, but every page whose table had been added after the first provision
+# answered with a 500. Running it for any driver removes that silence.
+#
+# A brand-new database (no migrations table) gets a full migrate + seed; any
+# later boot only applies what is still pending, so new columns and tables such
+# as the referral, service and identity ones reach production on a normal
+# redeploy. It runs in the background so nginx/php-fpm boot instantly and
+# Render's port scan passes even on a database that is still waking up.
+if [ "${RUN_MIGRATE:-0}" = "1" ]; then
     (
         CHECK_PHP=$(cat <<'PHPEOF'
+$driver = getenv('DB_CONNECTION') ?: 'mysql';
 $host = getenv('DB_HOST');
-$port = getenv('DB_PORT') !== false && getenv('DB_PORT') !== '' ? getenv('DB_PORT') : '5432';
 $db = getenv('DB_DATABASE');
 $u = getenv('DB_USERNAME');
 $p = getenv('DB_PASSWORD');
-$ssl = getenv('DB_SSLMODE') ?: 'require';
-$dsn = "pgsql:host={$host};port={$port};dbname={$db};sslmode={$ssl}";
 $o = [PDO::ATTR_TIMEOUT => 30];
 try {
-    $pdo = new PDO($dsn, $u, $p, $o);
-    $n = (int)$pdo->query("select count(*) from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid = c.relnamespace where c.relname = 'migrations' and n.nspname = current_schema()")->fetchColumn();
+    if ($driver === 'pgsql') {
+        $port = getenv('DB_PORT') ?: '5432';
+        $ssl = getenv('DB_SSLMODE') ?: 'require';
+        $pdo = new PDO("pgsql:host={$host};port={$port};dbname={$db};sslmode={$ssl}", $u, $p, $o);
+        $n = (int)$pdo->query("select count(*) from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid = c.relnamespace where c.relname = 'migrations' and n.nspname = current_schema()")->fetchColumn();
+    } else {
+        $port = getenv('DB_PORT') ?: '3306';
+        $ca = getenv('MYSQL_ATTR_SSL_CA');
+        if ($ca) { $o[PDO::MYSQL_ATTR_SSL_CA] = $ca; }
+        $pdo = new PDO("mysql:host={$host};port={$port};dbname={$db}", $u, $p, $o);
+        $n = (int)$pdo->query("select count(*) from information_schema.tables where table_schema = database() and table_name = 'migrations'")->fetchColumn();
+    }
 } catch (PDOException $e) {
     echo "CHECK-FAIL: " . $e->getMessage() . "\n";
     $n = -1;
@@ -135,10 +149,10 @@ try {
 echo "CHECK-RESULT:$n\n";
 PHPEOF
         )
-        RES=$(timeout 30 php -r "$CHECK_PHP" 2>&1)
-        echo "[entrypoint] PostgreSQL setup check: $RES"
+        RES=$(timeout 40 php -r "$CHECK_PHP" 2>&1)
+        echo "[entrypoint] Database setup check: $RES"
         if printf '%s' "$RES" | grep -q 'CHECK-RESULT:0'; then
-            echo "[entrypoint] Empty PostgreSQL detected - running migrate + seed once..."
+            echo "[entrypoint] Empty database detected - running migrate + seed once..."
             if timeout 900 php artisan migrate --force --seed 2>&1; then
                 echo "[entrypoint] Database provisioning complete"
             else
@@ -147,7 +161,7 @@ PHPEOF
                 php artisan migrate --force --seed 2>&1
             fi
         else
-            echo "[entrypoint] Database already provisioned - applying pending migrations only..."
+            echo "[entrypoint] Database already provisioned - applying pending migrations..."
             if timeout 900 php artisan migrate --force 2>&1; then
                 echo "[entrypoint] Pending migrations applied"
             else
