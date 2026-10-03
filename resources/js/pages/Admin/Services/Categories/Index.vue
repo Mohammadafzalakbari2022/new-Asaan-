@@ -83,7 +83,7 @@ function destroy(category: Category) {
       <div class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div class="relative">
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Search') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Search') }}</label>
             <Search class="absolute left-3 top-[38px] h-4 w-4 text-gray-400" />
             <input
               v-model="search"
@@ -93,7 +93,7 @@ function destroy(category: Category) {
             />
           </div>
           <div>
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Status') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Status') }}</label>
             <select
               v-model="status"
               class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
@@ -128,7 +128,7 @@ function destroy(category: Category) {
                     </div>
                     <div>
                       <p class="font-medium text-gray-900 dark:text-gray-100">{{ category.name }}</p>
-                      <p class="text-xs text-gray-500">/{{ category.slug }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">/{{ category.slug }}</p>
                     </div>
                   </div>
                 </td>
@@ -138,7 +138,7 @@ function destroy(category: Category) {
                 <td class="px-4 py-3">
                   <span
                     class="rounded-full px-2 py-1 text-xs"
-                    :class="category.status === 'enabled' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'"
+                    :class="category.status === 'enabled' ? 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'"
                   >
                     {{ category.status === 'enabled' ? $t('Visible') : $t('Hidden') }}
                   </span>
@@ -163,7 +163,7 @@ function destroy(category: Category) {
               </tr>
 
               <tr v-if="categories.data.length === 0">
-                <td colspan="6" class="px-4 py-12 text-center text-gray-500">
+                <td colspan="6" class="px-4 py-12 text-center text-gray-500 dark:text-gray-400">
                   {{ $t('No categories yet. Services can be added without one, but categories make browsing easier.') }}
                 </td>
               </tr>

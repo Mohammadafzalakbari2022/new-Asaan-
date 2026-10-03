@@ -128,19 +128,19 @@ function destroy(service: Service) {
 
       <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <div class="rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('All services') }}</p>
+          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('All services') }}</p>
           <p class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ stats.total }}</p>
         </div>
         <div class="rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('On the website') }}</p>
+          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('On the website') }}</p>
           <p class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ stats.published }}</p>
         </div>
         <div class="rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Bookable') }}</p>
+          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Bookable') }}</p>
           <p class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ stats.bookable }}</p>
         </div>
         <div class="rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Open jobs') }}</p>
+          <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Open jobs') }}</p>
           <p class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ stats.open_jobs }}</p>
           <Link href="/admin/services/bookings" class="mt-1 inline-block text-xs text-blue-600 underline">{{ $t('See jobs') }}</Link>
         </div>
@@ -149,7 +149,7 @@ function destroy(service: Service) {
       <div class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
           <div class="relative">
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Search') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Search') }}</label>
             <Search class="absolute left-3 top-[38px] h-4 w-4 text-gray-400" />
             <input
               v-model="search"
@@ -160,7 +160,7 @@ function destroy(service: Service) {
           </div>
 
           <div>
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Category') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Category') }}</label>
             <select
               v-model="category"
               class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-900 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
@@ -171,7 +171,7 @@ function destroy(service: Service) {
           </div>
 
           <div>
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Status') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Status') }}</label>
             <select
               v-model="status"
               class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-900 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
@@ -183,7 +183,7 @@ function destroy(service: Service) {
           </div>
 
           <div>
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Booking') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Booking') }}</label>
             <select
               v-model="booking"
               class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-900 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
@@ -198,9 +198,9 @@ function destroy(service: Service) {
 
       <div
         v-if="selected.length"
-        class="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 p-4"
+        class="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-900/40 dark:bg-blue-500/10"
       >
-        <p class="text-sm text-blue-900">{{ $t('{count} selected', { count: selected.length }) }}</p>
+        <p class="text-sm text-blue-900 dark:text-blue-200">{{ $t('{count} selected', { count: selected.length }) }}</p>
         <div class="flex items-center gap-3">
           <button
             type="button"
@@ -209,7 +209,7 @@ function destroy(service: Service) {
           >
             {{ $t('Hide selected') }}
           </button>
-          <button type="button" class="text-sm text-blue-900 underline" @click="selected = []">{{ $t('Clear') }}</button>
+          <button type="button" class="text-sm text-blue-900 dark:text-blue-200 underline" @click="selected = []">{{ $t('Clear') }}</button>
         </div>
       </div>
 
@@ -257,7 +257,7 @@ function destroy(service: Service) {
                         {{ service.name }}
                         <Star v-if="service.featured" class="ml-1 inline h-3.5 w-3.5 text-amber-500" />
                       </p>
-                      <p class="text-xs text-gray-500">/{{ service.slug }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">/{{ service.slug }}</p>
                     </div>
                   </div>
                 </td>
@@ -278,13 +278,13 @@ function destroy(service: Service) {
                   </span>
                   <span
                     v-else-if="service.booking_enabled"
-                    class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800"
+                    class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800 dark:bg-green-500/15 dark:text-green-300"
                   >
                     <CheckCircle class="h-3 w-3" /> {{ $t('Bookable') }}
                   </span>
                   <span
                     v-else
-                    class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-xs text-amber-800"
+                    class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-xs text-amber-800 dark:bg-amber-500/15 dark:text-amber-300"
                   >
                     {{ $t('Display only') }}
                   </span>
@@ -316,7 +316,7 @@ function destroy(service: Service) {
               </tr>
 
               <tr v-if="services.data.length === 0">
-                <td colspan="7" class="px-4 py-12 text-center text-gray-500">
+                <td colspan="7" class="px-4 py-12 text-center text-gray-500 dark:text-gray-400">
                   {{ $t('No services yet. Add your first one to get started.') }}
                 </td>
               </tr>

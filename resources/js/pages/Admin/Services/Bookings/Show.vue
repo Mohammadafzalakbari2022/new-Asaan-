@@ -74,11 +74,11 @@ const booking = props.booking;
 const { formatDate: formatCalendarDate } = useCalendar();
 
 const statusTone: Record<string, string> = {
-  booked: 'bg-blue-100 text-blue-800',
-  assigned: 'bg-purple-100 text-purple-800',
-  in_progress: 'bg-amber-100 text-amber-800',
-  completed: 'bg-green-100 text-green-800',
-  cancelled: 'bg-gray-100 text-gray-600',
+  booked: 'bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300',
+  assigned: 'bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300',
+  in_progress: 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300',
+  completed: 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300',
+  cancelled: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-300',
 };
 
 const isFinished = computed(() => ['completed', 'cancelled'].includes(booking.status));
@@ -212,7 +212,7 @@ function money(value: number | string) {
         </div>
       </div>
 
-      <div v-if="page.props.errors?.error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+      <div v-if="page.props.errors?.error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-500/10 dark:text-red-300">
         {{ page.props.errors.error }}
       </div>
 
@@ -224,16 +224,16 @@ function money(value: number | string) {
               <div class="flex items-start gap-3">
                 <User class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Name') }}</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Name') }}</p>
                   <p class="text-sm text-gray-900 dark:text-gray-100">{{ booking.customer_name }}</p>
-                  <p v-if="booking.user" class="text-xs text-gray-500">{{ $t('Signed in') }}</p>
+                  <p v-if="booking.user" class="text-xs text-gray-500 dark:text-gray-400">{{ $t('Signed in') }}</p>
                 </div>
               </div>
 
               <div class="flex items-start gap-3">
                 <Phone class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Phone') }}</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Phone') }}</p>
                   <a :href="`tel:${booking.customer_phone}`" class="text-sm text-blue-600 hover:underline">
                     {{ booking.customer_phone }}
                   </a>
@@ -243,7 +243,7 @@ function money(value: number | string) {
               <div v-if="booking.customer_email" class="flex items-start gap-3">
                 <Mail class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Email') }}</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Email') }}</p>
                   <a :href="`mailto:${booking.customer_email}`" class="text-sm text-blue-600 hover:underline">
                     {{ booking.customer_email }}
                   </a>
@@ -253,7 +253,7 @@ function money(value: number | string) {
               <div v-if="booking.address || booking.city" class="flex items-start gap-3">
                 <MapPin class="mt-0.5 h-4 w-4 text-gray-400" />
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Address') }}</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Address') }}</p>
                   <p class="text-sm text-gray-900 dark:text-gray-100">
                     <span v-if="booking.address">{{ booking.address }}</span>
                     <span v-if="booking.address && booking.city">, </span>
@@ -264,7 +264,7 @@ function money(value: number | string) {
             </div>
 
             <div v-if="booking.notes" class="mt-5 border-t border-gray-100 pt-4 dark:border-gray-700">
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Customer notes') }}</p>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Customer notes') }}</p>
               <p class="mt-1 whitespace-pre-line text-sm text-gray-700 dark:text-gray-300">{{ booking.notes }}</p>
             </div>
           </section>
@@ -277,7 +277,7 @@ function money(value: number | string) {
                 <div class="flex flex-col items-center">
                   <div
                     class="h-2.5 w-2.5 rounded-full"
-                    :class="statusTone[event.to_status ?? ''] ? 'bg-blue-500' : 'bg-gray-300'"
+                    :class="statusTone[event.to_status ?? ''] ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'"
                   />
                   <div class="mt-1 w-px flex-1 bg-gray-200 dark:bg-gray-700" />
                 </div>
@@ -289,7 +289,7 @@ function money(value: number | string) {
                     <span v-else-if="event.to_status">{{ statusLabels[event.to_status] ?? event.to_status }}</span>
                     <span v-else>{{ $t('Note added') }}</span>
                   </p>
-                  <p class="text-xs text-gray-500">
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
                     <DateDisplay :value="event.created_at" time />
                     <span v-if="event.actor"> &middot; {{ event.actor.name }}</span>
                   </p>
@@ -328,7 +328,7 @@ function money(value: number | string) {
                   {{ booking.amountVariance > 0 ? '+' : '' }}{{ money(booking.amountVariance) }}
                 </span>
               </div>
-              <p class="text-xs text-gray-500">{{ booking.price_display }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">{{ booking.price_display }}</p>
             </div>
 
             <div v-if="booking.order" class="mt-4 flex items-center gap-2 border-t border-gray-100 pt-4 dark:border-gray-700">
@@ -373,8 +373,8 @@ function money(value: number | string) {
 
             <div v-if="booking.worker" class="mt-4">
               <p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ booking.worker.name }}</p>
-              <p v-if="booking.worker.phone" class="text-xs text-gray-500">{{ booking.worker.phone }}</p>
-              <p v-if="booking.assignedBy" class="mt-1 text-xs text-gray-500">
+              <p v-if="booking.worker.phone" class="text-xs text-gray-500 dark:text-gray-400">{{ booking.worker.phone }}</p>
+              <p v-if="booking.assignedBy" class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {{ $t('Assigned by {name}', { name: booking.assignedBy.name }) }}
               </p>
               <button

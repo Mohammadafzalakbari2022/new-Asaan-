@@ -106,11 +106,11 @@ function exportCsv() {
 }
 
 const statusTone: Record<string, string> = {
-  booked: 'bg-blue-100 text-blue-800',
-  assigned: 'bg-purple-100 text-purple-800',
-  in_progress: 'bg-amber-100 text-amber-800',
-  completed: 'bg-green-100 text-green-800',
-  cancelled: 'bg-gray-100 text-gray-600',
+  booked: 'bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300',
+  assigned: 'bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300',
+  in_progress: 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300',
+  completed: 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300',
+  cancelled: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-300',
 };
 
 const hasFilters = computed(
@@ -150,7 +150,7 @@ const hasFilters = computed(
             <component :is="card.icon" class="h-5 w-5" />
           </div>
           <div>
-            <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">{{ card.label }}</p>
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ card.label }}</p>
             <p class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ card.value }}</p>
           </div>
         </div>
@@ -159,7 +159,7 @@ const hasFilters = computed(
       <div class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-5">
           <div class="relative md:col-span-2">
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Search') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Search') }}</label>
             <Search class="absolute left-3 top-[38px] h-4 w-4 text-gray-400" />
             <input
               v-model="search"
@@ -169,7 +169,7 @@ const hasFilters = computed(
             />
           </div>
           <div>
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Status') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Status') }}</label>
             <select
               v-model="status"
               class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
@@ -179,7 +179,7 @@ const hasFilters = computed(
             </select>
           </div>
           <div>
-            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('Assigned to') }}</label>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('Assigned to') }}</label>
             <select
               v-model="assignedTo"
               class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
@@ -190,14 +190,14 @@ const hasFilters = computed(
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('From') }}</label>
+              <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('From') }}</label>
               <DatePicker
                 v-model="from"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
               />
             </div>
             <div>
-              <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">{{ $t('To') }}</label>
+              <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ $t('To') }}</label>
               <DatePicker
                 v-model="to"
                 class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-100"
@@ -234,11 +234,11 @@ const hasFilters = computed(
                 <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">{{ booking.service_name }}</td>
                 <td class="px-4 py-3">
                   <p class="text-gray-900 dark:text-gray-100">{{ booking.customer_name }}</p>
-                  <p class="text-xs text-gray-500">{{ booking.customer_phone }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ booking.customer_phone }}</p>
                 </td>
                 <td class="px-4 py-3 text-gray-600 dark:text-gray-400">
                   <p><DateDisplay :value="booking.scheduled_date" /></p>
-                  <p class="text-xs text-gray-500">{{ booking.scheduled_slot }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ booking.scheduled_slot }}</p>
                 </td>
                 <td class="px-4 py-3 text-gray-600 dark:text-gray-400">
                   <span v-if="booking.worker">{{ booking.worker.name }}</span>
@@ -246,7 +246,7 @@ const hasFilters = computed(
                 </td>
                 <td class="px-4 py-3 text-gray-600 dark:text-gray-400">{{ booking.price_display }}</td>
                 <td class="px-4 py-3">
-                  <span class="rounded-full px-2 py-1 text-xs" :class="statusTone[booking.status] ?? 'bg-gray-100 text-gray-600'">
+                  <span class="rounded-full px-2 py-1 text-xs" :class="statusTone[booking.status] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-300'">
                     {{ booking.status_label }}
                   </span>
                 </td>
@@ -261,7 +261,7 @@ const hasFilters = computed(
               </tr>
 
               <tr v-if="bookings.data.length === 0">
-                <td colspan="8" class="px-4 py-12 text-center text-gray-500">
+                <td colspan="8" class="px-4 py-12 text-center text-gray-500 dark:text-gray-400">
                   {{ $t('No jobs match these filters.') }}
                 </td>
               </tr>

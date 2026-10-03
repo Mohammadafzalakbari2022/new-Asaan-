@@ -380,7 +380,7 @@ function onFile(event: Event) {
                 id="field-image"
                 type="file"
                 accept="image/*"
-                class="w-full text-sm text-gray-600"
+                class="w-full text-sm text-gray-600 dark:text-gray-300"
                 @change="onFile"
               />
               <p v-if="page.props.errors?.image" class="mt-1 text-sm text-red-600">
@@ -388,7 +388,7 @@ function onFile(event: Event) {
               </p>
             </div>
 
-            <label v-if="props.service?.image_url" class="flex items-center gap-2 text-sm text-gray-600">
+            <label v-if="props.service?.image_url" class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <input id="field-remove_image" v-model="form.remove_image" type="checkbox" class="rounded" />
               {{ $t('Remove the current photo when saving') }}
             </label>
@@ -406,7 +406,7 @@ function onFile(event: Event) {
               />
             </div>
 
-            <label class="flex items-center gap-2 text-sm text-gray-600">
+            <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <input id="field-icon_only" v-model="form.icon_only" type="checkbox" class="rounded" />
               {{ $t('Show the icon only, with no photo') }}
             </label>
@@ -429,7 +429,7 @@ function onFile(event: Event) {
               </select>
             </div>
 
-            <label class="flex items-start gap-2 text-sm text-gray-600">
+            <label class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
               <input id="field-booking_enabled" v-model="form.booking_enabled" type="checkbox" class="mt-0.5 rounded" />
               <span>
                 {{ $t('Customers can book this online') }}
@@ -437,7 +437,7 @@ function onFile(event: Event) {
               </span>
             </label>
 
-            <label class="flex items-center gap-2 text-sm text-gray-600">
+            <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <input id="field-featured" v-model="form.featured" type="checkbox" class="rounded" />
               {{ $t('Show as popular on the services page') }}
             </label>

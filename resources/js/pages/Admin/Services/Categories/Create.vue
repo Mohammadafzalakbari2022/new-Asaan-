@@ -149,7 +149,7 @@ function submit() {
             <label for="field-image" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
               {{ $t('Picture') }}
             </label>
-            <input id="field-image" type="file" accept="image/*" class="w-full text-sm text-gray-600" @change="onFile" />
+            <input id="field-image" type="file" accept="image/*" class="w-full text-sm text-gray-600 dark:text-gray-300" @change="onFile" />
             <img
               v-if="props.category?.image_url"
               :src="props.category.image_url"
@@ -172,10 +172,10 @@ function submit() {
               <option value="enabled">{{ $t('Visible') }}</option>
               <option value="disabled">{{ $t('Hidden') }}</option>
             </select>
-            <p class="mt-1 text-xs text-gray-500">{{ $t('A hidden category also takes its services off the website.') }}</p>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('A hidden category also takes its services off the website.') }}</p>
           </div>
 
-          <label class="flex items-center gap-2 text-sm text-gray-600">
+          <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
             <input v-model="form.show_in_menu" type="checkbox" class="rounded" />
             {{ $t('Show in the storefront menu') }}
           </label>
