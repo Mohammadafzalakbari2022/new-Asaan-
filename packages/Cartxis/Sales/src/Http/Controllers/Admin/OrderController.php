@@ -390,10 +390,9 @@ class OrderController extends Controller
     protected function getPaymentMethods(): array
     {
         return [
-            ['value' => 'stripe', 'label' => 'Credit Card (Stripe)'],
-            ['value' => 'paypal', 'label' => 'PayPal'],
-            ['value' => 'cash_on_delivery', 'label' => 'Cash on Delivery'],
+            ['value' => 'cod', 'label' => 'Cash on Delivery'],
             ['value' => 'bank_transfer', 'label' => 'Bank Transfer'],
+            ['value' => 'hesabpay', 'label' => 'HesabPay'],
         ];
     }
 

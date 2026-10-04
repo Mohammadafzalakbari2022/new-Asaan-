@@ -175,7 +175,7 @@ class CheckoutController extends Controller
     public function getPaymentMethods()
     {
         // Get active payment methods from database
-        $paymentMethods = PaymentMethod::where('is_active', true)
+        $paymentMethods = PaymentMethod::supported()->where('is_active', true)
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get()
@@ -223,7 +223,7 @@ class CheckoutController extends Controller
      */
     protected function getAvailablePaymentMethodCodes(): array
     {
-        return PaymentMethod::where('is_active', true)
+        return PaymentMethod::supported()->where('is_active', true)
             ->pluck('code')
             ->toArray();
     }

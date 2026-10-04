@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentMethod extends Model
 {
     /**
+     * The payment methods this store offers.
+     *
+     * Everything else (Stripe, PayPal, RazorPay, PayUMoney, PhonePe) is hidden
+     * and switched off here even though its extension may still be installed.
+     *
+     * @var list<string>
+     */
+    public const SUPPORTED_CODES = ['cod', 'bank_transfer', 'hesabpay'];
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -116,6 +126,14 @@ class PaymentMethod extends Model
         // ("allowed_countries"), but it can no longer exclude the store's own
         // country. Turning a method off is the is_active switch's job.
         return true;
+    }
+
+    /**
+     * Limit a query to the payment methods this store offers.
+     */
+    public function scopeSupported($query)
+    {
+        return $query->whereIn('code', self::SUPPORTED_CODES);
     }
 
     /**

@@ -215,3 +215,30 @@ it('still places an order against a switched-on method', function () {
     expect(Order::count())->toBe(1)
         ->and(Order::first()->payment_method)->toBe('cod');
 });
+
+// ---------------------------------------------------------------------------
+// The store offers Bank Transfer, HesabPay and Cash on Delivery only
+// ---------------------------------------------------------------------------
+
+it('never offers a payment method outside the store three', function () {
+    checkoutAvailabilityCart();
+    checkoutAvailabilityCod();
+
+    // An active row with no registered gateway: without the supported-code
+    // allow-list the checkout would offer it, because there is no gateway to
+    // ask whether it is configured.
+    PaymentMethod::create([
+        'code' => 'paystack',
+        'name' => 'Paystack',
+        'type' => 'other',
+        'is_active' => true,
+        'is_default' => false,
+        'sort_order' => 9,
+    ]);
+
+    $codes = array_column(checkoutPaymentMethods(), 'code');
+
+    expect($codes)->not->toContain('paystack')
+        ->and($codes)->toContain('cod')
+        ->and(PaymentMethod::supported()->pluck('code')->all())->not->toContain('paystack');
+});

@@ -17,7 +17,7 @@ class PaymentMethodsController extends Controller
      */
     public function index(): Response
     {
-        $paymentMethods = PaymentMethod::orderBy('sort_order')->get();
+        $paymentMethods = PaymentMethod::supported()->orderBy('sort_order')->get();
 
         // Filter out payment methods whose extensions are inactive
         $paymentMethods = $paymentMethods->filter(function ($method) {
@@ -49,6 +49,10 @@ class PaymentMethodsController extends Controller
             ->first();
 
         if (!$method) {
+            abort(404, 'Payment method not found');
+        }
+
+        if (! in_array($method->code, PaymentMethod::SUPPORTED_CODES, true)) {
             abort(404, 'Payment method not found');
         }
 
