@@ -139,7 +139,7 @@ class CheckoutController extends Controller
         );
 
         // Get payment methods
-        $paymentMethods = PaymentMethod::where('is_active', true)
+        $paymentMethods = PaymentMethod::supported()->where('is_active', true)
             ->orderBy('sort_order')
             ->get()
             ->map(function ($method) use ($grandTotal) {
