@@ -135,12 +135,12 @@ const submit = () => {
         <div class="mb-6">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-semibold text-gray-900">{{ $t('Create New Category') }}</h1>
-              <p class="mt-1 text-sm text-gray-600">{{ $t('Add a new category to organize your products') }}</p>
+              <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $t('Create New Category') }}</h1>
+              <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Add a new category to organize your products') }}</p>
             </div>
             <Link
               :href="categoryRoutes.index().url"
-              class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -152,9 +152,9 @@ const submit = () => {
 
         <!-- Form -->
         <form @submit.prevent="submit">
-          <div class="bg-white rounded-lg shadow">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
             <!-- Tabs -->
-            <div class="border-b border-gray-200">
+            <div class="border-b border-gray-200 dark:border-gray-700">
               <nav class="-mb-px flex space-x-8 px-6" :aria-label="$t('Tabs')">
                 <button
                   type="button"
@@ -163,7 +163,7 @@ const submit = () => {
                     'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                     activeTab === 'general'
                       ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                   ]"
                 >
                   {{ $t('General Information') }}
@@ -175,7 +175,7 @@ const submit = () => {
                     'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                     activeTab === 'seo'
                       ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                   ]"
                 >
                   {{ $t('SEO Settings') }}
@@ -189,7 +189,7 @@ const submit = () => {
               <div v-show="activeTab === 'general'" class="space-y-6">
                 <!-- Name -->
                 <div>
-                  <label for="name" class="block text-sm font-medium text-gray-700">
+                  <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Category Name') }} <span class="text-red-500">*</span>
                   </label>
                   <input
@@ -197,7 +197,7 @@ const submit = () => {
                     v-model="form.name"
                     type="text"
                     @input="generateSlug"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.name }"
                     :placeholder="$t('e.g., Electronics, Clothing, Books')"
                     required
@@ -207,31 +207,31 @@ const submit = () => {
 
                 <!-- Slug -->
                 <div>
-                  <label for="slug" class="block text-sm font-medium text-gray-700">
+                  <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('URL Slug') }}
                   </label>
                   <input
                     id="slug"
                     v-model="form.slug"
                     type="text"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.slug }"
                     :placeholder="$t('auto-generated-from-name')"
                   />
-                  <p class="mt-1 text-sm text-gray-500">{{ $t('Leave blank to auto-generate from name') }}</p>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Leave blank to auto-generate from name') }}</p>
                   <p v-if="form.errors.slug" class="mt-1 text-sm text-red-600">{{ form.errors.slug }}</p>
                 </div>
 
                 <!-- Description -->
                 <div>
-                  <label for="description" class="block text-sm font-medium text-gray-700">
+                  <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Description') }}
                   </label>
                   <textarea
                     id="description"
                     v-model="form.description"
                     rows="4"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.description }"
                     :placeholder="$t('Brief description of this category')"
                   ></textarea>
@@ -240,13 +240,13 @@ const submit = () => {
 
                 <!-- Parent Category -->
                 <div>
-                  <label for="parent_id" class="block text-sm font-medium text-gray-700">
+                  <label for="parent_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Parent Category') }}
                   </label>
                   <select
                     id="parent_id"
                     v-model="form.parent_id"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.parent_id }"
                   >
                     <option :value="null">{{ $t('None (Root Category)') }}</option>
@@ -254,13 +254,13 @@ const submit = () => {
                       {{ parent.name }}
                     </option>
                   </select>
-                  <p class="mt-1 text-sm text-gray-500">{{ $t('Select a parent to make this a sub-category') }}</p>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Select a parent to make this a sub-category') }}</p>
                   <p v-if="form.errors.parent_id" class="mt-1 text-sm text-red-600">{{ form.errors.parent_id }}</p>
                 </div>
 
                 <!-- Image Upload -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     {{ $t('Category Image') }}
                   </label>
                   <ImageUploader 
@@ -277,19 +277,19 @@ const submit = () => {
 
                 <!-- Sort Order -->
                 <div>
-                  <label for="sort_order" class="block text-sm font-medium text-gray-700">
+                  <label for="sort_order" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Sort Order') }}
                   </label>
                   <input
                     id="sort_order"
                     v-model.number="form.sort_order"
                     type="number"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.sort_order }"
                     :placeholder="$t('0')"
                     min="0"
                   />
-                  <p class="mt-1 text-sm text-gray-500">{{ $t('Lower numbers appear first. Leave blank for auto-assignment.') }}</p>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Lower numbers appear first. Leave blank for auto-assignment.') }}</p>
                   <p v-if="form.errors.sort_order" class="mt-1 text-sm text-red-600">{{ form.errors.sort_order }}</p>
                 </div>
 
@@ -300,13 +300,13 @@ const submit = () => {
                       id="status"
                       v-model="form.status"
                       type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                       :class="{ 'border-red-500': form.errors.status }"
                     />
                   </div>
                   <div class="ml-3 text-sm">
-                    <label for="status" class="font-medium text-gray-700">{{ $t('Active Status') }}</label>
-                    <p class="text-gray-500">{{ $t('This category is enabled and visible on the storefront') }}</p>
+                    <label for="status" class="font-medium text-gray-700 dark:text-gray-300">{{ $t('Active Status') }}</label>
+                    <p class="text-gray-500 dark:text-gray-400">{{ $t('This category is enabled and visible on the storefront') }}</p>
                     <p v-if="form.errors.status" class="mt-1 text-sm text-red-600">{{ form.errors.status }}</p>
                   </div>
                 </div>
@@ -318,13 +318,13 @@ const submit = () => {
                       id="show_in_menu"
                       v-model="form.show_in_menu"
                       type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                       :class="{ 'border-red-500': form.errors.show_in_menu }"
                     />
                   </div>
                   <div class="ml-3 text-sm">
-                    <label for="show_in_menu" class="font-medium text-gray-700">{{ $t('Show in Navigation Menu') }}</label>
-                    <p class="text-gray-500">{{ $t('Display this category in the main navigation menu') }}</p>
+                    <label for="show_in_menu" class="font-medium text-gray-700 dark:text-gray-300">{{ $t('Show in Navigation Menu') }}</label>
+                    <p class="text-gray-500 dark:text-gray-400">{{ $t('Display this category in the main navigation menu') }}</p>
                     <p v-if="form.errors.show_in_menu" class="mt-1 text-sm text-red-600">{{ form.errors.show_in_menu }}</p>
                   </div>
                 </div>
@@ -334,19 +334,19 @@ const submit = () => {
               <div v-show="activeTab === 'seo'" class="space-y-6">
                 <!-- Meta Title -->
                 <div>
-                  <label for="meta_title" class="block text-sm font-medium text-gray-700">
+                  <label for="meta_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Meta Title') }}
                   </label>
                   <input
                     id="meta_title"
                     v-model="form.meta_title"
                     type="text"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.meta_title }"
                     :placeholder="$t('SEO-optimized title for search engines')"
                     maxlength="60"
                   />
-                  <p class="mt-1 text-sm text-gray-500">
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     {{ $t('Recommended: 50-60 characters.') }} {{ form.meta_title.length }}/60
                   </p>
                   <p v-if="form.errors.meta_title" class="mt-1 text-sm text-red-600">{{ form.errors.meta_title }}</p>
@@ -354,19 +354,19 @@ const submit = () => {
 
                 <!-- Meta Description -->
                 <div>
-                  <label for="meta_description" class="block text-sm font-medium text-gray-700">
+                  <label for="meta_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Meta Description') }}
                   </label>
                   <textarea
                     id="meta_description"
                     v-model="form.meta_description"
                     rows="3"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.meta_description }"
                     :placeholder="$t('Brief description for search engine results')"
                     maxlength="160"
                   ></textarea>
-                  <p class="mt-1 text-sm text-gray-500">
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     {{ $t('Recommended: 150-160 characters.') }} {{ form.meta_description.length }}/160
                   </p>
                   <p v-if="form.errors.meta_description" class="mt-1 text-sm text-red-600">{{ form.errors.meta_description }}</p>
@@ -374,38 +374,38 @@ const submit = () => {
 
                 <!-- Meta Keywords -->
                 <div>
-                  <label for="meta_keywords" class="block text-sm font-medium text-gray-700">
+                  <label for="meta_keywords" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Meta Keywords') }}
                   </label>
                   <input
                     id="meta_keywords"
                     v-model="form.meta_keywords"
                     type="text"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                     :class="{ 'border-red-500': form.errors.meta_keywords }"
                     :placeholder="$t('keyword1, keyword2, keyword3')"
                   />
-                  <p class="mt-1 text-sm text-gray-500">{{ $t('Comma-separated keywords (less important for modern SEO)') }}</p>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Comma-separated keywords (less important for modern SEO)') }}</p>
                   <p v-if="form.errors.meta_keywords" class="mt-1 text-sm text-red-600">{{ form.errors.meta_keywords }}</p>
                 </div>
 
                 <!-- SEO Preview -->
-                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
-                  <h4 class="text-sm font-medium text-gray-900 mb-2">{{ $t('Search Engine Preview') }}</h4>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-700">
+                  <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">{{ $t('Search Engine Preview') }}</h4>
                   <div class="space-y-1">
                     <div class="text-blue-600 text-lg">{{ form.meta_title || form.name || $t('Category Title') }}</div>
                     <div class="text-green-700 text-sm">yourstore.com/category/{{ form.slug || 'category-slug' }}</div>
-                    <div class="text-gray-600 text-sm">{{ form.meta_description || form.description || $t('Category description will appear here...') }}</div>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm">{{ form.meta_description || form.description || $t('Category description will appear here...') }}</div>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Form Actions -->
-            <div class="bg-gray-50 px-6 py-4 flex items-center justify-end space-x-3 border-t border-gray-200">
+            <div class="bg-gray-50 dark:bg-gray-900 px-6 py-4 flex items-center justify-end space-x-3 border-t border-gray-200 dark:border-gray-700">
               <Link
                 :href="categoryRoutes.index().url"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 {{ $t('Cancel') }}
               </Link>

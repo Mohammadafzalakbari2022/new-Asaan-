@@ -107,7 +107,7 @@ const applyAutoAssignment = () => {
                 <button
                     type="button"
                     @click="router.visit('/admin/customers/groups')"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -120,8 +120,8 @@ const applyAutoAssignment = () => {
             <div class="mb-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">{{ $t('Edit Customer Group') }}</h1>
-                        <p class="mt-1 text-sm text-gray-600">{{ $t('Update group settings and auto-assignment rules.') }}</p>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $t('Edit Customer Group') }}</h1>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Update group settings and auto-assignment rules.') }}</p>
                     </div>
                     <button
                         v-if="!group.is_default && customersCount === 0"
@@ -130,10 +130,10 @@ const applyAutoAssignment = () => {
                     >
                         {{ $t('Delete Group') }}
                     </button>
-                    <div v-else-if="group.is_default" class="text-sm text-gray-500">
+                    <div v-else-if="group.is_default" class="text-sm text-gray-500 dark:text-gray-400">
                         {{ $t('Cannot delete default group') }}
                     </div>
-                    <div v-else class="text-sm text-gray-500">
+                    <div v-else class="text-sm text-gray-500 dark:text-gray-400">
                         {{ $t('Cannot delete (has {count} customers)', { count: customersCount }) }}
                     </div>
                 </div>
@@ -141,66 +141,66 @@ const applyAutoAssignment = () => {
 
             <!-- Stats -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="bg-white rounded-lg shadow-sm p-4">
-                    <div class="text-sm text-gray-600">{{ $t('Total Customers') }}</div>
-                    <div class="text-2xl font-bold text-gray-900 mt-1">{{ customersCount }}</div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Total Customers') }}</div>
+                    <div class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ customersCount }}</div>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-4">
-                    <div class="text-sm text-gray-600">{{ $t('Discount Percentage') }}</div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Discount Percentage') }}</div>
                     <div class="text-2xl font-bold text-blue-600 mt-1">{{ group.discount_percentage }}%</div>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-4">
-                    <div class="text-sm text-gray-600">{{ $t('Display Order') }}</div>
-                    <div class="text-2xl font-bold text-gray-900 mt-1">#{{ group.order }}</div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Display Order') }}</div>
+                    <div class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">#{{ group.order }}</div>
                 </div>
             </div>
 
             <!-- Form -->
-            <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
                 <form @submit.prevent="submit" class="space-y-6">
                     <!-- Basic Information -->
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Basic Information') }}</h2>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">{{ $t('Basic Information') }}</h2>
                         <div class="space-y-4">
                             <!-- Name and Code -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Group Name *') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Group Name *') }}</label>
                                     <input
                                         v-model="form.name"
                                         @blur="generateCode"
                                         type="text"
                                         required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                                         :class="{ 'border-red-500': form.errors.name }"
                                         :placeholder="$t('e.g., VIP Members, Wholesale')"
                                     />
                                     <div v-if="form.errors.name" class="text-red-600 text-sm mt-1">{{ form.errors.name }}</div>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         {{ $t('Group Code') }}
-                                        <span class="text-gray-500 font-normal">{{ $t('(auto-generated)') }}</span>
+                                        <span class="text-gray-500 dark:text-gray-400 font-normal">{{ $t('(auto-generated)') }}</span>
                                     </label>
                                     <input
                                         v-model="form.code"
                                         type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                                         :class="{ 'border-red-500': form.errors.code }"
                                         :placeholder="$t('e.g., vip-members')"
                                     />
                                     <div v-if="form.errors.code" class="text-red-600 text-sm mt-1">{{ form.errors.code }}</div>
-                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Lowercase letters, numbers, and dashes only') }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Lowercase letters, numbers, and dashes only') }}</p>
                                 </div>
                             </div>
 
                             <!-- Description -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Description') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Description') }}</label>
                                 <textarea
                                     v-model="form.description"
                                     rows="3"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                                     :class="{ 'border-red-500': form.errors.description }"
                                     :placeholder="$t('Brief description of this customer group...')"
                                 ></textarea>
@@ -210,17 +210,17 @@ const applyAutoAssignment = () => {
                             <!-- Color and Discount -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Group Color') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Group Color') }}</label>
                                     <div class="flex items-center space-x-3">
                                         <input
                                             v-model="form.color"
                                             type="color"
-                                            class="h-10 w-20 border border-gray-300 rounded cursor-pointer"
+                                            class="h-10 w-20 border border-gray-300 dark:border-gray-600 rounded cursor-pointer dark:bg-gray-700/50 dark:text-gray-100"
                                         />
                                         <input
                                             v-model="form.color"
                                             type="text"
-                                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                                             :class="{ 'border-red-500': form.errors.color }"
                                             :placeholder="$t('#3B82F6')"
                                         />
@@ -228,7 +228,7 @@ const applyAutoAssignment = () => {
                                     <div v-if="form.errors.color" class="text-red-600 text-sm mt-1">{{ form.errors.color }}</div>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Discount Percentage') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Discount Percentage') }}</label>
                                     <div class="relative">
                                         <input
                                             v-model.number="form.discount_percentage"
@@ -236,14 +236,14 @@ const applyAutoAssignment = () => {
                                             min="0"
                                             max="100"
                                             step="0.01"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 pr-8"
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 pr-8 dark:bg-gray-700/50 dark:text-gray-100"
                                             :class="{ 'border-red-500': form.errors.discount_percentage }"
                                             placeholder="0.00"
                                         />
-                                        <span class="absolute right-3 top-2 text-gray-500">%</span>
+                                        <span class="absolute right-3 top-2 text-gray-500 dark:text-gray-400">%</span>
                                     </div>
                                     <div v-if="form.errors.discount_percentage" class="text-red-600 text-sm mt-1">{{ form.errors.discount_percentage }}</div>
-                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Group-based discount (0-100%)') }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Group-based discount (0-100%)') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -253,8 +253,8 @@ const applyAutoAssignment = () => {
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <h2 class="text-lg font-medium text-gray-900">{{ $t('Auto-Assignment Rules') }}</h2>
-                                <p class="text-sm text-gray-600">{{ $t('Automatically assign customers to this group based on their purchase behavior.') }}</p>
+                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('Auto-Assignment Rules') }}</h2>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Automatically assign customers to this group based on their purchase behavior.') }}</p>
                             </div>
                             <button
                                 type="button"
@@ -268,39 +268,39 @@ const applyAutoAssignment = () => {
                         <div class="space-y-4">
                             <div class="grid grid-cols-3 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum Orders') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Minimum Orders') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_orders"
                                         type="number"
                                         min="0"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                                         :placeholder="$t('e.g., 10')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Total orders placed') }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Total orders placed') }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum Spent ($)') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Minimum Spent ($)') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_spent"
                                         type="number"
                                         min="0"
                                         step="0.01"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                                         :placeholder="$t('e.g., 1000.00')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Total amount spent') }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Total amount spent') }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Minimum AOV ($)') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Minimum AOV ($)') }}</label>
                                     <input
                                         v-model.number="form.auto_assignment_rules.min_aov"
                                         type="number"
                                         min="0"
                                         step="0.01"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                                         :placeholder="$t('e.g., 100.00')"
                                     />
-                                    <p class="text-xs text-gray-500 mt-1">{{ $t('Average order value') }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $t('Average order value') }}</p>
                                 </div>
                             </div>
                             <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
@@ -313,42 +313,42 @@ const applyAutoAssignment = () => {
 
                     <!-- Settings -->
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Settings') }}</h2>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">{{ $t('Settings') }}</h2>
                         <div class="space-y-3">
                             <div class="flex items-center">
                                 <input
                                     v-model="form.is_default"
                                     type="checkbox"
                                     id="is_default"
-                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-gray-700"
                                 />
-                                <label for="is_default" class="ml-2 text-sm font-medium text-gray-700">
+                                <label for="is_default" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                     {{ $t('Set as Default Group') }}
                                 </label>
                             </div>
-                            <p class="text-xs text-gray-500 ml-6">{{ $t('New customers will be automatically assigned to this group') }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 ml-6">{{ $t('New customers will be automatically assigned to this group') }}</p>
 
                             <div class="flex items-center mt-4">
                                 <input
                                     v-model="form.status"
                                     type="checkbox"
                                     id="status"
-                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-gray-700"
                                 />
-                                <label for="status" class="ml-2 text-sm font-medium text-gray-700">
+                                <label for="status" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                     {{ $t('Active') }}
                                 </label>
                             </div>
-                            <p class="text-xs text-gray-500 ml-6">{{ $t('Inactive groups won\'t be available for selection') }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 ml-6">{{ $t('Inactive groups won\'t be available for selection') }}</p>
                         </div>
                     </div>
 
                     <!-- Actions -->
-                    <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                         <button
                             type="button"
                             @click="router.visit('/admin/customers/groups')"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                         >
                             {{ $t('Cancel') }}
                         </button>
@@ -365,13 +365,13 @@ const applyAutoAssignment = () => {
             </div>
 
             <!-- Recent Customers in Group -->
-            <div v-if="group.customers && group.customers.length > 0" class="mt-6 bg-white rounded-lg shadow-sm p-6">
-                <h2 class="text-lg font-medium text-gray-900 mb-4">{{ $t('Recent Customers ({count} total)', { count: customersCount }) }}</h2>
+            <div v-if="group.customers && group.customers.length > 0" class="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">{{ $t('Recent Customers ({count} total)', { count: customersCount }) }}</h2>
                 <div class="space-y-2">
-                    <div v-for="customer in group.customers" :key="customer.id" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div v-for="customer in group.customers" :key="customer.id" class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
                         <div>
-                            <div class="font-medium text-gray-900">{{ customer.full_name }}</div>
-                            <div class="text-sm text-gray-600">{{ customer.email }}</div>
+                            <div class="font-medium text-gray-900 dark:text-gray-100">{{ customer.full_name }}</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">{{ customer.email }}</div>
                         </div>
                         <a
                             :href="`/admin/customers/${customer.id}`"

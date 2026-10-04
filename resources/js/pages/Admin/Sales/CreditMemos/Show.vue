@@ -65,8 +65,8 @@ const viewInvoice = () => {
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">{{ creditMemo.credit_memo_number }}</h1>
-          <p class="text-gray-600 mt-1">{{ $t('Credit memo for order {number}', { number: creditMemo.order?.order_number }) }}</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ creditMemo.credit_memo_number }}</h1>
+          <p class="text-gray-600 dark:text-gray-400 mt-1">{{ $t('Credit memo for order {number}', { number: creditMemo.order?.order_number }) }}</p>
         </div>
 
         <div class="flex items-center space-x-3">
@@ -101,8 +101,8 @@ const viewInvoice = () => {
 
       <!-- Status Cards -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <div class="text-sm text-gray-600">{{ $t('Status') }}</div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Status') }}</div>
           <div class="mt-2">
             <span :class="['px-3 py-1 inline-flex text-sm font-semibold rounded-full', getStatusBadge(creditMemo.status)]">
               {{ creditMemo.status }}
@@ -110,25 +110,25 @@ const viewInvoice = () => {
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <div class="text-sm text-gray-600">{{ $t('Refund Method') }}</div>
-          <div class="mt-2 text-lg font-semibold text-gray-900 capitalize">{{ creditMemo.refund_method }}</div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Refund Method') }}</div>
+          <div class="mt-2 text-lg font-semibold text-gray-900 dark:text-gray-100 capitalize">{{ creditMemo.refund_method }}</div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <div class="text-sm text-gray-600">{{ $t('Total Amount') }}</div>
-          <div class="mt-2 text-2xl font-bold text-gray-900">{{ formatPrice(creditMemo.grand_total) }}</div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Total Amount') }}</div>
+          <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.grand_total) }}</div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <div class="text-sm text-gray-600">{{ $t('Created') }}</div>
-          <div class="mt-2 text-sm text-gray-900"><DateDisplay :value="creditMemo.created_at" time /></div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Created') }}</div>
+          <div class="mt-2 text-sm text-gray-900 dark:text-gray-100"><DateDisplay :value="creditMemo.created_at" time /></div>
         </div>
       </div>
 
       <!-- Tabs -->
-      <div class="bg-white rounded-lg shadow-sm">
-        <div class="border-b border-gray-200">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+        <div class="border-b border-gray-200 dark:border-gray-700">
           <nav class="-mb-px flex space-x-8 px-6">
             <button
               v-for="tab in ['overview', 'items', 'refund-details']"
@@ -138,7 +138,7 @@ const viewInvoice = () => {
                 'py-4 px-1 border-b-2 font-medium text-sm',
                 activeTab === tab
                   ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               ]"
             >
               {{ $t(tab.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')) }}
@@ -151,14 +151,14 @@ const viewInvoice = () => {
           <div v-if="activeTab === 'overview'" class="space-y-6">
             <!-- Credit Memo Information -->
             <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Credit Memo Information') }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Credit Memo Information') }}</h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Credit Memo Number') }}</div>
-                  <div class="mt-1 font-medium text-gray-900">{{ creditMemo.credit_memo_number }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Credit Memo Number') }}</div>
+                  <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ creditMemo.credit_memo_number }}</div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Status') }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Status') }}</div>
                   <div class="mt-1">
                     <span :class="['px-3 py-1 inline-flex text-sm font-semibold rounded-full', getStatusBadge(creditMemo.status)]">
                       {{ creditMemo.status }}
@@ -166,7 +166,7 @@ const viewInvoice = () => {
                   </div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Order Number') }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Order Number') }}</div>
                   <div class="mt-1">
                     <button
                       @click="viewOrder"
@@ -177,7 +177,7 @@ const viewInvoice = () => {
                   </div>
                 </div>
                 <div v-if="creditMemo.invoice">
-                  <div class="text-sm text-gray-600">{{ $t('Invoice Number') }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Invoice Number') }}</div>
                   <div class="mt-1">
                     <button
                       @click="viewInvoice"
@@ -188,49 +188,49 @@ const viewInvoice = () => {
                   </div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Created At') }}</div>
-                  <div class="mt-1 text-gray-900"><DateDisplay :value="creditMemo.created_at" time /></div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Created At') }}</div>
+                  <div class="mt-1 text-gray-900 dark:text-gray-100"><DateDisplay :value="creditMemo.created_at" time /></div>
                 </div>
                 <div v-if="creditMemo.refunded_at">
-                  <div class="text-sm text-gray-600">{{ $t('Refunded At') }}</div>
-                  <div class="mt-1 text-gray-900"><DateDisplay :value="creditMemo.refunded_at" time /></div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Refunded At') }}</div>
+                  <div class="mt-1 text-gray-900 dark:text-gray-100"><DateDisplay :value="creditMemo.refunded_at" time /></div>
                 </div>
               </div>
             </div>
 
             <!-- Customer Information -->
             <div v-if="creditMemo.order">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Customer Information') }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Customer Information') }}</h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Name') }}</div>
-                  <div class="mt-1 font-medium text-gray-900">{{ creditMemo.order.user?.name || $t('Guest') }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Name') }}</div>
+                  <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ creditMemo.order.user?.name || $t('Guest') }}</div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Email') }}</div>
-                  <div class="mt-1 text-gray-900">{{ creditMemo.order.customer_email }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Email') }}</div>
+                  <div class="mt-1 text-gray-900 dark:text-gray-100">{{ creditMemo.order.customer_email }}</div>
                 </div>
                 <div v-if="creditMemo.order.customer_phone">
-                  <div class="text-sm text-gray-600">{{ $t('Phone') }}</div>
-                  <div class="mt-1 text-gray-900">{{ creditMemo.order.customer_phone }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Phone') }}</div>
+                  <div class="mt-1 text-gray-900 dark:text-gray-100">{{ creditMemo.order.customer_phone }}</div>
                 </div>
               </div>
             </div>
 
             <!-- Reason & Notes -->
             <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Reason & Notes') }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Reason & Notes') }}</h3>
               <div class="space-y-4">
                 <div v-if="creditMemo.notes">
-                  <div class="text-sm text-gray-600">{{ $t('Notes') }}</div>
-                  <div class="mt-1 text-gray-900">{{ creditMemo.notes }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Notes') }}</div>
+                  <div class="mt-1 text-gray-900 dark:text-gray-100">{{ creditMemo.notes }}</div>
                 </div>
                 <div v-if="creditMemo.admin_notes">
-                  <div class="text-sm text-gray-600">{{ $t('Admin Notes') }}</div>
-                  <div class="mt-1 text-gray-900">{{ creditMemo.admin_notes }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Admin Notes') }}</div>
+                  <div class="mt-1 text-gray-900 dark:text-gray-100">{{ creditMemo.admin_notes }}</div>
                 </div>
                 <div v-if="!creditMemo.notes && !creditMemo.admin_notes">
-                  <p class="text-sm text-gray-500 italic">{{ $t('No reason or notes provided') }}</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 italic">{{ $t('No reason or notes provided') }}</p>
                 </div>
               </div>
             </div>
@@ -239,54 +239,54 @@ const viewInvoice = () => {
           <!-- Items Tab -->
           <div v-if="activeTab === 'items'">
             <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-700/50">
                   <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {{ $t('Product') }}
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {{ $t('SKU') }}
                     </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {{ $t('Qty') }}
                     </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {{ $t('Price') }}
                     </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {{ $t('Tax') }}
                     </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {{ $t('Discount') }}
                     </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {{ $t('Row Total') }}
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   <tr v-for="item in creditMemo.items" :key="item.id">
                     <td class="px-6 py-4">
-                      <div class="text-sm font-medium text-gray-900">{{ item.product_name }}</div>
+                      <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ item.product_name }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-500">{{ item.sku || '-' }}</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">{{ item.sku || '-' }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="text-sm text-gray-900">{{ item.qty }}</div>
+                      <div class="text-sm text-gray-900 dark:text-gray-100">{{ item.qty }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="text-sm text-gray-900">{{ formatPrice(item.price) }}</div>
+                      <div class="text-sm text-gray-900 dark:text-gray-100">{{ formatPrice(item.price) }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="text-sm text-gray-900">{{ formatPrice(item.tax_amount) }}</div>
+                      <div class="text-sm text-gray-900 dark:text-gray-100">{{ formatPrice(item.tax_amount) }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="text-sm text-gray-900">{{ formatPrice(item.discount_amount) }}</div>
+                      <div class="text-sm text-gray-900 dark:text-gray-100">{{ formatPrice(item.discount_amount) }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="text-sm font-medium text-gray-900">{{ formatPrice(item.row_total) }}</div>
+                      <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ formatPrice(item.row_total) }}</div>
                     </td>
                   </tr>
                 </tbody>
@@ -297,36 +297,36 @@ const viewInvoice = () => {
             <div class="mt-6 flex justify-end">
               <div class="w-full max-w-xs space-y-2">
                 <div class="flex justify-between text-sm">
-                  <span class="text-gray-600">{{ $t('Subtotal:') }}</span>
-                  <span class="font-medium text-gray-900">{{ formatPrice(creditMemo.subtotal) }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">{{ $t('Subtotal:') }}</span>
+                  <span class="font-medium text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.subtotal) }}</span>
                 </div>
                 <div v-if="creditMemo.discount_amount > 0" class="flex justify-between text-sm">
-                  <span class="text-gray-600">{{ $t('Discount:') }}</span>
-                  <span class="font-medium text-gray-900">-{{ formatPrice(creditMemo.discount_amount) }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">{{ $t('Discount:') }}</span>
+                  <span class="font-medium text-gray-900 dark:text-gray-100">-{{ formatPrice(creditMemo.discount_amount) }}</span>
                 </div>
                 <div class="flex justify-between text-sm">
-                  <span class="text-gray-600">{{ $t('Tax:') }}</span>
-                  <span class="font-medium text-gray-900">{{ formatPrice(creditMemo.tax_amount) }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">{{ $t('Tax:') }}</span>
+                  <span class="font-medium text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.tax_amount) }}</span>
                 </div>
                                 <div v-if="creditMemo.shipping_amount > 0" class="flex justify-between text-sm">
-                  <span class="text-gray-600">{{ $t('Shipping Refund') }}</span>
-                  <span class="font-medium text-gray-900">{{ formatPrice(creditMemo.shipping_amount) }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">{{ $t('Shipping Refund') }}</span>
+                  <span class="font-medium text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.shipping_amount) }}</span>
                 </div>
                 <div v-if="creditMemo.adjustment_positive > 0" class="flex justify-between text-sm">
-                  <span class="text-gray-600">{{ $t('Adjustment (+)') }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">{{ $t('Adjustment (+)') }}</span>
                   <span class="font-medium text-green-600">
                     +{{ formatPrice(creditMemo.adjustment_positive) }}
                   </span>
                 </div>
                 <div v-if="creditMemo.adjustment_negative > 0" class="flex justify-between text-sm">
-                  <span class="text-gray-600">{{ $t('Adjustment (-)') }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">{{ $t('Adjustment (-)') }}</span>
                   <span class="font-medium text-red-600">
                     -{{ formatPrice(creditMemo.adjustment_negative) }}
                   </span>
                 </div>
-                <div class="flex justify-between text-lg font-bold border-t border-gray-200 pt-3 mt-3">
-                  <span class="text-gray-900">{{ $t('Total Refund') }}</span>
-                  <span class="text-gray-900">{{ formatPrice(creditMemo.grand_total) }}</span>
+                <div class="flex justify-between text-lg font-bold border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
+                  <span class="text-gray-900 dark:text-gray-100">{{ $t('Total Refund') }}</span>
+                  <span class="text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.grand_total) }}</span>
                 </div>
               </div>
             </div>
@@ -336,14 +336,14 @@ const viewInvoice = () => {
           <div v-if="activeTab === 'refund-details'" class="space-y-6">
             <!-- Refund Information -->
             <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Refund Information') }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Refund Information') }}</h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Refund Method') }}</div>
-                  <div class="mt-1 font-medium text-gray-900 capitalize">{{ creditMemo.refund_method }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Refund Method') }}</div>
+                  <div class="mt-1 font-medium text-gray-900 dark:text-gray-100 capitalize">{{ creditMemo.refund_method }}</div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Status') }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Status') }}</div>
                   <div class="mt-1">
                     <span :class="['px-3 py-1 inline-flex text-sm font-semibold rounded-full', getStatusBadge(creditMemo.status)]">
                       {{ creditMemo.status }}
@@ -351,41 +351,41 @@ const viewInvoice = () => {
                   </div>
                 </div>
                 <div v-if="creditMemo.notes">
-                  <div class="text-sm text-gray-600">{{ $t('Transaction Notes') }}</div>
-                  <div class="mt-1 text-sm text-gray-900">{{ creditMemo.notes }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Transaction Notes') }}</div>
+                  <div class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ creditMemo.notes }}</div>
                 </div>
                 <div v-if="creditMemo.refunded_at">
-                  <div class="text-sm text-gray-600">{{ $t('Refunded At') }}</div>
-                  <div class="mt-1 text-gray-900"><DateDisplay :value="creditMemo.refunded_at" time /></div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Refunded At') }}</div>
+                  <div class="mt-1 text-gray-900 dark:text-gray-100"><DateDisplay :value="creditMemo.refunded_at" time /></div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Refund Amount') }}</div>
-                  <div class="mt-1 text-2xl font-bold text-gray-900">{{ formatPrice(creditMemo.grand_total) }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Refund Amount') }}</div>
+                  <div class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.grand_total) }}</div>
                 </div>
               </div>
             </div>
 
             <!-- Inventory Information -->
             <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Inventory Information') }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Inventory Information') }}</h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Restore Inventory') }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Restore Inventory') }}</div>
                   <div class="mt-1">
                     <span :class="[
                       'px-3 py-1 inline-flex text-sm font-semibold rounded-full',
-                      creditMemo.restore_inventory ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                      creditMemo.restore_inventory ? 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
                     ]">
                       {{ creditMemo.restore_inventory ? $t('Yes') : $t('No') }}
                     </span>
                   </div>
                 </div>
                 <div v-if="creditMemo.restore_inventory">
-                  <div class="text-sm text-gray-600">{{ $t('Inventory Restored') }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Inventory Restored') }}</div>
                   <div class="mt-1">
                     <span :class="[
                       'px-3 py-1 inline-flex text-sm font-semibold rounded-full',
-                      creditMemo.inventory_restored_at ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                      creditMemo.inventory_restored_at ? 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300' : 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-300'
                     ]">
                       {{ creditMemo.inventory_restored_at ? $t('Yes') : $t('Pending') }}
                     </span>
@@ -396,23 +396,23 @@ const viewInvoice = () => {
 
             <!-- Payment Information -->
             <div v-if="creditMemo.order">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Original Order Payment') }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Original Order Payment') }}</h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Payment Method') }}</div>
-                  <div class="mt-1 font-medium text-gray-900">{{ creditMemo.order.payment_method || '-' }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Payment Method') }}</div>
+                  <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ creditMemo.order.payment_method || '-' }}</div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Payment Status') }}</div>
-                  <div class="mt-1 font-medium text-gray-900 capitalize">{{ creditMemo.order.payment_status }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Payment Status') }}</div>
+                  <div class="mt-1 font-medium text-gray-900 dark:text-gray-100 capitalize">{{ creditMemo.order.payment_status }}</div>
                 </div>
                 <div>
-                  <div class="text-sm text-gray-600">{{ $t('Order Total') }}</div>
-                  <div class="mt-1 font-medium text-gray-900">{{ formatPrice(creditMemo.order.total) }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Order Total') }}</div>
+                  <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.order.total) }}</div>
                 </div>
                 <div v-if="creditMemo.order.total_refunded">
-                  <div class="text-sm text-gray-600">{{ $t('Total Refunded') }}</div>
-                  <div class="mt-1 font-medium text-gray-900">{{ formatPrice(creditMemo.order.total_refunded) }}</div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Total Refunded') }}</div>
+                  <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ formatPrice(creditMemo.order.total_refunded) }}</div>
                 </div>
               </div>
             </div>

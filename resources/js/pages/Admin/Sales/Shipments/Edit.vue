@@ -129,65 +129,65 @@ function cancel() {
     <div class="space-y-6">
       <!-- Header -->
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">{{ $t('Edit Shipment {number}', { number: shipment.shipment_number }) }}</h1>
-        <p class="text-gray-600 mt-1">{{ $t('Update shipment details and items') }}</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $t('Edit Shipment {number}', { number: shipment.shipment_number }) }}</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ $t('Update shipment details and items') }}</p>
       </div>
 
       <form @submit.prevent="submit" class="space-y-6">
         <!-- Order Information -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Order Information') }}</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Order Information') }}</h3>
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <div class="text-sm text-gray-600">{{ $t('Order Number') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.order.order_number }}</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Order Number') }}</div>
+              <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ shipment.order.order_number }}</div>
             </div>
             <div>
-              <div class="text-sm text-gray-600">{{ $t('Customer') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.order.user?.name || $t('Guest') }}</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Customer') }}</div>
+              <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ shipment.order.user?.name || $t('Guest') }}</div>
             </div>
             <div>
-              <div class="text-sm text-gray-600">{{ $t('Email') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.order.customer_email }}</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Email') }}</div>
+              <div class="mt-1 font-medium text-gray-900 dark:text-gray-100">{{ shipment.order.customer_email }}</div>
             </div>
           </div>
         </div>
 
         <!-- Tracking Information -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Tracking Information') }}</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Tracking Information') }}</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Carrier') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Carrier') }}</label>
               <input
                 v-model="form.carrier"
                 type="text"
                 :placeholder="$t('e.g., FedEx, UPS, DHL')"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': form.errors.carrier }"
               />
               <p v-if="form.errors.carrier" class="mt-1 text-sm text-red-600">{{ form.errors.carrier }}</p>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Tracking Number') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Tracking Number') }}</label>
               <input
                 v-model="form.tracking_number"
                 type="text"
                 :placeholder="$t('Enter tracking number')"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': form.errors.tracking_number }"
               />
               <p v-if="form.errors.tracking_number" class="mt-1 text-sm text-red-600">{{ form.errors.tracking_number }}</p>
             </div>
 
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Tracking URL') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Tracking URL') }}</label>
               <input
                 v-model="form.tracking_url"
                 type="url"
                 :placeholder="$t('https://...')"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': form.errors.tracking_url }"
               />
               <p v-if="form.errors.tracking_url" class="mt-1 text-sm text-red-600">{{ form.errors.tracking_url }}</p>
@@ -196,42 +196,42 @@ function cancel() {
         </div>
 
         <!-- Items to Ship -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Items to Ship') }}</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Items to Ship') }}</h3>
           <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead class="bg-gray-50 dark:bg-gray-700/50">
                 <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     {{ $t('Product') }}
                   </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     {{ $t('SKU') }}
                   </th>
-                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     {{ $t('Ordered') }}
                   </th>
-                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     {{ $t('Available') }}
                   </th>
-                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     {{ $t('Ship Qty') }}
                   </th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+              <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 <tr v-for="(item, index) in shipment.order.items" :key="item.id">
                   <td class="px-6 py-4">
-                    <div class="text-sm font-medium text-gray-900">{{ item.product.name }}</div>
+                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ item.product.name }}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">{{ item.product.sku }}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ item.product.sku }}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right">
-                    <div class="text-sm text-gray-900">{{ item.quantity }}</div>
+                    <div class="text-sm text-gray-900 dark:text-gray-100">{{ item.quantity }}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right">
-                    <div class="text-sm text-gray-900">{{ getRemainingQuantity(item.id) }}</div>
+                    <div class="text-sm text-gray-900 dark:text-gray-100">{{ getRemainingQuantity(item.id) }}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right">
                     <input
@@ -239,7 +239,7 @@ function cancel() {
                       type="number"
                       min="0"
                       :max="getRemainingQuantity(item.id)"
-                      class="w-20 px-3 py-1 text-right border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      class="w-20 px-3 py-1 text-right border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
                     />
                   </td>
                 </tr>
@@ -250,13 +250,13 @@ function cancel() {
         </div>
 
         <!-- Notes -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Notes (Optional)') }}</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Notes (Optional)') }}</h3>
           <textarea
             v-model="form.notes"
             rows="4"
             :placeholder="$t('Add any additional notes about this shipment...')"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
             :class="{ 'border-red-500': form.errors.notes }"
           ></textarea>
           <p v-if="form.errors.notes" class="mt-1 text-sm text-red-600">{{ form.errors.notes }}</p>
@@ -267,7 +267,7 @@ function cancel() {
           <button
             type="button"
             @click="cancel"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
           >
             {{ $t('Cancel') }}
           </button>

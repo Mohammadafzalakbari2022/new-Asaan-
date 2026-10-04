@@ -109,7 +109,7 @@ function confirmDelete() {
             <div class="flex items-center justify-between">
                 <Link
                     :href="reviewRoutes.index().url"
-                    class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                    class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -156,16 +156,16 @@ function confirmDelete() {
                 <!-- Main Content -->
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Review Details Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center gap-4">
                                 <div class="flex-shrink-0 h-12 w-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-semibold text-gray-900">{{ review.reviewer }}</h3>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ review.reviewer }}</h3>
                                     <div class="flex items-center gap-2 mt-1">
                                         <div class="flex items-center">
                                             <template v-for="star in 5" :key="star">
@@ -179,7 +179,7 @@ function confirmDelete() {
                                                 </svg>
                                             </template>
                                         </div>
-                                        <span class="text-sm text-gray-500"><DateDisplay :value="review.created_at" time /></span>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400"><DateDisplay :value="review.created_at" time /></span>
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +197,8 @@ function confirmDelete() {
 
                         <div class="space-y-4">
                             <div>
-                                <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ review.title }}</h4>
-                                <p class="text-gray-700 leading-relaxed">{{ review.comment }}</p>
+                                <h4 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ review.title }}</h4>
+                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{{ review.comment }}</p>
                             </div>
 
                             <div v-if="review.verified_purchase" class="flex items-center gap-2 text-sm text-green-600">
@@ -208,8 +208,8 @@ function confirmDelete() {
                                 {{ $t('Verified Purchase') }}
                             </div>
 
-                            <div class="flex items-center gap-4 pt-4 border-t border-gray-200">
-                                <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <div class="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
                                     </svg>
@@ -220,8 +220,8 @@ function confirmDelete() {
                     </div>
 
                     <!-- Admin Reply Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Admin Response') }}</h3>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Admin Response') }}</h3>
                         
                         <div v-if="review.admin_reply" class="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
                             <div class="flex items-start gap-3">
@@ -232,23 +232,23 @@ function confirmDelete() {
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between mb-2">
-                                        <span class="text-sm font-semibold text-gray-900">
+                                        <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
                                             {{ review.admin_replier?.name || $t('Admin') }}
                                         </span>
-                                        <span class="text-xs text-gray-500"><DateDisplay :value="review.admin_replied_at" time /></span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400"><DateDisplay :value="review.admin_replied_at" time /></span>
                                     </div>
-                                    <p class="text-sm text-gray-700">{{ review.admin_reply }}</p>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">{{ review.admin_reply }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div v-else>
                             <div class="space-y-3">
-                                <label class="block text-sm font-medium text-gray-700">{{ $t('Reply to Customer') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Reply to Customer') }}</label>
                                 <textarea
                                     v-model="replyText"
                                     rows="4"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
                                     :placeholder="$t('Write your response...')"
                                 ></textarea>
                                 <button
@@ -269,8 +269,8 @@ function confirmDelete() {
                 <!-- Sidebar -->
                 <div class="space-y-6">
                     <!-- Product Info Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Product') }}</h3>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Product') }}</h3>
                         <div>
                             <Link
                                 :href="`/admin/catalog/products/${review.product.id}`"
@@ -282,11 +282,11 @@ function confirmDelete() {
                     </div>
 
                     <!-- Review Stats Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Review Stats') }}</h3>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Review Stats') }}</h3>
                         <dl class="space-y-3">
                             <div class="flex items-center justify-between">
-                                <dt class="text-sm text-gray-600">{{ $t('Rating') }}</dt>
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Rating') }}</dt>
                                 <dd class="flex items-center gap-1">
                                     <template v-for="star in 5" :key="star">
                                         <svg
@@ -301,7 +301,7 @@ function confirmDelete() {
                                 </dd>
                             </div>
                             <div class="flex items-center justify-between">
-                                <dt class="text-sm text-gray-600">{{ $t('Status') }}</dt>
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Status') }}</dt>
                                 <dd>
                                     <span
                                         :class="{
@@ -316,11 +316,11 @@ function confirmDelete() {
                                 </dd>
                             </div>
                             <div class="flex items-center justify-between">
-                                <dt class="text-sm text-gray-600">{{ $t('Helpful Votes') }}</dt>
-                                <dd class="text-sm font-medium text-gray-900">{{ review.helpful_count }}</dd>
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Helpful Votes') }}</dt>
+                                <dd class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ review.helpful_count }}</dd>
                             </div>
                             <div class="flex items-center justify-between">
-                                <dt class="text-sm text-gray-600">{{ $t('Verified Purchase') }}</dt>
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Verified Purchase') }}</dt>
                                 <dd>
                                     <span v-if="review.verified_purchase" class="text-green-600">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -335,8 +335,8 @@ function confirmDelete() {
                                 </dd>
                             </div>
                             <div class="flex items-center justify-between">
-                                <dt class="text-sm text-gray-600">{{ $t('Submitted') }}</dt>
-                                <dd class="text-sm font-medium text-gray-900"><DateDisplay :value="review.created_at" time /></dd>
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Submitted') }}</dt>
+                                <dd class="text-sm font-medium text-gray-900 dark:text-gray-100"><DateDisplay :value="review.created_at" time /></dd>
                             </div>
                         </dl>
                     </div>

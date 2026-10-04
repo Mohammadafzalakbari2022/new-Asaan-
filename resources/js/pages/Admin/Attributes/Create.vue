@@ -124,12 +124,12 @@ const submit = () => {
         <div class="mb-6">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-semibold text-gray-900">{{ $t('Create New Attribute') }}</h1>
-              <p class="mt-1 text-sm text-gray-600">{{ $t('Add a new product attribute') }}</p>
+              <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $t('Create New Attribute') }}</h1>
+              <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Add a new product attribute') }}</p>
             </div>
             <Link
               :href="attributeRoutes.index().url"
-              class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -142,14 +142,14 @@ const submit = () => {
         <!-- Form -->
         <form @submit.prevent="submit" class="space-y-6">
           <!-- Main Information Card -->
-          <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
             <div class="px-4 py-5 sm:p-6">
-              <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">{{ $t('Basic Information') }}</h3>
+              <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 mb-4">{{ $t('Basic Information') }}</h3>
               
               <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <!-- Name -->
                 <div>
-                  <label for="name" class="block text-sm font-medium text-gray-700">
+                  <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Attribute Name') }} <span class="text-red-500">*</span>
                   </label>
                   <input
@@ -159,7 +159,7 @@ const submit = () => {
                     type="text"
                     name="name"
                     required
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700/50 dark:text-gray-100"
                     :placeholder="$t('e.g., Color, Size, Material')"
                   />
                   <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
@@ -167,7 +167,7 @@ const submit = () => {
 
                 <!-- Code -->
                 <div>
-                  <label for="code" class="block text-sm font-medium text-gray-700">
+                  <label for="code" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Attribute Code') }} <span class="text-red-500">*</span>
                   </label>
                   <input
@@ -176,23 +176,23 @@ const submit = () => {
                     type="text"
                     name="code"
                     required
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700/50 dark:text-gray-100"
                     :placeholder="$t('e.g., color, size, material')"
                   />
-                  <p class="mt-1 text-xs text-gray-500">{{ $t('Auto-generated from name. Use lowercase with underscores.') }}</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Auto-generated from name. Use lowercase with underscores.') }}</p>
                   <p v-if="form.errors.code" class="mt-1 text-sm text-red-600">{{ form.errors.code }}</p>
                 </div>
 
                 <!-- Type -->
                 <div>
-                  <label for="type" class="block text-sm font-medium text-gray-700">
+                  <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Input Type') }} <span class="text-red-500">*</span>
                   </label>
                   <select
                     id="type"
                     v-model="form.type"
                     name="type"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700/50 dark:text-gray-100"
                   >
                     <option value="text">{{ $t('Text') }}</option>
                     <option value="textarea">{{ $t('Textarea') }}</option>
@@ -207,7 +207,7 @@ const submit = () => {
 
                 <!-- Sort Order -->
                 <div>
-                  <label for="sort_order" class="block text-sm font-medium text-gray-700">
+                  <label for="sort_order" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Sort Order') }}
                   </label>
                   <input
@@ -216,10 +216,10 @@ const submit = () => {
                     type="number"
                     name="sort_order"
                     min="0"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700/50 dark:text-gray-100"
                     :placeholder="$t('0')"
                   />
-                  <p class="mt-1 text-xs text-gray-500">{{ $t('Controls display order. Lower numbers appear first.') }}</p>
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Controls display order. Lower numbers appear first.') }}</p>
                   <p v-if="form.errors.sort_order" class="mt-1 text-sm text-red-600">{{ form.errors.sort_order }}</p>
                 </div>
               </div>
@@ -227,9 +227,9 @@ const submit = () => {
           </div>
 
           <!-- Settings Card -->
-          <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
             <div class="px-4 py-5 sm:p-6">
-              <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">{{ $t('Attribute Settings') }}</h3>
+              <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 mb-4">{{ $t('Attribute Settings') }}</h3>
               
               <div class="space-y-4">
                 <!-- Is Required -->
@@ -239,13 +239,13 @@ const submit = () => {
                     v-model="form.is_required"
                     type="checkbox"
                     name="is_required"
-                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
                   />
-                  <label for="is_required" class="ml-3 block text-sm font-medium text-gray-700">
+                  <label for="is_required" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Required') }}
                   </label>
                 </div>
-                <p class="ml-7 text-xs text-gray-500">{{ $t('Customers must provide a value for this attribute') }}</p>
+                <p class="ml-7 text-xs text-gray-500 dark:text-gray-400">{{ $t('Customers must provide a value for this attribute') }}</p>
 
                 <!-- Is Filterable -->
                 <div class="flex items-center">
@@ -254,13 +254,13 @@ const submit = () => {
                     v-model="form.is_filterable"
                     type="checkbox"
                     name="is_filterable"
-                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
                   />
-                  <label for="is_filterable" class="ml-3 block text-sm font-medium text-gray-700">
+                  <label for="is_filterable" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Use in Filters') }}
                   </label>
                 </div>
-                <p class="ml-7 text-xs text-gray-500">{{ $t('Show this attribute in product listing filters') }}</p>
+                <p class="ml-7 text-xs text-gray-500 dark:text-gray-400">{{ $t('Show this attribute in product listing filters') }}</p>
 
                 <!-- Is Configurable -->
                 <div class="flex items-center">
@@ -269,22 +269,22 @@ const submit = () => {
                     v-model="form.is_configurable"
                     type="checkbox"
                     name="is_configurable"
-                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
                   />
-                  <label for="is_configurable" class="ml-3 block text-sm font-medium text-gray-700">
+                  <label for="is_configurable" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ $t('Use for Product Variants') }}
                   </label>
                 </div>
-                <p class="ml-7 text-xs text-gray-500">{{ $t('Use this attribute to create product variants (e.g., Size, Color)') }}</p>
+                <p class="ml-7 text-xs text-gray-500 dark:text-gray-400">{{ $t('Use this attribute to create product variants (e.g., Size, Color)') }}</p>
               </div>
             </div>
           </div>
 
           <!-- Options Card (Only for Select/Multiselect) -->
-          <div v-if="supportsOptions" class="bg-white shadow rounded-lg overflow-hidden">
+          <div v-if="supportsOptions" class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $t('Attribute Options') }}</h3>
+                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">{{ $t('Attribute Options') }}</h3>
                 <button
                   type="button"
                   @click="addOption"
@@ -297,7 +297,7 @@ const submit = () => {
                 </button>
               </div>
 
-              <div v-if="form.options.length === 0" class="text-center py-6 text-gray-500">
+              <div v-if="form.options.length === 0" class="text-center py-6 text-gray-500 dark:text-gray-400">
                 {{ $t('No options added yet. Click "Add Option" to create options.') }}
               </div>
 
@@ -305,7 +305,7 @@ const submit = () => {
                 <div
                   v-for="(option, index) in form.options"
                   :key="index"
-                  class="flex items-start gap-3 p-3 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors"
+                  class="flex items-start gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
                 >
                   <!-- Sort Order Buttons -->
                   <div class="flex flex-col gap-1">
@@ -313,7 +313,7 @@ const submit = () => {
                       type="button"
                       @click="moveOptionUp(index)"
                       :disabled="index === 0"
-                      class="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                      class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed"
                       :title="$t('Move up')"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -324,7 +324,7 @@ const submit = () => {
                       type="button"
                       @click="moveOptionDown(index)"
                       :disabled="index === form.options.length - 1"
-                      class="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                      class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed"
                       :title="$t('Move down')"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,34 +337,34 @@ const submit = () => {
                   <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
                     <!-- Label -->
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Label') }}</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Label') }}</label>
                       <input
                         v-model="option.label"
                         @input="generateOptionValue(index)"
                         type="text"
-                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                         :placeholder="$t('e.g., Red')"
                       />
                     </div>
 
                     <!-- Value -->
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Value') }}</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Value') }}</label>
                       <input
                         v-model="option.value"
                         type="text"
-                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                         :placeholder="$t('e.g., red')"
                       />
                     </div>
 
                     <!-- Swatch Value (for colors) -->
                     <div>
-                      <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Swatch (optional)') }}</label>
+                      <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Swatch (optional)') }}</label>
                       <input
                         v-model="option.swatch_value"
                         type="text"
-                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:ring-blue-500"
+                        class="block w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                         :placeholder="$t('e.g., #FF0000')"
                       />
                     </div>
@@ -392,7 +392,7 @@ const submit = () => {
           <div class="flex justify-end gap-3">
             <Link
               :href="attributeRoutes.index().url"
-              class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               {{ $t('Cancel') }}
             </Link>

@@ -149,13 +149,13 @@ const exportUrl = computed(() => {
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">{{ $t('Newsletter Subscribers') }}</h1>
-          <p class="mt-1 text-sm text-gray-500">{{ $t('Manage all email newsletter subscribers') }}</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $t('Newsletter Subscribers') }}</h1>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Manage all email newsletter subscribers') }}</p>
         </div>
         <div class="flex items-center gap-3">
           <a
             :href="exportUrl"
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             <Download class="w-4 h-4" />
             {{ $t('Export CSV') }}
@@ -165,37 +165,37 @@ const exportUrl = computed(() => {
 
       <!-- Stats Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 flex items-center gap-4">
           <div class="p-3 rounded-lg bg-blue-50">
             <Mail class="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <p class="text-sm text-gray-500">{{ $t('Total Subscribers') }}</p>
-            <p class="text-2xl font-bold text-gray-900">{{ stats.total.toLocaleString() }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Total Subscribers') }}</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ stats.total.toLocaleString() }}</p>
           </div>
         </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 flex items-center gap-4">
           <div class="p-3 rounded-lg bg-green-50">
             <UserCheck class="w-5 h-5 text-green-600" />
           </div>
           <div>
-            <p class="text-sm text-gray-500">{{ $t('Registered') }}</p>
-            <p class="text-2xl font-bold text-gray-900">{{ stats.registered.toLocaleString() }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Registered') }}</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ stats.registered.toLocaleString() }}</p>
           </div>
         </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 flex items-center gap-4">
           <div class="p-3 rounded-lg bg-orange-50">
             <Users class="w-5 h-5 text-orange-600" />
           </div>
           <div>
-            <p class="text-sm text-gray-500">{{ $t('Guest') }}</p>
-            <p class="text-2xl font-bold text-gray-900">{{ stats.guest.toLocaleString() }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Guest') }}</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ stats.guest.toLocaleString() }}</p>
           </div>
         </div>
       </div>
 
       <!-- Toolbar -->
-      <div class="bg-white rounded-xl border border-gray-200">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
         <div class="p-4 flex flex-col sm:flex-row gap-3">
           <!-- Search -->
           <div class="relative flex-1">
@@ -204,7 +204,7 @@ const exportUrl = computed(() => {
               v-model="search"
               type="text"
               :placeholder="$t('Search by name or email…')"
-              class="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
               @keyup.enter="applyFilters"
             />
           </div>
@@ -214,7 +214,7 @@ const exportUrl = computed(() => {
               class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium border rounded-lg transition-colors"
               :class="showFilters || hasActiveFilters
                 ? 'bg-blue-50 border-blue-300 text-blue-700'
-                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'"
+                : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
               @click="showFilters = !showFilters"
             >
               <Filter class="w-4 h-4" />
@@ -234,10 +234,10 @@ const exportUrl = computed(() => {
         <!-- Expanded Filters -->
         <div v-if="showFilters" class="px-4 pb-4 flex flex-wrap gap-4 border-t border-gray-100 pt-4">
           <div>
-            <label class="block text-xs font-medium text-gray-700 mb-1">{{ $t('Type') }}</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('Type') }}</label>
             <select
               v-model="typeFilter"
-              class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
               @change="applyFilters"
             >
               <option value="">{{ $t('All') }}</option>
@@ -248,7 +248,7 @@ const exportUrl = computed(() => {
 
           <div v-if="hasActiveFilters" class="flex items-end">
             <button
-              class="inline-flex items-center gap-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              class="inline-flex items-center gap-1 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               @click="clearFilters"
             >
               <X class="w-3 h-3" />
@@ -264,7 +264,7 @@ const exportUrl = computed(() => {
         >
           <span class="text-sm text-blue-700 font-medium">{{ $t('{count} selected', { count: selectedIds.length }) }}</span>
           <button
-            class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-red-700 bg-white border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
+            class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-red-700 bg-white dark:bg-gray-800 border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
             @click="bulkUnsubscribe"
           >
             <UserX class="w-4 h-4" />
@@ -275,36 +275,36 @@ const exportUrl = computed(() => {
         <!-- Table -->
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-t border-b border-gray-200">
+            <thead class="bg-gray-50 dark:bg-gray-700/50 border-t border-b border-gray-200 dark:border-gray-700">
               <tr>
                 <th class="px-4 py-3 text-left w-10">
                   <input
                     type="checkbox"
                     :checked="selectAll"
-                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                     @change="toggleSelectAll"
                   />
                 </th>
-                <th class="px-4 py-3 text-left font-medium text-gray-700">
-                  <button class="inline-flex items-center gap-1 hover:text-gray-900" @click="toggleSort('first_name')">
+                <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">
+                  <button class="inline-flex items-center gap-1 hover:text-gray-900 dark:hover:text-gray-100" @click="toggleSort('first_name')">
                     {{ $t('Name') }}
                     <ArrowUpDown class="w-3 h-3" />
                   </button>
                 </th>
-                <th class="px-4 py-3 text-left font-medium text-gray-700">
-                  <button class="inline-flex items-center gap-1 hover:text-gray-900" @click="toggleSort('email')">
+                <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">
+                  <button class="inline-flex items-center gap-1 hover:text-gray-900 dark:hover:text-gray-100" @click="toggleSort('email')">
                     {{ $t('Email') }}
                     <ArrowUpDown class="w-3 h-3" />
                   </button>
                 </th>
-                <th class="px-4 py-3 text-left font-medium text-gray-700">{{ $t('Type') }}</th>
-                <th class="px-4 py-3 text-left font-medium text-gray-700">
-                  <button class="inline-flex items-center gap-1 hover:text-gray-900" @click="toggleSort('updated_at')">
+                <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">{{ $t('Type') }}</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">
+                  <button class="inline-flex items-center gap-1 hover:text-gray-900 dark:hover:text-gray-100" @click="toggleSort('updated_at')">
                     {{ $t('Subscribed') }}
                     <ArrowUpDown class="w-3 h-3" />
                   </button>
                 </th>
-                <th class="px-4 py-3 text-right font-medium text-gray-700">{{ $t('Actions') }}</th>
+                <th class="px-4 py-3 text-right font-medium text-gray-700 dark:text-gray-300">{{ $t('Actions') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -318,20 +318,20 @@ const exportUrl = computed(() => {
               <tr
                 v-for="sub in subscribers.data"
                 :key="sub.id"
-                class="hover:bg-gray-50 transition-colors"
+                class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 <td class="px-4 py-3">
                   <input
                     type="checkbox"
                     :checked="selectedIds.includes(sub.id)"
-                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                     @change="toggleSelect(sub.id)"
                   />
                 </td>
-                <td class="px-4 py-3 font-medium text-gray-900">
+                <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">
                   {{ sub.first_name }} {{ sub.last_name }}
                 </td>
-                <td class="px-4 py-3 text-gray-600">{{ sub.email }}</td>
+                <td class="px-4 py-3 text-gray-600 dark:text-gray-400">{{ sub.email }}</td>
                 <td class="px-4 py-3">
                   <span
                     class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
@@ -342,7 +342,7 @@ const exportUrl = computed(() => {
                     {{ sub.is_guest ? $t('Guest') : $t('Registered') }}
                   </span>
                 </td>
-                <td class="px-4 py-3 text-gray-500"><DateDisplay :value="sub.updated_at" /></td>
+                <td class="px-4 py-3 text-gray-500 dark:text-gray-400"><DateDisplay :value="sub.updated_at" /></td>
                 <td class="px-4 py-3 text-right">
                   <button
                     class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 hover:text-red-800 border border-red-200 hover:border-red-300 rounded-lg hover:bg-red-50 transition-colors"
@@ -360,9 +360,9 @@ const exportUrl = computed(() => {
         <!-- Pagination -->
         <div
           v-if="subscribers.last_page > 1"
-          class="px-4 py-4 border-t border-gray-200 flex items-center justify-between"
+          class="px-4 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between"
         >
-          <p class="text-sm text-gray-500">
+          <p class="text-sm text-gray-500 dark:text-gray-400">
             {{ $t('Showing {from}–{to} of {total} subscribers', { from: subscribers.from, to: subscribers.to, total: subscribers.total }) }}
           </p>
           <div class="flex items-center gap-1">
@@ -374,8 +374,8 @@ const exportUrl = computed(() => {
               :class="link.active
                 ? 'bg-blue-600 text-white border-blue-600'
                 : link.url
-                  ? 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                  : 'bg-white text-gray-300 border-gray-200 cursor-not-allowed'"
+                  ? 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  : 'bg-white dark:bg-gray-800 text-gray-300 border-gray-200 dark:border-gray-700 cursor-not-allowed'"
               @click="link.url && router.get(link.url, {}, { preserveScroll: true })"
               v-html="link.label"
             />

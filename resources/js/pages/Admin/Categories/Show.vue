@@ -56,8 +56,8 @@ const props = defineProps<Props>();
         <div class="mb-6">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-semibold text-gray-900">{{ category.name }}</h1>
-              <p class="mt-1 text-sm text-gray-600">{{ $t('Category details and relationships') }}</p>
+              <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ category.name }}</h1>
+              <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $t('Category details and relationships') }}</p>
             </div>
             <div class="flex items-center space-x-3">
               <Link
@@ -71,7 +71,7 @@ const props = defineProps<Props>();
               </Link>
               <Link
                 :href="categoryRoutes.index().url"
-                class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -86,49 +86,49 @@ const props = defineProps<Props>();
           <!-- Main Info -->
           <div class="lg:col-span-2 space-y-6">
             <!-- General Information -->
-            <div class="bg-white shadow rounded-lg overflow-hidden">
-              <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">{{ $t('General Information') }}</h2>
+            <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('General Information') }}</h2>
               </div>
               <div class="px-6 py-4">
                 <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Name') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ category.name }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Name') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ category.name }}</dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Slug') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900 font-mono">{{ category.slug }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Slug') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100 font-mono">{{ category.slug }}</dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Status') }}</dt>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Status') }}</dt>
                     <dd class="mt-1">
                       <span :class="[
                         'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                        category.status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        category.status ? 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300'
                       ]">
                         {{ $t(category.status ? 'Active' : 'Inactive') }}
                       </span>
                     </dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Show in Menu') }}</dt>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Show in Menu') }}</dt>
                     <dd class="mt-1">
                       <span :class="[
                         'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                        category.show_in_menu ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                        category.show_in_menu ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
                       ]">
                         {{ $t(category.show_in_menu ? 'Yes' : 'No') }}
                       </span>
                     </dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Sort Order') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ category.sort_order }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Sort Order') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ category.sort_order }}</dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Parent Category') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Parent Category') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
                       <Link
                         v-if="category.parent"
                         :href="categoryRoutes.show(category.parent.id).url"
@@ -140,11 +140,11 @@ const props = defineProps<Props>();
                     </dd>
                   </div>
                   <div class="sm:col-span-2" v-if="category.description">
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Description') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ category.description }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Description') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ category.description }}</dd>
                   </div>
                   <div class="sm:col-span-2" v-if="category.image">
-                    <dt class="text-sm font-medium text-gray-500 mb-2">{{ $t('Image') }}</dt>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{{ $t('Image') }}</dt>
                     <dd>
                       <img :src="category.image" :alt="category.name" class="h-48 w-48 object-cover rounded-lg" />
                     </dd>
@@ -154,57 +154,57 @@ const props = defineProps<Props>();
             </div>
 
             <!-- SEO Information -->
-            <div class="bg-white shadow rounded-lg overflow-hidden">
-              <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">{{ $t('SEO Settings') }}</h2>
+            <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('SEO Settings') }}</h2>
               </div>
               <div class="px-6 py-4">
                 <dl class="space-y-4">
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Meta Title') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ category.meta_title || '-' }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Meta Title') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ category.meta_title || '-' }}</dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Meta Description') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ category.meta_description || '-' }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Meta Description') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ category.meta_description || '-' }}</dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Meta Keywords') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ category.meta_keywords || '-' }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Meta Keywords') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ category.meta_keywords || '-' }}</dd>
                   </div>
                 </dl>
               </div>
             </div>
 
             <!-- Subcategories -->
-            <div v-if="category.children && category.children.length > 0" class="bg-white shadow rounded-lg overflow-hidden">
-              <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">{{ $t('Subcategories ({count})', { count: category.children.length }) }}</h2>
+            <div v-if="category.children && category.children.length > 0" class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('Subcategories ({count})', { count: category.children.length }) }}</h2>
               </div>
               <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead class="bg-gray-50 dark:bg-gray-700/50">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Name') }}</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Status') }}</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Sort Order') }}</th>
-                      <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Actions') }}</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Name') }}</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Sort Order') }}</th>
+                      <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                     </tr>
                   </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
+                  <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     <tr v-for="child in category.children" :key="child.id">
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                         {{ child.name }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span :class="[
                           'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                          child.status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          child.status ? 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300'
                         ]">
                           {{ $t(child.status ? 'Active' : 'Inactive') }}
                         </span>
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {{ child.sort_order }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -228,36 +228,36 @@ const props = defineProps<Props>();
             </div>
 
             <!-- Products -->
-            <div v-if="category.products && category.products.length > 0" class="bg-white shadow rounded-lg overflow-hidden">
-              <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">{{ $t('Products in this Category ({count})', { count: category.products.length }) }}</h2>
+            <div v-if="category.products && category.products.length > 0" class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('Products in this Category ({count})', { count: category.products.length }) }}</h2>
               </div>
               <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead class="bg-gray-50 dark:bg-gray-700/50">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Name') }}</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('SKU') }}</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Price') }}</th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Status') }}</th>
-                      <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Actions') }}</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Name') }}</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('SKU') }}</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Price') }}</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Status') }}</th>
+                      <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
                     </tr>
                   </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
+                  <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     <tr v-for="product in category.products" :key="product.id">
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                         {{ product.name }}
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {{ product.sku }}
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                         {{ formatPrice(product.price) }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span :class="[
                           'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                          product.status === 'enabled' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          product.status === 'enabled' ? 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300'
                         ]">
                           {{ $t(product.status.charAt(0).toUpperCase() + product.status.slice(1)) }}
                         </span>
@@ -280,51 +280,51 @@ const props = defineProps<Props>();
           <!-- Sidebar -->
           <div class="space-y-6">
             <!-- Metadata -->
-            <div class="bg-white shadow rounded-lg overflow-hidden">
-              <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">{{ $t('Metadata') }}</h2>
+            <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('Metadata') }}</h2>
               </div>
               <div class="px-6 py-4">
                 <dl class="space-y-4">
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('ID') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900">#{{ category.id }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('ID') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">#{{ category.id }}</dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Created') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><DateDisplay :value="category.created_at" /></dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Created') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100"><DateDisplay :value="category.created_at" /></dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Last Updated') }}</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><DateDisplay :value="category.updated_at" /></dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Last Updated') }}</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100"><DateDisplay :value="category.updated_at" /></dd>
                   </div>
                 </dl>
               </div>
             </div>
 
             <!-- Quick Stats -->
-            <div class="bg-white shadow rounded-lg overflow-hidden">
-              <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">{{ $t('Quick Stats') }}</h2>
+            <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('Quick Stats') }}</h2>
               </div>
               <div class="px-6 py-4">
                 <dl class="space-y-4">
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Subcategories') }}</dt>
-                    <dd class="mt-1 text-2xl font-semibold text-gray-900">{{ category.children?.length || 0 }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Subcategories') }}</dt>
+                    <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ category.children?.length || 0 }}</dd>
                   </div>
                   <div>
-                    <dt class="text-sm font-medium text-gray-500">{{ $t('Products') }}</dt>
-                    <dd class="mt-1 text-2xl font-semibold text-gray-900">{{ category.products?.length || 0 }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $t('Products') }}</dt>
+                    <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ category.products?.length || 0 }}</dd>
                   </div>
                 </dl>
               </div>
             </div>
 
             <!-- Quick Actions -->
-            <div class="bg-white shadow rounded-lg overflow-hidden">
-              <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">{{ $t('Quick Actions') }}</h2>
+            <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('Quick Actions') }}</h2>
               </div>
               <div class="px-6 py-4 space-y-3">
                 <Link
@@ -335,7 +335,7 @@ const props = defineProps<Props>();
                 </Link>
                 <Link
                   :href="productRoutes.create({ query: { category_id: category.id } }).url"
-                  class="block w-full text-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="block w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   {{ $t('Add Product') }}
                 </Link>

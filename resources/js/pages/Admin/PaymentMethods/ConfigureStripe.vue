@@ -65,26 +65,26 @@ const save = () => {
         <div class="flex items-center gap-3 mb-2">
           <a href="/admin/settings/payment-methods" class="text-blue-600 hover:text-blue-700 font-medium">{{ $t('← Payment Methods') }}</a>
         </div>
-        <h1 class="text-2xl font-bold text-gray-900">{{ $t('Stripe Configuration') }}</h1>
-        <p class="mt-1 text-sm text-gray-500">{{ $t('Configure Stripe payment gateway settings') }}</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $t('Stripe Configuration') }}</h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Configure Stripe payment gateway settings') }}</p>
       </div>
 
       <!-- Configuration Form -->
-      <form @submit.prevent="save" class="bg-white rounded-lg shadow-sm border border-gray-200">
+      <form @submit.prevent="save" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <!-- Basic Information Section -->
-        <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Basic Information') }}</h2>
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Basic Information') }}</h2>
 
           <div class="space-y-4">
             <!-- Name -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {{ $t('Method Name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.name"
                 type="text"
-                :class="['w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent', errors.name ? 'border-red-500' : 'border-gray-300']"
+                :class="['w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent', errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
                 placeholder="Stripe"
               />
               <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
@@ -92,22 +92,22 @@ const save = () => {
 
             <!-- Description -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Description') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Description') }}</label>
               <textarea
                 v-model="form.description"
                 rows="3"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
                 :placeholder="$t('Describe this payment method...')"
               ></textarea>
             </div>
 
             <!-- Instructions -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Customer Instructions') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Customer Instructions') }}</label>
               <textarea
                 v-model="form.instructions"
                 rows="3"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-100"
                 :placeholder="$t('Instructions shown to customers at checkout...')"
               ></textarea>
             </div>
@@ -115,8 +115,8 @@ const save = () => {
         </div>
 
         <!-- Stripe API Keys Section -->
-        <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Stripe API Keys') }}</h2>
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Stripe API Keys') }}</h2>
 
           <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
             <p class="text-sm text-blue-900">
@@ -127,24 +127,24 @@ const save = () => {
           <div class="space-y-4">
             <!-- Public Key -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {{ $t('Publishable Key') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.configuration.public_key"
                 type="text"
-                :class="['w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.public_key'] ? 'border-red-500' : 'border-gray-300']"
+                :class="['w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm', errors['configuration.public_key'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600']"
                 placeholder="pk_live_..."
               />
               <p v-if="errors['configuration.public_key']" class="mt-1 text-sm text-red-600">{{ errors['configuration.public_key'] }}</p>
-              <p class="mt-1 text-xs text-gray-500">{{ $t('Starts with') }} <code class="bg-gray-100 px-1 rounded">pk_</code></p>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Starts with') }} <code class="bg-gray-100 dark:bg-gray-800/60 px-1 rounded">pk_</code></p>
             </div>
           </div>
         </div>
 
         <!-- Payment Features Section -->
-        <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Payment Features') }}</h2>
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Payment Features') }}</h2>
 
           <div class="space-y-4">
             <!-- Enable 3D Secure -->
@@ -153,11 +153,11 @@ const save = () => {
                 v-model="form.configuration.enable_3d_secure"
                 type="checkbox"
                 id="enable_3d_secure"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
               <label for="enable_3d_secure" class="ml-3 flex flex-col">
-                <span class="block text-sm font-medium text-gray-700">{{ $t('Enable 3D Secure') }}</span>
-                <span class="text-xs text-gray-500">{{ $t('Adds an extra layer of security to card payments') }}</span>
+                <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Enable 3D Secure') }}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ $t('Adds an extra layer of security to card payments') }}</span>
               </label>
             </div>
 
@@ -167,19 +167,19 @@ const save = () => {
                 v-model="form.configuration.save_payment_method"
                 type="checkbox"
                 id="save_payment_method"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
               <label for="save_payment_method" class="ml-3 flex flex-col">
-                <span class="block text-sm font-medium text-gray-700">{{ $t('Save Payment Methods') }}</span>
-                <span class="text-xs text-gray-500">{{ $t('Allow customers to save payment methods for future purchases') }}</span>
+                <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Save Payment Methods') }}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ $t('Allow customers to save payment methods for future purchases') }}</span>
               </label>
             </div>
           </div>
         </div>
 
         <!-- Supported Payment Methods Section -->
-        <div class="p-6 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Supported Payment Methods') }}</h2>
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Supported Payment Methods') }}</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Card -->
@@ -188,9 +188,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.card"
                 type="checkbox"
                 id="card"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="card" class="ml-3 block text-sm font-medium text-gray-700">{{ $t('Credit/Debit Card') }}</label>
+              <label for="card" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Credit/Debit Card') }}</label>
             </div>
 
             <!-- Apple Pay -->
@@ -199,9 +199,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.apple_pay"
                 type="checkbox"
                 id="apple_pay"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="apple_pay" class="ml-3 block text-sm font-medium text-gray-700">Apple Pay</label>
+              <label for="apple_pay" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">Apple Pay</label>
             </div>
 
             <!-- Google Pay -->
@@ -210,9 +210,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.google_pay"
                 type="checkbox"
                 id="google_pay"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="google_pay" class="ml-3 block text-sm font-medium text-gray-700">Google Pay</label>
+              <label for="google_pay" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">Google Pay</label>
             </div>
 
             <!-- iDEAL (Netherlands) -->
@@ -221,9 +221,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.ideal"
                 type="checkbox"
                 id="ideal"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="ideal" class="ml-3 block text-sm font-medium text-gray-700">iDEAL (Netherlands)</label>
+              <label for="ideal" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">iDEAL (Netherlands)</label>
             </div>
 
             <!-- Bancontact (Belgium) -->
@@ -232,9 +232,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.bancontact"
                 type="checkbox"
                 id="bancontact"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="bancontact" class="ml-3 block text-sm font-medium text-gray-700">Bancontact (Belgium)</label>
+              <label for="bancontact" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">Bancontact (Belgium)</label>
             </div>
 
             <!-- EPS (Austria) -->
@@ -243,9 +243,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.eps"
                 type="checkbox"
                 id="eps"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="eps" class="ml-3 block text-sm font-medium text-gray-700">EPS (Austria)</label>
+              <label for="eps" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">EPS (Austria)</label>
             </div>
 
             <!-- Giropay (Germany) -->
@@ -254,9 +254,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.giropay"
                 type="checkbox"
                 id="giropay"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="giropay" class="ml-3 block text-sm font-medium text-gray-700">Giropay (Germany)</label>
+              <label for="giropay" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">Giropay (Germany)</label>
             </div>
 
             <!-- Klarna -->
@@ -265,9 +265,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.klarna"
                 type="checkbox"
                 id="klarna"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="klarna" class="ml-3 block text-sm font-medium text-gray-700">Klarna (Buy Now Pay Later)</label>
+              <label for="klarna" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">Klarna (Buy Now Pay Later)</label>
             </div>
 
             <!-- Przelewy24 (Poland) -->
@@ -276,9 +276,9 @@ const save = () => {
                 v-model="form.configuration.payment_methods.p24"
                 type="checkbox"
                 id="p24"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="p24" class="ml-3 block text-sm font-medium text-gray-700">Przelewy24 (Poland)</label>
+              <label for="p24" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">Przelewy24 (Poland)</label>
             </div>
 
             <!-- Alipay (China) -->
@@ -287,16 +287,16 @@ const save = () => {
                 v-model="form.configuration.payment_methods.alipay"
                 type="checkbox"
                 id="alipay"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
               />
-              <label for="alipay" class="ml-3 block text-sm font-medium text-gray-700">Alipay (China)</label>
+              <label for="alipay" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">Alipay (China)</label>
             </div>
           </div>
         </div>
 
         <!-- Submit Button -->
-        <div class="p-6 bg-gray-50 border-t border-gray-200 flex justify-between">
-          <a href="/admin/settings/payment-methods" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50">
+        <div class="p-6 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 flex justify-between">
+          <a href="/admin/settings/payment-methods" class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
             {{ $t('Cancel') }}
           </a>
           <button

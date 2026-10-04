@@ -60,14 +60,14 @@ function cancel() {
       <div class="mb-6">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl font-bold text-gray-900">{{ $t('Add Address') }}</h1>
-            <p class="mt-1 text-sm text-gray-600">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $t('Add Address') }}</h1>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {{ $t('Add a new address for') }} {{ props.customer.first_name }} {{ props.customer.last_name }}
             </p>
           </div>
           <Link
             :href="`/admin/customers/${props.customer.id}`"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -79,14 +79,14 @@ function cancel() {
 
       <form @submit.prevent="submit">
         <!-- Address Type -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Address Type') }}</h2>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Address Type') }}</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Type *') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Type *') }}</label>
               <select
                 v-model="form.type"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': errors.type }"
               >
                 <option value="shipping">{{ $t('Shipping Address') }}</option>
@@ -98,48 +98,48 @@ function cancel() {
         </div>
 
         <!-- Contact Information -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Contact Information') }}</h2>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Contact Information') }}</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('First Name *') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('First Name *') }}</label>
               <input
                 v-model="form.first_name"
                 type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': errors.first_name }"
                 :placeholder="$t('Enter first name')"
               />
               <p v-if="errors.first_name" class="mt-1 text-sm text-red-600">{{ errors.first_name }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Last Name *') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Last Name *') }}</label>
               <input
                 v-model="form.last_name"
                 type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': errors.last_name }"
                 :placeholder="$t('Enter last name')"
               />
               <p v-if="errors.last_name" class="mt-1 text-sm text-red-600">{{ errors.last_name }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Company') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Company') }}</label>
               <input
                 v-model="form.company"
                 type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': errors.company }"
                 :placeholder="$t('Company name (optional)')"
               />
               <p v-if="errors.company" class="mt-1 text-sm text-red-600">{{ errors.company }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Phone *') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Phone *') }}</label>
               <input
                 v-model="form.phone"
                 type="tel"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': errors.phone }"
                 :placeholder="$t('Enter phone number')"
               />
@@ -149,26 +149,26 @@ function cancel() {
         </div>
 
         <!-- Address Details -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Address Details') }}</h2>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Address Details') }}</h2>
           <div class="grid grid-cols-1 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Address Line 1 *') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Address Line 1 *') }}</label>
               <input
                 v-model="form.address_line_1"
                 type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': errors.address_line_1 }"
                 :placeholder="$t('Street address, P.O. box, company name')"
               />
               <p v-if="errors.address_line_1" class="mt-1 text-sm text-red-600">{{ errors.address_line_1 }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Address Line 2') }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Address Line 2') }}</label>
               <input
                 v-model="form.address_line_2"
                 type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': errors.address_line_2 }"
                 :placeholder="$t('Apartment, suite, unit, building, floor, etc. (optional)')"
               />
@@ -176,22 +176,22 @@ function cancel() {
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('City *') }}</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('City *') }}</label>
                 <input
                   v-model="form.city"
                   type="text"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                   :class="{ 'border-red-500': errors.city }"
                   :placeholder="$t('Enter city')"
                 />
                 <p v-if="errors.city" class="mt-1 text-sm text-red-600">{{ errors.city }}</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('State / Province *') }}</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('State / Province *') }}</label>
                 <input
                   v-model="form.state"
                   type="text"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                   :class="{ 'border-red-500': errors.state }"
                   :placeholder="$t('Enter state or province')"
                 />
@@ -200,11 +200,11 @@ function cancel() {
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('Postal Code *') }}</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $t('Postal Code *') }}</label>
                 <input
                   v-model="form.postal_code"
                   type="text"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                   :class="{ 'border-red-500': errors.postal_code }"
                   :placeholder="$t('Enter postal code')"
                 />
@@ -215,20 +215,20 @@ function cancel() {
         </div>
 
         <!-- Default Address Settings -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Default Address Settings') }}</h2>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('Default Address Settings') }}</h2>
           <div class="space-y-3">
             <div class="flex items-start">
               <div class="flex items-center h-5">
                 <input
                   v-model="form.is_default_shipping"
                   type="checkbox"
-                  class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                 />
               </div>
               <div class="ml-3">
-                <label class="text-sm font-medium text-gray-700">{{ $t('Set as default shipping address') }}</label>
-                <p class="text-sm text-gray-500">{{ $t('Use this address as the default for shipping orders') }}</p>
+                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Set as default shipping address') }}</label>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Use this address as the default for shipping orders') }}</p>
               </div>
             </div>
             <div class="flex items-start">
@@ -236,12 +236,12 @@ function cancel() {
                 <input
                   v-model="form.is_default_billing"
                   type="checkbox"
-                  class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
                 />
               </div>
               <div class="ml-3">
-                <label class="text-sm font-medium text-gray-700">{{ $t('Set as default billing address') }}</label>
-                <p class="text-sm text-gray-500">{{ $t('Use this address as the default for billing and invoices') }}</p>
+                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $t('Set as default billing address') }}</label>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('Use this address as the default for billing and invoices') }}</p>
               </div>
             </div>
           </div>
@@ -252,7 +252,7 @@ function cancel() {
           <button
             type="button"
             @click="cancel"
-            class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             :disabled="processing"
           >
             {{ $t('Cancel') }}

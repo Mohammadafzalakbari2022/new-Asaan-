@@ -119,12 +119,12 @@ const deleteBrand = () => {
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl md:text-3xl text-gray-800 font-bold">{{ $t('Edit Brand') }}</h1>
-            <p class="text-sm text-gray-600 mt-1">{{ $t('Update brand information') }}</p>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-200 font-bold">{{ $t('Edit Brand') }}</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $t('Update brand information') }}</p>
           </div>
           <Link 
             :href="brandRoutes.index().url"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -140,8 +140,8 @@ const deleteBrand = () => {
           <!-- Main Content (2/3) -->
           <div class="lg:col-span-2 space-y-6">
             <!-- Tabs -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div class="border-b border-gray-200">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+              <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="-mb-px flex space-x-8 px-6" :aria-label="$t('Tabs')">
                   <button
                     type="button"
@@ -149,7 +149,7 @@ const deleteBrand = () => {
                     :class="[
                       activeTab === 'general'
                         ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600',
                       'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                     ]"
                   >
@@ -161,7 +161,7 @@ const deleteBrand = () => {
                     :class="[
                       activeTab === 'seo'
                         ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600',
                       'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                     ]"
                   >
@@ -176,7 +176,7 @@ const deleteBrand = () => {
                 <div v-show="activeTab === 'general'" class="space-y-6">
                   <!-- Name -->
                   <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {{ $t('Brand Name') }} <span class="text-red-500">*</span>
                     </label>
                     <input
@@ -185,7 +185,7 @@ const deleteBrand = () => {
                       @input="generateSlug"
                       type="text"
                       required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                       :class="{ 'border-red-500': form.errors?.name }"
                       :placeholder="$t('Enter brand name')"
                     />
@@ -194,31 +194,31 @@ const deleteBrand = () => {
 
                   <!-- Slug -->
                   <div>
-                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {{ $t('Slug') }}
                     </label>
                     <input
                       id="slug"
                       v-model="form.slug"
                       type="text"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                       :class="{ 'border-red-500': form.errors?.slug }"
                       :placeholder="$t('auto-generated-from-name')"
                     />
                     <p v-if="form.errors?.slug" class="mt-1 text-sm text-red-600">{{ form.errors.slug }}</p>
-                    <p class="mt-1 text-xs text-gray-500">{{ $t('URL-friendly version of the name') }}</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('URL-friendly version of the name') }}</p>
                   </div>
 
                   <!-- Description -->
                   <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {{ $t('Description') }}
                     </label>
                     <textarea
                       id="description"
                       v-model="form.description"
                       rows="4"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                       :class="{ 'border-red-500': form.errors?.description }"
                       :placeholder="$t('Brand description...')"
                     />
@@ -227,33 +227,33 @@ const deleteBrand = () => {
 
                   <!-- Website -->
                   <div>
-                    <label for="website" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="website" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {{ $t('Website URL') }}
                     </label>
                     <input
                       id="website"
                       v-model="form.website"
                       type="url"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                       :class="{ 'border-red-500': form.errors?.website }"
                       :placeholder="$t('https://example.com')"
                     />
                     <p v-if="form.errors?.website" class="mt-1 text-sm text-red-600">{{ form.errors.website }}</p>
-                    <p class="mt-1 text-xs text-gray-500">{{ $t('Full URL including https://') }}</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Full URL including https://') }}</p>
                   </div>
 
                   <!-- Logo Upload with Dropzone -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       {{ $t('Brand Logo') }}
                     </label>
                     
                     <!-- Existing Logo Preview -->
                     <div v-if="brand.logo && images.length === 0" class="mb-4">
                       <div class="flex items-center space-x-4">
-                        <img :src="`/storage/${brand.logo}`" :alt="$t('Current logo')" class="w-24 h-24 object-contain border border-gray-200 rounded-md" />
+                        <img :src="`/storage/${brand.logo}`" :alt="$t('Current logo')" class="w-24 h-24 object-contain border border-gray-200 dark:border-gray-700 rounded-md" />
                         <div>
-                          <p class="text-sm text-gray-600">{{ $t('Current Logo') }}</p>
+                          <p class="text-sm text-gray-600 dark:text-gray-400">{{ $t('Current Logo') }}</p>
                         </div>
                       </div>
                     </div>
@@ -275,7 +275,7 @@ const deleteBrand = () => {
                 <!-- SEO Tab -->
                 <div v-show="activeTab === 'seo'" class="space-y-6">
                   <div>
-                    <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="meta_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {{ $t('Meta Title') }}
                     </label>
                     <input
@@ -283,44 +283,44 @@ const deleteBrand = () => {
                       v-model="form.meta_title"
                       type="text"
                       maxlength="255"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                       :class="{ 'border-red-500': form.errors?.meta_title }"
                       :placeholder="$t('SEO title for search engines')"
                     />
                     <p v-if="form.errors?.meta_title" class="mt-1 text-sm text-red-600">{{ form.errors.meta_title }}</p>
-                    <p class="mt-1 text-xs text-gray-500">{{ $t('Recommended: 50-60 characters') }}</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Recommended: 50-60 characters') }}</p>
                   </div>
 
                   <div>
-                    <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="meta_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {{ $t('Meta Description') }}
                     </label>
                     <textarea
                       id="meta_description"
                       v-model="form.meta_description"
                       rows="3"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                       :class="{ 'border-red-500': form.errors?.meta_description }"
                       :placeholder="$t('SEO description for search engines')"
                     />
                     <p v-if="form.errors?.meta_description" class="mt-1 text-sm text-red-600">{{ form.errors.meta_description }}</p>
-                    <p class="mt-1 text-xs text-gray-500">{{ $t('Recommended: 150-160 characters') }}</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Recommended: 150-160 characters') }}</p>
                   </div>
 
                   <div>
-                    <label for="meta_keywords" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="meta_keywords" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {{ $t('Meta Keywords') }}
                     </label>
                     <input
                       id="meta_keywords"
                       v-model="form.meta_keywords"
                       type="text"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700/50 dark:text-gray-100"
                       :class="{ 'border-red-500': form.errors?.meta_keywords }"
                       :placeholder="$t('keyword1, keyword2, keyword3')"
                     />
                     <p v-if="form.errors?.meta_keywords" class="mt-1 text-sm text-red-600">{{ form.errors.meta_keywords }}</p>
-                    <p class="mt-1 text-xs text-gray-500">{{ $t('Separate keywords with commas') }}</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $t('Separate keywords with commas') }}</p>
                   </div>
                 </div>
               </div>
@@ -330,8 +330,8 @@ const deleteBrand = () => {
           <!-- Sidebar (1/3) -->
           <div class="space-y-6">
             <!-- Status Card -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 class="text-sm font-medium text-gray-900 mb-4">{{ $t('Status') }}</h3>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">{{ $t('Status') }}</h3>
               
               <div class="space-y-4">
                 <!-- Active Status -->
@@ -340,9 +340,9 @@ const deleteBrand = () => {
                     type="checkbox"
                     id="status"
                     v-model="form.status"
-                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
                   />
-                  <label for="status" class="ml-2 block text-sm text-gray-900">{{ $t('Active') }}</label>
+                  <label for="status" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ $t('Active') }}</label>
                 </div>
 
                 <!-- Featured -->
@@ -351,16 +351,16 @@ const deleteBrand = () => {
                     type="checkbox"
                     id="is_featured"
                     v-model="form.is_featured"
-                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
                   />
-                  <label for="is_featured" class="ml-2 block text-sm text-gray-900">{{ $t('Featured Brand') }}</label>
+                  <label for="is_featured" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ $t('Featured Brand') }}</label>
                 </div>
               </div>
             </div>
 
             <!-- Actions Card -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 class="text-sm font-medium text-gray-900 mb-4">{{ $t('Actions') }}</h3>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">{{ $t('Actions') }}</h3>
               
               <div class="space-y-3">
                 <button
@@ -377,7 +377,7 @@ const deleteBrand = () => {
                 
                 <Link
                   :href="brandRoutes.index().url"
-                  class="w-full inline-block text-center border border-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+                  class="w-full inline-block text-center border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
                 >
                   {{ $t('Cancel') }}
                 </Link>
@@ -393,12 +393,12 @@ const deleteBrand = () => {
             </div>
 
             <!-- Info Card -->
-            <div v-if="brand.products_count !== undefined" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 class="text-sm font-medium text-gray-900 mb-3">{{ $t('Information') }}</h3>
+            <div v-if="brand.products_count !== undefined" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">{{ $t('Information') }}</h3>
               <dl class="space-y-2">
                 <div class="flex justify-between text-sm">
-                  <dt class="text-gray-500">{{ $t('Products:') }}</dt>
-                  <dd class="text-gray-900 font-medium">{{ brand.products_count }}</dd>
+                  <dt class="text-gray-500 dark:text-gray-400">{{ $t('Products:') }}</dt>
+                  <dd class="text-gray-900 dark:text-gray-100 font-medium">{{ brand.products_count }}</dd>
                 </div>
               </dl>
             </div>

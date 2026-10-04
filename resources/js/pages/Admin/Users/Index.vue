@@ -73,9 +73,9 @@ const getStatusBadgeClass = (isActive: boolean) => {
         <div class="mb-8">
           <div class="flex items-center gap-3 mb-2">
             <Users class="w-8 h-8 text-primary" />
-            <h1 class="text-3xl font-bold text-gray-900">{{ $t('User Management') }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $t('User Management') }}</h1>
           </div>
-          <p class="text-gray-600">{{ $t('Manage user accounts and permissions') }}</p>
+          <p class="text-gray-600 dark:text-gray-400">{{ $t('Manage user accounts and permissions') }}</p>
         </div>
 
         <!-- Search Bar -->
@@ -87,7 +87,7 @@ const getStatusBadgeClass = (isActive: boolean) => {
                 v-model="search"
                 type="text"
                 :placeholder="$t('Search by name or email...')"
-                class="pl-10"
+                class="pl-10 dark:bg-gray-700/50 dark:text-gray-100"
                 @keyup.enter="searchUsers"
               />
             </div>
@@ -98,32 +98,32 @@ const getStatusBadgeClass = (isActive: boolean) => {
         </div>
 
         <!-- Users Table -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {{ $t('User') }}
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {{ $t('Role') }}
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {{ $t('Status') }}
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {{ $t('Email Verified') }}
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {{ $t('Joined') }}
                 </th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {{ $t('Actions') }}
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="user in props.users.data" :key="user.id" class="hover:bg-gray-50">
+            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              <tr v-for="user in props.users.data" :key="user.id" class="hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 h-10 w-10">
@@ -134,10 +134,10 @@ const getStatusBadgeClass = (isActive: boolean) => {
                       </div>
                     </div>
                     <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
+                      <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                         {{ user.name }}
                       </div>
-                      <div class="text-sm text-gray-500">
+                      <div class="text-sm text-gray-500 dark:text-gray-400">
                         {{ user.email }}
                       </div>
                     </div>
@@ -159,10 +159,10 @@ const getStatusBadgeClass = (isActive: boolean) => {
                     {{ user.is_active ? $t('Active') : $t('Inactive') }}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   {{ user.email_verified_at || $t('Not verified') }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   <DateDisplay :value="user.created_at" time />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -186,26 +186,26 @@ const getStatusBadgeClass = (isActive: boolean) => {
           </table>
 
           <!-- Pagination -->
-          <div v-if="props.users.last_page > 1" class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+          <div v-if="props.users.last_page > 1" class="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
             <div class="flex-1 flex justify-between sm:hidden">
               <Link
                 v-if="props.users.current_page > 1"
                 :href="userRoutes.index.url({ query: { page: props.users.current_page - 1 } })"
-                class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
               >
                 {{ $t('Previous') }}
               </Link>
               <Link
                 v-if="props.users.current_page < props.users.last_page"
                 :href="userRoutes.index.url({ query: { page: props.users.current_page + 1 } })"
-                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
               >
                 {{ $t('Next') }}
               </Link>
             </div>
             <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
-                <p class="text-sm text-gray-700">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
                   {{ $t('Showing') }}
                   <span class="font-medium">{{ (props.users.current_page - 1) * props.users.per_page + 1 }}</span>
                   {{ $t('to') }}

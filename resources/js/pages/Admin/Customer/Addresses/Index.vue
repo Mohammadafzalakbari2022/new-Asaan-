@@ -78,15 +78,15 @@ function setDefaultBilling(id: number) {
       <div class="mb-6">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl font-bold text-gray-900">{{ $t('Customer Addresses') }}</h1>
-            <p class="mt-1 text-sm text-gray-600">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $t('Customer Addresses') }}</h1>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {{ $t('Manage addresses for {name}', { name: `${props.customer.first_name} ${props.customer.last_name}` }) }}
             </p>
           </div>
           <div class="flex items-center gap-3">
             <Link
               :href="`/admin/customers/${props.customer.id}`"
-              class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -107,33 +107,33 @@ function setDefaultBilling(id: number) {
       </div>
 
       <!-- Addresses Table -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700/50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Type') }}</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Name') }}</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Address') }}</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Phone') }}</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Default For') }}</th>
-              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $t('Actions') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Type') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Name') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Address') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Phone') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Default For') }}</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ $t('Actions') }}</th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="addr in props.addresses.data" :key="addr.id" class="hover:bg-gray-50">
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <tr v-for="addr in props.addresses.data" :key="addr.id" class="hover:bg-gray-50 dark:hover:bg-gray-700">
               <td class="px-6 py-4 whitespace-nowrap">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="addr.type === 'shipping' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'">
                   {{ addr.type === 'shipping' ? $t('Shipping') : $t('Billing') }}
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm font-medium text-gray-900">{{ addr.full_name }}</div>
-                <div v-if="addr.company" class="text-sm text-gray-500">{{ addr.company }}</div>
+                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ addr.full_name }}</div>
+                <div v-if="addr.company" class="text-sm text-gray-500 dark:text-gray-400">{{ addr.company }}</div>
               </td>
               <td class="px-6 py-4">
-                <div class="text-sm text-gray-900">{{ addr.formatted_address }}</div>
+                <div class="text-sm text-gray-900 dark:text-gray-100">{{ addr.formatted_address }}</div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                 {{ addr.phone || '-' }}
               </td>
               <td class="px-6 py-4">
@@ -144,7 +144,7 @@ function setDefaultBilling(id: number) {
                     </svg>
                     {{ $t('Shipping') }}
                   </div>
-                  <button v-else @click="setDefaultShipping(addr.id)" class="text-xs text-gray-600 hover:text-blue-600 text-left">
+                  <button v-else @click="setDefaultShipping(addr.id)" class="text-xs text-gray-600 dark:text-gray-400 hover:text-blue-600 text-left">
                     {{ $t('Set as default shipping') }}
                   </button>
                   
@@ -154,7 +154,7 @@ function setDefaultBilling(id: number) {
                     </svg>
                     {{ $t('Billing') }}
                   </div>
-                  <button v-else @click="setDefaultBilling(addr.id)" class="text-xs text-gray-600 hover:text-blue-600 text-left">
+                  <button v-else @click="setDefaultBilling(addr.id)" class="text-xs text-gray-600 dark:text-gray-400 hover:text-blue-600 text-left">
                     {{ $t('Set as default billing') }}
                   </button>
                 </div>
@@ -186,7 +186,7 @@ function setDefaultBilling(id: number) {
         </table>
 
         <!-- Pagination -->
-        <div v-if="props.addresses.data.length > 0" class="bg-white px-4 py-3 border-t border-gray-200">
+        <div v-if="props.addresses.data.length > 0" class="bg-white dark:bg-gray-800 px-4 py-3 border-t border-gray-200 dark:border-gray-700">
           <Pagination :data="props.addresses" />
         </div>
 
@@ -196,8 +196,8 @@ function setDefaultBilling(id: number) {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">{{ $t('No addresses') }}</h3>
-          <p class="mt-1 text-sm text-gray-500">{{ $t('Get started by adding a new address.') }}</p>
+          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $t('No addresses') }}</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $t('Get started by adding a new address.') }}</p>
           <div class="mt-6">
             <Link
               :href="`/admin/customers/${props.customer.id}/addresses/create`"

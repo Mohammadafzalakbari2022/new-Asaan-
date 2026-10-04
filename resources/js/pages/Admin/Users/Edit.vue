@@ -66,21 +66,21 @@ const changePassword = () => {
         <div class="mb-8">
           <Link
             :href="userRoutes.index.url()"
-            class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
+            class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 mb-4"
           >
             <ArrowLeft class="w-4 h-4 mr-2" />
             {{ $t('Back to Users') }}
           </Link>
           <div class="flex items-center gap-3 mb-2">
             <User class="w-8 h-8 text-primary" />
-            <h1 class="text-3xl font-bold text-gray-900">{{ $t('Edit User') }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $t('Edit User') }}</h1>
           </div>
-          <p class="text-gray-600">{{ $t('Update user information and manage permissions') }}</p>
+          <p class="text-gray-600 dark:text-gray-400">{{ $t('Update user information and manage permissions') }}</p>
         </div>
 
         <!-- User Profile Form -->
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">{{ $t('Profile Information') }}</h2>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ $t('Profile Information') }}</h2>
           
           <form @submit.prevent="updateProfile" class="space-y-6">
             <!-- Name -->
@@ -90,7 +90,7 @@ const changePassword = () => {
                 id="name"
                 v-model="profileForm.name"
                 type="text"
-                class="mt-1 bg-white"
+                class="mt-1 bg-white dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': profileForm.errors.name }"
                 required
               />
@@ -106,7 +106,7 @@ const changePassword = () => {
                 id="email"
                 v-model="profileForm.email"
                 type="email"
-                class="mt-1 bg-white"
+                class="mt-1 bg-white dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': profileForm.errors.email }"
                 required
               />
@@ -121,7 +121,7 @@ const changePassword = () => {
               <select
                 id="role"
                 v-model="profileForm.role"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': profileForm.errors.role }"
               >
                 <option value="customer">{{ $t('Customer') }}</option>
@@ -139,17 +139,17 @@ const changePassword = () => {
                 id="is_active"
                 v-model="profileForm.is_active"
                 type="checkbox"
-                class="rounded border-gray-300 text-primary shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                class="rounded border-gray-300 dark:border-gray-600 text-primary shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 dark:bg-gray-700"
               />
               <Label for="is_active" class="ml-2 mb-0">{{ $t('Active Account') }}</Label>
             </div>
 
             <!-- Additional Info -->
-            <div class="bg-gray-50 p-4 rounded-md space-y-2">
-              <div class="text-sm text-gray-600">
+            <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-md space-y-2">
+              <div class="text-sm text-gray-600 dark:text-gray-400">
                 <strong>{{ $t('Email Verified:') }}</strong> {{ props.user.email_verified_at || $t('Not verified') }}
               </div>
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-600 dark:text-gray-400">
                 <strong>{{ $t('Account Created:') }}</strong> <DateDisplay :value="props.user.created_at" time />
               </div>
             </div>
@@ -165,10 +165,10 @@ const changePassword = () => {
         </div>
 
         <!-- Password Change Form -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
           <div class="flex items-center gap-3 mb-6">
             <Key class="w-6 h-6 text-primary" />
-            <h2 class="text-xl font-semibold text-gray-900">{{ $t('Change Password') }}</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">{{ $t('Change Password') }}</h2>
           </div>
           
           <form @submit.prevent="changePassword" class="space-y-6">
@@ -179,7 +179,7 @@ const changePassword = () => {
                 id="current_password"
                 v-model="passwordForm.current_password"
                 type="password"
-                class="mt-1 bg-white"
+                class="mt-1 bg-white dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': passwordForm.errors.current_password }"
                 required
               />
@@ -195,7 +195,7 @@ const changePassword = () => {
                 id="password"
                 v-model="passwordForm.password"
                 type="password"
-                class="mt-1 bg-white"
+                class="mt-1 bg-white dark:bg-gray-700/50 dark:text-gray-100"
                 :class="{ 'border-red-500': passwordForm.errors.password }"
                 required
               />
@@ -211,7 +211,7 @@ const changePassword = () => {
                 id="password_confirmation"
                 v-model="passwordForm.password_confirmation"
                 type="password"
-                class="mt-1 bg-white"
+                class="mt-1 bg-white dark:bg-gray-700/50 dark:text-gray-100"
                 required
               />
             </div>

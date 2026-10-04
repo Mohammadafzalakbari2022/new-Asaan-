@@ -140,8 +140,8 @@ const uploadTheme = (event: Event) => {
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">{{ $t('Themes') }}</h1>
-            <p class="mt-1 text-sm text-gray-500">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">{{ $t('Themes') }}</h1>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
               {{ $t('Manage installed themes — browse the catalog to add new storefront templates') }}
             </p>
           </div>
@@ -155,7 +155,7 @@ const uploadTheme = (event: Event) => {
             </a>
             <button
               @click="triggerThemeUpload"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               <Plus class="w-4 h-4" />
               {{ $t('Upload Zip') }}
@@ -165,7 +165,7 @@ const uploadTheme = (event: Event) => {
             ref="themeFileInput"
             type="file"
             accept=".zip,application/zip"
-            class="hidden"
+            class="hidden dark:bg-gray-700/50 dark:text-gray-100"
             @change="uploadTheme"
           />
         </div>
@@ -191,10 +191,10 @@ const uploadTheme = (event: Event) => {
 
         <!-- Active Theme -->
         <div v-if="activeTheme" class="mb-12">
-          <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">{{ $t('Current Theme') }}</h2>
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row">
+          <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">{{ $t('Current Theme') }}</h2>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col md:flex-row">
             <!-- Screenshot -->
-            <div class="md:w-1/2 lg:w-2/5 aspect-video bg-gray-100 relative group overflow-hidden">
+            <div class="md:w-1/2 lg:w-2/5 aspect-video bg-gray-100 dark:bg-gray-800/60 relative group overflow-hidden">
                 <img
                   v-if="activeTheme.screenshot"
                   :src="activeTheme.screenshot"
@@ -219,15 +219,15 @@ const uploadTheme = (event: Event) => {
             <div class="p-6 md:p-8 md:w-1/2 lg:w-3/5 flex flex-col justify-center">
               <div class="flex items-start justify-between">
                 <div>
-                  <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ activeTheme.name }}</h3>
-                  <p class="text-gray-500 mb-4 text-base leading-relaxed">{{ activeTheme.description }}</p>
-                  <div class="flex items-center gap-4 text-sm text-gray-500">
+                  <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{{ activeTheme.name }}</h3>
+                  <p class="text-gray-500 dark:text-gray-400 mb-4 text-base leading-relaxed">{{ activeTheme.description }}</p>
+                  <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                     <div class="flex items-center">
-                      <span class="font-medium text-gray-900 mr-1">{{ $t('Version:') }}</span> {{ activeTheme.version }}
+                      <span class="font-medium text-gray-900 dark:text-gray-100 mr-1">{{ $t('Version:') }}</span> {{ activeTheme.version }}
                     </div>
                     <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
                     <div class="flex items-center">
-                      <span class="font-medium text-gray-900 mr-1">{{ $t('Author:') }}</span> {{ activeTheme.author }}
+                      <span class="font-medium text-gray-900 dark:text-gray-100 mr-1">{{ $t('Author:') }}</span> {{ activeTheme.author }}
                     </div>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ const uploadTheme = (event: Event) => {
                   href="/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center px-5 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors"
+                  class="inline-flex items-center px-5 py-2.5 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors"
                   :title="$t('Preview active theme')"
                 >
                   <Eye class="w-4 h-4 mr-2" />
@@ -266,7 +266,7 @@ const uploadTheme = (event: Event) => {
                   v-else-if="activeTheme.homepageEditor?.showImportLayout"
                   @click="importDemoLayout(activeTheme.slug)"
                   :disabled="importingLayout[activeTheme.slug]"
-                  class="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   :title="$t('Import pre-built homepage layout')"
                 >
                   <svg v-if="importingLayout[activeTheme.slug]" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
@@ -283,22 +283,22 @@ const uploadTheme = (event: Event) => {
 
         <!-- Installed Themes -->
         <div v-if="otherThemes.length > 0">
-          <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">{{ $t('Installed Themes') }}</h2>
+          <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">{{ $t('Installed Themes') }}</h2>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <div
               v-for="theme in otherThemes"
               :key="theme.id"
-              class="group relative bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col h-full"
+              class="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col h-full"
             >
               <!-- Screenshot -->
-              <div class="aspect-video bg-gray-100 relative overflow-hidden">
+              <div class="aspect-video bg-gray-100 dark:bg-gray-800/60 relative overflow-hidden">
                 <img
                   v-if="theme.screenshot"
                   :src="theme.screenshot"
                   :alt="theme.name"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div v-else class="w-full h-full flex items-center justify-center bg-gray-50">
+                <div v-else class="w-full h-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
                   <Monitor class="w-12 h-12 text-gray-300" />
                 </div>
                 
@@ -308,9 +308,9 @@ const uploadTheme = (event: Event) => {
                       v-if="theme.exists"
                       @click="activateTheme(theme.slug)"
                       :disabled="processing[theme.slug]"
-                      class="inline-flex items-center px-4 py-2 bg-white rounded-lg text-sm font-semibold text-gray-900 shadow-lg hover:bg-gray-50 focus:outline-none transform translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+                      class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 rounded-lg text-sm font-semibold text-gray-900 dark:text-gray-100 shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none transform translate-y-2 group-hover:translate-y-0 transition-all duration-300"
                     >
-                        <svg v-if="processing[theme.slug]" class="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-900" fill="none" viewBox="0 0 24 24">
+                        <svg v-if="processing[theme.slug]" class="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-900 dark:text-gray-100" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -324,13 +324,13 @@ const uploadTheme = (event: Event) => {
               <div class="p-5 flex-1 flex flex-col">
                 <div class="flex items-start justify-between mb-2">
                   <div>
-                    <h3 class="text-lg font-bold text-gray-900 leading-tight">{{ theme.name }}</h3>
-                    <div class="text-xs text-gray-500 mt-1">v{{ theme.version }} {{ $t('by {author}', { author: theme.author }) }}</div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">{{ theme.name }}</h3>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">v{{ theme.version }} {{ $t('by {author}', { author: theme.author }) }}</div>
                   </div>
                   <span v-if="theme.is_default" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">{{ $t('Default') }}</span>
                 </div>
                 
-                <p class="text-sm text-gray-500 mb-4 line-clamp-2">{{ theme.description }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">{{ theme.description }}</p>
 
                 <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
                    <div v-if="!theme.exists" class="flex items-center text-xs text-amber-600 font-medium">
@@ -366,13 +366,13 @@ const uploadTheme = (event: Event) => {
             <!-- Upload Placeholder Card -->
              <div 
                 @click="triggerThemeUpload"
-                class="group relative rounded-xl border-2 border-dashed border-gray-300 hover:border-gray-400 bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer min-h-[300px] flex flex-col items-center justify-center text-center p-6"
+                class="group relative rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-gray-400 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all cursor-pointer min-h-[300px] flex flex-col items-center justify-center text-center p-6"
               >
-                 <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                     <Plus class="w-8 h-8 text-gray-400 group-hover:text-gray-600" />
+                 <div class="w-16 h-16 rounded-full bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                     <Plus class="w-8 h-8 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-400" />
                  </div>
-                  <h3 class="text-base font-semibold text-gray-900">{{ $t('Add New Theme') }}</h3>
-                  <p class="text-sm text-gray-500 mt-1 max-w-[200px]">{{ $t('Upload a .zip file containing your theme files') }}</p>
+                  <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ $t('Add New Theme') }}</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-[200px]">{{ $t('Upload a .zip file containing your theme files') }}</p>
              </div>
           </div>
         </div>
@@ -380,12 +380,12 @@ const uploadTheme = (event: Event) => {
         <!-- Empty State (Only if no active theme AND no other themes) -->
         <div
           v-if="props.themes.length === 0"
-          class="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors"
+          class="text-center py-20 bg-white dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           @click="triggerThemeUpload"
         >
           <Package class="mx-auto h-12 w-12 text-gray-400" />
-          <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('No themes installed') }}</h3>
-          <p class="mt-2 text-sm text-gray-500">{{ $t('Click here to upload your first theme.') }}</p>
+          <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t('No themes installed') }}</h3>
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ $t('Click here to upload your first theme.') }}</p>
         </div>
       </div>
     </div>
