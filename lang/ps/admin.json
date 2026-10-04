@@ -2119,6 +2119,7 @@
     "Shipment #, Order #...": "بارنامه شمېره، سفارش شمېره...",
     "Shipment Created": "بارنامه جوړه شوه",
     "Shipment Extensions": "د بارنامې اکسټنشنونه",
+    "Shipments use your own delivery staff. No courier account or API needed.": "بارنامې ستاسو د خپلو تحویل کوونکو کارکوونکو له خوا لېږل کیږي. د کوریر حساب یا API ته اړتیا نشته.",
     "Shipment Method": "د بارنامې طریقه",
     "Shipment Timeline": "د بارنامې وختی پلان",
     "Shipment {number}": "بارنامه {number}",

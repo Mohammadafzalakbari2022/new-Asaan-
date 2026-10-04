@@ -11,14 +11,14 @@ use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
-| Built-in delivery is always available; the external courier is optional
+| Built-in delivery is always available; external couriers are switched off
 |--------------------------------------------------------------------------
 |
 | Two unrelated features were both called "delivery". The in-house one needs
 | no API token, no third-party account and no courier setting at all. These
 | tests pin that down so the collision cannot come back: the in-house option
-| must always show, the external courier must only show once it is switched
-| on AND has credentials.
+| must always show, and the external couriers (Delhivery/Shiprocket) are
+| switched off entirely, so they must never show or be accepted.
 |
 */
 
@@ -114,22 +114,14 @@ test('the courier key rename carries existing configuration across', function ()
     expect(DB::table('settings')->where('key', 'like', 'shipping.delivery.%')->count())->toBe(0);
 });
 
-test('the external courier option stays hidden until it is enabled and configured', function () {
+test('the external courier option stays hidden even when it is enabled and configured', function () {
     $admin = internalDeliveryAdmin();
     $order = internalDeliveryOrder();
     $settings = app(SettingService::class);
 
-    // Enabled but no token: still not usable, and must not be offered.
+    // Even switched on with a token, the external couriers stay switched off
+    // for this store: in-house delivery is the only option.
     $settings->set('shipping.courier.enabled', true, 'boolean', 'shipping');
-
-    $response = $this->actingAs($admin, 'admin')
-        ->get('/admin/sales/shipments/create?order_id=' . $order->id);
-
-    $response->assertInertia(fn ($page) => $page
-        ->where('internal_delivery_available', true)
-        ->where('courier_available', false));
-
-    // Enabled and configured: now it may appear as a separate extra option.
     $settings->set('shipping.courier.api_token', 'a-courier-token', 'string', 'shipping');
 
     $response = $this->actingAs($admin, 'admin')
@@ -137,5 +129,48 @@ test('the external courier option stays hidden until it is enabled and configure
 
     $response->assertInertia(fn ($page) => $page
         ->where('internal_delivery_available', true)
-        ->where('courier_available', true));
+        ->where('courier_available', false)
+        ->where('shiprocket_available', false));
+});
+
+test('an external courier shipment is refused', function () {
+    Http::fake();
+
+    $admin = internalDeliveryAdmin();
+    $order = internalDeliveryOrder();
+    $item = $order->items()->first();
+
+    $this->actingAs($admin, 'admin')
+        ->post('/admin/sales/shipments', [
+            'order_id' => $order->id,
+            'shipment_mode' => 'courier',
+            'items' => [
+                ['order_item_id' => $item->id, 'quantity' => 1],
+            ],
+        ])
+        ->assertSessionHasErrors('shipment_mode');
+
+    expect(Shipment::where('order_id', $order->id)->count())->toBe(0);
+    Http::assertNothingSent();
+});
+
+test('a shiprocket shipment is refused', function () {
+    Http::fake();
+
+    $admin = internalDeliveryAdmin();
+    $order = internalDeliveryOrder();
+    $item = $order->items()->first();
+
+    $this->actingAs($admin, 'admin')
+        ->post('/admin/sales/shipments', [
+            'order_id' => $order->id,
+            'shipment_mode' => 'shiprocket',
+            'items' => [
+                ['order_item_id' => $item->id, 'quantity' => 1],
+            ],
+        ])
+        ->assertSessionHasErrors('shipment_mode');
+
+    expect(Shipment::where('order_id', $order->id)->count())->toBe(0);
+    Http::assertNothingSent();
 });

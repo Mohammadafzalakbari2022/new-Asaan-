@@ -2119,6 +2119,7 @@
     "Shipment #, Order #...": "بارنامه شماره، سفارش شماره...",
     "Shipment Created": "بارنامه ایجاد شد",
     "Shipment Extensions": "افزونه‌های بارنامه",
+    "Shipments use your own delivery staff. No courier account or API needed.": "بارنامه‌ها توسط کارکنان تحویل خودتان ارسال می‌شوند. نیازی به حساب پیک یا API نیست.",
     "Shipment Method": "روش بارنامه",
     "Shipment Timeline": "خط زمانی بارنامه",
     "Shipment {number}": "بارنامه {number}",

@@ -81,21 +81,13 @@ class ShipmentController extends Controller
                 ->with('error', 'This order cannot be shipped');
         }
 
-        $shiprocketEnabled = (bool) $this->settingService->get('shipping.shiprocket.enabled', false);
-        $shiprocketConfigured = $shiprocketEnabled
-            && (string) $this->settingService->get('shipping.shiprocket.email', '') !== ''
-            && (string) $this->settingService->get('shipping.shiprocket.password', '') !== '';
-
-        // The in-house delivery system is always offered; it needs no courier
-        // setting, no API token and no third-party account. The external
-        // courier is a separate, optional extra that only appears once it is
-        // switched on and has credentials.
-        $courierConfigured = $this->deliveryService->isConfigured();
-
+        // External couriers (Shiprocket/Delhivery) are switched off. The
+        // in-house delivery system is always available: it needs no courier
+        // setting, no API token and no third-party account.
         return Inertia::render('Admin/Sales/Shipments/Create', [
             'order' => $order,
-            'shiprocket_available' => $shiprocketConfigured,
-            'courier_available' => $courierConfigured,
+            'shiprocket_available' => false,
+            'courier_available' => false,
             'internal_delivery_available' => true,
             'statuses' => collect(Shipment::getStatuses())->map(function ($label, $value) {
                 return ['value' => $value, 'label' => $label];
@@ -110,7 +102,7 @@ class ShipmentController extends Controller
     {
         $validated = $request->validate([
             'order_id' => 'required|exists:orders,id',
-            'shipment_mode' => 'required|string|in:manual,shiprocket,courier,internal_delivery',
+            'shipment_mode' => 'required|string|in:manual,internal_delivery',
             'carrier' => 'nullable|string|max:100',
             'tracking_number' => 'nullable|string|max:255',
             'tracking_url' => 'nullable|url|max:500',

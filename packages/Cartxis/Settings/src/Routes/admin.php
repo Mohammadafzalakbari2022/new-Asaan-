@@ -54,22 +54,13 @@ Route::middleware(['web', 'auth:admin'])
             Route::put('{paymentMethod}/sort', [PaymentMethodsController::class, 'sort'])->name('sort');
         });
 
-        // Shipping Methods & Extensions
+        // Shipping Methods
+        // External couriers (Delhivery/Shiprocket) are switched off: the store
+        // only uses its built-in in-house delivery.
         Route::middleware(['prevent.user.admin'])->group(function () {
-            Route::get('delivery', [DeliverySettingsController::class, 'index'])->name('delivery.index');
-            Route::post('delivery', [DeliverySettingsController::class, 'save'])->name('delivery.save');
-            Route::post('delivery/test-connection', [DeliverySettingsController::class, 'testConnection'])->name('delivery.test-connection');
-            Route::get('delivery/metadata', [DeliverySettingsController::class, 'fetchMetadata'])->name('delivery.metadata');
-
-            Route::get('shiprocket', [ShiprocketSettingsController::class, 'index'])->name('shiprocket.index');
-            Route::post('shiprocket', [ShiprocketSettingsController::class, 'save'])->name('shiprocket.save');
-            Route::post('shiprocket/test-connection', [ShiprocketSettingsController::class, 'testConnection'])->name('shiprocket.test-connection');
-            Route::get('shiprocket/metadata', [ShiprocketSettingsController::class, 'fetchMetadata'])->name('shiprocket.metadata');
-
             Route::resource('shipping-methods', ShippingMethodsController::class);
             Route::post('shipping-methods/{shippingMethod}/set-default', [ShippingMethodsController::class, 'setDefault'])->name('shipping-methods.setDefault');
             Route::post('shipping-methods/{shippingMethod}/toggle-status', [ShippingMethodsController::class, 'toggleStatus'])->name('shipping-methods.toggleStatus');
-            Route::post('shipping-extensions/{extension}/toggle', [ShippingMethodsController::class, 'toggleExtension'])->name('shipping-extensions.toggle');
             Route::post('shipping-methods/{shippingMethod}/add-rate', [ShippingMethodsController::class, 'addRate'])->name('shipping-methods.addRate');
             Route::put('shipping-rates/{shippingRate}', [ShippingMethodsController::class, 'updateRate'])->name('shipping-rates.update');
             Route::delete('shipping-rates/{shippingRate}', [ShippingMethodsController::class, 'deleteRate'])->name('shipping-rates.delete');

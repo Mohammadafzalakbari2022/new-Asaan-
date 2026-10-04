@@ -148,30 +148,6 @@ function trackPackage() {
   }
 }
 
-function createInShiprocket() {
-  router.post(`/admin/sales/shipments/${props.shipment.id}/shiprocket/create`, {}, {
-    preserveScroll: true,
-  });
-}
-
-function syncShiprocketStatus() {
-  router.post(`/admin/sales/shipments/${props.shipment.id}/shiprocket/sync`, {}, {
-    preserveScroll: true,
-  });
-}
-
-function createInDelivery() {
-  router.post(`/admin/sales/shipments/${props.shipment.id}/delivery/create`, {}, {
-    preserveScroll: true,
-  });
-}
-
-function syncDeliveryStatus() {
-  router.post(`/admin/sales/shipments/${props.shipment.id}/delivery/sync`, {}, {
-    preserveScroll: true,
-  });
-}
-
 const canEdit = ['pending', 'shipped'].includes(props.shipment.status);
 const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
 </script>
@@ -209,34 +185,6 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
             {{ $t('Update Tracking') }}
           </button>
           <button
-            v-if="!shipment.shiprocket_order_id"
-            @click="createInShiprocket"
-            class="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
-          >
-            {{ $t('Send to Shiprocket') }}
-          </button>
-          <button
-            v-else
-            @click="syncShiprocketStatus"
-            class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-          >
-            {{ $t('Sync Shiprocket Status') }}
-          </button>
-          <button
-            v-if="!shipment.delivery_order_id"
-            @click="createInDelivery"
-            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-          >
-            {{ $t('Send to Delivery') }}
-          </button>
-          <button
-            v-else
-            @click="syncDeliveryStatus"
-            class="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
-          >
-            {{ $t('Sync Delivery Status') }}
-          </button>
-          <button
             v-if="shipment.status !== 'delivered' && shipment.status !== 'cancelled'"
             @click="showUpdateStatusModal = true"
             class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
@@ -251,38 +199,6 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
             {{ $t('Cancel') }}
           </button>
         </div>
-      </div>
-
-      <div
-        v-if="!shipment.shiprocket_order_id"
-        class="bg-cyan-50 border border-cyan-200 rounded-lg p-4 flex items-center justify-between"
-      >
-        <div>
-          <p class="text-sm font-semibold text-cyan-900">{{ $t('Next step: send this shipment to Shiprocket') }}</p>
-          <p class="text-sm text-cyan-800 mt-1">{{ $t('This will create Shiprocket order/shipment and fetch AWB if available.') }}</p>
-        </div>
-        <button
-          @click="createInShiprocket"
-          class="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
-        >
-          {{ $t('Send to Shiprocket') }}
-        </button>
-      </div>
-
-      <div
-        v-if="!shipment.delivery_order_id"
-        class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 flex items-center justify-between"
-      >
-        <div>
-          <p class="text-sm font-semibold text-indigo-900">{{ $t('Next step: send this shipment to Delivery') }}</p>
-          <p class="text-sm text-indigo-800 mt-1">{{ $t('This will create Delivery order/shipment and fetch AWB if available.') }}</p>
-        </div>
-        <button
-          @click="createInDelivery"
-          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-        >
-          {{ $t('Send to Delivery') }}
-        </button>
       </div>
 
       <!-- Status & Info Cards -->
@@ -330,22 +246,6 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
               <div class="text-sm text-gray-600">{{ $t('Tracking Number') }}</div>
               <div class="mt-1 font-medium text-gray-900">{{ shipment.tracking_number || $t('Not available') }}</div>
             </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Shiprocket Status') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.shiprocket_status || $t('Not synced') }}</div>
-            </div>
-            <div v-if="shipment.shiprocket_synced_at">
-              <div class="text-sm text-gray-600">{{ $t('Last Synced') }}</div>
-              <div class="mt-1 font-medium text-gray-900"><DateDisplay :value="shipment.shiprocket_synced_at" time /></div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Delivery Status') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.delivery_status || $t('Not synced') }}</div>
-            </div>
-            <div v-if="shipment.delivery_synced_at">
-              <div class="text-sm text-gray-600">{{ $t('Delivery Last Synced') }}</div>
-              <div class="mt-1 font-medium text-gray-900"><DateDisplay :value="shipment.delivery_synced_at" time /></div>
-            </div>
             <div v-if="shipment.tracking_url">
               <button
                 @click="trackPackage"
@@ -353,50 +253,6 @@ const canCancel = !['delivered', 'cancelled'].includes(props.shipment.status);
               >
                 {{ $t('Track Package') }}
               </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Shiprocket Reference') }}</h3>
-          <div class="space-y-3">
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Shiprocket Order ID') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.shiprocket_order_id || $t('Not available') }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Shiprocket Shipment ID') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.shiprocket_shipment_id || $t('Not available') }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('AWB Code') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.shiprocket_awb_code || $t('Not available') }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Shiprocket Courier') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.shiprocket_courier_name || $t('Not available') }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-sm p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('Delivery Reference') }}</h3>
-          <div class="space-y-3">
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Delivery Order ID') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.delivery_order_id || $t('Not available') }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Delivery Shipment ID') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.delivery_shipment_id || $t('Not available') }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Delivery AWB Code') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.delivery_awb_code || $t('Not available') }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">{{ $t('Delivery Courier') }}</div>
-              <div class="mt-1 font-medium text-gray-900">{{ shipment.delivery_courier_name || $t('Not available') }}</div>
             </div>
           </div>
         </div>
