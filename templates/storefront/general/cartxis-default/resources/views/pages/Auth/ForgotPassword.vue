@@ -24,20 +24,20 @@ defineProps<{
     <ThemeLayout>
         <Head :title="$t('Forgot Password')" />
 
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-slate-900">
             <div class="w-full max-w-md">
                 <!-- Header -->
                 <div class="text-center mb-8">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2">
                         {{ $t('Forgot Password?') }}
                     </h1>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-slate-400">
                         {{ $t("No problem. Just let us know your email address and we'll send you a password reset link.") }}
                     </p>
                 </div>
 
                 <!-- Card -->
-                <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8">
                     <!-- Status Message -->
                     <div
                         v-if="status"
@@ -54,7 +54,7 @@ defineProps<{
                     >
                         <!-- Email Field -->
                         <div class="space-y-2">
-                            <Label for="email" class="text-sm font-medium text-gray-700">
+                            <Label for="email" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Email Address') }}
                             </Label>
                             <Input
@@ -88,16 +88,16 @@ defineProps<{
                     <!-- Divider -->
                     <div class="relative my-6">
                         <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
+                            <div class="w-full border-t border-gray-300 dark:border-slate-600"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
+                            <span class="px-2 bg-white dark:bg-slate-900 text-gray-500 dark:text-slate-400">{{ $t('or') }}</span>
                         </div>
                     </div>
 
                     <!-- Back to Login -->
                     <div class="text-center">
-                        <p class="text-sm text-gray-600">
+                        <p class="text-sm text-gray-600 dark:text-slate-400">
                             {{ $t('Remember your password?') }}
                             <TextLink
                                 href="/login"
@@ -115,7 +115,7 @@ defineProps<{
                 <div class="text-center mt-6">
                     <TextLink
                         href="/"
-                        class="text-sm text-gray-600 hover:underline inline-flex items-center"
+                        class="text-sm text-gray-600 dark:text-slate-400 hover:underline inline-flex items-center"
                         :tabindex="4"
                     >
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

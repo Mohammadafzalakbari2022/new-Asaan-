@@ -110,14 +110,14 @@ const handleWishlistToggle = async () => {
 </script>
 
 <template>
-    <div class="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
+    <div class="group relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
         <Link :href="`/product/${product.slug}`" class="block">
             <div class="relative aspect-square bg-gradient-to-br from-blue-50 to-slate-100 overflow-hidden">
                 <img
                     v-if="product.image"
                     :src="product.image"
                     :alt="product.name"
-                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    class="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                 />
                 <div v-else class="absolute inset-0 flex items-center justify-center opacity-50">
@@ -154,7 +154,7 @@ const handleWishlistToggle = async () => {
                     v-if="product.in_stock && wishlistEnabled"
                     @click.prevent="handleWishlistToggle"
                     :disabled="wishlistLoading"
-                    class="absolute top-4 right-4 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-all hover:scale-110 disabled:opacity-50 z-10"
+                    class="absolute top-4 right-4 p-2 bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md transition-all hover:scale-110 disabled:opacity-50 z-10"
                     :title="$t('Add to wishlist')"
                 >
                     <Heart
@@ -175,7 +175,7 @@ const handleWishlistToggle = async () => {
                 >
                     <button
                         @click.prevent="emit('quickView', product.slug)"
-                        class="px-6 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 cursor-pointer"
+                        class="px-6 py-3 bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-slate-800 transition-all transform hover:scale-105 cursor-pointer"
                     >
                         {{ $t('Quick View') }}
                     </button>
@@ -187,7 +187,7 @@ const handleWishlistToggle = async () => {
             <div v-if="product.brand" class="mb-2">
                 <Link
                     :href="`/brands/${product.brand.slug}`"
-                    class="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                    class="text-xs text-gray-500 dark:text-slate-400 hover:text-gray-700 transition-colors"
                 >
                     {{ product.brand.name }}
                 </Link>
@@ -195,7 +195,7 @@ const handleWishlistToggle = async () => {
 
             <Link :href="`/product/${product.slug}`">
                 <h3
-                    class="font-semibold text-gray-900 mb-2 transition-colors line-clamp-2 min-h-[3rem] group-hover:text-[var(--theme-primary)]"
+                    class="font-semibold text-gray-900 dark:text-slate-100 mb-2 transition-colors line-clamp-2 min-h-[3rem] group-hover:text-[var(--theme-primary)]"
                 >
                     {{ product.name }}
                 </h3>
@@ -205,15 +205,15 @@ const handleWishlistToggle = async () => {
                 <div class="flex text-yellow-400 text-sm">
                     {{ renderStars(product.rating) }}
                 </div>
-                <span class="text-xs text-gray-500">({{ product.reviews_count }})</span>
+                <span class="text-xs text-gray-500 dark:text-slate-400">({{ product.reviews_count }})</span>
             </div>
 
             <div class="mb-3">
                 <div class="flex items-baseline gap-2">
-                    <span class="text-2xl font-bold text-gray-900">
+                    <span class="text-2xl font-bold text-gray-900 dark:text-slate-100">
                         {{ formatPrice(displayPrice) }}
                     </span>
-                    <span v-if="hasDiscount" class="text-sm text-gray-500 line-through">
+                    <span v-if="hasDiscount" class="text-sm text-gray-500 dark:text-slate-400 line-through">
                         {{ formatPrice(typeof product.price === 'string' ? parseFloat(product.price) : product.price) }}
                     </span>
                 </div>

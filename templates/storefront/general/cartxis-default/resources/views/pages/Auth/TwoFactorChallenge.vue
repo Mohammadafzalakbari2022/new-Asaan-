@@ -35,10 +35,10 @@ const submit = () => {
     <ThemeLayout>
         <Head :title="$t('Two-Factor Authentication')" />
 
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-slate-900">
             <div class="w-full max-w-md">
                 <!-- Card -->
-                <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8">
                     <!-- Icon -->
                     <div class="flex justify-center mb-6">
                         <div 
@@ -55,10 +55,10 @@ const submit = () => {
 
                     <!-- Header -->
                     <div class="text-center mb-6">
-                        <h1 class="text-2xl font-bold text-gray-900 mb-2">
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-2">
                             {{ $t('Two-Factor Authentication') }}
                         </h1>
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-slate-400">
                             <template v-if="!recovery">
                                 {{ $t('Please confirm access to your account by entering the authentication code provided by your authenticator application.') }}
                             </template>
@@ -72,7 +72,7 @@ const submit = () => {
                     <form @submit.prevent="submit" class="space-y-6">
                         <!-- Code Input -->
                         <div v-if="!recovery" class="space-y-2">
-                            <Label for="code" class="text-sm font-medium text-gray-700">
+                            <Label for="code" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Authentication Code') }}
                             </Label>
                             <Input
@@ -92,7 +92,7 @@ const submit = () => {
 
                         <!-- Recovery Code Input -->
                         <div v-else class="space-y-2">
-                            <Label for="recovery_code" class="text-sm font-medium text-gray-700">
+                            <Label for="recovery_code" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Recovery Code') }}
                             </Label>
                                           <Input
@@ -124,10 +124,10 @@ const submit = () => {
                     <!-- Divider -->
                     <div class="relative my-6">
                         <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
+                            <div class="w-full border-t border-gray-300 dark:border-slate-600"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
+                            <span class="px-2 bg-white dark:bg-slate-900 text-gray-500 dark:text-slate-400">{{ $t('or') }}</span>
                         </div>
                     </div>
 

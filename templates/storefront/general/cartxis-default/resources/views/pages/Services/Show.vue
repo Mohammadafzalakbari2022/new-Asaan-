@@ -138,14 +138,14 @@ const submit = () => {
     <Head :title="service.name" />
 
     <ThemeLayout>
-        <div class="bg-gray-50 border-b">
+        <div class="bg-gray-50 dark:bg-slate-900 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <nav class="flex items-center space-x-2 text-sm text-gray-500">
+                <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-slate-400">
                     <Link href="/" class="hover:text-gray-700">{{ $t('Home') }}</Link>
                     <span>/</span>
                     <Link href="/services" class="hover:text-gray-700">{{ $t('Services') }}</Link>
                     <span>/</span>
-                    <span class="text-gray-700">{{ service.name }}</span>
+                    <span class="text-gray-700 dark:text-slate-300">{{ service.name }}</span>
                 </nav>
             </div>
         </div>
@@ -162,21 +162,21 @@ const submit = () => {
 
                     <p
                         v-if="service.category"
-                        class="mt-6 text-sm font-medium uppercase tracking-wide text-gray-500"
+                        class="mt-6 text-sm font-medium uppercase tracking-wide text-gray-500 dark:text-slate-400"
                     >
                         {{ service.category.name }}
                     </p>
 
-                    <h1 class="mt-1 text-3xl font-bold text-gray-900">{{ service.name }}</h1>
+                    <h1 class="mt-1 text-3xl font-bold text-gray-900 dark:text-slate-100">{{ service.name }}</h1>
 
-                    <p v-if="service.short_description" class="mt-3 text-lg text-gray-700">
+                    <p v-if="service.short_description" class="mt-3 text-lg text-gray-700 dark:text-slate-300">
                         {{ service.short_description }}
                     </p>
 
-                    <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
-                        <span class="text-2xl font-semibold text-gray-900">
+                    <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600 dark:text-slate-400">
+                        <span class="text-2xl font-semibold text-gray-900 dark:text-slate-100">
                             {{ formatPrice(price) }}
-                            <span class="text-base font-normal text-gray-500">{{ unit }}</span>
+                            <span class="text-base font-normal text-gray-500 dark:text-slate-400">{{ unit }}</span>
                         </span>
                         <span v-if="service.duration_display">
                             {{ $t('Takes about {duration}', { duration: service.duration_display }) }}
@@ -186,14 +186,14 @@ const submit = () => {
 
                     <div
                         v-if="service.description"
-                        class="prose prose-sm mt-6 max-w-none text-gray-700"
+                        class="prose prose-sm mt-6 max-w-none text-gray-700 dark:text-slate-300"
                         v-html="service.description"
                     />
 
                     <div v-if="included.length" class="mt-8">
-                        <h2 class="text-base font-semibold text-gray-900">{{ $t('What is included') }}</h2>
+                        <h2 class="text-base font-semibold text-gray-900 dark:text-slate-100">{{ $t('What is included') }}</h2>
                         <ul class="mt-3 space-y-2">
-                            <li v-for="item in included" :key="item" class="flex gap-2 text-sm text-gray-700">
+                            <li v-for="item in included" :key="item" class="flex gap-2 text-sm text-gray-700 dark:text-slate-300">
                                 <svg class="mt-0.5 h-4 w-4 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                 </svg>
@@ -203,10 +203,10 @@ const submit = () => {
                     </div>
 
                     <div v-if="excluded.length" class="mt-6">
-                        <h2 class="text-base font-semibold text-gray-900">{{ $t('Not included') }}</h2>
+                        <h2 class="text-base font-semibold text-gray-900 dark:text-slate-100">{{ $t('Not included') }}</h2>
                         <ul class="mt-3 space-y-2">
-                            <li v-for="item in excluded" :key="item" class="flex gap-2 text-sm text-gray-600">
-                                <svg class="mt-0.5 h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <li v-for="item in excluded" :key="item" class="flex gap-2 text-sm text-gray-600 dark:text-slate-400">
+                                <svg class="mt-0.5 h-4 w-4 shrink-0 text-gray-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                 </svg>
                                 {{ item }}
@@ -216,8 +216,8 @@ const submit = () => {
                 </div>
 
                 <div>
-                    <div class="rounded-xl border border-gray-200 p-6">
-                        <h2 class="text-lg font-semibold text-gray-900">{{ $t('Book this service') }}</h2>
+                    <div class="rounded-xl border border-gray-200 dark:border-slate-700 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 dark:text-slate-100">{{ $t('Book this service') }}</h2>
 
                         <p v-if="!booking.enabled" class="mt-3 rounded-md bg-amber-50 p-3 text-sm text-amber-900">
                             {{ $t('Online booking is not available for this service right now.') }}
@@ -239,7 +239,7 @@ const submit = () => {
                             </p>
 
                             <div>
-                                <label for="customer_name" class="block text-sm font-medium text-gray-700">
+                                <label for="customer_name" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     {{ $t('Your name') }} <span class="text-red-600">*</span>
                                 </label>
                                 <input
@@ -248,7 +248,7 @@ const submit = () => {
                                     name="customer_name"
                                     type="text"
                                     autocomplete="name"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                     :class="errors?.customer_name ? 'border-red-500' : ''"
                                 />
                                 <p v-if="errors?.customer_name" class="mt-1 text-sm text-red-600">
@@ -257,7 +257,7 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <label for="customer_phone" class="block text-sm font-medium text-gray-700">
+                                <label for="customer_phone" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     {{ $t('Phone number') }} <span class="text-red-600">*</span>
                                 </label>
                                 <input
@@ -266,7 +266,7 @@ const submit = () => {
                                     name="customer_phone"
                                     type="tel"
                                     autocomplete="tel"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                     :class="errors?.customer_phone ? 'border-red-500' : ''"
                                 />
                                 <p v-if="errors?.customer_phone" class="mt-1 text-sm text-red-600">
@@ -275,7 +275,7 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <label for="customer_email" class="block text-sm font-medium text-gray-700">
+                                <label for="customer_email" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     {{ $t('Email') }}
                                 </label>
                                 <input
@@ -284,7 +284,7 @@ const submit = () => {
                                     name="customer_email"
                                     type="email"
                                     autocomplete="email"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                     :class="errors?.customer_email ? 'border-red-500' : ''"
                                 />
                                 <p v-if="errors?.customer_email" class="mt-1 text-sm text-red-600">
@@ -293,7 +293,7 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <label for="address" class="block text-sm font-medium text-gray-700">
+                                <label for="address" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     {{ $t('Address') }} <span class="text-red-600">*</span>
                                 </label>
                                 <textarea
@@ -302,7 +302,7 @@ const submit = () => {
                                     name="address"
                                     rows="2"
                                     autocomplete="street-address"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                     :class="errors?.address ? 'border-red-500' : ''"
                                 />
                                 <p v-if="errors?.address" class="mt-1 text-sm text-red-600">
@@ -311,7 +311,7 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <label for="city" class="block text-sm font-medium text-gray-700">
+                                <label for="city" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     {{ $t('City') }}
                                 </label>
                                 <input
@@ -319,7 +319,7 @@ const submit = () => {
                                     v-model="form.city"
                                     name="city"
                                     type="text"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                     :class="errors?.city ? 'border-red-500' : ''"
                                 />
                                 <p v-if="errors?.city" class="mt-1 text-sm text-red-600">
@@ -329,7 +329,7 @@ const submit = () => {
 
                             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                                 <div>
-                                    <label for="scheduled_date" class="block text-sm font-medium text-gray-700">
+                                    <label for="scheduled_date" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                         {{ $t('Date') }} <span class="text-red-600">*</span>
                                     </label>
                                     <DatePicker
@@ -338,7 +338,7 @@ const submit = () => {
                                         name="scheduled_date"
                                         :min="booking.earliest_date"
                                         :max="booking.latest_date"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                        class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                         :class="errors?.scheduled_date ? 'border-red-500' : ''"
                                     />
                                     <p v-if="errors?.scheduled_date" class="mt-1 text-sm text-red-600">
@@ -347,14 +347,14 @@ const submit = () => {
                                 </div>
 
                                 <div>
-                                    <label for="scheduled_slot" class="block text-sm font-medium text-gray-700">
+                                    <label for="scheduled_slot" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                         {{ $t('Time') }} <span class="text-red-600">*</span>
                                     </label>
                                     <select
                                         id="scheduled_slot-field"
                                         v-model="form.scheduled_slot"
                                         name="scheduled_slot"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                        class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                         :class="errors?.scheduled_slot ? 'border-red-500' : ''"
                                     >
                                         <option v-for="slot in booking.slots" :key="slot.label" :value="slot.label">
@@ -368,7 +368,7 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <label for="notes" class="block text-sm font-medium text-gray-700">
+                                <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     {{ $t('Notes for the worker') }}
                                 </label>
                                 <textarea
@@ -376,7 +376,7 @@ const submit = () => {
                                     v-model="form.notes"
                                     name="notes"
                                     rows="2"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                     :class="errors?.notes ? 'border-red-500' : ''"
                                 />
                                 <p v-if="errors?.notes" class="mt-1 text-sm text-red-600">
@@ -392,7 +392,7 @@ const submit = () => {
                                 {{ form.processing ? $t('Sending...') : $t('Book now') }}
                             </button>
 
-                            <p class="text-center text-xs text-gray-500">
+                            <p class="text-center text-xs text-gray-500 dark:text-slate-400">
                                 {{ $t('You pay after the work is done. No card needed.') }}
                             </p>
                         </form>
@@ -401,7 +401,7 @@ const submit = () => {
             </div>
 
             <div v-if="related.length" class="mt-16">
-                <h2 class="text-lg font-semibold text-gray-900">{{ $t('You may also need') }}</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-slate-100">{{ $t('You may also need') }}</h2>
                 <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     <ServiceCard v-for="item in related" :key="item.id" :service="item" />
                 </div>

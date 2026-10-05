@@ -35,9 +35,27 @@ export function useCategoriesGrid(settings: Record<string, unknown>) {
         }
     })
 
+    /**
+     * Column classes for the chosen column count.
+     *
+     * The class names are written out in full on purpose: Tailwind only ships the
+     * classes it finds literally in the source, so building the name from a number
+     * at runtime would leave phones with no small-screen rule and the tiles would
+     * stay squeezed into the desktop column count. Same pattern as
+     * BlogPostsGridBlock.
+     */
+    const COLS: Record<number, string> = {
+        1: 'grid-cols-1',
+        2: 'grid-cols-1 sm:grid-cols-2',
+        3: 'grid-cols-2 sm:grid-cols-3',
+        4: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
+        5: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5',
+        6: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6',
+    }
+
     const colsClass = (cols: unknown) => {
-        const n = Number(cols) || 4
-        return `grid-cols-${Math.min(n, 6)}`
+        const n = Math.min(Math.max(Number(cols) || 4, 1), 6)
+        return COLS[n]
     }
 
     return { categories, loading, error, colsClass }

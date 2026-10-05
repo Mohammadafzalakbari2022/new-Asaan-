@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>You are offline</title>
+    <style>
+        :root { color-scheme: light dark; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: #ffffff;
+            color: #111827;
+            padding: 1.5rem;
+        }
+        .card { max-width: 26rem; text-align: center; }
+        img { width: 72px; height: 72px; object-fit: contain; }
+        h1 { font-size: 1.35rem; margin: 1rem 0 .5rem; }
+        p { margin: 0 0 1.25rem; line-height: 1.6; color: #4b5563; }
+        button {
+            appearance: none;
+            border: 0;
+            border-radius: .5rem;
+            background: #111827;
+            color: #ffffff;
+            padding: .7rem 1.4rem;
+            font-size: .95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:active { opacity: .85; }
+        @media (prefers-color-scheme: dark) {
+            body { background: #0b1120; color: #e5e7eb; }
+            p { color: #9ca3af; }
+            button { background: #e5e7eb; color: #111827; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="/icons/pwa-192x192.png" alt="">
+        <h1>You are offline</h1>
+        <p>This page needs the internet. Anything you have already visited is still available.</p>
+        <button type="button" onclick="location.reload()">Try again</button>
+    </div>
+</body>
+</html>

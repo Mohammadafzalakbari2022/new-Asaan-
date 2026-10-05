@@ -21,7 +21,7 @@ const { categories, loading, colsClass } = useCategoriesGrid(props.settings)
                 <div class="aspect-video" />
                 <div class="p-4 space-y-2">
                     <div class="h-4 bg-slate-300 rounded-full w-2/3 mx-auto" />
-                    <div class="h-3 bg-slate-200 rounded-full w-1/3 mx-auto" />
+                    <div class="h-3 bg-slate-200 dark:bg-slate-700 rounded-full w-1/3 mx-auto" />
                 </div>
             </div>
         </div>
@@ -31,14 +31,14 @@ const { categories, loading, colsClass } = useCategoriesGrid(props.settings)
                 v-for="category in categories"
                 :key="category.id"
                 :href="`/category/${category.slug}`"
-                class="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                class="group relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
             >
                 <div class="aspect-video bg-gradient-to-br from-blue-50 to-slate-100 overflow-hidden">
                     <img
                         v-if="category.image_url"
                         :src="category.image_url"
                         :alt="category.name"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        class="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                     />
                     <div v-else class="absolute inset-0 flex items-center justify-center opacity-40">
@@ -47,7 +47,7 @@ const { categories, loading, colsClass } = useCategoriesGrid(props.settings)
                 </div>
 
                 <div class="p-4 text-center">
-                    <h3 class="font-semibold text-slate-900 truncate transition-colors group-hover:text-[var(--theme-primary)]">
+                    <h3 class="font-semibold text-slate-900 dark:text-slate-100 truncate transition-colors group-hover:text-[var(--theme-primary)]">
                         {{ category.name }}
                     </h3>
                     <p v-if="settings.show_count" class="text-xs text-slate-500 mt-1">
@@ -66,7 +66,7 @@ const { categories, loading, colsClass } = useCategoriesGrid(props.settings)
             <div
                 v-for="n in (settings.limit ?? 4)"
                 :key="n"
-                class="rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 py-12 text-slate-400"
+                class="rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-2 py-12 text-slate-400"
             >
                 <ThemePlaceholderIcon variant="category" />
                 <span class="text-xs">Category {{ n }}</span>

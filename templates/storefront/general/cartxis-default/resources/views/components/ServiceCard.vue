@@ -41,9 +41,9 @@ const price = computed(() =>
 <template>
     <Link
         :href="`/services/${service.slug}`"
-        class="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:border-gray-300 hover:shadow-md"
+        class="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 transition hover:border-gray-300 hover:shadow-md"
     >
-        <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+        <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-100 dark:bg-slate-800">
             <img
                 v-if="service.image_url"
                 :src="service.image_url"
@@ -53,7 +53,7 @@ const price = computed(() =>
             />
             <div
                 v-else
-                class="flex h-full w-full items-center justify-center text-gray-400"
+                class="flex h-full w-full items-center justify-center text-gray-400 dark:text-slate-500"
                 aria-hidden="true"
             >
                 <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -72,31 +72,31 @@ const price = computed(() =>
         <div class="flex flex-1 flex-col p-4">
             <p
                 v-if="service.category"
-                class="mb-1 text-xs font-medium uppercase tracking-wide text-gray-500"
+                class="mb-1 text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-slate-400"
             >
                 {{ service.category.name }}
             </p>
 
-            <h3 class="font-semibold text-gray-900 group-hover:text-gray-700">
+            <h3 class="font-semibold text-gray-900 dark:text-slate-100 group-hover:text-gray-700">
                 {{ service.name }}
             </h3>
 
             <p
                 v-if="service.short_description"
-                class="mt-1 line-clamp-2 text-sm text-gray-600"
+                class="mt-1 line-clamp-2 text-sm text-gray-600 dark:text-slate-400"
             >
                 {{ service.short_description }}
             </p>
 
-            <p v-if="service.duration_display" class="mt-2 text-xs text-gray-500">
+            <p v-if="service.duration_display" class="mt-2 text-xs text-gray-500 dark:text-slate-400">
                 {{ $t('Takes about {duration}', { duration: service.duration_display }) }}
             </p>
 
             <div class="mt-auto flex items-baseline gap-1 pt-3">
-                <span class="text-lg font-semibold text-gray-900">
+                <span class="text-lg font-semibold text-gray-900 dark:text-slate-100">
                     {{ formatPrice(price) }}
                 </span>
-                <span class="text-sm text-gray-500">{{ service.price_display.split(' ').slice(1).join(' ') }}</span>
+                <span class="text-sm text-gray-500 dark:text-slate-400">{{ service.price_display.split(' ').slice(1).join(' ') }}</span>
             </div>
         </div>
     </Link>

@@ -69,50 +69,50 @@ const statusText: Record<string, string> = {
     <ThemeLayout>
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="rounded-xl border border-green-200 bg-green-50 p-6">
-                <h1 class="text-2xl font-bold text-gray-900">{{ $t('Booking confirmed') }}</h1>
-                <p class="mt-2 text-gray-700">
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-slate-100">{{ $t('Booking confirmed') }}</h1>
+                <p class="mt-2 text-gray-700 dark:text-slate-300">
                     {{ $t('Thank you. Keep this reference, you will need it to check on the job.') }}
                 </p>
 
-                <p class="mt-4 text-sm text-gray-600">{{ $t('Your reference') }}</p>
-                <p class="text-2xl font-bold tracking-wide text-gray-900">{{ booking.reference }}</p>
+                <p class="mt-4 text-sm text-gray-600 dark:text-slate-400">{{ $t('Your reference') }}</p>
+                <p class="text-2xl font-bold tracking-wide text-gray-900 dark:text-slate-100">{{ booking.reference }}</p>
             </div>
 
-            <div class="mt-6 rounded-xl border border-gray-200 p-6">
-                <h2 class="text-lg font-semibold text-gray-900">{{ booking.service_name }}</h2>
+            <div class="mt-6 rounded-xl border border-gray-200 dark:border-slate-700 p-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-slate-100">{{ booking.service_name }}</h2>
 
                 <dl class="mt-4 space-y-3 text-sm">
                     <div class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ $t('Date') }}</dt>
-                        <dd class="font-medium text-gray-900"><DateDisplay :value="booking.scheduled_date" /></dd>
+                        <dt class="text-gray-600 dark:text-slate-400">{{ $t('Date') }}</dt>
+                        <dd class="font-medium text-gray-900 dark:text-slate-100"><DateDisplay :value="booking.scheduled_date" /></dd>
                     </div>
                     <div class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ $t('Time') }}</dt>
-                        <dd class="font-medium text-gray-900">{{ booking.scheduled_slot }}</dd>
+                        <dt class="text-gray-600 dark:text-slate-400">{{ $t('Time') }}</dt>
+                        <dd class="font-medium text-gray-900 dark:text-slate-100">{{ booking.scheduled_slot }}</dd>
                     </div>
                     <div class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ $t('Address') }}</dt>
-                        <dd class="text-right font-medium text-gray-900">
+                        <dt class="text-gray-600 dark:text-slate-400">{{ $t('Address') }}</dt>
+                        <dd class="text-right font-medium text-gray-900 dark:text-slate-100">
                             {{ booking.address }}<span v-if="booking.city">, {{ booking.city }}</span>
                         </dd>
                     </div>
                     <div class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ $t('Status') }}</dt>
-                        <dd class="font-medium text-gray-900">
+                        <dt class="text-gray-600 dark:text-slate-400">{{ $t('Status') }}</dt>
+                        <dd class="font-medium text-gray-900 dark:text-slate-100">
                             {{ $t(statusText[booking.status] ?? booking.status) }}
                         </dd>
                     </div>
                     <div v-if="booking.worker" class="flex justify-between gap-4">
-                        <dt class="text-gray-600">{{ $t('Your worker') }}</dt>
-                        <dd class="font-medium text-gray-900">{{ booking.worker.name }}</dd>
+                        <dt class="text-gray-600 dark:text-slate-400">{{ $t('Your worker') }}</dt>
+                        <dd class="font-medium text-gray-900 dark:text-slate-100">{{ booking.worker.name }}</dd>
                     </div>
-                    <div class="flex justify-between gap-4 border-t border-gray-200 pt-3">
-                        <dt class="text-gray-600">{{ $t('Price') }}</dt>
-                        <dd class="text-lg font-semibold text-gray-900">{{ formatPrice(price) }}</dd>
+                    <div class="flex justify-between gap-4 border-t border-gray-200 dark:border-slate-700 pt-3">
+                        <dt class="text-gray-600 dark:text-slate-400">{{ $t('Price') }}</dt>
+                        <dd class="text-lg font-semibold text-gray-900 dark:text-slate-100">{{ formatPrice(price) }}</dd>
                     </div>
                 </dl>
 
-                <p class="mt-4 rounded-md bg-gray-50 p-3 text-sm text-gray-700">
+                <p class="mt-4 rounded-md bg-gray-50 dark:bg-slate-900 p-3 text-sm text-gray-700 dark:text-slate-300">
                     {{ $t('You pay after the work is done. Nothing has been charged.') }}
                 </p>
             </div>
@@ -126,7 +126,7 @@ const statusText: Record<string, string> = {
                 </Link>
                 <Link
                     :href="`/services/${booking.service?.slug ?? ''}`"
-                    class="rounded-md border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                    class="rounded-md border border-gray-300 dark:border-slate-600 px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800"
                 >
                     {{ $t('Back to services') }}
                 </Link>

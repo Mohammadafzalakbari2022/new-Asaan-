@@ -44,7 +44,7 @@ const hasLayout = computed(() => !!(props.layoutData?.sections && (props.layoutD
             <meta v-if="page.meta_keywords" name="keywords" :content="page.meta_keywords" />
         </Head>
 
-        <div class="bg-gray-50 min-h-screen">
+        <div class="bg-gray-50 dark:bg-slate-900 min-h-screen">
             <!-- Page Content -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <!-- Visual Editor layout takes priority when published -->
@@ -52,7 +52,7 @@ const hasLayout = computed(() => !!(props.layoutData?.sections && (props.layoutD
                     <UIBlockRenderer :layout="layoutData" :editor-mode="false" />
                 </template>
                 <template v-else>
-                    <div class="bg-white rounded-lg shadow-sm p-8">
+                    <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm p-8">
                         <div 
                         v-html="page.content" 
                         class="prose prose-lg max-w-none

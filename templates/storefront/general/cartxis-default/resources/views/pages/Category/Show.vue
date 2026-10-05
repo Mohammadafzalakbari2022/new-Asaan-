@@ -73,44 +73,44 @@ const discountPercentage = (product: Product) => {
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <!-- Breadcrumb -->
             <nav class="flex mb-6 text-sm">
-                <Link href="/" class="text-gray-600 hover:text-gray-900">{{ $t('Home') }}</Link>
-                <span class="mx-2 text-gray-400">/</span>
-                <Link href="/products" class="text-gray-600 hover:text-gray-900">{{ $t('Products') }}</Link>
-                <span class="mx-2 text-gray-400">/</span>
-                <span class="text-gray-900 font-medium">{{ category.name }}</span>
+                <Link href="/" class="text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100">{{ $t('Home') }}</Link>
+                <span class="mx-2 text-gray-400 dark:text-slate-500">/</span>
+                <Link href="/products" class="text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100">{{ $t('Products') }}</Link>
+                <span class="mx-2 text-gray-400 dark:text-slate-500">/</span>
+                <span class="text-gray-900 dark:text-slate-100 font-medium">{{ category.name }}</span>
             </nav>
 
             <!-- Category Header -->
             <div class="mb-8">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
-                        <h1 class="text-3xl font-bold text-gray-900 mb-3">{{ category.name }}</h1>
-                        <p v-if="category.description" class="text-gray-600 max-w-3xl" v-html="category.description"></p>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-3">{{ category.name }}</h1>
+                        <p v-if="category.description" class="text-gray-600 dark:text-slate-400 max-w-3xl" v-html="category.description"></p>
                     </div>
                     <img 
                         v-if="category.image" 
                         :src="category.image" 
                         :alt="category.name"
-                        class="w-32 h-32 object-cover rounded-lg ml-6"
+                        class="w-32 h-32 object-contain rounded-lg ml-6 bg-gray-100 dark:bg-slate-800"
                     />
                 </div>
 
                 <!-- Subcategories -->
                 <div v-if="category.children && category.children.length > 0" class="mt-6">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-3">{{ $t('Shop by Category') }}</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-3">{{ $t('Shop by Category') }}</h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         <Link
                             v-for="child in category.children"
                             :key="child.id"
                             :href="`/category/${child.slug}`"
-                            class="flex flex-col items-center p-4 bg-white rounded-lg border border-gray-200 hover:border-indigo-500 hover:shadow-md transition-all"
+                            class="flex flex-col items-center p-4 bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-indigo-500 hover:shadow-md transition-all"
                         >
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-16 h-16 bg-gray-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-2">
+                                <svg class="w-8 h-8 text-gray-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                                 </svg>
                             </div>
-                            <span class="text-sm font-medium text-gray-900 text-center">{{ child.name }}</span>
+                            <span class="text-sm font-medium text-gray-900 dark:text-slate-100 text-center">{{ child.name }}</span>
                         </Link>
                     </div>
                 </div>
@@ -118,14 +118,14 @@ const discountPercentage = (product: Product) => {
 
             <!-- Products Header -->
             <div class="flex items-center justify-between mb-6 border-b pb-4">
-                <div class="text-sm text-gray-600">
+                <div class="text-sm text-gray-600 dark:text-slate-400">
                     {{ $t('Showing {count} of {total} products', { count: products.data.length, total: products.total }) }}
                 </div>
                 <div class="flex items-center space-x-4">
-                    <label class="text-sm text-gray-700">
+                    <label class="text-sm text-gray-700 dark:text-slate-300">
                         {{ $t('Sort by:') }}
                         <select 
-                            class="ml-2 border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            class="ml-2 border border-gray-300 dark:border-slate-600 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             @change="(e) => $inertia.get(`/category/${category.slug}`, { sort: (e.target as HTMLSelectElement).value })"
                         >
                             <option value="position">{{ $t('Featured') }}</option>
@@ -145,14 +145,14 @@ const discountPercentage = (product: Product) => {
                     v-for="product in products.data"
                     :key="product.id"
                     :href="`/product/${product.slug}`"
-                    class="group bg-white rounded-lg border border-gray-200 hover:border-indigo-500 hover:shadow-lg transition-all overflow-hidden"
+                    class="group bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-indigo-500 hover:shadow-lg transition-all overflow-hidden"
                 >
-                    <div class="relative aspect-square overflow-hidden bg-gray-100">
+                    <div class="relative aspect-square overflow-hidden bg-gray-100 dark:bg-slate-800">
                         <img
                             v-if="product.image"
                             :src="product.image"
                             :alt="product.name"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            class="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
                         />
                         <div v-else class="w-full h-full flex items-center justify-center">
                             <svg class="w-20 h-20 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,17 +164,17 @@ const discountPercentage = (product: Product) => {
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                        <h3 class="font-medium text-gray-900 dark:text-slate-100 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
                             {{ product.name }}
                         </h3>
                         <div class="flex items-center justify-between">
                             <div>
                                 <div v-if="hasDiscount(product)" class="flex items-baseline space-x-2">
                                     <span class="text-lg font-bold text-indigo-600">{{ formatPrice(product.special_price!) }}</span>
-                                    <span class="text-sm text-gray-500 line-through">{{ formatPrice(product.price) }}</span>
+                                    <span class="text-sm text-gray-500 dark:text-slate-400 line-through">{{ formatPrice(product.price) }}</span>
                                 </div>
                                 <div v-else>
-                                    <span class="text-lg font-bold text-gray-900">{{ formatPrice(product.price) }}</span>
+                                    <span class="text-lg font-bold text-gray-900 dark:text-slate-100">{{ formatPrice(product.price) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@ const discountPercentage = (product: Product) => {
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
                             </div>
-                            <span class="ml-1 text-xs text-gray-500">({{ product.reviews_count || 0 }})</span>
+                            <span class="ml-1 text-xs text-gray-500 dark:text-slate-400">({{ product.reviews_count || 0 }})</span>
                         </div>
                     </div>
                 </Link>
@@ -195,8 +195,8 @@ const discountPercentage = (product: Product) => {
                 <svg class="mx-auto h-24 w-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
-                <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('No products found') }}</h3>
-                <p class="mt-2 text-gray-500">{{ $t("This category doesn't have any products yet.") }}</p>
+                <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-slate-100">{{ $t('No products found') }}</h3>
+                <p class="mt-2 text-gray-500 dark:text-slate-400">{{ $t("This category doesn't have any products yet.") }}</p>
                 <Link href="/products" class="mt-6 inline-block px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
                     {{ $t('Browse All Products') }}
                 </Link>

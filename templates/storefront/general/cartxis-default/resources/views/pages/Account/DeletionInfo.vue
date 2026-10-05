@@ -19,18 +19,18 @@ const props = defineProps<Props>();
             <!-- Header -->
             <div class="mb-10">
                 <h1 class="text-3xl font-bold mb-3">{{ $t('Account & Data Deletion') }}</h1>
-                <p class="text-gray-600">
+                <p class="text-gray-600 dark:text-slate-400">
                     {{ $t('This page explains how to delete your {app} account and what happens to your data.', { app: props.appName }) }}
                 </p>
             </div>
 
             <!-- How to Delete -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 mb-6">
                 <h2 class="text-xl font-semibold mb-4">{{ $t('How to Delete Your Account') }}</h2>
-                <p class="text-gray-700 mb-4">
+                <p class="text-gray-700 dark:text-slate-300 mb-4">
                     {{ $t('You can delete your account directly from within the app or website by following these steps:') }}
                 </p>
-                <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                <ol class="list-decimal list-inside space-y-3 text-gray-700 dark:text-slate-300">
                     <li>
                         {{ $t('Log in to your account at') }}
                         <a :href="props.appUrl + '/account/login'" class="text-blue-600 hover:underline">
@@ -42,18 +42,18 @@ const props = defineProps<Props>();
                     <li>{{ $t('Click') }} <strong>{{ $t('"Delete Account"') }}</strong></li>
                     <li>{{ $t('Enter your current password to confirm, then click') }} <strong>{{ $t('"Yes, Delete My Account"') }}</strong></li>
                 </ol>
-                <p class="text-gray-600 text-sm mt-4">
+                <p class="text-gray-600 dark:text-slate-400 text-sm mt-4">
                     {{ $t('Your account will be permanently deleted immediately after confirmation.') }}
                 </p>
             </div>
 
             <!-- What gets deleted -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 mb-6">
                 <h2 class="text-xl font-semibold mb-4">{{ $t('What Data Is Deleted') }}</h2>
-                <p class="text-gray-700 mb-3">
+                <p class="text-gray-700 dark:text-slate-300 mb-3">
                     {{ $t('When you delete your account, the following personal data is') }} <strong>{{ $t('permanently and immediately deleted') }}</strong>:
                 </p>
-                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4">
+                <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-slate-300 mb-4">
                     <li>{{ $t('Your account profile (name, email address, phone number)') }}</li>
                     <li>{{ $t('Saved delivery addresses') }}</li>
                     <li>{{ $t('Wishlist items') }}</li>
@@ -79,24 +79,24 @@ const props = defineProps<Props>();
             </div>
 
             <!-- Contact / alternative -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 mb-6">
                 <h2 class="text-xl font-semibold mb-4">{{ $t('Request Deletion by Email') }}</h2>
-                <p class="text-gray-700 mb-3">
+                <p class="text-gray-700 dark:text-slate-300 mb-3">
                     {{ $t('If you are unable to log in or access your account, you can request deletion by contacting our support team:') }}
                 </p>
-                <p class="text-gray-700">
+                <p class="text-gray-700 dark:text-slate-300">
                     {{ $t('Email:') }}
                     <a :href="'mailto:' + props.supportEmail" class="text-blue-600 hover:underline font-medium">
                         {{ props.supportEmail }}
                     </a>
                 </p>
-                <p class="text-gray-600 text-sm mt-3">
+                <p class="text-gray-600 dark:text-slate-400 text-sm mt-3">
                     {{ $t('Please include the email address associated with your account. We will process the request within 7 business days.') }}
                 </p>
             </div>
 
             <!-- Developer info -->
-            <p class="text-gray-500 text-sm text-center">
+            <p class="text-gray-500 dark:text-slate-400 text-sm text-center">
                 {{ $t('This page is provided by') }} <strong>{{ props.appName }}</strong> {{ $t('in compliance with') }}
                 {{ $t('Google Play Store and Apple App Store data-safety requirements.') }}
             </p>

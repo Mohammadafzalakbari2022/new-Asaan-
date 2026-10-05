@@ -58,14 +58,14 @@ const totalResults = computed(() => {
             <title>{{ $t('Search Results for "{query}"', { query: query }) }}</title>
         </Head>
 
-        <div class="bg-gray-50 min-h-screen py-8">
+        <div class="bg-gray-50 dark:bg-slate-900 min-h-screen py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Search Header -->
                 <div class="mb-8">
-                    <h1 class="text-3xl font-bold text-gray-900">
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100">
                         {{ $t('Search Results') }}
                     </h1>
-                    <p class="mt-2 text-lg text-gray-600">
+                    <p class="mt-2 text-lg text-gray-600 dark:text-slate-400">
                         <template v-if="query">
                             {{ $t('{count} result for', { count: totalResults }) }}
                             <span class="font-semibold">{{ $t('"{query}"', { query: query }) }}</span>
@@ -77,12 +77,12 @@ const totalResults = computed(() => {
                 </div>
 
                 <!-- No Results Message -->
-                <div v-if="!hasResults && query" class="bg-white rounded-lg shadow-sm p-12 text-center">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div v-if="!hasResults && query" class="bg-white dark:bg-slate-900 rounded-lg shadow-sm p-12 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('No products found') }}</h3>
-                    <p class="mt-2 text-sm text-gray-500">
+                    <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-slate-100">{{ $t('No products found') }}</h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-slate-400">
                         {{ $t('Try adjusting your search terms or browse our categories') }}
                     </p>
                     <div class="mt-6">
@@ -101,24 +101,24 @@ const totalResults = computed(() => {
                         v-for="product in productsData"
                         :key="product.id"
                         :href="`/product/${product.slug}`"
-                        class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+                        class="group bg-white dark:bg-slate-900 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden"
                     >
                         <!-- Product Image -->
-                        <div class="aspect-square bg-gray-100 overflow-hidden">
+                        <div class="aspect-square bg-gray-100 dark:bg-slate-800 overflow-hidden">
                             <img
                                 v-if="product.image"
                                 :src="product.image"
                                 :alt="product.name"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                                class="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-200"
                             />
-                            <div v-else class="w-full h-full flex items-center justify-center text-gray-400">
+                            <div v-else class="w-full h-full flex items-center justify-center text-gray-400 dark:text-slate-500">
                                 <span class="text-6xl">📦</span>
                             </div>
                         </div>
 
                         <!-- Product Info -->
                         <div class="p-4">
-                            <h3 class="text-sm font-medium text-gray-900 group-hover:text-indigo-600 line-clamp-2">
+                            <h3 class="text-sm font-medium text-gray-900 dark:text-slate-100 group-hover:text-indigo-600 line-clamp-2">
                                 {{ product.name }}
                             </h3>
                             
@@ -126,9 +126,9 @@ const totalResults = computed(() => {
                             <div v-if="product.rating" class="flex items-center mt-2">
                                 <div class="flex items-center">
                                     <span class="text-yellow-400">★</span>
-                                    <span class="ml-1 text-sm text-gray-600">{{ product.rating }}</span>
+                                    <span class="ml-1 text-sm text-gray-600 dark:text-slate-400">{{ product.rating }}</span>
                                 </div>
-                                <span v-if="product.reviews_count" class="ml-2 text-xs text-gray-500">
+                                <span v-if="product.reviews_count" class="ml-2 text-xs text-gray-500 dark:text-slate-400">
                                     ({{ product.reviews_count }})
                                 </span>
                             </div>

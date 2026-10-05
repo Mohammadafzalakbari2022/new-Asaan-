@@ -53,7 +53,7 @@ const formatPrice = (price: number) => {
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 class="text-3xl font-bold mb-2">{{ $t('Welcome back, {name}!', { name: user?.name || $t('Customer') }) }}</h1>
-            <p class="text-gray-600">{{ $t('Manage your orders, profile, and account settings') }}</p>
+            <p class="text-gray-600 dark:text-slate-400">{{ $t('Manage your orders, profile, and account settings') }}</p>
           </div>
           <Link
             href="/logout"
@@ -68,10 +68,10 @@ const formatPrice = (price: number) => {
         <!-- Quick Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <!-- Total Orders -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">{{ $t('Total Orders') }}</p>
+                <p class="text-sm text-gray-600 dark:text-slate-400 mb-1">{{ $t('Total Orders') }}</p>
                 <p class="text-2xl font-bold">{{ recentOrders.length }}</p>
               </div>
               <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -83,10 +83,10 @@ const formatPrice = (price: number) => {
           </div>
 
           <!-- Pending Orders -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">{{ $t('Pending') }}</p>
+                <p class="text-sm text-gray-600 dark:text-slate-400 mb-1">{{ $t('Pending') }}</p>
                 <p class="text-2xl font-bold">
                   {{ recentOrders.filter(o => o.status === 'pending' || o.status === 'processing').length }}
                 </p>
@@ -100,10 +100,10 @@ const formatPrice = (price: number) => {
           </div>
 
           <!-- Delivered Orders -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">{{ $t('Delivered') }}</p>
+                <p class="text-sm text-gray-600 dark:text-slate-400 mb-1">{{ $t('Delivered') }}</p>
                 <p class="text-2xl font-bold">
                   {{ recentOrders.filter(o => o.status === 'delivered').length }}
                 </p>
@@ -117,10 +117,10 @@ const formatPrice = (price: number) => {
           </div>
 
           <!-- Account Status -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-gray-600 mb-1">{{ $t('Account') }}</p>
+                <p class="text-sm text-gray-600 dark:text-slate-400 mb-1">{{ $t('Account') }}</p>
                 <p class="text-sm font-semibold text-green-600">{{ $t('Active') }}</p>
               </div>
               <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
@@ -136,8 +136,8 @@ const formatPrice = (price: number) => {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Recent Orders Section -->
           <div class="lg:col-span-2">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div class="p-6 border-b border-gray-200">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
+              <div class="p-6 border-b border-gray-200 dark:border-slate-700">
                 <div class="flex items-center justify-between">
                   <h2 class="text-xl font-semibold">{{ $t('Recent Orders') }}</h2>
                   <Link
@@ -149,11 +149,11 @@ const formatPrice = (price: number) => {
                 </div>
               </div>
 
-              <div v-if="recentOrders.length > 0" class="divide-y divide-gray-200">
+              <div v-if="recentOrders.length > 0" class="divide-y divide-gray-200 dark:divide-slate-700">
                 <div
                   v-for="order in recentOrders"
                   :key="order.id"
-                  class="p-6 hover:bg-gray-50 transition-colors"
+                  class="p-6 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-3">
@@ -167,10 +167,10 @@ const formatPrice = (price: number) => {
                         {{ $t(order.status.charAt(0).toUpperCase() + order.status.slice(1)) }}
                       </span>
                     </div>
-                    <DateDisplay :value="order.created_at" class="text-sm text-gray-600" />
+                    <DateDisplay :value="order.created_at" class="text-sm text-gray-600 dark:text-slate-400" />
                   </div>
                   <div class="flex items-center justify-between">
-                    <div class="text-sm text-gray-600">
+                    <div class="text-sm text-gray-600 dark:text-slate-400">
                         {{ $t(order.items_count === 1 ? '{count} item' : '{count} items', { count: order.items_count }) }} • {{ formatPrice(order.total) }}
                     </div>
                     <div class="flex gap-2">
@@ -186,13 +186,13 @@ const formatPrice = (price: number) => {
               </div>
 
               <div v-else class="p-12 text-center">
-                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-16 h-16 bg-gray-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-gray-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">{{ $t('No orders yet') }}</h3>
-                <p class="text-gray-600 mb-4">{{ $t('Start shopping to see your orders here') }}</p>
+                <p class="text-gray-600 dark:text-slate-400 mb-4">{{ $t('Start shopping to see your orders here') }}</p>
                 <Link
                   href="/"
                   class="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -206,12 +206,12 @@ const formatPrice = (price: number) => {
           <!-- Quick Actions Sidebar -->
           <div class="space-y-6">
             <!-- Account Quick Actions -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
               <h3 class="text-lg font-semibold mb-4">{{ $t('Quick Actions') }}</h3>
               <div class="space-y-3">
                 <Link
                   href="/account/orders"
-                  class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                  class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors group"
                 >
                   <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
                     <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -220,13 +220,13 @@ const formatPrice = (price: number) => {
                   </div>
                   <div class="flex-1">
                     <div class="font-medium">{{ $t('My Orders') }}</div>
-                    <div class="text-xs text-gray-600">{{ $t('Track & manage orders') }}</div>
+                    <div class="text-xs text-gray-600 dark:text-slate-400">{{ $t('Track & manage orders') }}</div>
                   </div>
                 </Link>
 
                 <Link
                   href="/"
-                  class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                  class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors group"
                 >
                   <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
                     <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -235,25 +235,25 @@ const formatPrice = (price: number) => {
                   </div>
                   <div class="flex-1">
                     <div class="font-medium">{{ $t('Continue Shopping') }}</div>
-                    <div class="text-xs text-gray-600">{{ $t('Browse Products') }}</div>
+                    <div class="text-xs text-gray-600 dark:text-slate-400">{{ $t('Browse Products') }}</div>
                   </div>
                 </Link>
               </div>
             </div>
 
             <!-- Account Info Card -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
               <h3 class="text-lg font-semibold mb-4">{{ $t('Account Information') }}</h3>
               <div class="space-y-3 text-sm">
                 <div>
-                  <p class="text-gray-600">{{ $t('Name') }}</p>
+                  <p class="text-gray-600 dark:text-slate-400">{{ $t('Name') }}</p>
                   <p class="font-medium">{{ user?.name || 'N/A' }}</p>
                 </div>
                 <div>
-                  <p class="text-gray-600">{{ $t('Email') }}</p>
+                  <p class="text-gray-600 dark:text-slate-400">{{ $t('Email') }}</p>
                   <p class="font-medium">{{ user?.email || 'N/A' }}</p>
                 </div>
-                <div class="pt-3 border-t border-gray-200">
+                <div class="pt-3 border-t border-gray-200 dark:border-slate-700">
                   <Link
                     href="/account/profile"
                     class="text-blue-600 hover:text-blue-700 font-medium text-sm"
@@ -267,13 +267,13 @@ const formatPrice = (price: number) => {
             <!-- Referral Programme -->
             <div
               v-if="referralEnabled"
-              class="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+              class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6"
             >
               <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">
                 <Gift class="w-5 h-5 text-green-600" />
                 {{ $t('Refer & Earn') }}
               </h3>
-              <p class="text-sm text-gray-600 mb-4">
+              <p class="text-sm text-gray-600 dark:text-slate-400 mb-4">
                 {{ $t('Invite a friend and earn store credit when they shop with us.') }}
               </p>
               <Link

@@ -53,7 +53,7 @@ const formatPrice = (price: number) => {
         <!-- Header -->
         <div class="mb-8">
           <h1 class="text-3xl font-bold mb-2">{{ $t('My Orders') }}</h1>
-          <p class="text-gray-600">{{ $t('View and track your orders') }}</p>
+          <p class="text-gray-600 dark:text-slate-400">{{ $t('View and track your orders') }}</p>
         </div>
 
         <!-- Orders List -->
@@ -61,7 +61,7 @@ const formatPrice = (price: number) => {
           <div
             v-for="order in orders.data"
             :key="order.id"
-            class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+            class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 hover:shadow-md transition-shadow"
           >
             <div class="p-6">
               <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -78,10 +78,10 @@ const formatPrice = (price: number) => {
                       {{ $t(order.status.charAt(0).toUpperCase() + order.status.slice(1)) }}
                     </span>
                   </div>
-                  <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+                  <div class="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-slate-400">
                     <DateDisplay :value="order.created_at" />
                     <span>{{ $t(order.items_count === 1 ? '{count} item' : '{count} items', { count: order.items_count }) }}</span>
-                    <span class="font-semibold text-gray-900">{{ formatPrice(order.total) }}</span>
+                    <span class="font-semibold text-gray-900 dark:text-slate-100">{{ formatPrice(order.total) }}</span>
                   </div>
                 </div>
 
@@ -100,9 +100,9 @@ const formatPrice = (price: number) => {
         </div>
 
         <!-- Empty State -->
-        <div v-else class="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
+        <div v-else class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-12 text-center">
           <svg
-            class="w-16 h-16 mx-auto mb-4 text-gray-400"
+            class="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-slate-500"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -115,7 +115,7 @@ const formatPrice = (price: number) => {
             />
           </svg>
           <h3 class="text-xl font-semibold mb-2">{{ $t('No orders yet') }}</h3>
-          <p class="text-gray-600 mb-6">{{ $t('Start shopping to see your orders here') }}</p>
+          <p class="text-gray-600 dark:text-slate-400 mb-6">{{ $t('Start shopping to see your orders here') }}</p>
           <Link
             href="/products"
             class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"

@@ -38,7 +38,7 @@ defineProps<{ settings: Record<string, unknown>; editorMode?: boolean }>()
       <a
         v-if="settings.cta_text"
         :href="(settings.cta_url as string) ?? '#'"
-        class="inline-block px-8 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+        class="inline-block px-8 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
       >
         {{ settings.cta_text }}
       </a>

@@ -33,7 +33,7 @@ const { categories, loading, colsClass } = useCategoriesGrid(props.settings)
             v-if="category.image_url"
             :src="category.image_url"
             :alt="category.name"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            class="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
           />
           <div v-else class="w-full h-full flex items-center justify-center">
             <svg class="w-12 h-12 text-gray-300 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

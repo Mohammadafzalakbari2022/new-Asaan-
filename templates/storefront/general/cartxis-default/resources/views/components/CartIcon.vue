@@ -16,11 +16,11 @@ onMounted(() => {
 <template>
     <Link
         href="/cart"
-        class="relative flex items-center justify-center w-10 h-10 hover:bg-gray-100 rounded-lg transition-colors"
+        class="relative flex items-center justify-center w-10 h-10 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
     >
         <!-- Cart Icon -->
         <svg
-            class="w-6 h-6 text-gray-700"
+            class="w-6 h-6 text-gray-700 dark:text-slate-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

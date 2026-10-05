@@ -28,7 +28,7 @@ const showPassword = ref(false);
     <ThemeLayout>
         <Head :title="$t('Login')" />
 
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-slate-900">
             <div class="w-full max-w-md">
                 <!-- Header -->
                 <div class="text-center mb-8">
@@ -38,16 +38,16 @@ const showPassword = ref(false);
                         :alt="siteConfig.name"
                         class="h-16 w-auto mx-auto mb-4 object-contain"
                     />
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2">
                         {{ $t('Welcome Back') }}
                     </h1>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-slate-400">
                         {{ $t('Log in to your account to continue shopping') }}
                     </p>
                 </div>
 
                 <!-- Card -->
-                <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8">
                     <!-- Status Message -->
                     <div
                         v-if="status"
@@ -65,7 +65,7 @@ const showPassword = ref(false);
                     >
                         <!-- Email Field -->
                         <div class="space-y-2">
-                            <Label for="email" class="text-sm font-medium text-gray-700">
+                            <Label for="email" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Email Address') }}
                             </Label>
                             <Input
@@ -83,7 +83,7 @@ const showPassword = ref(false);
                         <!-- Password Field -->
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
-                                <Label for="password" class="text-sm font-medium text-gray-700">
+                                <Label for="password" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                     {{ $t('Password') }}
                                 </Label>
                                 <TextLink
@@ -109,7 +109,7 @@ const showPassword = ref(false);
                                     type="button"
                                     tabindex="-1"
                                     :aria-label="showPassword ? $t('Hide password') : $t('Show password')"
-                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-slate-500 hover:text-gray-600"
                                     @click="showPassword = !showPassword"
                                 >
                                     <EyeOff v-if="showPassword" class="h-4 w-4" />
@@ -123,7 +123,7 @@ const showPassword = ref(false);
                         <div class="flex items-center">
                             <Label for="remember" class="flex items-center space-x-2 cursor-pointer">
                                 <Checkbox id="remember" name="remember" :tabindex="3" />
-                                <span class="text-sm text-gray-700">{{ $t('Remember me for 30 days') }}</span>
+                                <span class="text-sm text-gray-700 dark:text-slate-300">{{ $t('Remember me for 30 days') }}</span>
                             </Label>
                         </div>
 
@@ -147,16 +147,16 @@ const showPassword = ref(false);
                     <!-- Divider -->
                     <div class="relative my-6">
                         <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
+                            <div class="w-full border-t border-gray-300 dark:border-slate-600"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
+                            <span class="px-2 bg-white dark:bg-slate-900 text-gray-500 dark:text-slate-400">{{ $t('or') }}</span>
                         </div>
                     </div>
 
                     <!-- Register Link -->
                     <div class="text-center">
-                        <p class="text-sm text-gray-600">
+                        <p class="text-sm text-gray-600 dark:text-slate-400">
                             {{ $t("Don't have an account?") }}
                             <TextLink
                                 href="/register"
@@ -174,7 +174,7 @@ const showPassword = ref(false);
                 <div class="text-center mt-6">
                     <TextLink
                         href="/"
-                        class="text-sm text-gray-600 hover:underline inline-flex items-center"
+                        class="text-sm text-gray-600 dark:text-slate-400 hover:underline inline-flex items-center"
                         :tabindex="7"
                     >
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

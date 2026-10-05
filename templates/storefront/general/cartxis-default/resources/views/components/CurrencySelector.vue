@@ -82,7 +82,7 @@ onUnmounted(() => {
     >
         <button
             type="button"
-            class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-200 dark:hover:bg-gray-800"
+            class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-gray-700 dark:text-slate-300 transition-colors hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-200 dark:hover:bg-gray-800"
             :aria-expanded="isOpen"
             aria-haspopup="listbox"
             :aria-label="`Change currency, currently ${active.code}`"
@@ -107,7 +107,7 @@ onUnmounted(() => {
 
         <div
             v-if="isOpen"
-            class="absolute end-0 z-50 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
+            class="absolute end-0 z-50 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-lg dark:border-gray-700 dark:bg-gray-800"
             role="listbox"
             :aria-label="'Currency'"
         >
@@ -120,7 +120,7 @@ onUnmounted(() => {
                 >
                     <button
                         type="button"
-                        class="flex w-full items-center justify-between gap-3 px-3 py-2 text-start text-sm transition-colors hover:bg-gray-100 focus:outline-none focus-visible:bg-gray-100 dark:hover:bg-gray-700 dark:focus-visible:bg-gray-700"
+                        class="flex w-full items-center justify-between gap-3 px-3 py-2 text-start text-sm transition-colors hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus-visible:bg-gray-100 dark:hover:bg-gray-700 dark:focus-visible:bg-gray-700"
                         :class="option.code === active.code
                             ? 'font-semibold text-gray-900 dark:text-white'
                             : 'text-gray-700 dark:text-gray-200'"
@@ -130,7 +130,7 @@ onUnmounted(() => {
                         <span class="flex items-center gap-2">
                             <span aria-hidden="true">{{ option.symbol }}</span>
                             <span>{{ option.code }}</span>
-                            <span class="text-xs text-gray-500 dark:text-gray-400">{{ option.name }}</span>
+                            <span class="text-xs text-gray-500 dark:text-slate-400 dark:text-gray-400">{{ option.name }}</span>
                         </span>
                         <svg
                             v-if="option.code === active.code"
@@ -157,7 +157,7 @@ onUnmounted(() => {
             -->
             <p
                 v-if="!isAfn"
-                class="border-t border-gray-200 px-3 py-2 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400"
+                class="border-t border-gray-200 dark:border-slate-700 px-3 py-2 text-xs text-gray-500 dark:text-slate-400 dark:border-gray-700 dark:text-gray-400"
             >
                 {{ rateLabel }}
             </p>

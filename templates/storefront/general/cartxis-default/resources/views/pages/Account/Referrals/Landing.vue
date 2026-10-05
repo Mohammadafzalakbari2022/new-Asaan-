@@ -50,7 +50,7 @@ const perks = [
           {{ code ? $t('Someone wants to shop with us') : $t('Shop with us') }}
         </h1>
 
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p class="text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
           {{
             code
               ? $t('Use this link to create your account. Your friend earns {reward} of store credit once you have spent {threshold}.', {
@@ -61,14 +61,14 @@ const perks = [
           }}
         </p>
 
-        <div v-if="code" class="mt-6 inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-lg px-5 py-3">
-          <span class="text-sm text-gray-600">{{ $t('Their code') }}</span>
+        <div v-if="code" class="mt-6 inline-flex items-center gap-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg px-5 py-3">
+          <span class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Their code') }}</span>
           <span class="font-mono text-lg font-bold tracking-wider">{{ code }}</span>
         </div>
       </div>
 
       <!-- What is included -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 mb-8">
         <h2 class="text-lg font-semibold mb-5">{{ $t('What you get') }}</h2>
 
         <div class="space-y-5">
@@ -80,7 +80,7 @@ const perks = [
               <!-- Only the person who sent the link earns. The friend is not
                    promised anything, so this must not imply they are. -->
               <h3 class="font-semibold text-sm mb-1">{{ $t('They start earning your credit') }}</h3>
-              <p class="text-sm text-gray-600">
+              <p class="text-sm text-gray-600 dark:text-slate-400">
                 {{
                   $t('Once you have spent {threshold} with us, your friend earns {reward} of store credit for bringing you.', {
                     threshold: formatPrice(programme.threshold_amount),
@@ -91,13 +91,13 @@ const perks = [
             </div>
             <div v-else-if="perk.key === 'credit'">
               <h3 class="font-semibold text-sm mb-1">{{ $t('Credit, not cash') }}</h3>
-              <p class="text-sm text-gray-600">
+              <p class="text-sm text-gray-600 dark:text-slate-400">
                 {{ $t('It can be spent on anything in the store, and cannot be withdrawn as money.') }}
               </p>
             </div>
             <div v-else>
               <h3 class="font-semibold text-sm mb-1">{{ $t('Locked, then theirs') }}</h3>
-              <p class="text-sm text-gray-600">
+              <p class="text-sm text-gray-600 dark:text-slate-400">
                 {{
                   $t('The credit unlocks {days} days after the order, so a returned order never costs them the reward.', {
                     days: programme.lock_days,
@@ -134,7 +134,7 @@ const perks = [
           <ArrowRight class="w-4 h-4 ml-2" />
         </Link>
 
-        <p class="mt-4 text-sm text-gray-500">
+        <p class="mt-4 text-sm text-gray-500 dark:text-slate-400">
           {{ $t('Already have an account?') }}
           <Link :href="loginUrl" class="text-blue-600 hover:underline">
             {{ $t('Sign in') }}

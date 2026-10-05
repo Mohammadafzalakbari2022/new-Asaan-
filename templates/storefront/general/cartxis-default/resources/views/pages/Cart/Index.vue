@@ -152,8 +152,8 @@ const handleRemove = async (itemId: string) => {
         <div class="container mx-auto px-4 py-8 max-w-7xl">
             <!-- Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">{{ $t('Shopping Cart') }}</h1>
-                <p class="mt-2 text-gray-600">{{ $t(itemCount === 1 ? '{count} item in your cart' : '{count} items in your cart', { count: itemCount }) }}</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100">{{ $t('Shopping Cart') }}</h1>
+                <p class="mt-2 text-gray-600 dark:text-slate-400">{{ $t(itemCount === 1 ? '{count} item in your cart' : '{count} items in your cart', { count: itemCount }) }}</p>
             </div>
 
             <!-- Loading State with Skeletons (only on first load) -->
@@ -165,41 +165,41 @@ const handleRemove = async (itemId: string) => {
 
                 <!-- Order Summary Skeleton -->
                 <div class="lg:col-span-1">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-4 animate-pulse">
-                        <div class="h-6 bg-gray-200 rounded w-32 mb-4"></div>
+                    <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 sticky top-4 animate-pulse">
+                        <div class="h-6 bg-gray-200 dark:bg-slate-700 rounded w-32 mb-4"></div>
                         <div class="space-y-3 mb-4">
                             <div class="flex justify-between">
-                                <div class="h-5 bg-gray-200 rounded w-20"></div>
-                                <div class="h-5 bg-gray-200 rounded w-16"></div>
+                                <div class="h-5 bg-gray-200 dark:bg-slate-700 rounded w-20"></div>
+                                <div class="h-5 bg-gray-200 dark:bg-slate-700 rounded w-16"></div>
                             </div>
                             <div class="flex justify-between">
-                                <div class="h-5 bg-gray-200 rounded w-20"></div>
-                                <div class="h-5 bg-gray-200 rounded w-16"></div>
+                                <div class="h-5 bg-gray-200 dark:bg-slate-700 rounded w-20"></div>
+                                <div class="h-5 bg-gray-200 dark:bg-slate-700 rounded w-16"></div>
                             </div>
                             <div class="flex justify-between">
-                                <div class="h-5 bg-gray-200 rounded w-24"></div>
-                                <div class="h-5 bg-gray-200 rounded w-16"></div>
+                                <div class="h-5 bg-gray-200 dark:bg-slate-700 rounded w-24"></div>
+                                <div class="h-5 bg-gray-200 dark:bg-slate-700 rounded w-16"></div>
                             </div>
-                            <div class="border-t border-gray-200 pt-3">
+                            <div class="border-t border-gray-200 dark:border-slate-700 pt-3">
                                 <div class="flex justify-between">
-                                    <div class="h-6 bg-gray-200 rounded w-16"></div>
-                                    <div class="h-6 bg-gray-200 rounded w-20"></div>
+                                    <div class="h-6 bg-gray-200 dark:bg-slate-700 rounded w-16"></div>
+                                    <div class="h-6 bg-gray-200 dark:bg-slate-700 rounded w-20"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="h-12 bg-gray-200 rounded mb-4"></div>
-                        <div class="h-12 bg-gray-200 rounded"></div>
+                        <div class="h-12 bg-gray-200 dark:bg-slate-700 rounded mb-4"></div>
+                        <div class="h-12 bg-gray-200 dark:bg-slate-700 rounded"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Empty Cart -->
-            <div v-else-if="isEmpty" class="text-center py-12 bg-gray-50 rounded-lg">
-                <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div v-else-if="isEmpty" class="text-center py-12 bg-gray-50 dark:bg-slate-900 rounded-lg">
+                <svg class="mx-auto h-24 w-24 text-gray-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
-                <h2 class="mt-4 text-2xl font-semibold text-gray-900">{{ $t('Your cart is empty') }}</h2>
-                <p class="mt-2 text-gray-600">{{ $t('Add some products to get started!') }}</p>
+                <h2 class="mt-4 text-2xl font-semibold text-gray-900 dark:text-slate-100">{{ $t('Your cart is empty') }}</h2>
+                <p class="mt-2 text-gray-600 dark:text-slate-400">{{ $t('Add some products to get started!') }}</p>
                 <Link
                     href="/products"
                     class="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
@@ -215,7 +215,7 @@ const handleRemove = async (itemId: string) => {
                     <div
                         v-for="item in items"
                         :key="item.id"
-                        class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col sm:flex-row gap-4 relative transition-opacity"
+                        class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 flex flex-col sm:flex-row gap-4 relative transition-opacity"
                         :class="{ 'opacity-50': isItemRemoving(item.id) }"
                     >
                         <!-- Product Image -->
@@ -224,10 +224,10 @@ const handleRemove = async (itemId: string) => {
                                 <img
                                     :src="item.product_image"
                                     :alt="item.product_name"
-                                    class="w-full h-full object-cover"
+                                    class="w-full h-full object-contain"
                                 />
                             </div>
-                            <div v-else class="w-24 h-24 rounded-md bg-gray-100 flex items-center justify-center text-4xl">
+                            <div v-else class="w-24 h-24 rounded-md bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-4xl">
                                 📦
                             </div>
                         </Link>
@@ -236,30 +236,30 @@ const handleRemove = async (itemId: string) => {
                         <div class="flex-1">
                             <Link
                                 :href="`/product/${item.product_slug}`"
-                                class="text-lg font-semibold text-gray-900 hover:text-blue-600"
+                                class="text-lg font-semibold text-gray-900 dark:text-slate-100 hover:text-blue-600"
                             >
                                 {{ item.product_name }}
                             </Link>
 
                             <!-- Attributes -->
-                            <div v-if="item.attributes && Object.keys(item.attributes).length > 0" class="mt-1 text-sm text-gray-600">
+                            <div v-if="item.attributes && Object.keys(item.attributes).length > 0" class="mt-1 text-sm text-gray-600 dark:text-slate-400">
                                 <span v-for="(value, key) in item.attributes" :key="key" class="mr-3">
                                     <span class="font-medium">{{ key }}:</span> {{ value }}
                                 </span>
                             </div>
 
                             <!-- Price -->
-                            <p class="mt-2 text-xl font-bold text-gray-900">
+                            <p class="mt-2 text-xl font-bold text-gray-900 dark:text-slate-100">
                                 {{ formatPrice(item.price) }}
                             </p>
 
                             <!-- Quantity & Remove -->
                             <div class="mt-4 flex items-center gap-4">
                                 <!-- Quantity Selector -->
-                                <div class="flex items-center border border-gray-300 rounded-md relative">
+                                <div class="flex items-center border border-gray-300 dark:border-slate-600 rounded-md relative">
                                     <button
                                         @click="handleQuantityChange(item.id, item.quantity - 1)"
-                                        class="px-3 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                        class="px-3 py-1 text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                         :disabled="isItemUpdating(item.id) || isItemRemoving(item.id)"
                                     >
                                         −
@@ -268,20 +268,20 @@ const handleRemove = async (itemId: string) => {
                                         type="number"
                                         :value="item.quantity"
                                         @change="(e) => handleQuantityChange(item.id, parseInt((e.target as HTMLInputElement).value))"
-                                        class="w-16 text-center border-x border-gray-300 py-1 focus:outline-none disabled:bg-gray-50"
+                                        class="w-16 text-center border-x border-gray-300 dark:border-slate-600 py-1 focus:outline-none disabled:bg-gray-50 dark:disabled:bg-slate-800"
                                         min="1"
                                         :disabled="isItemUpdating(item.id) || isItemRemoving(item.id)"
                                     />
                                     <button
                                         @click="handleQuantityChange(item.id, item.quantity + 1)"
-                                        class="px-3 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                        class="px-3 py-1 text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                         :disabled="isItemUpdating(item.id) || isItemRemoving(item.id)"
                                     >
                                         +
                                     </button>
                                     
                                     <!-- Item updating spinner -->
-                                    <div v-if="isItemUpdating(item.id)" class="absolute inset-0 flex items-center justify-center bg-white/75 rounded-md">
+                                    <div v-if="isItemUpdating(item.id)" class="absolute inset-0 flex items-center justify-center bg-white/75 dark:bg-slate-900/75 rounded-md">
                                         <div class="h-4 w-4 animate-spin rounded-full border-2 border-solid border-blue-600 border-r-transparent"></div>
                                     </div>
                                 </div>
@@ -300,8 +300,8 @@ const handleRemove = async (itemId: string) => {
 
                         <!-- Item Subtotal -->
                         <div class="text-right">
-                            <p class="text-sm text-gray-600">{{ $t('Subtotal') }}</p>
-                            <p class="text-xl font-bold text-gray-900">
+                            <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Subtotal') }}</p>
+                            <p class="text-xl font-bold text-gray-900 dark:text-slate-100">
                                 {{ formatPrice(item.price * item.quantity) }}
                             </p>
                         </div>
@@ -310,18 +310,18 @@ const handleRemove = async (itemId: string) => {
 
                 <!-- Order Summary -->
                 <div class="lg:col-span-1">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-4">
-                        <h2 class="text-xl font-bold text-gray-900 mb-4">{{ $t('Order Summary') }}</h2>
+                    <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 sticky top-4">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-slate-100 mb-4">{{ $t('Order Summary') }}</h2>
 
                         <!-- Coupon / Promo Code -->
                         <div v-if="!couponCode" class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Promo Code') }}</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Promo Code') }}</label>
                             <div class="flex gap-2">
                                 <input
                                     v-model="couponInput"
                                     type="text"
                                     :placeholder="$t('Enter code')"
-                                    class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     @keyup.enter="handleApplyCoupon"
                                 />
                                 <button
@@ -340,11 +340,11 @@ const handleRemove = async (itemId: string) => {
                         </div>
 
                         <div class="space-y-3 mb-4">
-                            <div class="flex justify-between text-gray-700">
+                            <div class="flex justify-between text-gray-700 dark:text-slate-300">
                                 <span>{{ $t('Subtotal') }}</span>
                                 <span>{{ formatPrice(cartSummary.subtotal) }}</span>
                             </div>
-                            <div class="flex justify-between text-gray-700">
+                            <div class="flex justify-between text-gray-700 dark:text-slate-300">
                                 <span>{{ $t('Shipping') }}</span>
                                 <span v-if="cartSummary.shipping.cost > 0">{{ formatPrice(cartSummary.shipping.cost) }}</span>
                                 <span v-else class="text-sm text-green-600 font-medium">{{ $t('Free (Digital Products)') }}</span>
@@ -352,12 +352,12 @@ const handleRemove = async (itemId: string) => {
                             
                             <!-- Tax Breakdown -->
                             <div v-if="cartSummary.taxes.breakdown && cartSummary.taxes.breakdown.length > 0">
-                                <div v-for="taxItem in cartSummary.taxes.breakdown" :key="taxItem.tax_class_id" class="flex justify-between text-gray-700">
+                                <div v-for="taxItem in cartSummary.taxes.breakdown" :key="taxItem.tax_class_id" class="flex justify-between text-gray-700 dark:text-slate-300">
                                     <span>{{ taxItem.label }}</span>
                                     <span>{{ formatPrice(taxItem.amount) }}</span>
                                 </div>
                             </div>
-                            <div v-else class="flex justify-between text-gray-700">
+                            <div v-else class="flex justify-between text-gray-700 dark:text-slate-300">
                                 <span>{{ $t('Tax') }}</span>
                                 <span>{{ formatPrice(cartSummary.taxes.total) }}</span>
                             </div>
@@ -368,8 +368,8 @@ const handleRemove = async (itemId: string) => {
                                 <span>- {{ formatPrice(discountAmount) }}</span>
                             </div>
                             
-                            <div class="border-t border-gray-200 pt-3">
-                                <div class="flex justify-between text-lg font-bold text-gray-900">
+                            <div class="border-t border-gray-200 dark:border-slate-700 pt-3">
+                                <div class="flex justify-between text-lg font-bold text-gray-900 dark:text-slate-100">
                                     <span>{{ $t('Total') }}</span>
                                     <span>{{ formatPrice(cartSummary.total) }}</span>
                                 </div>
@@ -385,7 +385,7 @@ const handleRemove = async (itemId: string) => {
 
                         <Link
                             href="/products"
-                            class="mt-4 block w-full text-center bg-gray-100 text-gray-900 py-3 px-4 rounded-md font-semibold hover:bg-gray-200 transition-colors cursor-pointer"
+                            class="mt-4 block w-full text-center bg-gray-100 dark:bg-slate-800 text-gray-900 dark:text-slate-100 py-3 px-4 rounded-md font-semibold hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
                         >
                             {{ $t('Continue Shopping') }}
                         </Link>

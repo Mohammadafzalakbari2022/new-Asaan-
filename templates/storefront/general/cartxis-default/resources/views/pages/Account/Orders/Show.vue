@@ -107,7 +107,7 @@ const formatAddress = (address?: Address) => {
           <div class="flex items-center justify-between">
             <div>
               <h1 class="text-3xl font-bold mb-2">{{ $t('Order #{number}', { number: order.order_number }) }}</h1>
-              <p class="text-gray-600">{{ $t('Placed on {date}', { date: formatCalendarDate(order.created_at) }) }}</p>
+              <p class="text-gray-600 dark:text-slate-400">{{ $t('Placed on {date}', { date: formatCalendarDate(order.created_at) }) }}</p>
             </div>
             <span
               :class="[
@@ -121,11 +121,11 @@ const formatAddress = (address?: Address) => {
         </div>
 
         <!-- Order Timeline (Visual Status) -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 mb-6">
           <h2 class="text-lg font-semibold mb-4">{{ $t('Order Status') }}</h2>
           <div class="flex items-center justify-between relative">
             <!-- Progress Line -->
-            <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200">
+            <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200 dark:bg-slate-700">
               <div
                 :class="[
                   'h-full transition-all duration-500',
@@ -211,11 +211,11 @@ const formatAddress = (address?: Address) => {
           <!-- Main Content: Order Items -->
           <div class="lg:col-span-2 space-y-6">
             <!-- Order Items -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div class="p-6 border-b border-gray-200">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
+              <div class="p-6 border-b border-gray-200 dark:border-slate-700">
                 <h2 class="text-xl font-semibold">{{ $t('Order Items') }}</h2>
               </div>
-              <div class="divide-y divide-gray-200">
+              <div class="divide-y divide-gray-200 dark:divide-slate-700">
                 <div
                   v-for="item in order.items"
                   :key="item.id"
@@ -225,36 +225,36 @@ const formatAddress = (address?: Address) => {
                     <Link
                       v-if="item.product_slug"
                       :href="`/product/${item.product_slug}`"
-                      class="font-semibold text-gray-900 hover:text-blue-600"
+                      class="font-semibold text-gray-900 dark:text-slate-100 hover:text-blue-600"
                     >
                       {{ item.product_name }}
                     </Link>
-                    <h3 v-else class="font-semibold text-gray-900">
+                    <h3 v-else class="font-semibold text-gray-900 dark:text-slate-100">
                       {{ item.product_name }}
                     </h3>
-                    <p class="text-sm text-gray-600 mt-1">
+                    <p class="text-sm text-gray-600 dark:text-slate-400 mt-1">
                       {{ $t('Quantity: {qty}', { qty: item.quantity }) }} × {{ formatPrice(item.unit_price) }}
                     </p>
                   </div>
                   <div class="text-right">
-                    <p class="font-semibold text-gray-900">{{ formatPrice(item.total) }}</p>
+                    <p class="font-semibold text-gray-900 dark:text-slate-100">{{ formatPrice(item.total) }}</p>
                   </div>
                 </div>
               </div>
 
               <!-- Order Totals -->
-              <div class="p-6 border-t border-gray-200 bg-gray-50">
+              <div class="p-6 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900">
                 <div class="space-y-2 max-w-sm ml-auto">
                   <div class="flex justify-between text-sm">
-                    <span class="text-gray-600">{{ $t('Subtotal') }}</span>
+                    <span class="text-gray-600 dark:text-slate-400">{{ $t('Subtotal') }}</span>
                     <span class="font-medium">{{ formatPrice(order.subtotal) }}</span>
                   </div>
                   <div class="flex justify-between text-sm">
-                    <span class="text-gray-600">{{ $t('Shipping') }}</span>
+                    <span class="text-gray-600 dark:text-slate-400">{{ $t('Shipping') }}</span>
                     <span class="font-medium">{{ formatPrice(order.shipping_total) }}</span>
                   </div>
                   <div class="flex justify-between text-sm">
-                    <span class="text-gray-600">{{ $t('Tax') }}</span>
+                    <span class="text-gray-600 dark:text-slate-400">{{ $t('Tax') }}</span>
                     <span class="font-medium">{{ formatPrice(order.tax_total) }}</span>
                   </div>
                   <div v-if="order.discount_total > 0" class="flex justify-between text-sm text-green-600">
@@ -279,34 +279,34 @@ const formatAddress = (address?: Address) => {
           <!-- Sidebar: Customer & Shipping Info -->
           <div class="space-y-6">
             <!-- Customer Information -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
               <h3 class="font-semibold mb-4">{{ $t('Customer Information') }}</h3>
               <div class="space-y-2 text-sm">
                 <div>
-                  <p class="text-gray-600">{{ $t('Name') }}</p>
+                  <p class="text-gray-600 dark:text-slate-400">{{ $t('Name') }}</p>
                   <p class="font-medium">{{ order.customer_name }}</p>
                 </div>
                 <div>
-                  <p class="text-gray-600">{{ $t('Email') }}</p>
+                  <p class="text-gray-600 dark:text-slate-400">{{ $t('Email') }}</p>
                   <p class="font-medium">{{ order.customer_email }}</p>
                 </div>
                 <div v-if="order.customer_phone">
-                  <p class="text-gray-600">{{ $t('Phone') }}</p>
+                  <p class="text-gray-600 dark:text-slate-400">{{ $t('Phone') }}</p>
                   <p class="font-medium">{{ order.customer_phone }}</p>
                 </div>
               </div>
             </div>
 
             <!-- Payment Information -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
               <h3 class="font-semibold mb-4">{{ $t('Payment Information') }}</h3>
               <div class="space-y-2 text-sm">
                 <div>
-                  <p class="text-gray-600">{{ $t('Payment Method') }}</p>
+                  <p class="text-gray-600 dark:text-slate-400">{{ $t('Payment Method') }}</p>
                   <p class="font-medium capitalize">{{ order.payment_method }}</p>
                 </div>
                 <div>
-                  <p class="text-gray-600">{{ $t('Payment Status') }}</p>
+                  <p class="text-gray-600 dark:text-slate-400">{{ $t('Payment Status') }}</p>
                   <span
                     :class="[
                       'inline-block px-2 py-1 rounded text-xs font-medium',
@@ -320,23 +320,23 @@ const formatAddress = (address?: Address) => {
             </div>
 
             <!-- Shipping Address -->
-            <div v-if="order.shipping_address" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div v-if="order.shipping_address" class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
               <h3 class="font-semibold mb-4">{{ $t('Shipping Address') }}</h3>
-              <address class="text-sm text-gray-700 whitespace-pre-line not-italic">
+              <address class="text-sm text-gray-700 dark:text-slate-300 whitespace-pre-line not-italic">
                 {{ formatAddress(order.shipping_address) }}
               </address>
             </div>
 
             <!-- Billing Address -->
-            <div v-if="order.billing_address" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div v-if="order.billing_address" class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
               <h3 class="font-semibold mb-4">{{ $t('Billing Address') }}</h3>
-              <address class="text-sm text-gray-700 whitespace-pre-line not-italic">
+              <address class="text-sm text-gray-700 dark:text-slate-300 whitespace-pre-line not-italic">
                 {{ formatAddress(order.billing_address) }}
               </address>
             </div>
 
             <!-- Actions -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
               <h3 class="font-semibold mb-4">{{ $t('Order Actions') }}</h3>
               <div class="space-y-2">
                 <button
@@ -347,7 +347,7 @@ const formatAddress = (address?: Address) => {
                 </button>
                 <Link
                   href="/"
-                  class="block w-full px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium text-center"
+                  class="block w-full px-4 py-2 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-sm font-medium text-center"
                 >
                   {{ $t('Continue Shopping') }}
                 </Link>

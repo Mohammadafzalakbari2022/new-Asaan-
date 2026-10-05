@@ -32,7 +32,7 @@ const referrerName = computed(() => {
     <ThemeLayout>
         <Head :title="$t('Create Account')" />
 
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-slate-900">
             <div class="w-full max-w-md">
                 <!-- Header -->
                 <div class="text-center mb-8">
@@ -42,16 +42,16 @@ const referrerName = computed(() => {
                         :alt="siteConfig.name"
                         class="h-16 w-auto mx-auto mb-4 object-contain"
                     />
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2">
                         {{ $t('Create Your Account') }}
                     </h1>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-slate-400">
                         {{ $t('Join us and start shopping today') }}
                     </p>
                 </div>
 
                 <!-- Card -->
-                <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8">
                     <!-- Register Form -->
                     <Form
                         v-bind="RegisteredUserController.store.form()"
@@ -63,16 +63,16 @@ const referrerName = computed(() => {
                         <div
                             v-if="referrerName"
                             data-test="register-referrer-banner"
-                            class="mb-6 rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700"
+                            class="mb-6 rounded-md border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 px-4 py-3 text-sm text-gray-700 dark:text-slate-300"
                             :style="{ borderInlineStartColor: primaryColor }"
                         >
                             {{ $t('Invited by') }}
-                            <span class="font-semibold text-gray-900">{{ referrerName }}</span>
+                            <span class="font-semibold text-gray-900 dark:text-slate-100">{{ referrerName }}</span>
                         </div>
 
                         <!-- Name Field -->
                         <div class="space-y-2">
-                            <Label for="name" class="text-sm font-medium text-gray-700">
+                            <Label for="name" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Full Name') }}
                             </Label>
                             <Input
@@ -89,7 +89,7 @@ const referrerName = computed(() => {
 
                         <!-- Email Field -->
                         <div class="space-y-2">
-                            <Label for="email" class="text-sm font-medium text-gray-700">
+                            <Label for="email" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Email Address') }}
                             </Label>
                             <Input
@@ -107,7 +107,7 @@ const referrerName = computed(() => {
 
                         <!-- Password Field -->
                         <div class="space-y-2">
-                            <Label for="password" class="text-sm font-medium text-gray-700">
+                            <Label for="password" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Password') }}
                             </Label>
                             <div class="relative">
@@ -125,20 +125,20 @@ const referrerName = computed(() => {
                                     type="button"
                                     tabindex="-1"
                                     :aria-label="showPassword ? $t('Hide password') : $t('Show password')"
-                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-slate-500 hover:text-gray-600"
                                     @click="showPassword = !showPassword"
                                 >
                                     <EyeOff v-if="showPassword" class="h-4 w-4" />
                                     <Eye v-else class="h-4 w-4" />
                                 </button>
                             </div>
-                            <p class="text-xs text-gray-500">{{ $t('Must be at least 8 characters') }}</p>
+                            <p class="text-xs text-gray-500 dark:text-slate-400">{{ $t('Must be at least 8 characters') }}</p>
                             <InputError :message="errors.password" />
                         </div>
 
                         <!-- Confirm Password Field -->
                         <div class="space-y-2">
-                            <Label for="password_confirmation" class="text-sm font-medium text-gray-700">
+                            <Label for="password_confirmation" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Confirm Password') }}
                             </Label>
                             <div class="relative">
@@ -156,7 +156,7 @@ const referrerName = computed(() => {
                                     type="button"
                                     tabindex="-1"
                                     :aria-label="showConfirmPassword ? $t('Hide password') : $t('Show password')"
-                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-slate-500 hover:text-gray-600"
                                     @click="showConfirmPassword = !showConfirmPassword"
                                 >
                                     <EyeOff v-if="showConfirmPassword" class="h-4 w-4" />
@@ -172,9 +172,9 @@ const referrerName = computed(() => {
                             is not a real code.
                         -->
                         <div class="space-y-2">
-                            <Label for="referral_code" class="text-sm font-medium text-gray-700">
+                            <Label for="referral_code" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Referral code') }}
-                                <span class="font-normal text-gray-500">({{ $t('optional') }})</span>
+                                <span class="font-normal text-gray-500 dark:text-slate-400">({{ $t('optional') }})</span>
                             </Label>
                             <Input
                                 id="referral_code"
@@ -188,7 +188,7 @@ const referrerName = computed(() => {
                                 class="w-full"
                                 data-test="register-referral-code"
                             />
-                            <p class="text-xs text-gray-500">
+                            <p class="text-xs text-gray-500 dark:text-slate-400">
                                 {{ $t("Have a friend's code? Enter it here.") }}
                             </p>
                             <InputError :message="errors.referral_code" />
@@ -196,7 +196,7 @@ const referrerName = computed(() => {
 
                         <!-- Terms Checkbox (Optional - can be removed if not needed) -->
                         <div class="flex items-start">
-                            <Label for="terms" class="flex items-start space-x-2 cursor-pointer text-sm text-gray-600">
+                            <Label for="terms" class="flex items-start space-x-2 cursor-pointer text-sm text-gray-600 dark:text-slate-400">
                                 <Checkbox id="terms" name="terms" :tabindex="6" class="mt-0.5" />
                                 <span>
                                     {{ $t('I agree to the') }}
@@ -231,16 +231,16 @@ const referrerName = computed(() => {
                     <!-- Divider -->
                     <div class="relative my-6">
                         <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
+                            <div class="w-full border-t border-gray-300 dark:border-slate-600"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">{{ $t('or') }}</span>
+                            <span class="px-2 bg-white dark:bg-slate-900 text-gray-500 dark:text-slate-400">{{ $t('or') }}</span>
                         </div>
                     </div>
 
                     <!-- Login Link -->
                     <div class="text-center">
-                        <p class="text-sm text-gray-600">
+                        <p class="text-sm text-gray-600 dark:text-slate-400">
                             {{ $t('Already have an account?') }}
                             <TextLink
                                 href="/login"
@@ -258,7 +258,7 @@ const referrerName = computed(() => {
                 <div class="text-center mt-6">
                     <TextLink
                         href="/"
-                        class="text-sm text-gray-600 hover:underline inline-flex items-center"
+                        class="text-sm text-gray-600 dark:text-slate-400 hover:underline inline-flex items-center"
                         :tabindex="9"
                     >
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

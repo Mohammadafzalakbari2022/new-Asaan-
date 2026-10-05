@@ -104,3 +104,15 @@ router.on('success', () => {
         snapshotPage();
     });
 });
+
+// Progressive Web App: register the service worker so the storefront can be
+// installed on a phone and keeps working without a connection. Production only,
+// because the Vite dev server serves freshly hashed assets and a cache would
+// only get in the way while developing.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Never let a failed registration break the page.
+        });
+    });
+}

@@ -33,7 +33,7 @@ const handleMoveToCart = async (itemId: number) => {
           <Heart class="w-7 h-7 text-red-500" />
           <div>
             <h1 class="text-3xl font-bold">{{ $t('My Wishlist') }}</h1>
-            <p class="text-gray-600 text-sm mt-1">
+            <p class="text-gray-600 dark:text-slate-400 text-sm mt-1">
               {{ $t('{count} items saved', { count: wishlistCount }) }}
             </p>
           </div>
@@ -42,7 +42,7 @@ const handleMoveToCart = async (itemId: number) => {
         <!-- Loading State -->
         <div v-if="loading" class="flex items-center justify-center py-20">
           <Loader2 class="w-8 h-8 text-blue-600 animate-spin" />
-          <span class="ml-3 text-gray-600">{{ $t('Loading your wishlist...') }}</span>
+          <span class="ml-3 text-gray-600 dark:text-slate-400">{{ $t('Loading your wishlist...') }}</span>
         </div>
 
         <!-- Empty State -->
@@ -51,8 +51,8 @@ const handleMoveToCart = async (itemId: number) => {
           class="flex flex-col items-center justify-center py-20 text-center"
         >
           <Heart class="w-16 h-16 text-gray-300 mb-4" />
-          <h2 class="text-xl font-semibold text-gray-700 mb-2">{{ $t('Your wishlist is empty') }}</h2>
-          <p class="text-gray-500 mb-6">{{ $t('Save products you love and come back to them later.') }}</p>
+          <h2 class="text-xl font-semibold text-gray-700 dark:text-slate-300 mb-2">{{ $t('Your wishlist is empty') }}</h2>
+          <p class="text-gray-500 dark:text-slate-400 mb-6">{{ $t('Save products you love and come back to them later.') }}</p>
           <Link
             href="/products"
             class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
@@ -66,15 +66,15 @@ const handleMoveToCart = async (itemId: number) => {
           <div
             v-for="item in wishlistItems"
             :key="item.id"
-            class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex flex-col"
+            class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col"
           >
             <!-- Product Image -->
-            <Link :href="`/product/${item.product.slug}`" class="block aspect-square overflow-hidden bg-gray-100">
+            <Link :href="`/product/${item.product.slug}`" class="block aspect-square overflow-hidden bg-gray-100 dark:bg-slate-800">
               <img
                 v-if="item.product.image"
                 :src="item.product.image"
                 :alt="item.product.name"
-                class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                class="w-full h-full object-contain p-3 hover:scale-105 transition-transform duration-300"
               />
               <div
                 v-else
@@ -88,7 +88,7 @@ const handleMoveToCart = async (itemId: number) => {
             <div class="p-4 flex flex-col flex-1">
               <Link
                 :href="`/product/${item.product.slug}`"
-                class="font-semibold text-gray-900 hover:text-blue-600 transition-colors line-clamp-2 mb-2"
+                class="font-semibold text-gray-900 dark:text-slate-100 hover:text-blue-600 transition-colors line-clamp-2 mb-2"
               >
                 {{ item.product.name }}
               </Link>
@@ -102,7 +102,7 @@ const handleMoveToCart = async (itemId: number) => {
                   {{ formatPrice(item.product.special_price) }}
                 </span>
                 <span
-                  :class="item.product.special_price ? 'text-sm text-gray-400 line-through' : 'text-lg font-bold text-gray-900'"
+                  :class="item.product.special_price ? 'text-sm text-gray-400 dark:text-slate-500 line-through' : 'text-lg font-bold text-gray-900'"
                 >
                   {{ formatPrice(item.product.price) }}
                 </span>
@@ -127,7 +127,7 @@ const handleMoveToCart = async (itemId: number) => {
                   {{ $t('Add to Cart') }}
                 </button>
                 <button
-                  class="p-2 text-gray-400 hover:text-red-500 border border-gray-200 rounded-lg hover:border-red-200 transition-colors"
+                  class="p-2 text-gray-400 dark:text-slate-500 hover:text-red-500 border border-gray-200 dark:border-slate-700 rounded-lg hover:border-red-200 transition-colors"
                   :aria-label="$t('Remove from wishlist')"
                   :disabled="loading"
                   @click="handleRemove(item.id)"
@@ -143,7 +143,7 @@ const handleMoveToCart = async (itemId: number) => {
         <div class="mt-10">
           <Link
             href="/account"
-            class="inline-flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors"
+            class="inline-flex items-center text-sm text-gray-600 dark:text-slate-400 hover:text-blue-600 transition-colors"
           >
             {{ $t('← Back to My Account') }}
           </Link>

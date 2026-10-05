@@ -275,7 +275,7 @@ onUnmounted(() => {
 
 <template>
     <header
-        class="z-50 bg-white shadow-sm"
+        class="z-50 bg-white dark:bg-slate-900 shadow-sm"
         :class="{ 'sticky top-0': stickyHeader }"
     >
         <div class="mx-auto px-4 sm:px-6 lg:px-8" :style="containerStyle">
@@ -283,7 +283,7 @@ onUnmounted(() => {
                 <!-- Mobile menu -->
                 <button
                     type="button"
-                    class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 md:hidden"
+                    class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden"
                     :aria-label="$t('Open menu')"
                     @click="mobileMenuOpen = true"
                 >
@@ -330,7 +330,7 @@ onUnmounted(() => {
                             <Link
                                 v-if="!hasChildren(item)"
                                 :href="getMenuUrl(item)"
-                                class="text-gray-700 transition-colors hover:text-gray-900"
+                                class="text-gray-700 dark:text-slate-300 transition-colors hover:text-gray-900 dark:hover:text-slate-100"
                             >
                                 {{ $t(item.title) }}
                             </Link>
@@ -339,7 +339,7 @@ onUnmounted(() => {
                             <button
                                 v-else
                                 @click="toggleDropdown(item.id)"
-                                class="flex items-center space-x-1 text-gray-700 transition-colors hover:text-gray-900"
+                                class="flex items-center space-x-1 text-gray-700 dark:text-slate-300 transition-colors hover:text-gray-900 dark:hover:text-slate-100"
                             >
                                 <span>{{ $t(item.title) }}</span>
                                 <svg
@@ -367,7 +367,7 @@ onUnmounted(() => {
                                     hasChildren(item) &&
                                     activeDropdown === item.id
                                 "
-                                class="ring-opacity-5 absolute left-0 z-50 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black"
+                                class="ring-opacity-5 absolute left-0 z-50 mt-2 w-48 rounded-md bg-white dark:bg-slate-900 shadow-lg ring-1 ring-black"
                                 @mouseenter="openDropdown(item.id)"
                                 @mouseleave="closeDropdown"
                             >
@@ -384,7 +384,7 @@ onUnmounted(() => {
                                             v-for="category in categories"
                                             :key="category.id"
                                             :href="`/category/${category.slug}`"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-slate-100"
                                         >
                                             {{ category.name }}
                                         </Link>
@@ -394,7 +394,7 @@ onUnmounted(() => {
                                             v-for="child in item.children"
                                             :key="child.id"
                                             :href="getMenuUrl(child)"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-slate-100"
                                         >
                                             {{ $t(child.title) }}
                                         </Link>
@@ -408,7 +408,7 @@ onUnmounted(() => {
                     <template v-else>
                         <Link
                             href="/products"
-                            class="text-gray-700 transition-colors hover:text-gray-900"
+                            class="text-gray-700 dark:text-slate-300 transition-colors hover:text-gray-900 dark:hover:text-slate-100"
                         >
                             {{ $t('Shop') }}
                         </Link>
@@ -421,7 +421,7 @@ onUnmounted(() => {
                         >
                             <button
                                 @click="toggleCategoriesDropdown"
-                                class="flex items-center space-x-1 text-gray-700 transition-colors hover:text-gray-900"
+                                class="flex items-center space-x-1 text-gray-700 dark:text-slate-300 transition-colors hover:text-gray-900 dark:hover:text-slate-100"
                             >
                                 <span>{{ $t('Categories') }}</span>
                                 <svg
@@ -445,7 +445,7 @@ onUnmounted(() => {
                             <!-- Categories Dropdown Menu -->
                             <div
                                 v-show="showCategoriesDropdown"
-                                class="absolute left-0 z-50 mt-2 w-64 rounded-lg border border-gray-200 bg-white shadow-xl"
+                                class="absolute left-0 z-50 mt-2 w-64 rounded-lg border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xl"
                             >
                                 <div class="py-2">
                                     <template
@@ -457,7 +457,7 @@ onUnmounted(() => {
                                             v-for="category in categories"
                                             :key="category.id"
                                             :href="`/category/${category.slug}`"
-                                            class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 transition-colors hover:bg-gray-100 dark:hover:bg-slate-800"
                                         >
                                             <div
                                                 class="flex items-center justify-between"
@@ -469,7 +469,7 @@ onUnmounted(() => {
                                                         category.children
                                                             .length > 0
                                                     "
-                                                    class="text-xs text-gray-400"
+                                                    class="text-xs text-gray-400 dark:text-slate-500"
                                                 >
                                                     ({{
                                                         category.children
@@ -481,7 +481,7 @@ onUnmounted(() => {
                                         <hr class="my-2" />
                                         <Link
                                             href="/products"
-                                            class="block px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100"
+                                            class="block px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-slate-800"
                                             :style="{ color: primary }"
                                         >
                                             {{ $t('View All Categories') }} →
@@ -489,7 +489,7 @@ onUnmounted(() => {
                                     </template>
                                     <div
                                         v-else
-                                        class="px-4 py-3 text-sm text-gray-500"
+                                        class="px-4 py-3 text-sm text-gray-500 dark:text-slate-400"
                                     >
                                         {{ $t('No categories available') }}
                                     </div>
@@ -499,19 +499,19 @@ onUnmounted(() => {
 
                         <Link
                             href="/products?on_sale=1"
-                            class="text-gray-700 transition-colors hover:text-gray-900"
+                            class="text-gray-700 dark:text-slate-300 transition-colors hover:text-gray-900 dark:hover:text-slate-100"
                         >
                             {{ $t('Deals') }}
                         </Link>
                         <Link
                             href="/blog"
-                            class="text-gray-700 transition-colors hover:text-gray-900"
+                            class="text-gray-700 dark:text-slate-300 transition-colors hover:text-gray-900 dark:hover:text-slate-100"
                         >
                             {{ $t('Blog') }}
                         </Link>
                         <Link
                             href="/about-us"
-                            class="text-gray-700 transition-colors hover:text-gray-900"
+                            class="text-gray-700 dark:text-slate-300 transition-colors hover:text-gray-900 dark:hover:text-slate-100"
                         >
                             {{ $t('About') }}
                         </Link>
@@ -523,7 +523,7 @@ onUnmounted(() => {
                     <!-- Mobile search toggle -->
                     <button
                         type="button"
-                        class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 md:hidden"
+                        class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden"
                         :aria-label="$t('Search')"
                         @click="mobileSearchOpen = !mobileSearchOpen"
                     >
@@ -537,7 +537,7 @@ onUnmounted(() => {
                             v-model="searchQuery"
                             type="text"
                             :placeholder="$t('Search products...')"
-                            class="w-64 rounded-lg border border-gray-300 px-4 py-2 pr-10 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            class="w-64 rounded-lg border border-gray-300 dark:border-slate-600 px-4 py-2 pr-10 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             @input="onSearchInput"
                             @keydown="handleKeyDown"
                             @focus="
@@ -571,7 +571,7 @@ onUnmounted(() => {
                         <!-- Search Icon -->
                         <svg
                             v-else
-                            class="absolute top-2.5 left-3 h-5 w-5 text-gray-400"
+                            class="absolute top-2.5 left-3 h-5 w-5 text-gray-400 dark:text-slate-500"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -586,7 +586,7 @@ onUnmounted(() => {
                         <button
                             v-if="searchQuery"
                             @click="handleSearch()"
-                            class="absolute top-2.5 right-3 cursor-pointer text-gray-400 hover:text-gray-600"
+                            class="absolute top-2.5 right-3 cursor-pointer text-gray-400 dark:text-slate-500 hover:text-gray-600"
                             type="button"
                         >
                             <svg
@@ -607,7 +607,7 @@ onUnmounted(() => {
                         <!-- Search Suggestions Dropdown -->
                         <div
                             v-if="showSuggestions && suggestions.length > 0"
-                            class="search-suggestions absolute top-full right-0 left-0 z-50 mt-2 max-h-96 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg"
+                            class="search-suggestions absolute top-full right-0 left-0 z-50 mt-2 max-h-96 overflow-y-auto rounded-lg border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-lg"
                         >
                             <div
                                 v-for="(suggestion, index) in suggestions"
@@ -622,7 +622,7 @@ onUnmounted(() => {
                             >
                                 <!-- Product Image -->
                                 <div
-                                    class="h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-gray-100"
+                                    class="h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-gray-100 dark:bg-slate-800"
                                 >
                                     <img
                                         v-if="suggestion.image"
@@ -632,7 +632,7 @@ onUnmounted(() => {
                                     />
                                     <div
                                         v-else
-                                        class="flex h-full w-full items-center justify-center text-gray-400"
+                                        class="flex h-full w-full items-center justify-center text-gray-400 dark:text-slate-500"
                                     >
                                         <svg
                                             class="h-6 w-6"
@@ -653,7 +653,7 @@ onUnmounted(() => {
                                 <!-- Product Info -->
                                 <div class="min-w-0 flex-1">
                                     <p
-                                        class="truncate text-sm font-medium text-gray-900"
+                                        class="truncate text-sm font-medium text-gray-900 dark:text-slate-100"
                                     >
                                         {{ suggestion.name }}
                                     </p>
@@ -667,7 +667,7 @@ onUnmounted(() => {
 
                                 <!-- Arrow Icon -->
                                 <svg
-                                    class="h-4 w-4 flex-shrink-0 text-gray-400"
+                                    class="h-4 w-4 flex-shrink-0 text-gray-400 dark:text-slate-500"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -693,7 +693,7 @@ onUnmounted(() => {
                     <Link
                         v-if="user && wishlistEnabled"
                         href="/account/wishlist"
-                        class="relative p-2 text-gray-700 transition-colors hover:text-red-500"
+                        class="relative p-2 text-gray-700 dark:text-slate-300 transition-colors hover:text-red-500"
                         :title="$t('Wishlist')"
                     >
                         <Heart class="h-6 w-6" />
@@ -716,7 +716,7 @@ onUnmounted(() => {
                         </Link>
                         <Link
                             href="/register"
-                            class="hidden rounded-lg border-2 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 sm:inline-flex"
+                            class="hidden rounded-lg border-2 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 sm:inline-flex"
                             :style="{ borderColor: primary, color: primary }"
                         >
                             {{ $t('Register') }}
@@ -732,7 +732,7 @@ onUnmounted(() => {
                     >
                         <button
                             @click="toggleUserMenu"
-                            class="flex items-center space-x-2 rounded-lg px-3 py-2 transition-colors hover:bg-gray-100"
+                            class="flex items-center space-x-2 rounded-lg px-3 py-2 transition-colors hover:bg-gray-100 dark:hover:bg-slate-800"
                         >
                             <div
                                 class="flex h-8 w-8 items-center justify-center rounded-full font-medium text-white"
@@ -740,11 +740,11 @@ onUnmounted(() => {
                             >
                                 {{ user.name?.charAt(0).toUpperCase() }}
                             </div>
-                            <span class="text-sm font-medium text-gray-700">{{
+                            <span class="text-sm font-medium text-gray-700 dark:text-slate-300">{{
                                 user.name
                             }}</span>
                             <svg
-                                class="h-4 w-4 text-gray-500 transition-transform"
+                                class="h-4 w-4 text-gray-500 dark:text-slate-400 transition-transform"
                                 :class="{ 'rotate-180': showUserMenu }"
                                 fill="none"
                                 stroke="currentColor"
@@ -762,14 +762,14 @@ onUnmounted(() => {
                         <!-- Dropdown Menu -->
                         <div
                             v-if="showUserMenu"
-                            class="ring-opacity-5 absolute right-0 z-[100] mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black"
+                            class="ring-opacity-5 absolute right-0 z-[100] mt-2 w-56 rounded-md bg-white dark:bg-slate-900 shadow-lg ring-1 ring-black"
                             @mouseenter="openUserMenu"
                             @mouseleave="closeUserMenu"
                         >
                             <div class="py-1">
                                 <Link
                                     href="/account"
-                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800"
                                 >
                                     <svg
                                         class="h-4 w-4"
@@ -788,7 +788,7 @@ onUnmounted(() => {
                                 </Link>
                                 <Link
                                     href="/account/orders"
-                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800"
                                 >
                                     <svg
                                         class="h-4 w-4"
@@ -807,7 +807,7 @@ onUnmounted(() => {
                                 </Link>
                                 <Link
                                     href="/account/profile"
-                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800"
                                 >
                                     <svg
                                         class="h-4 w-4"
@@ -826,7 +826,7 @@ onUnmounted(() => {
                                 </Link>
                                 <Link
                                     href="/account/addresses"
-                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800"
                                 >
                                     <svg
                                         class="h-4 w-4"
@@ -852,7 +852,7 @@ onUnmounted(() => {
                                 <Link
                                     v-if="referralEnabled"
                                     href="/account/referrals"
-                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800"
                                 >
                                     <svg
                                         class="h-4 w-4"
@@ -872,7 +872,7 @@ onUnmounted(() => {
                                 <Link
                                     v-if="identityEnabled"
                                     href="/account/identity"
-                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    class="block flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800"
                                 >
                                     <svg
                                         class="h-4 w-4"
@@ -892,7 +892,7 @@ onUnmounted(() => {
                                     }}</span>
                                 </Link>
                                 <div
-                                    class="my-1 border-t border-gray-100"
+                                    class="my-1 border-t border-gray-100 dark:border-slate-700"
                                 ></div>
                                 <Link
                                     href="/logout"
@@ -928,13 +928,13 @@ onUnmounted(() => {
                         v-model="searchQuery"
                         type="text"
                         :placeholder="$t('Search products...')"
-                        class="w-full rounded-lg border border-gray-300 px-4 py-2 pr-4 pl-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        class="w-full rounded-lg border border-gray-300 dark:border-slate-600 px-4 py-2 pr-4 pl-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         @input="onSearchInput"
                         @keydown="handleKeyDown"
                         autocomplete="off"
                     />
                     <Search
-                        class="absolute top-2.5 left-3 h-5 w-5 text-gray-400"
+                        class="absolute top-2.5 left-3 h-5 w-5 text-gray-400 dark:text-slate-500"
                     />
                 </div>
             </div>
@@ -952,17 +952,17 @@ onUnmounted(() => {
                         @click="closeMobileMenu"
                     />
                     <aside
-                        class="absolute top-0 left-0 flex h-full w-[min(320px,88vw)] flex-col bg-white shadow-xl"
+                        class="absolute top-0 left-0 flex h-full w-[min(320px,88vw)] flex-col bg-white dark:bg-slate-900 shadow-xl"
                     >
                         <div
-                            class="flex h-16 items-center justify-between border-b border-slate-200 px-4"
+                            class="flex h-16 items-center justify-between border-b border-slate-200 dark:border-slate-700 px-4"
                         >
-                            <span class="font-bold text-slate-900">{{
+                            <span class="font-bold text-slate-900 dark:text-slate-100">{{
                                 siteConfig.name
                             }}</span>
                             <button
                                 type="button"
-                                class="rounded-lg p-2 hover:bg-slate-100"
+                                class="rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-800"
                                 :aria-label="$t('Close menu')"
                                 @click="closeMobileMenu"
                             >
@@ -1048,7 +1048,7 @@ onUnmounted(() => {
                             </template>
                         </nav>
 
-                        <div class="space-y-2 border-t border-slate-200 p-4">
+                        <div class="space-y-2 border-t border-slate-200 dark:border-slate-700 p-4">
                             <div class="flex justify-start">
                                 <LanguageSwitcher />
                             </div>
@@ -1076,7 +1076,7 @@ onUnmounted(() => {
                             <Link
                                 v-else
                                 href="/account"
-                                class="block w-full rounded-lg bg-slate-100 px-4 py-3 text-center text-sm font-medium text-slate-800"
+                                class="block w-full rounded-lg bg-slate-100 dark:bg-slate-800 px-4 py-3 text-center text-sm font-medium text-slate-800"
                                 @click="closeMobileMenu"
                             >
                                 {{ $t('My Account') }}

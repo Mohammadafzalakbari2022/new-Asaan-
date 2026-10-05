@@ -67,20 +67,20 @@ const isAuthenticated = computed(() => {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </div>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $t('Order Confirmed!') }}</h1>
-          <p class="text-gray-600">{{ $t('Thank you for your purchase') }}</p>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2">{{ $t('Order Confirmed!') }}</h1>
+          <p class="text-gray-600 dark:text-slate-400">{{ $t('Thank you for your purchase') }}</p>
         </div>
 
         <!-- Order Details Card -->
-        <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8 mb-6">
           <div class="border-b pb-6 mb-6">
             <div class="flex justify-between items-start mb-4">
               <div>
-                <p class="text-sm text-gray-600">{{ $t('Order Number') }}</p>
-                <p class="text-xl font-bold text-gray-900">{{ order.order_number }}</p>
+                <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Order Number') }}</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-slate-100">{{ order.order_number }}</p>
               </div>
               <div class="text-right">
-                <p class="text-sm text-gray-600">{{ $t('Order Date') }}</p>
+                <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Order Date') }}</p>
                 <p class="font-medium"><DateDisplay :value="order.created_at" /></p>
               </div>
             </div>
@@ -108,12 +108,12 @@ const isAuthenticated = computed(() => {
                   v-if="item.product_image"
                   :src="item.product_image"
                   :alt="item.product_name"
-                  class="w-20 h-20 object-cover rounded"
+                  class="w-20 h-20 object-contain rounded bg-gray-100 dark:bg-slate-800"
                 />
                 <div class="flex-1">
                   <p class="font-medium">{{ item.product_name }}</p>
-                  <p class="text-sm text-gray-600">{{ $t('Quantity: {qty}', { qty: item.quantity }) }}</p>
-                  <p class="text-sm text-gray-600">{{ formatPrice(item.price) }} {{ $t('each') }}</p>
+                  <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Quantity: {qty}', { qty: item.quantity }) }}</p>
+                  <p class="text-sm text-gray-600 dark:text-slate-400">{{ formatPrice(item.price) }} {{ $t('each') }}</p>
                 </div>
                 <div class="text-right">
                   <p class="font-bold">{{ formatPrice(item.total) }}</p>
@@ -125,19 +125,19 @@ const isAuthenticated = computed(() => {
           <!-- Shipping Address -->
           <div v-if="order.shipping_address" class="mb-6">
             <h2 class="text-lg font-bold mb-3">{{ $t('Shipping Address') }}</h2>
-            <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="bg-gray-50 dark:bg-slate-900 p-4 rounded-lg">
               <p class="font-medium">
                 {{ order.shipping_address.first_name }} {{ order.shipping_address.last_name }}
               </p>
-              <p class="text-sm text-gray-600">{{ order.shipping_address.address_line1 }}</p>
-              <p v-if="order.shipping_address.address_line2" class="text-sm text-gray-600">
+              <p class="text-sm text-gray-600 dark:text-slate-400">{{ order.shipping_address.address_line1 }}</p>
+              <p v-if="order.shipping_address.address_line2" class="text-sm text-gray-600 dark:text-slate-400">
                 {{ order.shipping_address.address_line2 }}
               </p>
-              <p class="text-sm text-gray-600">
+              <p class="text-sm text-gray-600 dark:text-slate-400">
                 {{ order.shipping_address.city }}, {{ order.shipping_address.state }} {{ order.shipping_address.postal_code }}
               </p>
-              <p class="text-sm text-gray-600">{{ order.shipping_address.country }}</p>
-              <p class="text-sm text-gray-600 mt-2">{{ $t('Phone: {phone}', { phone: order.shipping_address.phone }) }}</p>
+              <p class="text-sm text-gray-600 dark:text-slate-400">{{ order.shipping_address.country }}</p>
+              <p class="text-sm text-gray-600 dark:text-slate-400 mt-2">{{ $t('Phone: {phone}', { phone: order.shipping_address.phone }) }}</p>
             </div>
           </div>
 
@@ -183,16 +183,16 @@ const isAuthenticated = computed(() => {
           <a
             v-if="isAuthenticated"
             href="/account/orders"
-            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
+            class="px-6 py-3 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 font-medium"
           >
             {{ $t('View Orders') }}
           </a>
         </div>
 
         <!-- What's Next -->
-        <div class="mt-8 bg-gray-50 rounded-lg p-6">
+        <div class="mt-8 bg-gray-50 dark:bg-slate-900 rounded-lg p-6">
           <h3 class="font-bold mb-3">{{ $t("What's Next?") }}</h3>
-          <ul class="space-y-2 text-sm text-gray-700">
+          <ul class="space-y-2 text-sm text-gray-700 dark:text-slate-300">
             <li class="flex items-start">
               <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>

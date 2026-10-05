@@ -66,7 +66,7 @@ const onQuickView = (slug: string) => {
             <div
                 v-for="n in (settings.limit ?? 4)"
                 :key="n"
-                class="rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 py-12 text-slate-400"
+                class="rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-2 py-12 text-slate-400"
             >
                 <ThemePlaceholderIcon />
                 <span class="text-xs">Product {{ n }}</span>

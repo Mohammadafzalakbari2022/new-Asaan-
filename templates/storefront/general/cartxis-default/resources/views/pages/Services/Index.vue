@@ -87,26 +87,26 @@ const heading = computed(() => {
     <Head :title="heading" />
 
     <ThemeLayout>
-        <div class="bg-gray-50 border-b">
+        <div class="bg-gray-50 dark:bg-slate-900 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <nav class="flex items-center space-x-2 text-sm text-gray-500">
+                <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-slate-400">
                     <Link href="/" class="hover:text-gray-700">{{ $t('Home') }}</Link>
                     <span>/</span>
-                    <span class="text-gray-700">{{ heading }}</span>
+                    <span class="text-gray-700 dark:text-slate-300">{{ heading }}</span>
                 </nav>
             </div>
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="max-w-2xl">
-                <h1 class="text-3xl font-bold text-gray-900">{{ heading }}</h1>
-                <p v-if="settings.coverage_note" class="mt-2 text-gray-600">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100">{{ heading }}</h1>
+                <p v-if="settings.coverage_note" class="mt-2 text-gray-600 dark:text-slate-400">
                     {{ settings.coverage_note }}
                 </p>
             </div>
 
             <div v-if="featured.length" class="mt-10">
-                <h2 class="text-lg font-semibold text-gray-900">{{ $t('Popular') }}</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-slate-100">{{ $t('Popular') }}</h2>
                 <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     <ServiceCard v-for="service in featured" :key="service.id" :service="service" />
                 </div>
@@ -116,20 +116,20 @@ const heading = computed(() => {
                 <aside class="lg:col-span-1">
                     <form class="space-y-5" @submit.prevent>
                         <div>
-                            <label for="service-search" class="block text-sm font-medium text-gray-700">
+                            <label for="service-search" class="block text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Search') }}
                             </label>
                             <input
                                 id="service-search"
                                 v-model="search"
                                 type="search"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 shadow-sm focus:border-gray-900 focus:ring-gray-900"
                                 :placeholder="$t('Search services')"
                             />
                         </div>
 
                         <div v-if="categories.length">
-                            <p class="text-sm font-medium text-gray-700">{{ $t('Categories') }}</p>
+                            <p class="text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t('Categories') }}</p>
                             <ul class="mt-2 space-y-1">
                                 <li>
                                     <button
@@ -149,7 +149,7 @@ const heading = computed(() => {
                                         @click="category = item.slug"
                                     >
                                         {{ item.name }}
-                                        <span class="text-gray-400">({{ item.services_count }})</span>
+                                        <span class="text-gray-400 dark:text-slate-500">({{ item.services_count }})</span>
                                     </button>
                                 </li>
                             </ul>
@@ -159,7 +159,7 @@ const heading = computed(() => {
 
                 <div class="lg:col-span-3">
                     <div class="flex items-center justify-between gap-4">
-                        <p class="text-sm text-gray-600">
+                        <p class="text-sm text-gray-600 dark:text-slate-400">
                             {{ services.total }} {{ services.total === 1 ? $t('service') : $t('services') }}
                         </p>
 
@@ -168,7 +168,7 @@ const heading = computed(() => {
                             <select
                                 id="service-sort"
                                 v-model="sort"
-                                class="rounded-md border-gray-300 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                class="rounded-md border-gray-300 dark:border-slate-600 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
                             >
                                 <option value="">{{ $t('Sort') }}</option>
                                 <option value="price">{{ $t('Price: low to high') }}</option>
@@ -183,9 +183,9 @@ const heading = computed(() => {
                         <ServiceCard v-for="service in services.data" :key="service.id" :service="service" />
                     </div>
 
-                    <div v-else class="mt-5 rounded-lg border border-dashed border-gray-300 p-10 text-center">
-                        <p class="text-gray-600">{{ $t('No services found.') }}</p>
-                        <button type="button" class="mt-3 text-sm text-gray-900 underline" @click="search = ''; category = ''">
+                    <div v-else class="mt-5 rounded-lg border border-dashed border-gray-300 dark:border-slate-600 p-10 text-center">
+                        <p class="text-gray-600 dark:text-slate-400">{{ $t('No services found.') }}</p>
+                        <button type="button" class="mt-3 text-sm text-gray-900 dark:text-slate-100 underline" @click="search = ''; category = ''">
                             {{ $t('Clear filters') }}
                         </button>
                     </div>
@@ -196,7 +196,7 @@ const heading = computed(() => {
                             :key="link.label"
                             :href="link.url ?? '#'"
                             class="rounded-md border px-3 py-1.5 text-sm"
-                            :class="link.active ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-300 text-gray-700 hover:bg-gray-50'"
+                            :class="link.active ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-300 text-gray-700 dark:text-slate-300 hover:bg-gray-50'"
                             v-html="link.label"
                         />
                     </nav>

@@ -144,7 +144,7 @@ const formatAddress = (address: Address) => {
         <div class="mb-8 flex items-center justify-between">
           <div>
             <h1 class="text-3xl font-bold mb-2">{{ $t('My Addresses') }}</h1>
-            <p class="text-gray-600">{{ $t('Manage your shipping and billing addresses') }}</p>
+            <p class="text-gray-600 dark:text-slate-400">{{ $t('Manage your shipping and billing addresses') }}</p>
           </div>
           <button
             @click="openAddModal"
@@ -159,7 +159,7 @@ const formatAddress = (address: Address) => {
           <div
             v-for="address in addresses"
             :key="address.id"
-            class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative"
+            class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 relative"
           >
             <!-- Default Badge -->
             <div v-if="address.is_default" class="absolute top-4 right-4">
@@ -170,10 +170,10 @@ const formatAddress = (address: Address) => {
 
             <!-- Address Label -->
             <h3 v-if="address.label" class="text-lg font-semibold mb-3">{{ address.label }}</h3>
-            <h3 v-else class="text-lg font-semibold mb-3 text-gray-500">{{ $t('{type} Address', { type: address.type }) }}</h3>
+            <h3 v-else class="text-lg font-semibold mb-3 text-gray-500 dark:text-slate-400">{{ $t('{type} Address', { type: address.type }) }}</h3>
 
             <!-- Address Details -->
-            <div class="space-y-1 text-sm text-gray-700 mb-4">
+            <div class="space-y-1 text-sm text-gray-700 dark:text-slate-300 mb-4">
               <p class="font-medium">{{ address.first_name }} {{ address.last_name }}</p>
               <p v-if="address.company">{{ address.company }}</p>
               <p>{{ address.address_line1 }}</p>
@@ -188,7 +188,7 @@ const formatAddress = (address: Address) => {
               <button
                 v-if="!address.is_default"
                 @click="setDefault(address)"
-                class="flex-1 px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                class="flex-1 px-3 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
               >
                 {{ $t('Set Default') }}
               </button>
@@ -209,13 +209,13 @@ const formatAddress = (address: Address) => {
         </div>
 
         <!-- Empty State -->
-        <div v-else class="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div v-else class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-12 text-center">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <h3 class="text-lg font-semibold mb-2">{{ $t('No addresses yet') }}</h3>
-          <p class="text-gray-600 mb-4">{{ $t('Add your first address to make checkout faster') }}</p>
+          <p class="text-gray-600 dark:text-slate-400 mb-4">{{ $t('Add your first address to make checkout faster') }}</p>
           <button
             @click="openAddModal"
             class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -232,10 +232,10 @@ const formatAddress = (address: Address) => {
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="showAddModal = false"
     >
-      <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div class="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
+      <div class="bg-white dark:bg-slate-900 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-900">
           <h2 class="text-xl font-semibold">{{ $t('Add New Address') }}</h2>
-          <button @click="showAddModal = false" class="text-gray-400 hover:text-gray-600">
+          <button @click="showAddModal = false" class="text-gray-400 dark:text-slate-500 hover:text-gray-600">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -245,7 +245,7 @@ const formatAddress = (address: Address) => {
         <form @submit.prevent="submitAddForm" class="p-6 space-y-4">
           <!-- Address Type -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
               {{ $t('Address Type') }} <span class="text-red-500">*</span>
             </label>
             <div class="flex gap-4">
@@ -272,7 +272,7 @@ const formatAddress = (address: Address) => {
 
           <!-- Label -->
           <div>
-            <label for="add-label" class="block text-sm font-medium text-gray-700 mb-1">
+            <label for="add-label" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
               {{ $t('Address Label (Optional)') }}
             </label>
             <input
@@ -280,14 +280,14 @@ const formatAddress = (address: Address) => {
               v-model="addForm.label"
               type="text"
               :placeholder="$t('Home, Office, etc.')"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           <!-- Name Fields -->
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label for="add-first-name" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="add-first-name" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t('First Name') }} <span class="text-red-500">*</span>
               </label>
               <input
@@ -295,11 +295,11 @@ const formatAddress = (address: Address) => {
                 v-model="addForm.first_name"
                 type="text"
                 required
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div>
-              <label for="add-last-name" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="add-last-name" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t('Last Name') }} <span class="text-red-500">*</span>
               </label>
               <input
@@ -307,27 +307,27 @@ const formatAddress = (address: Address) => {
                 v-model="addForm.last_name"
                 type="text"
                 required
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
 
           <!-- Company -->
           <div>
-            <label for="add-company" class="block text-sm font-medium text-gray-700 mb-1">
+            <label for="add-company" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
               {{ $t('Company (Optional)') }}
             </label>
             <input
               id="add-company"
               v-model="addForm.company"
               type="text"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           <!-- Address Lines -->
           <div>
-            <label for="add-address1" class="block text-sm font-medium text-gray-700 mb-1">
+            <label for="add-address1" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
               {{ $t('Address Line 1') }} <span class="text-red-500">*</span>
             </label>
             <input
@@ -335,26 +335,26 @@ const formatAddress = (address: Address) => {
               v-model="addForm.address_line1"
               type="text"
               required
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           <div>
-            <label for="add-address2" class="block text-sm font-medium text-gray-700 mb-1">
+            <label for="add-address2" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
               {{ $t('Address Line 2 (Optional)') }}
             </label>
             <input
               id="add-address2"
               v-model="addForm.address_line2"
               type="text"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           <!-- City, State, Postal -->
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <label for="add-city" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="add-city" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t('City') }} <span class="text-red-500">*</span>
               </label>
               <input
@@ -362,11 +362,11 @@ const formatAddress = (address: Address) => {
                 v-model="addForm.city"
                 type="text"
                 required
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div>
-              <label for="add-state" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="add-state" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t('State') }} <span class="text-red-500">*</span>
               </label>
               <input
@@ -374,11 +374,11 @@ const formatAddress = (address: Address) => {
                 v-model="addForm.state"
                 type="text"
                 required
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div>
-              <label for="add-postal" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="add-postal" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t('Postal Code') }} <span class="text-red-500">*</span>
               </label>
               <input
@@ -386,7 +386,7 @@ const formatAddress = (address: Address) => {
                 v-model="addForm.postal_code"
                 type="text"
                 required
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -394,7 +394,7 @@ const formatAddress = (address: Address) => {
           <!-- Phone -->
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label for="add-phone" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="add-phone" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t('Phone') }} <span class="text-red-500">*</span>
               </label>
               <input
@@ -402,7 +402,7 @@ const formatAddress = (address: Address) => {
                 v-model="addForm.phone"
                 type="tel"
                 required
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -413,9 +413,9 @@ const formatAddress = (address: Address) => {
               <input
                 v-model="addForm.is_default"
                 type="checkbox"
-                class="mr-2 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                class="mr-2 w-4 h-4 text-blue-600 border-gray-300 dark:border-slate-600 rounded focus:ring-blue-500"
               />
-              <span class="text-sm text-gray-700">{{ $t('Set as default {type} address', { type: addForm.address_type }) }}</span>
+              <span class="text-sm text-gray-700 dark:text-slate-300">{{ $t('Set as default {type} address', { type: addForm.address_type }) }}</span>
             </label>
           </div>
 
@@ -431,7 +431,7 @@ const formatAddress = (address: Address) => {
             <button
               type="button"
               @click="showAddModal = false"
-              class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              class="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
             >
               {{ $t('Cancel') }}
             </button>
@@ -446,10 +446,10 @@ const formatAddress = (address: Address) => {
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="showEditModal = false"
     >
-      <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div class="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
+      <div class="bg-white dark:bg-slate-900 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-900">
           <h2 class="text-xl font-semibold">{{ $t('Edit Address') }}</h2>
-          <button @click="showEditModal = false" class="text-gray-400 hover:text-gray-600">
+          <button @click="showEditModal = false" class="text-gray-400 dark:text-slate-500 hover:text-gray-600">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -460,7 +460,7 @@ const formatAddress = (address: Address) => {
           <!-- Same form fields as Add modal, but with editForm -->
           <!-- (Abbreviated for brevity - same structure) -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
               {{ $t('Address Type') }} <span class="text-red-500">*</span>
             </label>
             <div class="flex gap-4">
@@ -476,60 +476,60 @@ const formatAddress = (address: Address) => {
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Address Label (Optional)') }}</label>
-            <input v-model="editForm.label" type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Address Label (Optional)') }}</label>
+            <input v-model="editForm.label" type="text" class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('First Name') }} <span class="text-red-500">*</span></label>
-              <input v-model="editForm.first_name" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('First Name') }} <span class="text-red-500">*</span></label>
+              <input v-model="editForm.first_name" type="text" required class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Last Name') }} <span class="text-red-500">*</span></label>
-              <input v-model="editForm.last_name" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Last Name') }} <span class="text-red-500">*</span></label>
+              <input v-model="editForm.last_name" type="text" required class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Company (Optional)') }}</label>
-            <input v-model="editForm.company" type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Company (Optional)') }}</label>
+            <input v-model="editForm.company" type="text" class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Address Line 1') }} <span class="text-red-500">*</span></label>
-            <input v-model="editForm.address_line1" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Address Line 1') }} <span class="text-red-500">*</span></label>
+            <input v-model="editForm.address_line1" type="text" required class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Address Line 2 (Optional)') }}</label>
-            <input v-model="editForm.address_line2" type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Address Line 2 (Optional)') }}</label>
+            <input v-model="editForm.address_line2" type="text" class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
           </div>
 
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('City') }} <span class="text-red-500">*</span></label>
-              <input v-model="editForm.city" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('City') }} <span class="text-red-500">*</span></label>
+              <input v-model="editForm.city" type="text" required class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('State') }} <span class="text-red-500">*</span></label>
-              <input v-model="editForm.state" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('State') }} <span class="text-red-500">*</span></label>
+              <input v-model="editForm.state" type="text" required class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Postal Code') }} <span class="text-red-500">*</span></label>
-              <input v-model="editForm.postal_code" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Postal Code') }} <span class="text-red-500">*</span></label>
+              <input v-model="editForm.postal_code" type="text" required class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('Phone') }} <span class="text-red-500">*</span></label>
-            <input v-model="editForm.phone" type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{ $t('Phone') }} <span class="text-red-500">*</span></label>
+            <input v-model="editForm.phone" type="tel" required class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg" />
           </div>
 
           <div>
             <label class="flex items-center cursor-pointer">
-              <input v-model="editForm.is_default" type="checkbox" class="mr-2 w-4 h-4 text-blue-600 border-gray-300 rounded" />
-              <span class="text-sm text-gray-700">{{ $t('Set as default {type} address', { type: editForm.address_type }) }}</span>
+              <input v-model="editForm.is_default" type="checkbox" class="mr-2 w-4 h-4 text-blue-600 border-gray-300 dark:border-slate-600 rounded" />
+              <span class="text-sm text-gray-700 dark:text-slate-300">{{ $t('Set as default {type} address', { type: editForm.address_type }) }}</span>
             </label>
           </div>
 
@@ -544,7 +544,7 @@ const formatAddress = (address: Address) => {
             <button
               type="button"
               @click="showEditModal = false"
-              class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              class="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
             >
               {{ $t('Cancel') }}
             </button>

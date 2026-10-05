@@ -527,7 +527,7 @@ const submitOrder = () => {
       </div>
 
       <div v-if="cartEmpty" class="text-center py-12">
-        <p class="text-xl text-gray-600 mb-4">{{ error || $t('Your cart is empty') }}</p>
+        <p class="text-xl text-gray-600 dark:text-slate-400 mb-4">{{ error || $t('Your cart is empty') }}</p>
         <a href="/products" class="text-blue-600 hover:underline">{{ $t('Continue Shopping') }}</a>
       </div>
 
@@ -535,21 +535,21 @@ const submitOrder = () => {
         <!-- Checkout Form -->
         <div class="lg:col-span-2 space-y-8">
           <!-- Contact Information -->
-          <div class="bg-white p-6 rounded-lg shadow">
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
             <h2 class="text-xl font-bold mb-6">{{ $t('Contact Information') }}</h2>
             
             <div v-if="!isAuthenticated">
               <!-- Checkout Mode Toggle (when guest checkout is enabled) -->
               <div v-if="showCheckoutModeToggle" class="mb-6">
-                <div class="grid grid-cols-2 gap-4 p-1 bg-gray-100 rounded-lg">
+                <div class="grid grid-cols-2 gap-4 p-1 bg-gray-100 dark:bg-slate-800 rounded-lg">
                   <button
                     type="button"
                     @click="checkoutMode = 'guest'"
                     :class="[
                       'py-3 px-4 rounded-md font-medium transition-all duration-200',
                       checkoutMode === 'guest' 
-                        ? 'bg-white text-blue-600 shadow-sm' 
-                        : 'text-gray-600 hover:text-gray-900'
+                        ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm' 
+                        : 'text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-slate-100'
                     ]"
                     :disabled="mustCreateAccount"
                   >
@@ -564,8 +564,8 @@ const submitOrder = () => {
                     :class="[
                       'py-3 px-4 rounded-md font-medium transition-all duration-200',
                       checkoutMode === 'create_account' 
-                        ? 'bg-white text-blue-600 shadow-sm' 
-                        : 'text-gray-600 hover:text-gray-900'
+                        ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm' 
+                        : 'text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-slate-100'
                     ]"
                   >
                     <svg class="w-5 h-5 inline-block mr-2 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -574,10 +574,10 @@ const submitOrder = () => {
                     {{ $t('Create Account') }}
                   </button>
                 </div>
-                <p v-if="checkoutMode === 'guest'" class="text-sm text-gray-600 mt-3">
+                <p v-if="checkoutMode === 'guest'" class="text-sm text-gray-600 dark:text-slate-400 mt-3">
                   {{ $t('Continue as a guest. You can create an account later.') }}
                 </p>
-                <p v-else class="text-sm text-gray-600 mt-3">
+                <p v-else class="text-sm text-gray-600 dark:text-slate-400 mt-3">
                   {{ $t('Create an account to track your orders and save your information for faster checkout.') }}
                 </p>
               </div>
@@ -626,7 +626,7 @@ const submitOrder = () => {
                     :placeholder="$t('Enter a secure password')"
                     minlength="8"
                   />
-                  <p v-if="!fieldErrors.password" class="text-xs text-gray-500 mt-1">{{ $t('Minimum 8 characters') }}</p>
+                  <p v-if="!fieldErrors.password" class="text-xs text-gray-500 dark:text-slate-400 mt-1">{{ $t('Minimum 8 characters') }}</p>
                   <p v-if="fieldErrors.password" class="mt-1 text-sm text-red-600">{{ fieldErrors.password }}</p>
                 </div>
                 <div>
@@ -646,13 +646,13 @@ const submitOrder = () => {
               </div>
             </div>
             
-            <div v-else class="text-sm text-gray-600">
+            <div v-else class="text-sm text-gray-600 dark:text-slate-400">
               <p>{{ $t('Logged in as: {email}', { email: currentUser?.email }) }}</p>
             </div>
           </div>
 
           <!-- Shipping Address -->
-          <div class="bg-white p-6 rounded-lg shadow">
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
             <h2 class="text-xl font-bold mb-4">{{ $t('Shipping Address') }}</h2>
             
             <!-- Saved Addresses (for authenticated users) -->
@@ -661,7 +661,7 @@ const submitOrder = () => {
                 <label
                   v-for="address in userAddresses"
                   :key="address.id"
-                  class="flex items-start p-4 border rounded-lg cursor-pointer hover:bg-gray-50"
+                  class="flex items-start p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800"
                   :class="{ 'border-blue-500 bg-blue-50': selectedAddressId === address.id }"
                 >
                   <input
@@ -672,10 +672,10 @@ const submitOrder = () => {
                   />
                   <div class="ml-3">
                     <p class="font-medium">{{ address.first_name }} {{ address.last_name }}</p>
-                    <p class="text-sm text-gray-600">{{ address.address_line1 }}</p>
-                    <p v-if="address.address_line2" class="text-sm text-gray-600">{{ address.address_line2 }}</p>
-                    <p class="text-sm text-gray-600">{{ address.city }}, {{ address.state }} {{ address.postal_code }}</p>
-                    <p class="text-sm text-gray-600">{{ address.country }}</p>
+                    <p class="text-sm text-gray-600 dark:text-slate-400">{{ address.address_line1 }}</p>
+                    <p v-if="address.address_line2" class="text-sm text-gray-600 dark:text-slate-400">{{ address.address_line2 }}</p>
+                    <p class="text-sm text-gray-600 dark:text-slate-400">{{ address.city }}, {{ address.state }} {{ address.postal_code }}</p>
+                    <p class="text-sm text-gray-600 dark:text-slate-400">{{ address.country }}</p>
                   </div>
                 </label>
               </div>
@@ -722,7 +722,7 @@ const submitOrder = () => {
                 <input
                   v-model="shippingAddress.company"
                   type="text"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div class="md:col-span-2">
@@ -743,7 +743,7 @@ const submitOrder = () => {
                 <input
                   v-model="shippingAddress.address_line2"
                   type="text"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500"
                   :placeholder="$t('Apartment, suite, etc. (optional)')"
                 />
               </div>
@@ -803,14 +803,14 @@ const submitOrder = () => {
           </div>
 
           <!-- Shipping Method -->
-          <div class="bg-white p-6 rounded-lg shadow">
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
             <h2 class="text-xl font-bold mb-4">{{ $t('Shipping Method') }}</h2>
             
             <div class="space-y-2">
               <label
                 v-for="option in cartSummary.shipping.options"
                 :key="option.id"
-                class="flex items-center justify-between p-4 border rounded-lg cursor-pointer hover:bg-gray-50"
+                class="flex items-center justify-between p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800"
                 :class="{ 'border-blue-500 bg-blue-50': selectedShippingId === option.id }"
               >
                 <div class="flex items-center">
@@ -822,8 +822,8 @@ const submitOrder = () => {
                   />
                   <div>
                     <p class="font-medium">{{ option.name }}</p>
-                    <p class="text-sm text-gray-600">{{ option.description }}</p>
-                    <p v-if="option.estimated_days" class="text-xs text-gray-500 mt-1">
+                    <p class="text-sm text-gray-600 dark:text-slate-400">{{ option.description }}</p>
+                    <p v-if="option.estimated_days" class="text-xs text-gray-500 dark:text-slate-400 mt-1">
                       {{ $t('Estimated delivery: {days}', { days: option.estimated_days }) }}
                     </p>
                   </div>
@@ -837,14 +837,14 @@ const submitOrder = () => {
           </div>
 
           <!-- Payment Method -->
-          <div class="bg-white p-6 rounded-lg shadow">
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
             <h2 class="text-xl font-bold mb-4">{{ $t('Payment Method') }}</h2>
             
             <div class="space-y-2">
               <label
                 v-for="method in paymentMethods"
                 :key="method.id"
-                class="flex items-center justify-between p-4 border rounded-lg cursor-pointer hover:bg-gray-50"
+                class="flex items-center justify-between p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800"
                 :class="{ 'border-blue-500 bg-blue-50': selectedPaymentMethod === method.code }"
               >
                 <div class="flex items-center flex-1">
@@ -857,11 +857,11 @@ const submitOrder = () => {
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
                       <p class="font-medium">{{ method.name }}</p>
-                      <span v-if="method.fee > 0" class="text-xs text-gray-500">
+                      <span v-if="method.fee > 0" class="text-xs text-gray-500 dark:text-slate-400">
                         ({{ $t('+ {amount} fee', { amount: formatPrice(method.fee) }) }})
                       </span>
                     </div>
-                    <p class="text-sm text-gray-600">{{ method.description }}</p>
+                    <p class="text-sm text-gray-600 dark:text-slate-400">{{ method.description }}</p>
                     <p v-if="method.instructions && selectedPaymentMethod === method.code" class="text-xs text-blue-600 mt-1">
                       {{ method.instructions }}
                     </p>
@@ -875,7 +875,7 @@ const submitOrder = () => {
           </div>
 
           <!-- Order Notes (optional) -->
-          <div v-if="checkoutConfig.enable_order_notes" class="bg-white p-6 rounded-lg shadow">
+          <div v-if="checkoutConfig.enable_order_notes" class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
             <h2 class="text-xl font-bold mb-4">{{ $t('Order Notes (Optional)') }}</h2>
             <textarea
               v-model="orderNotes"
@@ -886,7 +886,7 @@ const submitOrder = () => {
           </div>
 
           <!-- Terms & Newsletter -->
-          <div class="bg-white p-6 rounded-lg shadow space-y-4">
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow space-y-4">
             <div v-if="checkoutConfig.require_terms_acceptance">
               <label class="flex items-start">
                 <input
@@ -919,7 +919,7 @@ const submitOrder = () => {
 
         <!-- Order Summary -->
         <div class="lg:col-span-1">
-          <div class="bg-white p-6 rounded-lg shadow sticky top-4">
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow sticky top-4">
             <h2 class="text-xl font-bold mb-4">{{ $t('Order Summary') }}</h2>
             
             <!-- Cart Items -->
@@ -929,11 +929,11 @@ const submitOrder = () => {
                   v-if="item.product.image"
                   :src="item.product.image"
                   :alt="item.product.name"
-                  class="w-16 h-16 object-cover rounded"
+                  class="w-16 h-16 object-contain rounded bg-gray-100 dark:bg-slate-800"
                 />
                 <div class="flex-1">
                   <p class="text-sm font-medium">{{ item.product.name }}</p>
-                  <p class="text-xs text-gray-600">{{ $t('Qty: {count}', { count: item.quantity }) }}</p>
+                  <p class="text-xs text-gray-600 dark:text-slate-400">{{ $t('Qty: {count}', { count: item.quantity }) }}</p>
                 </div>
                 <p class="text-sm font-bold">{{ formatPrice(item.total) }}</p>
               </div>
@@ -951,11 +951,11 @@ const submitOrder = () => {
                 <input
                   v-model="useReferralCredit"
                   type="checkbox"
-                  class="mt-0.5 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                  class="mt-0.5 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 dark:border-slate-600 rounded"
                 />
                 <span class="flex-1">
-                  <span class="block text-sm font-semibold text-gray-900">{{ $t('Use my referral credit') }}</span>
-                  <span class="block text-xs text-gray-600 mt-0.5">
+                  <span class="block text-sm font-semibold text-gray-900 dark:text-slate-100">{{ $t('Use my referral credit') }}</span>
+                  <span class="block text-xs text-gray-600 dark:text-slate-400 mt-0.5">
                     {{ $t('You have {available}. This order can use up to {max}, so delivery is still paid in full.', { available: formatPrice(referralCredit.available), max: formatPrice(referralCredit.max_usable) }) }}
                   </span>
                   <a

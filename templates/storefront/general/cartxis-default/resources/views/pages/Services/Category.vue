@@ -64,26 +64,26 @@ watch(search, () => {
     <Head :title="category.name" />
 
     <ThemeLayout>
-        <div class="bg-gray-50 border-b">
+        <div class="bg-gray-50 dark:bg-slate-900 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <nav class="flex items-center space-x-2 text-sm text-gray-500">
+                <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-slate-400">
                     <Link href="/" class="hover:text-gray-700">{{ $t('Home') }}</Link>
                     <span>/</span>
                     <Link href="/services" class="hover:text-gray-700">{{ $t('Services') }}</Link>
                     <span>/</span>
-                    <span class="text-gray-700">{{ category.name }}</span>
+                    <span class="text-gray-700 dark:text-slate-300">{{ category.name }}</span>
                 </nav>
             </div>
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <h1 class="text-3xl font-bold text-gray-900">{{ category.name }}</h1>
-            <p v-if="category.description" class="mt-2 max-w-2xl text-gray-600">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100">{{ category.name }}</h1>
+            <p v-if="category.description" class="mt-2 max-w-2xl text-gray-600 dark:text-slate-400">
                 {{ category.description }}
             </p>
 
             <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
-                <p class="text-sm text-gray-600">{{ services.total }} {{ services.total === 1 ? $t('service') : $t('services') }}</p>
+                <p class="text-sm text-gray-600 dark:text-slate-400">{{ services.total }} {{ services.total === 1 ? $t('service') : $t('services') }}</p>
 
                 <div>
                     <label for="category-search" class="sr-only">{{ $t('Search') }}</label>
@@ -91,7 +91,7 @@ watch(search, () => {
                         id="category-search"
                         v-model="search"
                         type="search"
-                        class="rounded-md border-gray-300 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                        class="rounded-md border-gray-300 dark:border-slate-600 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
                         :placeholder="$t('Search')"
                     />
                 </div>
@@ -104,8 +104,8 @@ watch(search, () => {
                 <ServiceCard v-for="service in services.data" :key="service.id" :service="service" />
             </div>
 
-            <div v-else class="mt-6 rounded-lg border border-dashed border-gray-300 p-10 text-center">
-                <p class="text-gray-600">{{ $t('No services in this category yet.') }}</p>
+            <div v-else class="mt-6 rounded-lg border border-dashed border-gray-300 dark:border-slate-600 p-10 text-center">
+                <p class="text-gray-600 dark:text-slate-400">{{ $t('No services in this category yet.') }}</p>
             </div>
 
             <nav v-if="services.last_page > 1" class="mt-8 flex flex-wrap gap-2">
@@ -114,7 +114,7 @@ watch(search, () => {
                     :key="link.label"
                     :href="link.url ?? '#'"
                     class="rounded-md border px-3 py-1.5 text-sm"
-                    :class="link.active ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-300 text-gray-700 hover:bg-gray-50'"
+                    :class="link.active ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-300 text-gray-700 dark:text-slate-300 hover:bg-gray-50'"
                     v-html="link.label"
                 />
             </nav>

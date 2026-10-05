@@ -12,15 +12,15 @@
                 <!-- Modal -->
                 <div class="flex min-h-full items-center justify-center p-4">
                     <div
-                        class="relative bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden"
+                        class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden"
                         @click.stop
                     >
                         <!-- Close Button -->
                         <button
                             @click="close"
-                            class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-white shadow-lg transition-colors cursor-pointer"
+                            class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 shadow-lg transition-colors cursor-pointer"
                         >
-                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 text-gray-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
@@ -37,7 +37,7 @@
                                 <div class="space-y-4">
                                     <!-- Main Image with Zoom -->
                                     <div
-                                        class="relative aspect-square bg-gray-100 rounded-xl overflow-hidden cursor-zoom-in"
+                                        class="relative aspect-square bg-gray-100 dark:bg-slate-800 rounded-xl overflow-hidden cursor-zoom-in"
                                         @mouseenter="showZoom = true"
                                         @mouseleave="showZoom = false"
                                         @mousemove="handleMouseMove"
@@ -47,9 +47,9 @@
                                             ref="mainImageRef"
                                             :src="currentImage"
                                             :alt="product.name"
-                                            class="w-full h-full object-cover"
+                                            class="w-full h-full object-contain p-2"
                                         />
-                                        <div v-else class="w-full h-full flex items-center justify-center text-gray-400">
+                                        <div v-else class="w-full h-full flex items-center justify-center text-gray-400 dark:text-slate-500">
                                             <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                                             </svg>
@@ -77,7 +77,7 @@
                                             :class="selectedImageIndex === index ? 'border-indigo-600' : 'border-gray-200'"
                                             @click="selectedImageIndex = index"
                                         >
-                                            <img :src="img" :alt="product.name" class="w-full h-full object-cover" />
+                                            <img :src="img" :alt="product.name" class="w-full h-full object-contain p-2" />
                                         </button>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                     </div>
 
                                     <!-- Title -->
-                                    <h2 class="text-3xl font-bold text-gray-900">
+                                    <h2 class="text-3xl font-bold text-gray-900 dark:text-slate-100">
                                         {{ product.name }}
                                     </h2>
 
@@ -101,17 +101,17 @@
                                                 {{ '★'.repeat(Math.floor(product.rating)) }}{{ '☆'.repeat(5 - Math.floor(product.rating)) }}
                                             </span>
                                         </div>
-                                        <span class="text-sm text-gray-600">
+                                        <span class="text-sm text-gray-600 dark:text-slate-400">
                                             ({{ $t('{count} reviews', { count: product.reviews_count }) }})
                                         </span>
                                     </div>
 
                                     <!-- Price -->
                                     <div class="flex items-baseline gap-3">
-                                        <span class="text-4xl font-bold text-gray-900">
+                                        <span class="text-4xl font-bold text-gray-900 dark:text-slate-100">
                                             {{ formatPrice(product.special_price || product.price) }}
                                         </span>
-                                        <span v-if="product.special_price" class="text-xl text-gray-400 line-through">
+                                        <span v-if="product.special_price" class="text-xl text-gray-400 dark:text-slate-500 line-through">
                                             {{ formatPrice(product.price) }}
                                         </span>
                                         <span v-if="product.special_price" class="px-3 py-1 bg-red-100 text-red-700 text-sm font-semibold rounded-full">
@@ -142,14 +142,14 @@
                                     </div>
 
                                     <!-- Short Description -->
-                                    <div v-if="product.short_description" class="text-gray-600 leading-relaxed">
+                                    <div v-if="product.short_description" class="text-gray-600 dark:text-slate-400 leading-relaxed">
                                         {{ product.short_description }}
                                     </div>
 
                                     <!-- Configurable Attributes -->
-                                    <div v-if="configurableAttributes.length > 0" class="space-y-4 py-4 border-t border-gray-200">
+                                    <div v-if="configurableAttributes.length > 0" class="space-y-4 py-4 border-t border-gray-200 dark:border-slate-700">
                                         <div v-for="attribute in configurableAttributes" :key="attribute.id" class="space-y-3">
-                                            <label class="block text-sm font-semibold text-gray-700">
+                                            <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">
                                                 {{ attribute.name }} <span class="text-red-500">*</span>
                                             </label>
 
@@ -172,7 +172,7 @@
                                                             :style="option.color_code ? { backgroundColor: option.color_code } : { backgroundColor: '#f3f4f6' }"
                                                         >
                                                             <!-- Show text if no color code -->
-                                                            <span v-if="!option.color_code" class="text-xs font-semibold text-gray-700 uppercase">
+                                                            <span v-if="!option.color_code" class="text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase">
                                                                 {{ option.value.substring(0, 3) }}
                                                             </span>
                                                         </div>
@@ -189,15 +189,15 @@
                                                         </svg>
                                                         
                                                         <!-- Color Name Label -->
-                                                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-700 dark:text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                                                             {{ option.value }}
                                                         </span>
                                                     </button>
                                                 </div>
                                                 
                                                 <!-- Selected Color Display -->
-                                                <div v-if="selectedAttributes[attribute.id]" class="text-sm text-gray-600">
-                                                    {{ $t('Selected:') }} <span class="font-semibold text-gray-900">
+                                                <div v-if="selectedAttributes[attribute.id]" class="text-sm text-gray-600 dark:text-slate-400">
+                                                    {{ $t('Selected:') }} <span class="font-semibold text-gray-900 dark:text-slate-100">
                                                         {{ attribute.options.find(opt => opt.id === selectedAttributes[attribute.id])?.value }}
                                                     </span>
                                                 </div>
@@ -228,10 +228,10 @@
 
                                     <!-- Quantity & Add to Cart -->
                                     <div class="flex items-center gap-4 pt-4">
-                                        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                                        <div class="flex items-center border border-gray-300 dark:border-slate-600 rounded-lg overflow-hidden">
                                             <button
                                                 @click="quantity > 1 && quantity--"
-                                                class="px-4 py-3 hover:bg-gray-100 transition-colors cursor-pointer"
+                                                class="px-4 py-3 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                                                 :disabled="quantity <= 1"
                                             >
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,11 +242,11 @@
                                                 v-model.number="quantity"
                                                 type="number"
                                                 min="1"
-                                                class="w-16 text-center py-3 border-x border-gray-300 focus:outline-none"
+                                                class="w-16 text-center py-3 border-x border-gray-300 dark:border-slate-600 focus:outline-none"
                                             />
                                             <button
                                                 @click="quantity++"
-                                                class="px-4 py-3 hover:bg-gray-100 transition-colors cursor-pointer"
+                                                class="px-4 py-3 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                                             >
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -268,7 +268,7 @@
                                     </div>
 
                                     <!-- View Full Details Link -->
-                                    <div class="pt-4 border-t border-gray-200">
+                                    <div class="pt-4 border-t border-gray-200 dark:border-slate-700">
                                         <a
                                             :href="`/products/${product.slug}`"
                                             class="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium cursor-pointer"
@@ -281,7 +281,7 @@
                                     </div>
 
                                     <!-- Product Meta -->
-                                    <div class="pt-4 border-t border-gray-200 space-y-2 text-sm text-gray-600">
+                                    <div class="pt-4 border-t border-gray-200 dark:border-slate-700 space-y-2 text-sm text-gray-600 dark:text-slate-400">
                                         <div v-if="product.sku">
                                             <span>{{ $t('SKU:') }}</span> {{ product.sku }}
                                         </div>

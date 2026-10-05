@@ -185,16 +185,16 @@ const handleMouseMove = (e: MouseEvent) => {
 
     <ThemeLayout>
         <!-- Breadcrumb -->
-        <div class="bg-gray-50 border-b">
+        <div class="bg-gray-50 dark:bg-slate-900 border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <nav class="flex items-center space-x-2 text-sm text-gray-500">
+                <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-slate-400">
                     <Link href="/" class="hover:text-gray-700">{{ $t('Home') }}</Link>
                     <span>/</span>
                     <Link href="/products" class="hover:text-gray-700">{{ $t('Products') }}</Link>
                     <span>/</span>
                     <span
                         v-if="product.categories && product.categories.length > 0"
-                        class="text-gray-700"
+                        class="text-gray-700 dark:text-slate-300"
                     >
                         {{ product.categories[0].name }}
                     </span>
@@ -208,7 +208,7 @@ const handleMouseMove = (e: MouseEvent) => {
                 <!-- Image Gallery -->
                 <div class="space-y-4">
                     <!-- Main Image -->
-                    <div class="relative bg-white rounded-lg border overflow-hidden aspect-square">
+                    <div class="relative bg-white dark:bg-slate-900 rounded-lg border overflow-hidden aspect-square">
                         <div
                             v-if="hasImage"
                             ref="mainImageRef"
@@ -225,7 +225,7 @@ const handleMouseMove = (e: MouseEvent) => {
                             <!-- Zoom Overlay -->
                             <div
                                 v-if="isZoomed"
-                                class="absolute inset-0 bg-white pointer-events-none overflow-hidden"
+                                class="absolute inset-0 bg-white dark:bg-slate-900 pointer-events-none overflow-hidden"
                             >
                                 <div
                                     class="w-full h-full"
@@ -240,7 +240,7 @@ const handleMouseMove = (e: MouseEvent) => {
                         </div>
                         
                         <!-- Default Image Placeholder -->
-                        <div v-else class="w-full h-full flex items-center justify-center bg-gray-100 text-9xl">
+                        <div v-else class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-slate-800 text-9xl">
                             📦
                         </div>
                     </div>
@@ -276,7 +276,7 @@ const handleMouseMove = (e: MouseEvent) => {
                     </div>
 
                     <!-- Title -->
-                    <h1 class="text-3xl font-bold text-gray-900">{{ product.name }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100">{{ product.name }}</h1>
 
                     <!-- Rating & Reviews -->
                     <div class="flex items-center gap-4">
@@ -293,15 +293,15 @@ const handleMouseMove = (e: MouseEvent) => {
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
                             </div>
-                            <span class="ml-2 text-sm text-gray-600">{{ product.rating.toFixed(1) }}</span>
+                            <span class="ml-2 text-sm text-gray-600 dark:text-slate-400">{{ product.rating.toFixed(1) }}</span>
                         </div>
-                        <span class="text-sm text-gray-500">{{ $t('({count} reviews)', { count: product.reviews_count }) }}</span>
+                        <span class="text-sm text-gray-500 dark:text-slate-400">{{ $t('({count} reviews)', { count: product.reviews_count }) }}</span>
                     </div>
 
                     <!-- Price -->
                     <div class="flex items-baseline gap-3">
-                        <span class="text-3xl font-bold text-gray-900">{{ formatPrice(displayPrice) }}</span>
-                        <span v-if="hasDiscount" class="text-xl text-gray-500 line-through">{{ formatPrice(product.price) }}</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-slate-100">{{ formatPrice(displayPrice) }}</span>
+                        <span v-if="hasDiscount" class="text-xl text-gray-500 dark:text-slate-400 line-through">{{ formatPrice(product.price) }}</span>
                         <span v-if="hasDiscount" class="text-sm font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">
                             {{ $t('Save {percent}%', { percent: discountPercentage }) }}
                         </span>
@@ -331,14 +331,14 @@ const handleMouseMove = (e: MouseEvent) => {
 
                     <!-- SKU & Product Type -->
                     <div class="flex items-center gap-3">
-                        <div class="text-sm text-gray-500">
-                            {{ $t('SKU:') }} <span class="font-medium text-gray-700">{{ product.sku }}</span>
+                        <div class="text-sm text-gray-500 dark:text-slate-400">
+                            {{ $t('SKU:') }} <span class="font-medium text-gray-700 dark:text-slate-300">{{ product.sku }}</span>
                         </div>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="{
-                            'bg-gray-100 text-gray-800': product.type === 'simple',
-                            'bg-purple-100 text-purple-800': product.type === 'configurable',
-                            'bg-blue-100 text-blue-800': product.type === 'virtual',
-                            'bg-cyan-100 text-cyan-800': product.type === 'downloadable',
+                            'bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-slate-200': product.type === 'simple',
+                            'bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300': product.type === 'configurable',
+                            'bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300': product.type === 'virtual',
+                            'bg-cyan-100 dark:bg-cyan-500/20 text-cyan-800 dark:text-cyan-300': product.type === 'downloadable',
                         }">
                             <svg v-if="product.type === 'virtual' || product.type === 'downloadable'" class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z" />
@@ -370,14 +370,14 @@ const handleMouseMove = (e: MouseEvent) => {
                     </div>
 
                     <!-- Short Description -->
-                    <div v-if="product.short_description" class="text-gray-600 leading-relaxed">
+                    <div v-if="product.short_description" class="text-gray-600 dark:text-slate-400 leading-relaxed">
                         {{ product.short_description }}
                     </div>
 
                     <!-- Product Attributes (Color, Size, etc.) -->
                     <div v-if="configurableAttributes && configurableAttributes.length > 0" class="space-y-4 border-t pt-6">
                         <div v-for="attribute in configurableAttributes" :key="attribute.id" class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-900">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-slate-100">
                                 {{ attribute.name }}
                                 <span v-if="attribute.is_required" class="text-red-500">*</span>
                             </label>
@@ -401,7 +401,7 @@ const handleMouseMove = (e: MouseEvent) => {
                                             :style="option.color_code ? { backgroundColor: option.color_code } : { backgroundColor: '#f3f4f6' }"
                                         >
                                             <!-- Show text if no color code -->
-                                            <span v-if="!option.color_code" class="text-xs font-semibold text-gray-700 uppercase">
+                                            <span v-if="!option.color_code" class="text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase">
                                                 {{ option.value.substring(0, 3) }}
                                             </span>
                                         </div>
@@ -418,15 +418,15 @@ const handleMouseMove = (e: MouseEvent) => {
                                         </svg>
                                         
                                         <!-- Color Name Label on Hover -->
-                                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-700 dark:text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                                             {{ option.value }}
                                         </span>
                                     </button>
                                 </div>
                                 
                                 <!-- Selected Color Display -->
-                                <div v-if="selectedAttributes[attribute.code]" class="text-sm text-gray-600">
-                                    {{ $t('Selected:') }} <span class="font-semibold text-gray-900">{{ selectedAttributes[attribute.code] }}</span>
+                                <div v-if="selectedAttributes[attribute.code]" class="text-sm text-gray-600 dark:text-slate-400">
+                                    {{ $t('Selected:') }} <span class="font-semibold text-gray-900 dark:text-slate-100">{{ selectedAttributes[attribute.code] }}</span>
                                 </div>
                             </div>
 
@@ -451,12 +451,12 @@ const handleMouseMove = (e: MouseEvent) => {
                     <div v-if="product.in_stock" class="space-y-4">
                         <!-- Quantity Selector - Hidden for downloadable products -->
                         <div v-if="product.type !== 'downloadable'" class="flex items-center gap-4">
-                            <span class="text-sm font-medium text-gray-700">{{ $t('Quantity:') }}</span>
+                            <span class="text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t('Quantity:') }}</span>
                             <div class="flex items-center border rounded-lg">
                                 <button
                                     @click="decrementQuantity"
                                     :disabled="quantity <= 1"
-                                    class="px-4 py-2 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                    class="px-4 py-2 text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                 >
                                     -
                                 </button>
@@ -470,7 +470,7 @@ const handleMouseMove = (e: MouseEvent) => {
                                 <button
                                     @click="incrementQuantity"
                                     :disabled="quantity >= product.quantity"
-                                    class="px-4 py-2 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                    class="px-4 py-2 text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                 >
                                     +
                                 </button>
@@ -495,7 +495,7 @@ const handleMouseMove = (e: MouseEvent) => {
 
                     <!-- Categories -->
                     <div v-if="product.categories && product.categories.length > 0" class="border-t pt-6">
-                        <span class="text-sm font-medium text-gray-700">{{ $t('Categories:') }}</span>
+                        <span class="text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t('Categories:') }}</span>
                         <Link
                             v-for="(category, index) in product.categories"
                             :key="category.id"
@@ -510,15 +510,15 @@ const handleMouseMove = (e: MouseEvent) => {
 
             <!-- Full Description -->
             <div v-if="product.description" class="mt-12 border-t pt-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ $t('Product Description') }}</h2>
-                <div class="prose max-w-none text-gray-600 leading-relaxed">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-4">{{ $t('Product Description') }}</h2>
+                <div class="prose max-w-none text-gray-600 dark:text-slate-400 leading-relaxed">
                     {{ product.description }}
                 </div>
             </div>
 
             <!-- Related Products -->
             <div v-if="relatedProducts.length > 0" class="mt-12 border-t pt-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('Related Products') }}</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-6">{{ $t('Related Products') }}</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     <ProductCard
                         v-for="relatedProduct in relatedProducts"

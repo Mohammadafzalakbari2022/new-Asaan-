@@ -30,10 +30,10 @@ const submit = () => {
     <ThemeLayout>
         <Head :title="$t('Confirm Password')" />
 
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-slate-900">
             <div class="w-full max-w-md">
                 <!-- Card -->
-                <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8">
                     <!-- Icon -->
                     <div class="flex justify-center mb-6">
                         <div 
@@ -49,10 +49,10 @@ const submit = () => {
 
                     <!-- Header -->
                     <div class="text-center mb-6">
-                        <h1 class="text-2xl font-bold text-gray-900 mb-2">
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-2">
                             {{ $t('Confirm Password') }}
                         </h1>
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-slate-400">
                             {{ $t('This is a secure area. Please confirm your password before continuing.') }}
                         </p>
                     </div>
@@ -61,7 +61,7 @@ const submit = () => {
                     <form @submit.prevent="submit" class="space-y-6">
                         <!-- Password Field -->
                         <div class="space-y-2">
-                            <Label for="password" class="text-sm font-medium text-gray-700">
+                            <Label for="password" class="text-sm font-medium text-gray-700 dark:text-slate-300">
                                 {{ $t('Password') }}
                             </Label>
                             <Input
@@ -96,11 +96,11 @@ const submit = () => {
                 </div>
 
                 <!-- Security Notice -->
-                <div class="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <h3 class="text-sm font-medium text-gray-900 mb-1">
+                <div class="mt-6 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg p-4">
+                    <h3 class="text-sm font-medium text-gray-900 dark:text-slate-100 mb-1">
                         {{ $t('Why do we need this?') }}
                     </h3>
-                    <p class="text-xs text-gray-600">
+                    <p class="text-xs text-gray-600 dark:text-slate-400">
                         {{ $t('For your security, we require password confirmation before accessing sensitive information or performing critical actions.') }}
                     </p>
                 </div>

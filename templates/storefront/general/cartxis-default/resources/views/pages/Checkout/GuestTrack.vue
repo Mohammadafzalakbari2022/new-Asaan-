@@ -52,9 +52,9 @@ const submit = () => {
 
     <div class="container mx-auto px-4 py-8 max-w-2xl">
       <h1 class="text-2xl font-bold mb-2">{{ $t('Track Guest Order') }}</h1>
-      <p class="text-gray-600 mb-6">{{ $t('Enter your order ID to check order status.') }}</p>
+      <p class="text-gray-600 dark:text-slate-400 mb-6">{{ $t('Enter your order ID to check order status.') }}</p>
 
-      <div class="bg-white rounded-lg shadow p-5">
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5">
         <label class="block text-sm font-medium mb-2">{{ $t('Order ID') }}</label>
         <div class="flex gap-2">
           <input v-model="orderNumber" type="text" class="flex-1 border rounded px-3 py-2" :placeholder="$t('ORD-...')" />
@@ -63,14 +63,14 @@ const submit = () => {
         <p v-if="error" class="mt-3 text-sm text-red-600">{{ error }}</p>
       </div>
 
-      <div v-if="trackedOrder" class="bg-white rounded-lg shadow p-5 mt-6">
+      <div v-if="trackedOrder" class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 mt-6">
         <h2 class="text-lg font-semibold mb-3">{{ $t('Order #') }}{{ trackedOrder.order_number }}</h2>
         <div class="space-y-2 text-sm">
-          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Status') }}</span><span class="font-medium">{{ $t(trackedOrder.status.charAt(0).toUpperCase() + trackedOrder.status.slice(1)) }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Payment Status') }}</span><span>{{ $t(trackedOrder.payment_status.charAt(0).toUpperCase() + trackedOrder.payment_status.slice(1)) }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Placed On') }}</span><DateDisplay :value="trackedOrder.created_at" time /></div>
-          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Items') }}</span><span>{{ trackedOrder.items_count }}</span></div>
-          <div class="flex justify-between"><span class="text-gray-600">{{ $t('Total') }}</span><span class="font-semibold">{{ formatPrice(trackedOrder.total) }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-slate-400">{{ $t('Status') }}</span><span class="font-medium">{{ $t(trackedOrder.status.charAt(0).toUpperCase() + trackedOrder.status.slice(1)) }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-slate-400">{{ $t('Payment Status') }}</span><span>{{ $t(trackedOrder.payment_status.charAt(0).toUpperCase() + trackedOrder.payment_status.slice(1)) }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-slate-400">{{ $t('Placed On') }}</span><DateDisplay :value="trackedOrder.created_at" time /></div>
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-slate-400">{{ $t('Items') }}</span><span>{{ trackedOrder.items_count }}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600 dark:text-slate-400">{{ $t('Total') }}</span><span class="font-semibold">{{ formatPrice(trackedOrder.total) }}</span></div>
         </div>
       </div>
     </div>

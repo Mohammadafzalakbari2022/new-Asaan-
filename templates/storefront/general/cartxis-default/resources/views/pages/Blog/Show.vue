@@ -34,7 +34,7 @@ defineProps<{
             <meta v-if="post.meta_keywords" name="keywords" :content="post.meta_keywords" />
         </Head>
 
-        <div class="bg-gray-50 min-h-screen">
+        <div class="bg-gray-50 dark:bg-slate-900 min-h-screen">
             <!-- Hero / Featured Image -->
             <div v-if="post.featured_image" class="w-full max-h-96 overflow-hidden">
                 <img :src="post.featured_image" :alt="post.title" class="w-full object-cover max-h-96" />
@@ -42,15 +42,15 @@ defineProps<{
 
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <!-- Breadcrumb -->
-                <nav class="text-sm text-gray-500 mb-6 flex gap-2">
+                <nav class="text-sm text-gray-500 dark:text-slate-400 mb-6 flex gap-2">
                     <Link href="/" class="hover:text-blue-600">{{ $t('Home') }}</Link>
                     <span>/</span>
                     <Link href="/blog" class="hover:text-blue-600">{{ $t('Blog') }}</Link>
                     <span>/</span>
-                    <span class="text-gray-900">{{ post.title }}</span>
+                    <span class="text-gray-900 dark:text-slate-100">{{ post.title }}</span>
                 </nav>
 
-                <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <article class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
                     <div class="p-8 sm:p-12">
                         <!-- Category -->
                         <div v-if="post.category" class="mb-4">
@@ -60,10 +60,10 @@ defineProps<{
                         </div>
 
                         <!-- Title -->
-                        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 leading-tight">{{ post.title }}</h1>
+                        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-slate-100 mb-4 leading-tight">{{ post.title }}</h1>
 
                         <!-- Meta -->
-                        <div class="flex flex-wrap gap-4 text-sm text-gray-500 mb-8 pb-8 border-b border-gray-100">
+                        <div class="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-slate-400 mb-8 pb-8 border-b border-gray-100 dark:border-slate-700">
                             <span v-if="post.creator" class="flex items-center gap-1.5">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -92,15 +92,15 @@ defineProps<{
 
                 <!-- Related Posts -->
                 <div v-if="related.length" class="mt-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('Related Posts') }}</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-6">{{ $t('Related Posts') }}</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         <article
                             v-for="relPost in related"
                             :key="relPost.id"
-                            class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group"
+                            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow group"
                         >
                             <Link :href="`/blog/${relPost.slug}`">
-                                <div class="aspect-video bg-gray-100 overflow-hidden">
+                                <div class="aspect-video bg-gray-100 dark:bg-slate-800 overflow-hidden">
                                     <img
                                         v-if="relPost.featured_image"
                                         :src="relPost.featured_image"
@@ -115,10 +115,10 @@ defineProps<{
                                 </div>
                             </Link>
                             <div class="p-4">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                <h3 class="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
                                     <Link :href="`/blog/${relPost.slug}`">{{ relPost.title }}</Link>
                                 </h3>
-                                <p class="text-xs text-gray-500"><DateDisplay :value="relPost.published_at" /></p>
+                                <p class="text-xs text-gray-500 dark:text-slate-400"><DateDisplay :value="relPost.published_at" /></p>
                             </div>
                         </article>
                     </div>

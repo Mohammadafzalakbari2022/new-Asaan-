@@ -34,7 +34,7 @@ const {
             v-if="product.thumbnail"
             :src="product.thumbnail"
             :alt="product.name"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            class="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
           />
           <div v-else class="w-full h-full flex items-center justify-center text-gray-300 dark:text-gray-600">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">

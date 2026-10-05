@@ -2,6 +2,7 @@
 import { Head, useForm } from '@inertiajs/vue3';
 import ThemeLayout from '../../../layouts/ThemeLayout.vue';
 import CurrencySelector from '../../../components/CurrencySelector.vue';
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import { ref } from 'vue';
 
 interface User {
@@ -92,26 +93,35 @@ const confirmDelete = () => {
         <!-- Header -->
         <div class="mb-8">
           <h1 class="text-3xl font-bold mb-2">{{ $t('My Profile') }}</h1>
-          <p class="text-gray-600">{{ $t('Manage your account settings and preferences') }}</p>
+          <p class="text-gray-600 dark:text-slate-400">{{ $t('Manage your account settings and preferences') }}</p>
         </div>
 
         <div class="space-y-6">
+          <!-- Display Language -->
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <h2 class="text-xl font-semibold mb-2 dark:text-slate-100">{{ $t('Display Language') }}</h2>
+            <p class="text-sm text-gray-600 dark:text-slate-400 mb-4">
+              {{ $t('Choose the language the site is shown to you in.') }}
+            </p>
+            <LanguageSwitcher />
+          </div>
+
           <!-- Display Currency -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <h2 class="text-xl font-semibold mb-2">{{ $t('Display Currency') }}</h2>
-            <p class="text-sm text-gray-600 mb-4">
+            <p class="text-sm text-gray-600 dark:text-slate-400 mb-4">
               {{ $t('Choose how prices are shown to you. Your account is billed in AFN either way.') }}
             </p>
             <CurrencySelector />
           </div>
 
           <!-- Personal Information -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <h2 class="text-xl font-semibold mb-6">{{ $t('Personal Information') }}</h2>
             
             <form @submit.prevent="updateProfile" class="space-y-4">
               <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                   {{ $t('Full Name') }} <span class="text-red-500">*</span>
                 </label>
                 <input
@@ -119,7 +129,7 @@ const confirmDelete = () => {
                   v-model="profileForm.name"
                   type="text"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   :class="{ 'border-red-500': profileForm.errors.name }"
                 />
                 <p v-if="profileForm.errors.name" class="mt-1 text-sm text-red-600">
@@ -128,7 +138,7 @@ const confirmDelete = () => {
               </div>
 
               <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                   {{ $t('Email Address') }} <span class="text-red-500">*</span>
                 </label>
                 <input
@@ -136,7 +146,7 @@ const confirmDelete = () => {
                   v-model="profileForm.email"
                   type="email"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   :class="{ 'border-red-500': profileForm.errors.email }"
                 />
                 <p v-if="profileForm.errors.email" class="mt-1 text-sm text-red-600">
@@ -163,12 +173,12 @@ const confirmDelete = () => {
           </div>
 
           <!-- Change Password -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <h2 class="text-xl font-semibold mb-6">{{ $t('Change Password') }}</h2>
             
             <form @submit.prevent="updatePassword" class="space-y-4">
               <div>
-                <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">
+                <label for="current_password" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                   {{ $t('Current Password') }} <span class="text-red-500">*</span>
                 </label>
                 <input
@@ -176,7 +186,7 @@ const confirmDelete = () => {
                   v-model="passwordForm.current_password"
                   type="password"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   :class="{ 'border-red-500': passwordForm.errors.current_password }"
                 />
                 <p v-if="passwordForm.errors.current_password" class="mt-1 text-sm text-red-600">
@@ -185,7 +195,7 @@ const confirmDelete = () => {
               </div>
 
               <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                   {{ $t('New Password') }} <span class="text-red-500">*</span>
                 </label>
                 <input
@@ -193,19 +203,19 @@ const confirmDelete = () => {
                   v-model="passwordForm.password"
                   type="password"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   :class="{ 'border-red-500': passwordForm.errors.password }"
                 />
                 <p v-if="passwordForm.errors.password" class="mt-1 text-sm text-red-600">
                   {{ passwordForm.errors.password }}
                 </p>
-                <p class="mt-1 text-xs text-gray-600">
+                <p class="mt-1 text-xs text-gray-600 dark:text-slate-400">
                   Minimum 8 characters
                 </p>
               </div>
 
               <div>
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                   {{ $t('Confirm New Password') }} <span class="text-red-500">*</span>
                 </label>
                 <input
@@ -213,7 +223,7 @@ const confirmDelete = () => {
                   v-model="passwordForm.password_confirmation"
                   type="password"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -233,7 +243,7 @@ const confirmDelete = () => {
           </div>
 
           <!-- Email Preferences -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <h2 class="text-xl font-semibold mb-6">{{ $t('Email Preferences') }}</h2>
             
             <form @submit.prevent="updatePreferences" class="space-y-4">
@@ -242,11 +252,11 @@ const confirmDelete = () => {
                   <input
                     v-model="preferencesForm.order_notifications"
                     type="checkbox"
-                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 dark:border-slate-600 rounded focus:ring-blue-500"
                   />
                   <div>
                     <div class="font-medium">{{ $t('Order Status Updates') }}</div>
-                    <div class="text-sm text-gray-600">{{ $t('Get notified about your order status changes') }}</div>
+                    <div class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Get notified about your order status changes') }}</div>
                   </div>
                 </label>
 
@@ -254,11 +264,11 @@ const confirmDelete = () => {
                   <input
                     v-model="preferencesForm.newsletter_subscribed"
                     type="checkbox"
-                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 dark:border-slate-600 rounded focus:ring-blue-500"
                   />
                   <div>
                     <div class="font-medium">{{ $t('Newsletter Subscription') }}</div>
-                    <div class="text-sm text-gray-600">{{ $t('Receive our weekly newsletter with product updates') }}</div>
+                    <div class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Receive our weekly newsletter with product updates') }}</div>
                   </div>
                 </label>
 
@@ -266,11 +276,11 @@ const confirmDelete = () => {
                   <input
                     v-model="preferencesForm.promotional_emails"
                     type="checkbox"
-                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 dark:border-slate-600 rounded focus:ring-blue-500"
                   />
                   <div>
                     <div class="font-medium">{{ $t('Promotional Offers') }}</div>
-                    <div class="text-sm text-gray-600">{{ $t('Get exclusive deals and special promotions') }}</div>
+                    <div class="text-sm text-gray-600 dark:text-slate-400">{{ $t('Get exclusive deals and special promotions') }}</div>
                   </div>
                 </label>
               </div>
@@ -316,15 +326,15 @@ const confirmDelete = () => {
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
         @click.self="cancelDelete"
       >
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 p-6">
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-xl w-full max-w-md mx-4 p-6">
           <h3 class="text-xl font-bold text-red-700 mb-2">{{ $t('Delete Your Account') }}</h3>
-          <p class="text-sm text-gray-700 mb-4">
+          <p class="text-sm text-gray-700 dark:text-slate-300 mb-4">
             {{ $t('This action is') }} <strong>{{ $t('permanent and irreversible') }}</strong>. {{ $t('Your account, cart,') }}
             {{ $t('addresses, and wishlist will be deleted. Orders will be anonymized.') }}
           </p>
 
           <div class="mb-4">
-            <label for="delete-password" class="block text-sm font-medium text-gray-700 mb-1">
+            <label for="delete-password" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
               {{ $t('Confirm your password') }}
             </label>
             <input
@@ -332,7 +342,7 @@ const confirmDelete = () => {
               v-model="deleteForm.password"
               type="password"
               autocomplete="current-password"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               :class="{ 'border-red-500': deleteForm.errors.password }"
               @keyup.enter="confirmDelete"
             />
@@ -345,7 +355,7 @@ const confirmDelete = () => {
             <button
               type="button"
               @click="cancelDelete"
-              class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              class="px-5 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
             >
               {{ $t('Cancel') }}
             </button>
