@@ -16,6 +16,9 @@ use Cartxis\API\Http\Controllers\V1\CurrencyController;
 use Cartxis\API\Http\Controllers\V1\ApiSyncController;
 use Cartxis\API\Http\Controllers\V1\ProductAiController;
 use Cartxis\API\Http\Controllers\V1\AppSettingsController;
+use Cartxis\API\Http\Controllers\V1\ServiceController;
+use Cartxis\API\Http\Controllers\V1\IdentityController;
+use Cartxis\API\Http\Controllers\V1\LocaleController;
 use Cartxis\API\Http\Middleware\TrackApiSync;
 
 /*
@@ -81,6 +84,26 @@ Route::prefix('api/v1')->group(function () {
     Route::prefix('search')->group(function () {
         Route::get('/', [SearchController::class, 'search']);
         Route::get('/suggestions', [SearchController::class, 'suggestions']);
+    });
+
+    // Locales (Public — the language picker sits on the sign-in screen, so
+    // there has to be a way to read it before anybody has an account)
+    Route::get('locales', [LocaleController::class, 'index']);
+
+    // Services (Public — the storefront shows these to guests too)
+    Route::prefix('services')->group(function () {
+        Route::get('/', [ServiceController::class, 'index']);
+        Route::get('/categories', [ServiceController::class, 'categories']);
+        Route::get('/categories/{slug}', [ServiceController::class, 'category']);
+        // Placed before /{slug} so a service that happens to be called
+        // "categories" cannot swallow the category routes.
+        Route::get('/{slug}', [ServiceController::class, 'show']);
+        Route::get('/{slug}/slots', [ServiceController::class, 'slots']);
+        // Booking is public by default, because a guest can book on the
+        // website with a phone number. The service still refuses outright if
+        // the owner has switched on "must sign in to book".
+        Route::post('/{slug}/book', [ServiceController::class, 'book'])
+            ->middleware('throttle:20,1');
     });
 
     /*
@@ -161,6 +184,13 @@ Route::prefix('api/v1')->group(function () {
             Route::put('/{id}', [ReviewController::class, 'update']);
             Route::delete('/{id}', [ReviewController::class, 'destroy']);
             Route::post('/{id}/vote', [ReviewController::class, 'vote']);
+        });
+
+        // Identity verification (the customer's own Tazkira)
+        Route::prefix('identity')->group(function () {
+            Route::get('/', [IdentityController::class, 'show']);
+            Route::post('/', [IdentityController::class, 'store'])
+                ->middleware('throttle:5,1');
         });
 
         // AI Product Description Generator
