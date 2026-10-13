@@ -48,6 +48,17 @@ class ShareFrontendData
                 'favicon' => $this->settingService->get('site_favicon') ?? config('branding.favicon'),
             ],
 
+            // Contact details the themes show in the header, footer and account
+            // pages (WhatsApp chat, phone, email, app download links). Owned by
+            // the dashboard so the number never has to be hard-coded in a theme.
+            'storeContact' => [
+                'whatsapp' => (string) $this->settingService->get('store_whatsapp', ''),
+                'phone' => (string) $this->settingService->get('store_phone', ''),
+                'email' => (string) $this->settingService->get('store_email', ''),
+                'playStoreUrl' => (string) $this->settingService->get('play_store_url', ''),
+                'appStoreUrl' => (string) $this->settingService->get('app_store_url', ''),
+            ],
+
             // Share categories for header navigation
             'categories' => function () {
                 try {

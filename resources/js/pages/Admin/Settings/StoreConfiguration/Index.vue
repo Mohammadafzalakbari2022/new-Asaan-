@@ -11,6 +11,7 @@ import {
     Share2,
     ShoppingBag,
     ShoppingCart,
+    Smartphone,
     Store,
 } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
@@ -41,6 +42,8 @@ interface Props {
         social_youtube: string;
         social_tiktok: string;
         social_pinterest: string;
+        play_store_url: string;
+        app_store_url: string;
         policy_privacy: string;
         policy_terms: string;
         policy_return: string;
@@ -75,6 +78,8 @@ const props = withDefaults(defineProps<Props>(), {
         social_youtube: '',
         social_tiktok: '',
         social_pinterest: '',
+        play_store_url: '',
+        app_store_url: '',
         policy_privacy: '',
         policy_terms: '',
         policy_return: '',
@@ -993,6 +998,73 @@ watch(
                                         class="mt-1 text-sm text-red-600"
                                     >
                                         {{ form.errors.social_pinterest }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Mobile App Links -->
+                            <div class="mt-8 space-y-6">
+                                <div>
+                                    <h3
+                                        class="mb-2 flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white"
+                                    >
+                                        <Smartphone
+                                            class="h-5 w-5 text-gray-400"
+                                        />
+                                        {{ $t('Mobile App Links') }}
+                                    </h3>
+                                    <p
+                                        class="text-sm text-gray-500 dark:text-gray-400"
+                                    >
+                                        {{
+                                            $t(
+                                                'Where the Android and iPhone apps can be downloaded. Leave blank until the app is published — the website falls back to the direct Android download while the Play Store link is empty.',
+                                            )
+                                        }}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <label
+                                        for="play_store_url"
+                                        class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                    >
+                                        {{ $t('Google Play URL') }}
+                                    </label>
+                                    <input
+                                        id="play_store_url"
+                                        v-model="form.play_store_url"
+                                        type="url"
+                                        class="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm placeholder-gray-400 shadow-sm transition-shadow duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700"
+                                        placeholder="https://play.google.com/store/apps/details?id=com.cartxis.app"
+                                    />
+                                    <p
+                                        v-if="form.errors.play_store_url"
+                                        class="mt-1 text-sm text-red-600"
+                                    >
+                                        {{ form.errors.play_store_url }}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <label
+                                        for="app_store_url"
+                                        class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                    >
+                                        {{ $t('App Store URL') }}
+                                    </label>
+                                    <input
+                                        id="app_store_url"
+                                        v-model="form.app_store_url"
+                                        type="url"
+                                        class="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm placeholder-gray-400 shadow-sm transition-shadow duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700"
+                                        placeholder="https://apps.apple.com/app/id0000000000"
+                                    />
+                                    <p
+                                        v-if="form.errors.app_store_url"
+                                        class="mt-1 text-sm text-red-600"
+                                    >
+                                        {{ form.errors.app_store_url }}
                                     </p>
                                 </div>
                             </div>

@@ -264,6 +264,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileHelpSupport => 'Help & Support';
 
   @override
+  String get profileChatWhatsApp => 'Chat on WhatsApp';
+
+  @override
+  String get profileGetApp => 'Get the Android App';
+
+  @override
   String get profileAboutUs => 'About Us';
 
   @override

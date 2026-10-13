@@ -262,6 +262,12 @@ class AppLocalizationsFa extends AppLocalizations {
   String get profileHelpSupport => 'راهنما و پشتیبانی';
 
   @override
+  String get profileChatWhatsApp => 'گفتگو در واتساپ';
+
+  @override
+  String get profileGetApp => 'دریافت اپلیکیشن اندروید';
+
+  @override
   String get profileAboutUs => 'درباره ما';
 
   @override

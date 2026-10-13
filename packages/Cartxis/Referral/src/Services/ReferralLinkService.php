@@ -130,7 +130,7 @@ class ReferralLinkService
             Log::warning('Referral link could not be created', [
                 'user_id' => $user->id,
                 'referrer_id' => $referrerId,
-                'error' => $e->getMessage(),
+                'exception' => $e::class,
             ]);
 
             return ['referral' => null, 'reason' => self::REASON_ALREADY_LINKED];

@@ -1,6 +1,7 @@
 <?php
 
 use Cartxis\Marketing\Http\Controllers\CouponController;
+use Cartxis\Marketing\Http\Controllers\MessageController;
 use Cartxis\Marketing\Http\Controllers\NewsletterController;
 use Cartxis\Marketing\Http\Controllers\PromotionController;
 use Illuminate\Support\Facades\Route;
@@ -61,5 +62,14 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin/marketing')->name('admin
         Route::get('/export', [NewsletterController::class, 'export'])->name('export');
         Route::delete('/{customer}', [NewsletterController::class, 'unsubscribe'])->name('unsubscribe');
         Route::post('/bulk-unsubscribe', [NewsletterController::class, 'bulkUnsubscribe'])->name('bulk-unsubscribe');
+    });
+
+    // Contact Messages (the free inbox fed by the website contact form)
+    Route::prefix('messages')->name('messages.')->group(function () {
+        Route::get('/', [MessageController::class, 'index'])->name('index');
+        Route::get('/{message}', [MessageController::class, 'show'])->name('show');
+        Route::post('/{message}/read', [MessageController::class, 'markRead'])->name('read');
+        Route::post('/{message}/reply', [MessageController::class, 'reply'])->name('reply');
+        Route::delete('/{message}', [MessageController::class, 'destroy'])->name('destroy');
     });
 });

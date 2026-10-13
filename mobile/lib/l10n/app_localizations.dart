@@ -562,6 +562,18 @@ abstract class AppLocalizations {
   /// **'Help & Support'**
   String get profileHelpSupport;
 
+  /// No description provided for @profileChatWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat on WhatsApp'**
+  String get profileChatWhatsApp;
+
+  /// No description provided for @profileGetApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Get the Android App'**
+  String get profileGetApp;
+
   /// No description provided for @profileAboutUs.
   ///
   /// In en, this message translates to:

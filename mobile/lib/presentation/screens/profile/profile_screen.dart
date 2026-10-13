@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vortex_app/core/constants/app_colors.dart';
 import 'package:vortex_app/core/constants/app_strings.dart';
+import 'package:vortex_app/core/config/api_config.dart';
+import 'package:vortex_app/core/utils/whatsapp_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vortex_app/data/services/auth_service.dart';
+import 'package:vortex_app/data/services/store_contact_service.dart';
 import 'package:vortex_app/data/models/user_model.dart';
 import 'package:vortex_app/core/network/api_exception.dart';
 import 'package:vortex_app/l10n/app_localizations.dart';
@@ -17,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isDarkMode = false;
   final _authService = AuthService();
+  final _storeContactService = StoreContactService();
   UserModel? _user;
   bool _isLoading = true;
 
@@ -115,6 +119,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       }
     }
+  }
+
+  /// Open the store's WhatsApp chat. The number comes from the dashboard, not
+  /// from the app, so it can change without a new release.
+  Future<void> _openWhatsApp() async {
+    try {
+      final contact = await _storeContactService.fetchContact();
+      final url = whatsAppUrl(
+        contact.whatsapp,
+        message: 'Hello Asaan Store, I need help with my order.',
+      );
+
+      if (url.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('WhatsApp is not available right now.'),
+            ),
+          );
+        }
+        return;
+      }
+
+      await openUrl(url);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('WhatsApp is not available right now.'),
+          ),
+        );
+      }
+    }
+  }
+
+  /// Open the Android app download link.
+  Future<void> _openGetApp() async {
+    await openUrl(ApiConfig.androidApkDownloadUrl);
   }
 
   Future<void> _logout() async {
@@ -401,6 +443,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             title: l10n.profileHelpSupport,
                             onTap: () =>
                                 Navigator.pushNamed(context, '/help-support'),
+                            isDark: isDark,
+                          ),
+                          _buildMenuItem(
+                            icon: Icons.chat_outlined,
+                            title: l10n.profileChatWhatsApp,
+                            onTap: _openWhatsApp,
+                            isDark: isDark,
+                          ),
+                          _buildMenuItem(
+                            icon: Icons.android_outlined,
+                            title: l10n.profileGetApp,
+                            onTap: _openGetApp,
                             isDark: isDark,
                           ),
                           _buildMenuItem(

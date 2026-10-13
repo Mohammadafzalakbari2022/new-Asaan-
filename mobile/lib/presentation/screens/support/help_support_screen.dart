@@ -1,8 +1,84 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_strings.dart';
+import '../../../core/utils/whatsapp_utils.dart';
+import '../../../data/models/store_contact_model.dart';
+import '../../../data/services/store_contact_service.dart';
 
-class HelpSupportScreen extends StatelessWidget {
+class HelpSupportScreen extends StatefulWidget {
   const HelpSupportScreen({super.key});
+
+  @override
+  State<HelpSupportScreen> createState() => _HelpSupportScreenState();
+}
+
+class _HelpSupportScreenState extends State<HelpSupportScreen> {
+  final StoreContactService _contactService = StoreContactService();
+
+  StoreContact? _contact;
+  bool _isLoading = true;
+  bool _hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadContact();
+  }
+
+  Future<void> _loadContact() async {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+
+    try {
+      final contact = await _contactService.fetchContact();
+      if (!mounted) return;
+      setState(() {
+        _contact = contact;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+      });
+    }
+  }
+
+  Future<void> _chatOnWhatsApp() async {
+    final contact = _contact;
+    if (contact == null || !contact.hasWhatsapp) {
+      _showMessage('WhatsApp is not available right now.');
+      return;
+    }
+
+    final url = whatsAppUrl(
+      contact.whatsapp,
+      message: 'Hello ${AppStrings.appName}, I need help with my order.',
+    );
+    if (url.isEmpty) {
+      _showMessage('WhatsApp is not available right now.');
+      return;
+    }
+    await openUrl(url);
+  }
+
+  Future<void> _callPhone(String phone) async {
+    await openUrl(phoneUrl(phone));
+  }
+
+  Future<void> _sendEmail(String email) async {
+    await openUrl(emailUrl(email));
+  }
+
+  void _showMessage(String text) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(text), behavior: SnackBarBehavior.floating),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,31 +143,31 @@ class HelpSupportScreen extends StatelessWidget {
                     // FAQ Section
                     _buildSectionTitle('Frequently Asked Questions', isDark),
                     const SizedBox(height: 16),
-                    
+
                     _buildFAQItem(
                       'How do I track my order?',
                       'You can track your order by going to Profile > My Orders and selecting the order you want to track. Click on "Track Order" to see the current status and location.',
                       isDark,
                     ),
-                    
+
                     _buildFAQItem(
                       'What payment methods do you accept?',
                       'We accept Credit/Debit Cards (Visa, Mastercard, American Express), PayPal, Apple Pay, Google Pay, and Bank Transfer.',
                       isDark,
                     ),
-                    
+
                     _buildFAQItem(
                       'How long does shipping take?',
                       'Standard shipping takes 3-5 business days, Express shipping takes 1-2 business days, and Same Day delivery is available for select locations.',
                       isDark,
                     ),
-                    
+
                     _buildFAQItem(
                       'What is your return policy?',
                       'We offer a 30-day return policy. Items must be unused and in original packaging. Contact support to initiate a return.',
                       isDark,
                     ),
-                    
+
                     _buildFAQItem(
                       'How do I change my password?',
                       'Go to Profile > Edit Profile, scroll down to the Change Password section, and enter your current and new password.',
@@ -104,58 +180,7 @@ class HelpSupportScreen extends StatelessWidget {
                     _buildSectionTitle('Contact Us', isDark),
                     const SizedBox(height: 16),
 
-                    _buildContactCard(
-                      icon: Icons.email_outlined,
-                      title: 'Email',
-                      content: 'support@cartxis.com',
-                      isDark: isDark,
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    _buildContactCard(
-                      icon: Icons.phone_outlined,
-                      title: 'Phone',
-                      content: '+1 (800) 123-4567',
-                      isDark: isDark,
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    _buildContactCard(
-                      icon: Icons.access_time_outlined,
-                      title: 'Business Hours',
-                      content: 'Mon-Fri: 9:00 AM - 6:00 PM EST',
-                      isDark: isDark,
-                    ),
-
-                    const SizedBox(height: 32),
-
-                    // Live Chat Button
-                    Center(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Live chat coming soon'),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.chat_bubble_outline),
-                        label: const Text('Start Live Chat'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 32,
-                            vertical: 16,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildContactSection(isDark),
 
                     const SizedBox(height: 24),
                   ],
@@ -164,6 +189,110 @@ class HelpSupportScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildContactSection(bool isDark) {
+    if (_isLoading) {
+      return Container(
+        padding: const EdgeInsets.all(24),
+        alignment: Alignment.center,
+        child: const SizedBox(
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+      );
+    }
+
+    final contact = _contact;
+    if (_hasError || contact == null) {
+      return _buildFallback(isDark);
+    }
+
+    final hasAny = contact.hasWhatsapp || contact.hasPhone || contact.hasEmail;
+    if (!hasAny) {
+      return _buildFallback(isDark);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (contact.hasWhatsapp) ...[
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _chatOnWhatsApp,
+              icon: const Icon(Icons.chat_bubble_outline),
+              label: const Text('Chat on WhatsApp'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF25D366),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+        if (contact.hasPhone) ...[
+          _buildContactCard(
+            icon: Icons.phone_outlined,
+            title: 'Phone',
+            content: contact.phone,
+            isDark: isDark,
+            onTap: () => _callPhone(contact.phone),
+          ),
+          const SizedBox(height: 12),
+        ],
+        if (contact.hasEmail) ...[
+          _buildContactCard(
+            icon: Icons.email_outlined,
+            title: 'Email',
+            content: contact.email,
+            isDark: isDark,
+            onTap: () => _sendEmail(contact.email),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildFallback(bool isDark) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1F2937) : Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isDark ? const Color(0xFF374151) : const Color(0xFFE5E7EB),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Our contact details could not be loaded. Please check your internet connection and try again.',
+            style: TextStyle(
+              fontSize: 14,
+              height: 1.5,
+              color: isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: _loadContact,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Try again'),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -220,8 +349,9 @@ class HelpSupportScreen extends StatelessWidget {
     required String title,
     required String content,
     required bool isDark,
+    VoidCallback? onTap,
   }) {
-    return Container(
+    final card = Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1F2937) : Colors.white,
@@ -254,8 +384,9 @@ class HelpSupportScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color:
-                        isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280),
+                    color: isDark
+                        ? const Color(0xFF9CA3AF)
+                        : const Color(0xFF6B7280),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -264,14 +395,28 @@ class HelpSupportScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: isDark ? Colors.white : const Color(0xFF0D141B),
+                    color: AppColors.primary,
                   ),
                 ),
               ],
             ),
           ),
+          if (onTap != null)
+            Icon(
+              Icons.open_in_new,
+              size: 18,
+              color: isDark ? Colors.grey.shade600 : Colors.grey.shade400,
+            ),
         ],
       ),
+    );
+
+    if (onTap == null) return card;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: card,
     );
   }
 }

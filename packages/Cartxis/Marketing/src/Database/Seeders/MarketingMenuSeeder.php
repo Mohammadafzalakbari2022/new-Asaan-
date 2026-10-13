@@ -60,6 +60,15 @@ class MarketingMenuSeeder extends Seeder
                 'order' => 30,
                 'permission' => null,
             ],
+            [
+                'key' => 'marketing-messages',
+                'title' => 'Messages',
+                'icon' => 'message-square',
+                'route' => 'admin.marketing.messages.index',
+                'url' => null,
+                'order' => 40,
+                'permission' => null,
+            ],
         ];
 
         foreach ($childItems as $item) {

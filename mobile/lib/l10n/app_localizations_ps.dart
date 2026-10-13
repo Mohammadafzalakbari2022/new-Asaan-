@@ -260,6 +260,12 @@ class AppLocalizationsPs extends AppLocalizations {
   String get profileHelpSupport => 'مرسته او ملاتړ';
 
   @override
+  String get profileChatWhatsApp => 'په واټساپ کې خبرې';
+
+  @override
+  String get profileGetApp => 'د اندرویډ اپلیکیشن ترلاسه کول';
+
+  @override
   String get profileAboutUs => 'زموږ په اړه';
 
   @override

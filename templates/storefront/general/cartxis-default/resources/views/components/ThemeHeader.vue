@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import ThemeToggle from '@/components/ThemeToggle.vue';
-import CurrencySelector from './CurrencySelector.vue';
 import { useCurrency } from '@/composables/useCurrency';
 import { useStorefrontMenu } from '@/composables/useStorefrontMenu';
 import { useThemeSettings } from '@/composables/useThemeSettings';
@@ -24,6 +23,8 @@ import {
 } from 'lucide-vue-next';
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import CartIcon from './CartIcon.vue';
+import CurrencySelector from './CurrencySelector.vue';
+import WhatsAppButton from './WhatsAppButton.vue';
 
 const i18n = useI18nStore();
 const t = i18n.t;
@@ -968,6 +969,9 @@ onUnmounted(() => {
                                         $t('Identity Verification')
                                     }}</span>
                                 </Link>
+                                <div class="px-2 py-1">
+                                    <WhatsAppButton variant="button" block />
+                                </div>
                                 <div
                                     class="my-1 border-t border-gray-100 dark:border-slate-700"
                                 ></div>
@@ -1217,6 +1221,16 @@ onUnmounted(() => {
                                         />
                                         {{ $t(link.label) }}
                                     </Link>
+
+                                    <div
+                                        class="px-2 py-2"
+                                        @click="closeMobileMenu"
+                                    >
+                                        <WhatsAppButton
+                                            variant="button"
+                                            block
+                                        />
+                                    </div>
 
                                     <Link
                                         v-if="identityEnabled"

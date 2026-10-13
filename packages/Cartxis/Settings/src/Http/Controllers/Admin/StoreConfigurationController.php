@@ -58,6 +58,10 @@ class StoreConfigurationController
                 'social_tiktok' => (string) $this->settingService->get('social_tiktok', ''),
                 'social_pinterest' => (string) $this->settingService->get('social_pinterest', ''),
 
+                // Mobile App Links
+                'play_store_url' => (string) $this->settingService->get('play_store_url', ''),
+                'app_store_url' => (string) $this->settingService->get('app_store_url', ''),
+
                 // Policies
                 'policy_privacy' => (string) $this->settingService->get('policy_privacy', ''),
                 'policy_terms' => (string) $this->settingService->get('policy_terms', ''),
@@ -121,6 +125,10 @@ class StoreConfigurationController
                 'social_youtube' => 'nullable|url|max:255',
                 'social_tiktok' => 'nullable|url|max:255',
                 'social_pinterest' => 'nullable|url|max:255',
+
+                // Mobile App Links
+                'play_store_url' => 'nullable|url|max:255',
+                'app_store_url' => 'nullable|url|max:255',
 
                 // Policies
                 'policy_privacy' => 'nullable|string',

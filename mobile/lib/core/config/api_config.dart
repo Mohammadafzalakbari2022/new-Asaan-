@@ -92,6 +92,14 @@ class ApiConfig {
   // App Settings Endpoints
   static const String appSettings = '/api/$apiVersion/app/settings';
 
+  // Storefront Endpoints
+  static const String storeContact =
+      '/api/$apiVersion/storefront/contact';
+
+  // Public Android APK download on the live site
+  static const String androidApkDownloadUrl =
+      '$productionBaseUrl/downloads/asaan-2.5.6.apk';
+
   // Timeout Settings
   static const Duration connectionTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);

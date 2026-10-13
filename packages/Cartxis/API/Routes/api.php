@@ -18,6 +18,7 @@ use Cartxis\API\Http\Controllers\V1\ReferralController;
 use Cartxis\API\Http\Controllers\V1\ReviewController;
 use Cartxis\API\Http\Controllers\V1\SearchController;
 use Cartxis\API\Http\Controllers\V1\ServiceController;
+use Cartxis\API\Http\Controllers\V1\StorefrontController;
 use Cartxis\API\Http\Controllers\V1\WishlistController;
 use Cartxis\API\Http\Middleware\TrackApiSync;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +67,15 @@ Route::prefix('api/v1')->group(function () {
     // Home/mobile banners (CMS blocks of type=banner)
     Route::get('banners', [BannerController::class, 'index']);
     Route::get('banners/{identifier}', [BannerController::class, 'show']);
+
+    // Storefront contact details — the business WhatsApp number, phone, email
+    // and app store links the dashboard owns. Public because the app and the
+    // website show them before anybody signs in.
+    Route::get('storefront/contact', [StorefrontController::class, 'contact']);
+
+    // Contact form. Rate-limited so one visitor cannot flood the inbox.
+    Route::post('contact', [StorefrontController::class, 'submitMessage'])
+        ->middleware('throttle:10,1');
 
     // Categories (Public browsing)
     Route::prefix('categories')->group(function () {
