@@ -73,8 +73,8 @@ flutter build appbundle --release
 ### 3. Publish the Android build
 
 - **Direct download from the website:** copy the APK to
-  `public/downloads/asaan-2.5.6.apk` in the store repository. The website links
-  to `/downloads/asaan-2.5.6.apk`, so the download works as soon as the site is
+  `public/downloads/asaan-2.5.7.apk` in the store repository. The website links
+  to `/downloads/asaan-2.5.7.apk`, so the download works as soon as the site is
   deployed. This is the current method.
 - **GitHub Releases:** attach the APK to a release on the client repository
   (`Asaan2026/ASAAN`). Note: this needs write access to that repository.

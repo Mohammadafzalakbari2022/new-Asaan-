@@ -2912,5 +2912,22 @@
     "There are no identity submissions to review right now.": "در حال حاضر هیچ درخواست تأیید هویتی برای بررسی وجود ندارد.",
     "This submission has already been reviewed.": "این درخواست قبلاً بررسی شده است.",
     "What is on the document": "آنچه روی سند نوشته شده",
-    "Why was the document not accepted? The customer sees this.": "چرا سند پذیرفته نشد؟ مشتری این را می‌بیند."
+    "Why was the document not accepted? The customer sees this.": "چرا سند پذیرفته نشد؟ مشتری این را می‌بیند.",
+    "App Store URL": "آدرس آپ استور",
+    "Google Play URL": "آدرس گوگل پلی",
+    "Mobile App Links": "لینک‌های اپلیکیشن موبایل",
+    "Messages": "پیام‌ها",
+    "Messages sent through the website contact form. Reply by email from here.": "پیام‌های ارسالی از فورم تماس وبسایت. از همین‌جا از طریق ایمیل پاسخ دهید.",
+    "No messages yet.": "هنوز پیامی موجود نیست.",
+    "No subject": "بدون موضوع",
+    "Read": "خوانده‌شده",
+    "Received": "دریافت‌شده",
+    "Replied": "پاسخ‌داده‌شده",
+    "Reply by email": "پاسخ از طریق ایمیل",
+    "Reply sent.": "پاسخ ارسال شد.",
+    "Send reply": "ارسال پاسخ",
+    "Subject": "موضوع",
+    "This message has no email address to reply to.": "این پیام آدرس ایمیل برای پاسخ دادن ندارد.",
+    "Type your reply…": "پاسخ خود را بنویسید…",
+    "Where the Android and iPhone apps can be downloaded. Leave blank until the app is published — the website falls back to the direct Android download while the Play Store link is empty.": "جایی که اپلیکیشن‌های اندروید و آیفون از آن دانلود می‌شوند. تا زمان نشر اپلیکیشن خالی بگذارید — تا وقتی لینک پلی استور خالی است، وبسایت به دانلود مستقیم اندروید برمی‌گردد."
 }

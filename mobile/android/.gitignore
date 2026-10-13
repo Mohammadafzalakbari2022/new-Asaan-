@@ -7,8 +7,18 @@ gradle-wrapper.jar
 GeneratedPluginRegistrant.java
 .cxx/
 
-# Remember to never publicly share your keystore.
+# Keystores are normally kept out of source control.
 # See https://flutter.dev/to/reference-keystore
+#
+# The Asaan release key and its passwords are the exception: the shop owner has
+# no other copy, and losing the key means the app can never be updated on the
+# Play Store again. They are committed on purpose (see RELEASE_KEYSTORE.md).
+# Anything else that looks like a keystore still stays out of the repository.
 key.properties
 **/*.keystore
 **/*.jks
+
+!.gitignore
+!key.properties
+!app/asaan-release.jks
+

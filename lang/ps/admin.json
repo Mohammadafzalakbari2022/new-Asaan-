@@ -2912,5 +2912,22 @@
     "There are no identity submissions to review right now.": "اوس مهال د بیاکتنې لپاره د هویت غوښتنلیکونه نشته.",
     "This submission has already been reviewed.": "دا غوښتنلیک دمخه بیاکتل شوی دی.",
     "What is on the document": "په سند باندې څه لیکل شوي",
-    "Why was the document not accepted? The customer sees this.": "ولې سند ومنل نه شو؟ پیرودونکی دا ویني."
+    "Why was the document not accepted? The customer sees this.": "ولې سند ومنل نه شو؟ پیرودونکی دا ویني.",
+    "App Store URL": "د اپ سټور پته",
+    "Google Play URL": "د ګوګل پلی پته",
+    "Mobile App Links": "د موبایل اپلیکیشن لینکونه",
+    "Messages": "پیغامونه",
+    "Messages sent through the website contact form. Reply by email from here.": "د ویبسایټ د اړیکې فورم له لارې لېږل شوي پیغامونه. له دې ځایه د بریښنالیک له لارې ځواب ورکړئ.",
+    "No messages yet.": "تر دې دمه پیغام نشته.",
+    "No subject": "بې موضوع",
+    "Read": "لوستل شوی",
+    "Received": "ترلاسه شوی",
+    "Replied": "ځواب شوی",
+    "Reply by email": "د بریښنالیک له لارې ځواب",
+    "Reply sent.": "ځواب ولېږل شو.",
+    "Send reply": "ځواب ولېږه",
+    "Subject": "موضوع",
+    "This message has no email address to reply to.": "دې پیغام د ځواب لپاره بریښنالیک نلري.",
+    "Type your reply…": "خپل ځواب ولیکئ…",
+    "Where the Android and iPhone apps can be downloaded. Leave blank until the app is published — the website falls back to the direct Android download while the Play Store link is empty.": "هغه ځای چې د انډرویډ او آیفون اپلیکیشنونه ترې ډاونلوډ کېږي. تر هغه چې اپلیکیشن خپور شي خالي پرېږدئ — تر څو چې د پلی سټور لینک خالي وي، ویبسایټ مستقیم انډرویډ ډاونلوډ ته ځي."
 }

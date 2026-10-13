@@ -8,6 +8,7 @@ use Cartxis\CMS\Services\StorefrontMenuSyncService;
 use Cartxis\Setup\Database\Seeders\ElectronicsDemoSeeder;
 use Cartxis\Setup\Database\Seeders\FashionDemoSeeder;
 use Cartxis\Setup\Database\Seeders\KiranaDemoSeeder;
+use Cartxis\Setup\Database\Seeders\PersianDemoSeeder;
 use Cartxis\Setup\Database\Seeders\RetailDemoSeeder;
 use Database\Seeders\OrderSeeder;
 use Database\Seeders\TransactionSeeder;
@@ -21,6 +22,15 @@ class DemoDataService
      * Available business types with their demo data seeders
      */
     private const BUSINESS_TYPES = [
+        // First in the list: the store is Afghanistan-only, so the Dari demo is
+        // the one a new shop is most likely to want.
+        'persian' => [
+            'name' => 'Persian / Dari Store',
+            'description' => 'An Afghan store written in Dari: household and everyday products, a services book, and store pages',
+            'seeders' => [
+                PersianDemoSeeder::class,
+            ],
+        ],
         'retail' => [
             'name' => 'Retail Store',
             'description' => 'General retail shopping with clothing, electronics, and accessories',

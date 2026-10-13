@@ -1,7 +1,7 @@
 ﻿name: vortex_app
 description: Cartxis eCommerce Mobile Application
 publish_to: 'none'
-version: 2.5.6+7
+version: 2.5.7+8
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

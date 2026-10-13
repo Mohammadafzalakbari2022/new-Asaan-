@@ -2912,5 +2912,22 @@
     "There are no identity submissions to review right now.": "There are no identity submissions to review right now.",
     "This submission has already been reviewed.": "This submission has already been reviewed.",
     "What is on the document": "What is on the document",
-    "Why was the document not accepted? The customer sees this.": "Why was the document not accepted? The customer sees this."
+    "Why was the document not accepted? The customer sees this.": "Why was the document not accepted? The customer sees this.",
+    "App Store URL": "App Store URL",
+    "Google Play URL": "Google Play URL",
+    "Mobile App Links": "Mobile App Links",
+    "Messages": "Messages",
+    "Messages sent through the website contact form. Reply by email from here.": "Messages sent through the website contact form. Reply by email from here.",
+    "No messages yet.": "No messages yet.",
+    "No subject": "No subject",
+    "Read": "Read",
+    "Received": "Received",
+    "Replied": "Replied",
+    "Reply by email": "Reply by email",
+    "Reply sent.": "Reply sent.",
+    "Send reply": "Send reply",
+    "Subject": "Subject",
+    "This message has no email address to reply to.": "This message has no email address to reply to.",
+    "Type your reply…": "Type your reply…",
+    "Where the Android and iPhone apps can be downloaded. Leave blank until the app is published — the website falls back to the direct Android download while the Play Store link is empty.": "Where the Android and iPhone apps can be downloaded. Leave blank until the app is published — the website falls back to the direct Android download while the Play Store link is empty."
 }
