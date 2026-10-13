@@ -3,6 +3,7 @@
 use Cartxis\Core\Models\Currency;
 use Cartxis\Product\Models\Category;
 use Cartxis\Product\Models\Product;
+use Cartxis\Product\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +48,7 @@ Route::group([
                 'name' => $p->name,
                 'slug' => $p->slug,
                 'price' => (float) $p->price,
-                'thumbnail' => $p->mainImage ? (filter_var($p->mainImage->thumbnail_path ?? $p->mainImage->path, FILTER_VALIDATE_URL) ? ($p->mainImage->thumbnail_path ?? $p->mainImage->path) : asset('storage/'.($p->mainImage->thumbnail_path ?? $p->mainImage->path))) : null,
+                'thumbnail' => ProductImage::urlFor($p->mainImage?->thumbnail_path ?? $p->mainImage?->path),
                 'formatted_price' => $symbol.number_format((float) $p->price, $decimals),
             ]);
 
@@ -72,7 +73,7 @@ Route::group([
                 'name' => $p->name,
                 'slug' => $p->slug,
                 'price' => (float) $p->price,
-                'thumbnail' => $p->mainImage ? (filter_var($p->mainImage->thumbnail_path ?? $p->mainImage->path, FILTER_VALIDATE_URL) ? ($p->mainImage->thumbnail_path ?? $p->mainImage->path) : asset('storage/'.($p->mainImage->thumbnail_path ?? $p->mainImage->path))) : null,
+                'thumbnail' => ProductImage::urlFor($p->mainImage?->thumbnail_path ?? $p->mainImage?->path),
                 'formatted_price' => $symbol.number_format((float) $p->price, $decimals),
             ]);
 
@@ -96,7 +97,7 @@ Route::group([
                 'name' => $p->name,
                 'slug' => $p->slug,
                 'price' => (float) $p->price,
-                'thumbnail' => $p->mainImage ? (filter_var($p->mainImage->thumbnail_path ?? $p->mainImage->path, FILTER_VALIDATE_URL) ? ($p->mainImage->thumbnail_path ?? $p->mainImage->path) : asset('storage/'.($p->mainImage->thumbnail_path ?? $p->mainImage->path))) : null,
+                'thumbnail' => ProductImage::urlFor($p->mainImage?->thumbnail_path ?? $p->mainImage?->path),
                 'formatted_price' => $symbol.number_format((float) $p->price, $decimals),
             ]);
 

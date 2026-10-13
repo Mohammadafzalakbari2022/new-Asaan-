@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Cartxis\Product\Models\ProductImage;
 use Cartxis\Setup\Database\Seeders\PersianDemoSeeder;
 use Cartxis\Setup\Services\DemoDataService;
 use Database\Seeders\OrderSeeder;
@@ -74,6 +75,28 @@ test('the demo accounts can sign in and have customer profiles', function () {
             'first_name' => $firstName,
         ]);
     }
+});
+
+test('the demo product photos are bundled with the app, not loaded from an outside site', function () {
+    $this->seed(PersianDemoSeeder::class);
+
+    $images = DB::table('product_images')->get(['path', 'thumbnail_path']);
+
+    expect($images)->not->toBeEmpty();
+
+    foreach ($images as $image) {
+        expect($image->path)->toStartWith('/images/products/')
+            ->and($image->thumbnail_path)->toStartWith('/images/products/')
+            ->and(is_file(public_path(ltrim($image->path, '/'))))->toBeTrue();
+    }
+});
+
+test('image links resolve for outside links, bundled files and storage files', function () {
+    expect(ProductImage::urlFor('https://example.com/a.jpg'))->toBe('https://example.com/a.jpg')
+        ->and(ProductImage::urlFor('/images/products/a.jpg'))->toContain('/images/products/a.jpg')
+        ->and(ProductImage::urlFor('/images/products/a.jpg'))->not->toContain('/storage/')
+        ->and(ProductImage::urlFor('products/a.jpg'))->toContain('/storage/products/a.jpg')
+        ->and(ProductImage::urlFor(null))->toBeNull();
 });
 
 test('the demo store can be seeded again without duplicating anything', function () {

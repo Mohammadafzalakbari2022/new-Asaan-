@@ -40,12 +40,36 @@ class ProductImage extends Model
      */
     public function getUrlAttribute(): string
     {
-        // Check if path is already a full URL (e.g., Unsplash, external CDN)
-        if (filter_var($this->path, FILTER_VALIDATE_URL)) {
-            return $this->path;
+        return (string) static::urlFor($this->path);
+    }
+
+    /**
+     * Turn any stored image path into a full URL.
+     *
+     * Three kinds of path reach this method:
+     *  - an outside link ("https://...", "//...") is returned untouched;
+     *  - a path that starts with "/" is a file shipped in public/ (for example
+     *    "/images/products/phone.jpg"), so it is served straight from the app;
+     *  - anything else is a file on the public storage disk ("products/x.jpg")
+     *    and is served through the /storage symlink.
+     *
+     * Without the middle case, an outside link would be mangled into
+     * "/storage/https://..." and never load.
+     */
+    public static function urlFor(?string $path): ?string
+    {
+        if ($path === null || $path === '') {
+            return null;
         }
 
-        // For local files, prepend storage path
-        return asset('storage/'.$this->path);
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            return $path;
+        }
+
+        if (str_starts_with($path, '/')) {
+            return asset(ltrim($path, '/'));
+        }
+
+        return asset('storage/'.$path);
     }
 }

@@ -225,11 +225,7 @@ class Product extends Model
             return null;
         }
 
-        if (filter_var($img->path, FILTER_VALIDATE_URL)) {
-            return $img->path;
-        }
-
-        return asset('storage/'.$img->path);
+        return ProductImage::urlFor($img->path);
     }
 
     /**

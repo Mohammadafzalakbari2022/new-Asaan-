@@ -138,6 +138,37 @@ class PersianDemoSeeder extends Seeder
             ['name' => 'کاپی چهل برگ', 'sku' => 'BK-COPY', 'price' => 90, 'category' => 'books-stationery', 'brand' => null, 'featured' => false, 'qty' => 400, 'short' => 'کاپی ۴۰ برگی', 'desc' => 'کاپی چهل برگی با کاغذ مرغوب و خط کشی واضح. مناسب مکتب و کار روزمره.'],
         ];
 
+        // Photos ship inside the app (public/images/products), not on an outside
+        // site. Afghan networks often cannot reach image hosts such as
+        // picsum.photos or unsplash.com, which left every demo product blank.
+        // A leading "/" tells the image model to serve the file from public/.
+        $productImages = [
+            'PH-SAM-A55' => 'smartphone-pro-max-2.jpg',
+            'PH-XIA-RN13P' => 'smartphone-pro-max-2.jpg',
+            'PH-HUA-N12' => 'smartphone-pro-max-2.jpg',
+            'TB-SAM-A9' => 'smartphone-pro-max-2.jpg',
+            'LP-ASU-VB15' => 'mechanical-keyboard-rgb-5.jpg',
+            'LP-HP-PAV' => 'mechanical-keyboard-rgb-5.jpg',
+            'HA-SAM-F18' => '4k-ultra-hd-smart-tv-55-4.jpg',
+            'HA-LG-WM7' => 'ceramic-dinner-set-13.jpg',
+            'HA-PHI-COOK' => 'ceramic-dinner-set-13.jpg',
+            'CL-M-SHIRT' => 'cotton-t-shirt-premium-6.jpg',
+            'CL-W-JACKET' => 'leather-jacket-8.jpg',
+            'CL-NK-SHOE' => 'running-shoes-sport-10.jpg',
+            'GR-RICE' => 'ceramic-dinner-set-13.jpg',
+            'GR-OIL' => 'ceramic-dinner-set-13.jpg',
+            'GR-FLOUR' => 'ceramic-dinner-set-13.jpg',
+            'BH-SOAP' => 'indoor-plant-pot-set-15.jpg',
+            'BH-CREAM' => 'indoor-plant-pot-set-15.jpg',
+            'BH-BP' => '4k-ultra-hd-smart-tv-55-4.jpg',
+            'SP-BALL' => 'running-shoes-sport-10.jpg',
+            'SP-DUMBBELL' => 'yoga-mat-premium-16.jpg',
+            'SP-TENT' => 'camping-tent-4-person-17.jpg',
+            'BK-STORIES' => 'bestseller-novel-collection-19.jpg',
+            'BK-PENS' => 'bestseller-novel-collection-19.jpg',
+            'BK-COPY' => 'bestseller-novel-collection-19.jpg',
+        ];
+
         foreach ($products as $product) {
             $categoryId = DB::table('categories')->where('slug', $product['category'])->value('id');
             $brandId = $product['brand']
@@ -188,20 +219,33 @@ class PersianDemoSeeder extends Seeder
                 ]);
             }
 
-            if ($productId && ! DB::table('product_images')->where('product_id', $productId)->exists()) {
-                $imagePath = 'https://picsum.photos/seed/'.$product['sku'].'/800/800';
+            $imageFile = $productImages[$product['sku']] ?? null;
 
-                $imageId = DB::table('product_images')->insertGetId([
-                    'product_id' => $productId,
-                    'path' => $imagePath,
-                    'thumbnail_path' => $imagePath,
-                    'alt_text' => $product['name'],
-                    'position' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+            if ($productId && $imageFile) {
+                $imagePath = '/images/products/'.$imageFile;
 
-                DB::table('products')->where('id', $productId)->update(['main_image_id' => $imageId]);
+                if (! DB::table('product_images')->where('product_id', $productId)->exists()) {
+                    $imageId = DB::table('product_images')->insertGetId([
+                        'product_id' => $productId,
+                        'path' => $imagePath,
+                        'thumbnail_path' => $imagePath,
+                        'alt_text' => $product['name'],
+                        'position' => 1,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+
+                    DB::table('products')->where('id', $productId)->update(['main_image_id' => $imageId]);
+                } else {
+                    // Repair images left pointing at an outside host by an older seed.
+                    DB::table('product_images')
+                        ->where('product_id', $productId)
+                        ->update([
+                            'path' => $imagePath,
+                            'thumbnail_path' => $imagePath,
+                            'updated_at' => now(),
+                        ]);
+                }
             }
         }
     }

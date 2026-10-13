@@ -2,6 +2,7 @@
 
 namespace Cartxis\API\Http\Resources;
 
+use Cartxis\Product\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -50,8 +51,8 @@ class ProductResource extends JsonResource
             ),
             'images' => $this->whenLoaded('images', fn () => $this->images->map(fn ($image) => [
                 'id' => $image->id,
-                'path' => url(\Storage::url($image->path)),
-                'thumbnail' => url(\Storage::url($image->path)), // TODO: Generate thumbnails
+                'path' => ProductImage::urlFor($image->path),
+                'thumbnail' => ProductImage::urlFor($image->path), // TODO: Generate thumbnails
                 'position' => $image->position,
                 'is_main' => (bool) $image->is_main,
             ])

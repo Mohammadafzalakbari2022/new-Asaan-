@@ -126,7 +126,7 @@ fi
 # as the referral, service and identity ones reach production on a normal
 # redeploy. It runs in the background so nginx/php-fpm boot instantly and
 # Render's port scan passes even on a database that is still waking up.
-if [ "${RUN_MIGRATE:-0}" = "1" ]; then
+if [ "${RUN_MIGRATE:-1}" = "1" ]; then
     (
         CHECK_PHP=$(cat <<'PHPEOF'
 $driver = getenv('DB_CONNECTION') ?: 'mysql';
@@ -185,6 +185,25 @@ PHPEOF
         else
             echo "[entrypoint] Database already provisioned - applying pending migrations..."
             run_migrate "pending"
+        fi
+
+        # A provisioned database can still have an empty shop: the tables exist
+        # but the catalogue was never seeded, so the storefront shows nothing.
+        # When the product list is positively empty, load the Dari demo once.
+        # The photos ship inside the app, so the shop fills in even on a server
+        # that cannot reach outside image hosts. Repeated deploys change nothing
+        # because the seeder is idempotent, and a store that already has products
+        # is left alone. Set SEED_DEMO=0 to switch this off.
+        if [ "${SEED_DEMO:-1}" = "1" ]; then
+            PRODUCTS=$(timeout 60 php artisan tinker --execute="echo \Cartxis\Product\Models\Product::count();" 2>/dev/null | tr -dc '0-9')
+
+            if [ "$PRODUCTS" = "0" ]; then
+                echo "[entrypoint] Shop has no products - seeding the Dari demo catalogue..."
+                timeout 600 php artisan db:seed --class="Cartxis\\Setup\\Database\\Seeders\\PersianDemoSeeder" --force 2>&1 \
+                    || echo "[entrypoint] !!! Demo seeding failed; the shop will stay empty until this is fixed !!!"
+            else
+                echo "[entrypoint] Shop already has ${PRODUCTS:-?} products - not seeding."
+            fi
         fi
     ) &
 fi

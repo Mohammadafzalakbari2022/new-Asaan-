@@ -34,7 +34,9 @@ class RetailDemoSeeder extends Seeder
         try {
             $imageContent = @file_get_contents($url);
             if ($imageContent === false) {
-                return null;
+                // No internet, or the host is blocked: fall back to the copy of
+                // this photo that ships inside the app.
+                return $this->bundledImage($filename);
             }
 
             $path = 'products/'.$filename;
@@ -42,8 +44,23 @@ class RetailDemoSeeder extends Seeder
 
             return $path;
         } catch (\Exception $e) {
-            return null;
+            return $this->bundledImage($filename);
         }
+    }
+
+    /**
+     * Find the app's own copy of a demo photo by file name, ignoring the
+     * trailing product number ("running-shoes-sport-10.jpg" -> "running-shoes-sport").
+     */
+    private function bundledImage(string $filename): ?string
+    {
+        $slug = preg_replace('/-\d+$/', '', pathinfo($filename, PATHINFO_FILENAME));
+
+        foreach (glob(public_path('images/products/'.$slug.'*.jpg')) ?: [] as $file) {
+            return '/images/products/'.basename($file);
+        }
+
+        return null;
     }
 
     private function seedCategories(): void
